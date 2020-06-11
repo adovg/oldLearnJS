@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Лишнее место под IMG</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Лишнее место под IMG"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Иногда под <code>IMG</code> «вдруг» появляется лишнее место. Посмотрим на эти грабли внимательнее, почему такое бывает и как этого избежать.</p>
+<h2><a class="main__anchor" name="демонстрация-проблемы" href="#демонстрация-проблемы">Демонстрация проблемы</a></h2><p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+&lt;/style&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td style=&quot;border:1px red solid&quot;&gt;
+      &lt;img src=&quot;square.png&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/inline/"></iframe>
+  </div><p>Посмотрите внимательно! Вы видите расстояние между рамками снизу? Это потому, что <strong>браузер резервирует дополнительное место под инлайновым элементом, чтобы туда выносить «хвосты» букв</strong>.</p>
+<p>Вот так выглядит та же картинка с выступающим вниз символом рядом:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/inline-p/"></iframe>
+  </div><p>В примере картинка обёрнута в красный <code>TD</code>. Таблица подстраивается под размер содержимого, так что проблема явно видна. Но она касается не только таблицы. Аналогичная ситуация возникнет, если вокруг <code>IMG</code> будет другой элемент с явно указанным размером, «облегающий» картинку по высоте. Браузер постарается зарезервировать место под <code>IMG</code>, хотя оно там не нужно.</p>
+<h2><a class="main__anchor" name="решение-сделать-элемент-блочным" href="#решение-сделать-элемент-блочным">Решение: сделать элемент блочным</a></h2><p>Самый лучший способ избежать этого – поставить <code>display: block</code> таким картинкам:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    display: block
+  }
+&lt;/style&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td style=&quot;border:1px red solid&quot;&gt;
+      &lt;img src=&quot;square.png&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/block/"></iframe>
+  </div><p>Под блочным элементом ничего не резервируется. Проблема исчезла.</p>
+<h2><a class="main__anchor" name="решение-задать-vertical-align" href="#решение-задать-vertical-align">Решение: задать vertical-align</a></h2><p>А что, если мы, по каким-то причинам, <em>не хотим</em> делать элемент блочным?</p>
+<p>Существует ещё один способ избежать проблемы – использовать свойство <a href="http://www.w3.org/TR/CSS2/visudet.html#propdef-vertical-align">vertical-align</a>.</p>
+<p><strong>Если установить <code>vertical-align</code> в <code>top</code>, то инлайн-элемент будет отпозиционирован по верхней границе текущей строки.</strong></p>
+<p>При этом браузер не будет оставлять место под изображением, так как запланирует продолжение строки сверху, а не снизу:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    vertical-align: top
+  }
+&lt;/style&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td style=&quot;border:1px red solid&quot;&gt;
+      &lt;img src=&quot;square.png&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/valign/"></iframe>
+  </div><p>А вот, как браузер отобразит соседние символы в этом случае: <code>p&lt;img src=&quot;square.png&quot;&gt;p</code></p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/valign-p/"></iframe>
+  </div><p>С другой стороны, сама строка никуда не делась, изображение по-прежнему является её частью, а браузер планирует разместить другое текстовое содержимое рядом, хоть и сверху. Поэтому если изображение маленькое, то произойдёт дополнение пустым местом до высоты строки:</p>
+<p>Например, для <code>&lt;img src=&quot;square.png&quot; style=&quot;height:10px&quot;&gt;</code>:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/valign-small/"></iframe>
+  </div><p>Таким образом, требуется уменьшить еще и <code>line-height</code> контейнера. Окончательное решение для маленьких изображений с <code>vertical-align</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  td {
+    line-height: 1px
+  }
+
+  img {
+    vertical-align: top
+  }
+&lt;/style&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td style=&quot;border:1px red solid&quot;&gt;
+      &lt;img src=&quot;square.png&quot; style=&quot;height:10px&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Результат:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/article/space-under-img/valign-small-lh/"></iframe>
+  </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Пробелы под картинками появляются, чтобы оставить место под «хвосты» букв в строке. Строка «подразумевается», т.к. <code>display:inline</code>.</li>
+<li>Можно избежать пробела, если изменить <code>display</code>, например, на <code>block</code>.</li>
+<li>Альтернатива: <code>vertical-align:top</code> (или <code>bottom</code>), но для маленьких изображений может понадобиться уменьшить <code>line-height</code>, чтобы контейнер не оставлял место под строку.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

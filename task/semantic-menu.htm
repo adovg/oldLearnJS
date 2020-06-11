@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><div style="display:none" class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="../default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="../ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-3" itemprop="child" class="breadcrumbs__item"><a href="../widgets.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Создание графических компонентов</span></a></li><li id="breadcrumb-3" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="../widgets-markup.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Вёрстка графических компонентов</span></a></li></div><div itemscope itemtype="http://schema.org/TechArticle" class="task-single"><meta itemprop="name" content="Семантическое меню"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><a href="../widgets-markup.htm" class="task-single__back"><span>Вернуться к уроку</span></a><div itemprop="articleBody" class="task task-single__task"><div class="task__header"><div class="task__title-wrap"><h2 class="task__title">Семантическое меню</h2></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div></div><div class="task__content"><p>Посмотрите на вёрстку горизонтального меню.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div class=&quot;rounded-horizontal-blocks&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;Главная&lt;/div&gt;
+  &lt;div class=&quot;vertical-splitter&quot;&gt;|&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;Товары&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;Фотографии&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;Контакты&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ hide=&quot;Результат со стилями (показать стили)&quot; */
+.rounded-horizontal-blocks .item {
+  float: left;
+  padding: 6px;
+  margin: 0 2px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 90%;
+  background: #FFF5EE;
+}
+
+.vertical-splitter {
+  float: left;
+  padding: 6px;
+  margin: 0 2px;
+}
+
+.item:hover {
+  text-decoration: underline;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/task/semantic-menu/source/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      <div class="toolbar__tool">
+        <a href="http://plnkr.co/edit/0iD6tPU3jMMTaO8F1T4e?p=preview" target="_blank" title="открыть в песочнице"
+        data-plunk-id="0iD6tPU3jMMTaO8F1T4e" class="toolbar__button toolbar__button_edit"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:50px" src="https://js.cx/task/semantic-menu/source/"></iframe>
+  </div><p>Что делает эту вёрстку несемантичной? Найдите 3 ошибки (или больше).</p>
+<p>Как бы вы сверстали меню правильно?</p>
+<p><a href="http://plnkr.co/edit/0iD6tPU3jMMTaO8F1T4e?p=preview" target="_blank" data-plunk-id="0iD6tPU3jMMTaO8F1T4e">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Несмотря на то, что меню более-менее прилично отображается, эта вёрстка совершенно не семантична.</p>
+<p>Ошибки:</p>
+<ol>
+<li>
+<p>Во-первых, меню представляет собой <em>список элементов</em>, а для списка существует тег <code>LI</code>.</p>
+<p><strong>Семантический подход – это когда теги используются по назначению.</strong> Для элементов списка <code>&lt;li&gt;</code>, для адреса <code>&lt;address&gt;</code>, для заголовка таблицы <code>&lt;th&gt;</code> и т.п.</p>
+</li>
+<li>
+<p>Во-вторых, класс <code>rounded-horizontal-blocks</code> показывает, что содержимое должно быть <em>оформлено</em> как скругленные горизонтальные блоки. Любой класс, отражающий оформление, несемантичен.</p>
+<p><strong>Правильно – чтобы класс был <em>смысловым</em></strong>. Например, <code>&lt;ul class=&quot;menu&quot;&gt;</code> будет говорить о том, что смысл элемента – «меню».</p>
+</li>
+<li>
+<p>В-третьих, элемент <code>.vertical-splitter</code>. Здесь класс вполне семантичен, этот элемент списка является вертикальным разделителем, так что здесь всё в порядке. Но на этот раз несемантичность – в содержимом.</p>
+<p><strong>Мы, по возможности, стараемся, чтобы HTML содержал именно информацию, а символ вертикальной черты<code>|</code> выполняет чисто оформительскую функцию.</strong></p>
+<p>Поэтому от него следует либо вообще избавиться, либо переместить в CSS при помощи <code>::before</code>.</p>
+</li>
+</ol>
+<p>И, наконец, это не обязательно и не ошибка, но обычно элементы, которые являются ссылками или кнопками, оформляют в <code>&lt;a&gt;</code> или <code>&lt;button&gt;</code>.</p>
+<p>Вариант ниже – семантичен:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul class=&quot;menu&quot;&gt;
+  &lt;li class=&quot;menu__item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Главная&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;menu__vertical-splitter&quot;&gt;&lt;/li&gt;
+  &lt;li class=&quot;menu__item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Товары&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;menu__item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Фотографии&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;menu__item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Контакты&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Дополнительно, классы помечены префиксом компонента, на тот случай, если в заголовках появится произвольный HTML.</p>
+<p><a href="http://plnkr.co/edit/fw5hvQVUp4eAuCkTGWGb?p=preview" target="_blank" data-plunk-id="fw5hvQVUp4eAuCkTGWGb">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

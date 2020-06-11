@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><div style="display:none" class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="../../default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="../../ui" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-3" itemprop="child" class="breadcrumbs__item"><a href="../../document" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li><li id="breadcrumb-3" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="../../metrics" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Размеры и прокрутка элементов</span></a></li></div><div itemscope itemtype="http://schema.org/TechArticle" class="task-single"><meta itemprop="name" content="Поместите мяч в центр поля"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><a href="../../metrics" class="task-single__back"><span>Вернуться к уроку</span></a><div itemprop="articleBody" class="task task-single__task"><div class="task__header"><div class="task__title-wrap"><h2 class="task__title">Поместите мяч в центр поля</h2></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div></div><div class="task__content"><p>Поместите мяч в центр поля.</p>
+<p>Исходный документ выглядит так:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/task/put-ball-in-center/source/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      <div class="toolbar__tool">
+        <a href="http://plnkr.co/edit/x01bMLVUDcfSUezwuIuU?p=preview" target="_blank" title="открыть в песочнице"
+        data-plunk-id="x01bMLVUDcfSUezwuIuU" class="toolbar__button toolbar__button_edit"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/put-ball-in-center/source/"></iframe>
+  </div><p><strong>Используйте JavaScript, чтобы поместить мяч в центр:</strong></p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/put-ball-in-center/solution/"></iframe>
+  </div><ul>
+<li>Менять CSS нельзя, мяч должен переносить в центр ваш скрипт, через установку нужных стилей элемента.</li>
+<li>JavaScript-код должен работать при разных размерах мяча (<code>10</code>, <code>20</code>, <code>30</code> пикселей) без изменений.</li>
+<li>JavaScript-код должен работать при различных размерах и местоположениях поля на странице без изменений. Также он не должен зависеть от ширины рамки поля <code>border</code>.</li>
+</ul>
+<p>P.S. Да, центрирование можно сделать при помощи чистого CSS, но задача именно на JavaScript. Далее будут другие темы и более сложные ситуации, когда JavaScript будет уже точно необходим, это – своего рода «разминка».</p>
+<p><a href="http://plnkr.co/edit/x01bMLVUDcfSUezwuIuU?p=preview" target="_blank" data-plunk-id="x01bMLVUDcfSUezwuIuU">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>При абсолютном позиционировании мяча внутри поля его координаты <code>left/top</code> отсчитываются от <strong>внутреннего</strong> угла поля, например верхнего-левого:</p>
+<figure><div class="image" style="width:222px">
+      <div class="image__ratio" style="padding-top:72.97297297297297%"></div>
+      <img src="field.png" alt="" width="222" height="162" class="image__image">
+      </div></figure><p>Метрики для внутренней зоны поля – это <code>clientWidth/Height</code>.</p>
+<p>Центр – это <code>(clientWidth/2, clientHeight/2)</code>.</p>
+<p>Но если мы установим мячу такие значения <code>ball.style.left/top</code>, то в центре будет не сам мяч, а его левый верхний угол:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ball = document.getElementById('ball');
+var field = document.getElementById('field');
+
+ball.style.left = Math.round(field.clientWidth / 2) + 'px';
+ball.style.top = Math.round(field.clientHeight / 2) + 'px';</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/put-ball-in-center/ball-half/"></iframe>
+  </div><p>Для того, чтобы центр мяча находился в центре поля, нам нужно сместить мяч на половину его ширины влево и на половину его высоты вверх.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ball = document.getElementById('ball');
+var field = document.getElementById('field');
+
+ball.style.left = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
+ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'px';</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Внимание, подводный камень!</strong></p>
+<p>Код выше стабильно работать не будет, потому что <code>IMG</code> идет без ширины/высоты:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;img src=&quot;ball.png&quot; id=&quot;ball&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Высота и ширина изображения неизвестны браузеру до тех пор, пока оно не загрузится, если размер не указан явно.</strong></p>
+<p>После первой загрузки изображение уже будет в кеше браузера, и его размеры будут известны. Но когда браузер впервые видит документ – он ничего не знает о картинке, поэтому значение <code>ball.offsetWidth</code> равно <code>0</code>. Вычислить координаты невозможно.</p>
+<p>Чтобы это исправить, добавим <code>width/height</code> к картинке:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:20-42">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;img src=&quot;ball.png&quot; width=&quot;40&quot; height=&quot;40&quot; id=&quot;ball&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь браузер всегда знает ширину и высоту, так что все работает. Тот же эффект дало бы указание размеров в CSS.</p>
+<p><a href="http://plnkr.co/edit/ZKCCk6VbNG1TXqDP5IjZ?p=preview" target="_blank" data-plunk-id="ZKCCk6VbNG1TXqDP5IjZ">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

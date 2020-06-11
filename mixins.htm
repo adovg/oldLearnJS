@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="prototypes.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">ООП в прототипном стиле</span></a></li></ol><h1 class="main__header-title">Примеси</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Примеси"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В JavaScript невозможно унаследовать от двух и более объектов. Ссылка <code>__proto__</code> – только одна.</p>
+<p>Но потребность такая существует – к примеру, мы написали код, реализующий методы работы с шаблонизатором или методы по обмену событиями, и хочется легко и непринуждённо добавлять эти возможности к любому классу.</p>
+<p>Обычно это делают через примеси.</p>
+<p>Примесь (англ. mixin) – класс или объект, реализующий какое-либо чётко выделенное поведение. Используется для уточнения поведения других классов, не предназначен для самостоятельного использования.</p>
+<!--break-->
+<h2><a class="main__anchor" name="пример-примеси" href="#пример-примеси">Пример примеси</a></h2><p>Самый простой вариант примеси – это объект с полезными методами, которые мы просто копируем в нужный прототип.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="0-0,10-10">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// примесь
+var sayHiMixin = {
+  sayHi: function() {
+    alert(&quot;Привет &quot; + this.name);
+  },
+  sayBye: function() {
+    alert(&quot;Пока &quot; + this.name);
+  }
+};
+
+// использование:
+function User(name) {
+  this.name = name;
+}
+
+// передать методы примеси
+for(var key in sayHiMixin) User.prototype[key] = sayHiMixin[key];
+
+// User &quot;умеет&quot; sayHi
+new User(&quot;Вася&quot;).sayHi(); // Привет Вася</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как видно из примера, методы примеси активно используют <code>this</code> и предназначены именно для запуска в контексте «объекта-носителя примеси».</p>
+<p>Если какие-то из методов примеси не нужны – их можно перезаписать своими после копирования.</p>
+<h2><a class="main__anchor" name="примесь-для-событий" href="#примесь-для-событий">Примесь для событий</a></h2><p>Теперь пример из реальной жизни.</p>
+<p>Важный аспект, который может понадобиться объектам – это умение работать с событиями.</p>
+<p>То есть, чтобы объект мог специальным вызовом генерировать «уведомление о событии», а на эти уведомления другие объекты могли «подписываться», чтобы их получать.</p>
+<p>Например, объект «Пользователь» при входе на сайт может генерировать событие <code>&quot;login&quot;</code>, а другие объекты, например «Календарь» может такие уведомления получать и подгружать информацию о пользователе.</p>
+<p>Или объект «Меню» может при выборе пункта меню генерировать событие <code>&quot;select&quot;</code> с информацией о выбранном пункте меню, а другие объекты – подписавшись на это событие, будут узнавать об этом.</p>
+<p>События – это средство «поделиться информацией» с неопределённым кругом заинтересованных лиц. А там уже кому надо – тот среагирует.</p>
+<p>Примесь <code>eventMixin</code>, реализующая события:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var eventMixin = {
+
+  /**
+   * Подписка на событие
+   * Использование:
+   *  menu.on('select', function(item) { ... }
+   */
+  on: function(eventName, handler) {
+    if (!this._eventHandlers) this._eventHandlers = {};
+    if (!this._eventHandlers[eventName]) {
+      this._eventHandlers[eventName] = [];
+    }
+    this._eventHandlers[eventName].push(handler);
+  },
+
+  /**
+   * Прекращение подписки
+   *  menu.off('select',  handler)
+   */
+  off: function(eventName, handler) {
+    var handlers = this._eventHandlers &amp;&amp; this._eventHandlers[eventName];
+    if (!handlers) return;
+    for(var i=0; i&lt;handlers.length; i++) {
+      if (handlers[i] == handler) {
+        handlers.splice(i--, 1);
+      }
+    }
+  },
+
+  /**
+   * Генерация события с передачей данных
+   *  this.trigger('select', item);
+   */
+  trigger: function(eventName /*, ... */) {
+
+    if (!this._eventHandlers || !this._eventHandlers[eventName]) {
+      return; // обработчиков для события нет
+    }
+
+    // вызвать обработчики
+    var handlers = this._eventHandlers[eventName];
+    for (var i = 0; i &lt; handlers.length; i++) {
+      handlers[i].apply(this, [].slice.call(arguments, 1));
+    }
+
+  }
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь есть три метода:</p>
+<ol>
+<li><code>.on(имя события, функция)</code> – назначает функцию к выполнению при наступлении события с данным именем. Такие функции хранятся в защищённом свойстве объекта <code>_eventHandlers</code>.</li>
+<li><code>.off(имя события, функция)</code> – удаляет функцию из списка предназначенных к выполнению.</li>
+<li><code>.trigger(имя события, аргументы)</code> – генерирует событие, при этом вызываются все назначенные на него функции, и им передаются аргументы.</li>
+</ol>
+<p>Использование:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="11-11,18-20">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Класс Menu с примесью eventMixin
+function Menu() {
+  // ...
+}
+
+for(var key in eventMixin) {
+  Menu.prototype[key] = eventMixin[key];
+}
+
+// Генерирует событие select при выборе значения
+Menu.prototype.choose = function(value) {
+  this.trigger(&quot;select&quot;, value);
+}
+
+// Создадим меню
+var menu = new Menu();
+
+// При наступлении события select вызвать эту функцию
+menu.on(&quot;select&quot;, function(value) {
+  alert(&quot;Выбрано значение &quot; + value);
+});
+
+// Запускаем выбор (событие select вызовет обработчики)
+menu.choose(&quot;123&quot;);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…То есть, смысл событий – обычно в том, что объект, в процессе своей деятельности, внутри себя (<code>this.trigger</code>) генерирует уведомления, на которые внешний код через <code>menu.on(...)</code> может быть подписан. И узнавать из них ценную информацию о происходящем, например – что выбран некий пункт меню.</p>
+<p>Один раз написав методы <code>on/off/trigger</code> в примеси, мы затем можем использовать их во множестве прототипов.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Примесь – объект, содержащий методы и свойства для реализации конкретного функционала.
+Возможны вариации этого приёма проектирования. Например, примесь может предусматривать конструктор, который должен запускаться в конструкторе объекта. Но как правило просто набора методов хватает.</li>
+<li>Для добавления примеси в класс – её просто «подмешивают» в прототип.</li>
+<li>«Подмешать» можно сколько угодно примесей, но если имена методов в разных примесях совпадают, то возможны конфликты. Их уже разрешать – разработчику. Например, можно заменить конфликтующий метод на свой, который будет решать несколько задач сразу. Конфликты при грамотно оформленных примесях возникают редко.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="es-modern.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Современные возможности ES-2015</span></a></li></ol><h1 class="main__header-title">Объекты и прототипы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Объекты и прототипы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В этом разделе мы рассмотрим нововведения, которые касаются именно объектов.</p>
+<p>По классам – чуть позже, в отдельном разделе, оно того заслуживает.</p>
+<h2><a class="main__anchor" name="короткое-свойство" href="#короткое-свойство">Короткое свойство</a></h2><p>Зачастую у нас есть переменные, например, <code>name</code> и <code>isAdmin</code>, и мы хотим использовать их в объекте.</p>
+<p>При объявлении объекта в этом случае достаточно указать только имя свойства, а значение будет взято из переменной с аналогичным именем.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let name = &quot;Вася&quot;;
+let isAdmin = true;
+
+let user = {
+  name,
+  isAdmin
+};
+alert( JSON.stringify(user) ); // {&quot;name&quot;: &quot;Вася&quot;, &quot;isAdmin&quot;: true}</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="вычисляемые-свойства" href="#вычисляемые-свойства">Вычисляемые свойства</a></h2><p>В качестве имени свойства можно использовать выражение, например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let propName = &quot;firstName&quot;;
+
+let user = {
+  [propName]: &quot;Вася&quot;
+};
+
+alert( user.firstName ); // Вася</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Или даже так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="7-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let a = &quot;Мой &quot;;
+let b = &quot;Зелёный &quot;;
+let c = &quot;Крокодил&quot;;
+
+let user = {
+  [(a + b + c).toLowerCase()]: &quot;Гена&quot;
+};
+
+alert( user[&quot;мой зелёный крокодил&quot;] ); // Гена</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="геттер-сеттер-для-прототипа" href="#геттер-сеттер-для-прототипа">Геттер-сеттер для прототипа</a></h2><p>В ES5 для прототипа был метод-геттер:</p>
+<ul>
+<li><code>Object.getPrototypeOf(obj)</code></li>
+</ul>
+<p>В ES-2015 также добавился сеттер:</p>
+<ul>
+<li><code>Object.setPrototypeOf(obj, newProto)</code></li>
+</ul>
+<p>…А также «узаконено» свойство <code>__proto__</code>, которое даёт прямой доступ к прототипу. Его, в качестве «нестандартного», но удобного способа работы с прототипом, реализовали почти все браузеры (кроме IE10-), так что было принято решение добавить его в стандарт.</p>
+<h2><a class="main__anchor" name="object-assign" href="#object-assign">Object.assign</a></h2><p>Функция <code>Object.assign</code> получает список объектов и копирует в первый <code>target</code> свойства из остальных.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Object.assign(target, src1, src2...)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом последующие свойства перезаписывают предыдущие.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let user = { name: &quot;Вася&quot; };
+let visitor = { isAdmin: false, visits: true };
+let admin = { isAdmin: true };
+
+Object.assign(user, visitor, admin);
+
+// user &lt;- visitor &lt;- admin
+alert( JSON.stringify(user) ); // name: Вася, visits: true, isAdmin: true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Его также можно использовать для 1-уровневого клонирования объекта:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let user = { name: &quot;Вася&quot;, isAdmin: false };
+
+// clone = пустой объект + все свойства user
+let clone = Object.assign({}, user);</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="object-is-value1-value2" href="#object-is-value1-value2">Object.is(value1, value2)</a></h2><p>Новая функция для проверки равенства значений.</p>
+<p>Возвращает <code>true</code>, если значения <code>value1</code> и <code>value2</code> равны, иначе <code>false</code>.</p>
+<p>Она похожа на обычное строгое равенство <code>===</code>, но есть отличия:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Сравнение +0 и -0
+alert( Object.is(+0, -0)); // false
+alert( +0 === -0 );        // true
+
+// Сравнение с NaN
+alert( Object.is(NaN, NaN) ); // true
+alert( NaN === NaN );         // false</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Отличия эти в большинстве ситуаций некритичны, так что не похоже, чтобы эта функция вытеснила обычную проверку <code>===</code>. Что интересно – этот алгоритм сравнения, который называется <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-samevalue">SameValue</a>, применяется во внутренних реализациях различных методов современного стандарта.</p>
+<h2><a class="main__anchor" name="методы-объекта" href="#методы-объекта">Методы объекта</a></h2><p>Долгое время в JavaScript термин «метод объекта» был просто альтернативным названием для свойства-функции.</p>
+<p>Теперь это уже не так. Добавлены именно «методы объекта», которые, по сути, являются свойствами-функциями, привязанными к объекту.</p>
+<p>Их особенности:</p>
+<ol>
+<li>Более короткий синтаксис объявления.</li>
+<li>Наличие в методах специального внутреннего свойства <code>[[HomeObject]]</code> («домашний объект»), ссылающегося на объект, которому метод принадлежит. Мы посмотрим его использование чуть дальше.</li>
+</ol>
+<p>Для объявления метода вместо записи <code>&quot;prop: function() {…}&quot;</code> нужно написать просто <code>&quot;prop() { … }&quot;</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let name = &quot;Вася&quot;;
+let user = {
+  name,
+  // вместо &quot;sayHi: function() {...}&quot; пишем &quot;sayHi() {...}&quot;
+  sayHi() {
+    alert(this.name);
+  }
+};
+
+user.sayHi(); // Вася</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как видно, для создания метода нужно писать меньше букв. Что же касается вызова – он ничем не отличается от обычной функции. На данном этапе можно считать, что «метод» – это просто сокращённый синтаксис для свойства-функции. Дополнительные возможности, которые даёт такое объявление, мы рассмотрим позже.</p>
+<p>Также методами станут объявления геттеров <code>get prop()</code> и сеттеров <code>set prop()</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let name = &quot;Вася&quot;, surname=&quot;Петров&quot;;
+let user = {
+  name,
+  surname,
+  get fullName() {
+    return `${name} ${surname}`;
+  }
+};
+
+alert( user.fullName ); // Вася Петров</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Можно задать и метод с вычисляемым названием:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let methodName = &quot;getFirstName&quot;;
+
+let user = {
+  // в квадратных скобках может быть любое выражение,
+  // которое должно вернуть название метода
+  [methodName]() {  // вместо [methodName]: function() {
+    return &quot;Вася&quot;;
+  }
+};
+
+alert( user.getFirstName() ); // Вася</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Итак, мы рассмотрели синтаксические улучшения. Если коротко, то не надо писать слово «function». Теперь перейдём к другим отличиям.</p>
+<h2><a class="main__anchor" name="super" href="#super">super</a></h2><p>В ES-2015 появилось новое ключевое слово <code>super</code>. Оно предназначено только для использования в методах объекта.</p>
+<p>Вызов <code>super.parentProperty</code> позволяет из метода объекта получить свойство его прототипа.</p>
+<p>Например, в коде ниже <code>rabbit</code> наследует от <code>animal</code>.</p>
+<p>Вызов <code>super.walk()</code> из метода объекта <code>rabbit</code> обращается к <code>animal.walk()</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="11-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let animal = {
+  walk() {
+    alert(&quot;I'm walking&quot;);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  walk() {
+    alert(super.walk); // walk() { … }
+    super.walk(); // I'm walking
+  }
+};
+
+rabbit.walk();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как правило, это используется в <a href="es-class.htm">классах</a>, которые мы рассмотрим в следующем разделе, но важно понимать, что «классы» здесь на самом деле ни при чём. Свойство <code>super</code> работает через прототип, на уровне методов объекта.</p>
+<p>При обращении через <code>super</code> используется <code>[[HomeObject]]</code> текущего метода, и от него берётся <code>__proto__</code>. Поэтому <code>super</code> работает только внутри методов.</p>
+<p>В частности, если переписать этот код, оформив <code>rabbit.walk</code> как обычное свойство-функцию, то будет ошибка:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let animal = {
+  walk() {
+    alert(&quot;I'm walking&quot;);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  walk: function() { // Надо: walk() {
+    super.walk(); // Будет ошибка!
+  }
+};
+
+rabbit.walk();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ошибка возникнет, так как <code>rabbit.walk</code> теперь обычная функция и не имеет <code>[[HomeObject]]</code>. Поэтому в ней не работает <code>super</code>.</p>
+<p>Исключением из этого правила являются функции-стрелки. В них используется <code>super</code> внешней функции. Например, здесь функция-стрелка в <code>setTimeout</code> берёт внешний <code>super</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="11-11">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let animal = {
+  walk() {
+    alert(&quot;I'm walking&quot;);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  walk() {
+    setTimeout(() =&gt; super.walk()); // I'm walking
+  }
+};
+
+rabbit.walk();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ранее мы говорили о том, что у функций-стрелок нет своего <code>this</code>, <code>arguments</code>: они используют те, которые во внешней функции. Теперь к этому списку добавился ещё и <code>super</code>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Свойство <code>[[HomeObject]]</code> – не изменяемое</span></div>
+            <div class="important__content"><p>При создании метода – он привязан к своему объекту навсегда. Технически можно даже скопировать его и запустить отдельно, и <code>super</code> продолжит работать:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="14-15">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let animal = {
+  walk() { alert(&quot;I'm walking&quot;); }
+};
+
+let rabbit = {
+  __proto__: animal,
+  walk() {
+    super.walk();
+  }
+};
+
+let walk = rabbit.walk; // скопируем метод в переменную
+walk(); // вызовет animal.walk()
+// I'm walking</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере выше метод <code>walk()</code> запускается отдельно от объекта, но всё равно, благодаря <code>[[HomeObject]]</code>, сохраняется доступ к его прототипу через <code>super</code>.</p>
+<p>Это – скорее технический момент, так как методы объекта, всё же, предназначены для вызова в контексте этого объекта. В частности, правила для <code>this</code> в методах – те же, что и для обычных функций. В примере выше при вызове <code>walk()</code> без объекта <code>this</code> будет <code>undefined</code>.</p>
+</div></div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Улучшения в описании свойств:</p>
+<ul>
+<li>Запись <code>name: name</code> можно заменить на просто <code>name</code></li>
+<li>Если имя свойства находится в переменной или задано выражением <code>expr</code>, то его можно указать в квадратных скобках <code>[expr]</code>.</li>
+<li>Свойства-функции можно оформить как методы: <code>&quot;prop: function() {}&quot;</code> → <code>&quot;prop() {}&quot;</code>.</li>
+</ul>
+<p>В методах работает обращение к свойствам прототипа через <code>super.parentProperty</code>.</p>
+<p>Для работы с прототипом:</p>
+<ul>
+<li><code>Object.setPrototypeOf(obj, proto)</code> – метод для установки прототипа.</li>
+<li><code>obj.__proto__</code> – ссылка на прототип.</li>
+</ul>
+<p>Дополнительно:</p>
+<ul>
+<li>Метод <code>Object.assign(target, src1, src2...)</code> – копирует свойства из всех аргументов в первый объект.</li>
+<li>Метод <code>Object.is(value1, value2)</code> проверяет два значения на равенство. В отличие от <code>===</code> считает <code>+0</code> и <code>-0</code> разными числами. А также считает, что <code>NaN</code> равно самому себе.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

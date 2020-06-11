@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="objects-more.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Методы объектов и контекст вызова</span></a></li></ol><h1 class="main__header-title">Дескрипторы, геттеры и сеттеры свойств</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Дескрипторы, геттеры и сеттеры свойств"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В этой главе мы рассмотрим возможности, которые позволяют очень гибко и мощно управлять всеми свойствами объекта, включая их аспекты – изменяемость, видимость в цикле <code>for..in</code> и даже незаметно делать их функциями.</p>
+<p>Они поддерживаются всеми современными браузерами, но не IE8-. Впрочем, даже IE8 их поддерживает, но только для DOM-объектов (используются при работе со страницей, это сейчас вне нашего рассмотрения).</p>
+<h2><a class="main__anchor" name="дескрипторы-в-примерах" href="#дескрипторы-в-примерах">Дескрипторы в примерах</a></h2><p>Основной метод для управления свойствами – <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/defineProperty">Object.defineProperty</a>.</p>
+<p>Он позволяет объявить свойство объекта и, что самое главное, тонко настроить его особые аспекты, которые никак иначе не изменить.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Object.defineProperty(obj, prop, descriptor)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Аргументы:</p>
+<dl>
+<dt><code>obj</code></dt>
+<dd>Объект, в котором объявляется свойство.</dd>
+<dt><code>prop</code></dt>
+<dd>Имя свойства, которое нужно объявить или модифицировать.</dd>
+<dt><code>descriptor</code></dt>
+<dd>Дескриптор – объект, который описывает поведение свойства.</dd>
+</dl>
+<p>В нём могут быть следующие поля:</p>
+<ul>
+<li><code>value</code> – значение свойства, по умолчанию <code>undefined</code></li>
+<li><code>writable</code> – значение свойства можно менять, если <code>true</code>. По умолчанию <code>false</code>.</li>
+<li><code>configurable</code> – если <code>true</code>, то свойство можно удалять, а также менять его в дальнейшем при помощи новых вызовов <code>defineProperty</code>. По умолчанию <code>false</code>.</li>
+<li><code>enumerable</code> – если <code>true</code>, то свойство просматривается в цикле <code>for..in</code> и методе <code>Object.keys()</code>. По умолчанию <code>false</code>.</li>
+<li><code>get</code> – функция, которая возвращает значение свойства. По умолчанию <code>undefined</code>.</li>
+<li><code>set</code> – функция, которая записывает значение свойства. По умолчанию <code>undefined</code>.</li>
+</ul>
+<p>Чтобы избежать конфликта, запрещено одновременно указывать значение <code>value</code> и функции <code>get/set</code>. Либо значение, либо функции для его чтения-записи, одно из двух. Также запрещено и не имеет смысла указывать <code>writable</code> при наличии <code>get/set</code>-функций.</p>
+<p>Далее мы подробно разберём эти свойства на примерах.</p>
+<h2><a class="main__anchor" name="обычное-свойство" href="#обычное-свойство">Обычное свойство</a></h2><p>Два таких вызова работают одинаково:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {};
+
+// 1. простое присваивание
+user.name = &quot;Вася&quot;;
+
+// 2. указание значения через дескриптор
+Object.defineProperty(user, &quot;name&quot;, { value: &quot;Вася&quot;, configurable: true, writable: true, enumerable: true });</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Оба вызова выше добавляют в объект <code>user</code> обычное (удаляемое, изменяемое, перечисляемое) свойство.</p>
+<h2><a class="main__anchor" name="свойство-константа" href="#свойство-константа">Свойство-константа</a></h2><p>Для того, чтобы сделать свойство неизменяемым, изменим его флаги <code>writable</code> и <code>configurable</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="0-0,6-7,13-13">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">&quot;use strict&quot;;
+
+var user = {};
+
+Object.defineProperty(user, &quot;name&quot;, {
+  value: &quot;Вася&quot;,
+  writable: false, // запретить присвоение &quot;user.name=&quot;
+  configurable: false // запретить удаление &quot;delete user.name&quot;
+});
+
+// Теперь попытаемся изменить это свойство.
+
+// в strict mode присвоение &quot;user.name=&quot; вызовет ошибку
+user.name = &quot;Петя&quot;;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Заметим, что без <code>use strict</code> операция записи «молча» не сработает. Лишь если установлен режим <code>use strict</code>, то дополнительно сгенерируется ошибка.</p>
+<h2><a class="main__anchor" name="свойство-скрытое-для-for-in" href="#свойство-скрытое-для-for-in">Свойство, скрытое для for…in</a></h2><p>Встроенный метод <code>toString</code>, как и большинство встроенных методов, не участвует в цикле <code>for..in</code>. Это удобно, так как обычно такое свойство является «служебным».</p>
+<p>К сожалению, свойство <code>toString</code>, объявленное обычным способом, будет видно в цикле <code>for..in</code>, например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Вася&quot;,
+  toString: function() { return this.name; }
+};
+
+for(var key in user) alert(key);  // name, toString</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Мы бы хотели, чтобы поведение нашего метода <code>toString</code> было таким же, как и стандартного.</p>
+<p><code>Object.defineProperty</code> может исключить <code>toString</code> из списка итерации, поставив ему флаг <code>enumerable: false</code>. По стандарту, у встроенного <code>toString</code> этот флаг уже стоит.</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Вася&quot;,
+  toString: function() { return this.name; }
+};
+
+// помечаем toString как не подлежащий перебору в for..in
+Object.defineProperty(user, &quot;toString&quot;, {enumerable: false});
+
+for(var key in user) alert(key);  // name</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание, вызов <code>defineProperty</code> не перезаписал свойство, а просто модифицировал настройки у существующего <code>toString</code>.</p>
+<h2><a class="main__anchor" name="свойство-функция" href="#свойство-функция">Свойство-функция</a></h2><p>Дескриптор позволяет задать свойство, которое на самом деле работает как функция. Для этого в нём нужно указать эту функцию в <code>get</code>.</p>
+<p>Например, у объекта <code>user</code> есть обычные свойства: имя <code>firstName</code> и фамилия <code>surname</code>.</p>
+<p>Создадим свойство <code>fullName</code>, которое на самом деле является функцией:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="11-11" data-highlight-inline="6:2-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  firstName: &quot;Вася&quot;,
+  surname: &quot;Петров&quot;
+}
+
+Object.defineProperty(user, &quot;fullName&quot;, {
+  get: function() {
+    return this.firstName + ' ' + this.surname;
+  }
+});
+
+alert(user.fullName); // Вася Петров</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание, снаружи <code>fullName</code> – это обычное свойство <code>user.fullName</code>. Но дескриптор указывает, что на самом деле его значение возвращается функцией.</p>
+<p>Также можно указать функцию, которая используется для записи значения, при помощи дескриптора <code>set</code>.</p>
+<p>Например, добавим возможность присвоения <code>user.fullName</code> к примеру выше:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="11-15,18-18">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  firstName: &quot;Вася&quot;,
+  surname: &quot;Петров&quot;
+}
+
+Object.defineProperty(user, &quot;fullName&quot;, {
+
+  get: function() {
+    return this.firstName + ' ' + this.surname;
+  },
+
+  set: function(value) {
+      var split = value.split(' ');
+      this.firstName = split[0];
+      this.surname = split[1];
+    }
+});
+
+user.fullName = &quot;Петя Иванов&quot;;
+alert( user.firstName ); // Петя
+alert( user.surname ); // Иванов</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="указание-get-set-в-литералах" href="#указание-get-set-в-литералах">Указание get/set в литералах</a></h2><p>Если мы создаём объект при помощи синтаксиса <code>{ ... }</code>,  то задать свойства-функции можно прямо в его определении.</p>
+<p>Для этого используется особый синтаксис: <code>get свойство</code> или <code>set свойство</code>.</p>
+<p>Например, ниже объявлен геттер-сеттер <code>fullName</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-4,8-8,15-19">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  firstName: &quot;Вася&quot;,
+  surname: &quot;Петров&quot;,
+
+  get fullName() {
+    return this.firstName + ' ' + this.surname;
+  },
+
+  set fullName(value) {
+    var split = value.split(' ');
+    this.firstName = split[0];
+    this.surname = split[1];
+  }
+};
+
+alert( user.fullName ); // Вася Петров (из геттера)
+
+user.fullName = &quot;Петя Иванов&quot;;
+alert( user.firstName ); // Петя  (поставил сеттер)
+alert( user.surname ); // Иванов (поставил сеттер)</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="да-здравствуют-get-set" href="#да-здравствуют-get-set">Да здравствуют get/set!</a></h2><p>Казалось бы, зачем нам назначать get/set для свойства через всякие хитрые вызовы, когда можно сделать просто функции с самого начала? Например, <code>getFullName</code>, <code>setFullName</code>…</p>
+<p>Конечно, в ряде случаев свойства выглядят короче, такое решение просто может быть красивым. Но основной бонус – это гибкость, возможность получить контроль над свойством в любой момент!</p>
+<p>Например, в начале разработки мы используем обычные свойства, например у <code>User</code> будет имя <code>name</code> и возраст <code>age</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+var pete = new User(&quot;Петя&quot;, 25);
+
+alert( pete.age ); // 25</code></pre>
+        </div>
+      </div>
+      
+      </div><p>С обычными свойствами в коде меньше букв, они удобны, причины использовать функции пока нет.</p>
+<p>…Но рано или поздно могут произойти изменения. Например, в <code>User</code> может стать более целесообразно вместо возраста <code>age</code> хранить дату рождения <code>birthday</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User(name, birthday) {
+  this.name = name;
+  this.birthday = birthday;
+}
+
+var pete = new User(&quot;Петя&quot;, new Date(1987, 6, 1));</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Что теперь делать со старым кодом, который выводит свойство <code>age</code>?</p>
+<p>Можно, конечно, найти все места и поправить их, но это долго, а иногда и невозможно, скажем, если вы взаимодействуете со сторонней библиотекой, код в которой – чужой и влезать в него нежелательно.</p>
+<p>Добавление <code>get</code>-функции <code>age</code> позволяет обойти проблему легко и непринуждённо:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-17">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User(name, birthday) {
+  this.name = name;
+  this.birthday = birthday;
+
+  // age будет высчитывать возраст по birthday
+  Object.defineProperty(this, &quot;age&quot;, {
+    get: function() {
+      var today = new Date();
+      var yearDelta = today.getFullYear() - this.birthday.getFullYear();
+
+      if (today.getMonth() &gt; this.birthday.getMonth() ||
+        (today.getMonth() === this.birthday.getMonth() &amp;&amp; today.getDate() &gt;= this.birthday.getDate())) {
+        return yearDelta;
+      }
+
+      return yearDelta - 1;
+    }
+  });
+}
+
+var pete = new User(&quot;Петя&quot;, new Date(1987, 6, 1));
+
+alert( pete.birthday ); // и дата рождения доступна
+alert( pete.age );      // и возраст</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Заметим, что <code>pete.age</code> снаружи как было свойством, так и осталось. То есть, переписывать внешний код на вызов функции <code>pete.age()</code> не нужно.</p>
+<p>Таким образом, <code>defineProperty</code> позволяет нам начать с обычных свойств, а в будущем, при необходимости, можно в любой момент заменить их на функции, реализующие более сложную логику.</p>
+<h2><a class="main__anchor" name="другие-методы-работы-со-свойствами" href="#другие-методы-работы-со-свойствами">Другие методы работы со свойствами</a></h2><dl>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/defineProperties">Object.defineProperties(obj, descriptors)</a></dt>
+<dd>
+<p>Позволяет объявить несколько свойств сразу:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-3,7-7,11-11">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {}
+
+Object.defineProperties(user, {
+  firstName: {
+    value: &quot;Петя&quot;
+  },
+
+  surname: {
+    value: &quot;Иванов&quot;
+  },
+
+  fullName: {
+    get: function() {
+      return this.firstName + ' ' + this.surname;
+    }
+  }
+});
+
+alert( user.fullName ); // Петя Иванов</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/keys">Object.keys(obj)</a>, <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames">Object.getOwnPropertyNames(obj)</a></dt>
+<dd>
+<p>Возвращают массив – список свойств объекта.</p>
+<p><code>Object.keys</code> возвращает только <code>enumerable</code>-свойства.</p>
+<p><code>Object.getOwnPropertyNames</code> – возвращает все:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-11">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {
+  a: 1,
+  b: 2,
+  internal: 3
+};
+
+Object.defineProperty(obj, &quot;internal&quot;, {
+  enumerable: false
+});
+
+alert( Object.keys(obj) ); // a,b
+alert( Object.getOwnPropertyNames(obj) ); // a, b, internal</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor">Object.getOwnPropertyDescriptor(obj, prop)</a></dt>
+<dd>
+<p>Возвращает дескриптор для свойства <code>obj[prop]</code>.</p>
+<p>Полученный дескриптор можно изменить и использовать <code>defineProperty</code> для сохранения изменений, например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-3,5-5,12-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {
+  test: 5
+};
+var descriptor = Object.getOwnPropertyDescriptor(obj, 'test');
+
+// заменим value на геттер, для этого...
+delete descriptor.value; // ..нужно убрать value/writable
+delete descriptor.writable;
+descriptor.get = function() { // и поставить get
+  alert( &quot;Preved :)&quot; );
+};
+
+// поставим новое свойство вместо старого
+
+// если не удалить - defineProperty объединит старый дескриптор с новым
+delete obj.test;
+
+Object.defineProperty(obj, 'test', descriptor);
+
+obj.test; // Preved :)</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+</dl>
+<p>…И несколько методов, которые используются очень редко:</p>
+<dl>
+<dt><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions">Object.preventExtensions(obj)</a></dt>
+<dd>Запрещает добавление свойств в объект.</dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/seal">Object.seal(obj)</a></dt>
+<dd>Запрещает добавление и удаление свойств, все текущие свойства делает <code>configurable: false</code>.</dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/freeze">Object.freeze(obj)</a></dt>
+<dd>Запрещает добавление, удаление и изменение свойств, все текущие свойства делает <code>configurable: false, writable: false</code>.</dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/isExtensible">Object.isExtensible(obj)</a></dt>
+<dd>Возвращает <code>false</code>, если добавление свойств объекта было запрещено вызовом метода <code>Object.preventExtensions</code>.</dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/isSealed">Object.isSealed(obj)</a></dt>
+<dd>Возвращает <code>true</code>, если добавление и удаление свойств объекта запрещено, и все текущие свойства являются <code>configurable: false</code>.</dd>
+<dt><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/isFrozen">Object.isFrozen(obj)</a></dt>
+<dd>Возвращает <code>true</code>, если добавление, удаление и изменение свойств объекта запрещено, и все текущие свойства являются <code>configurable: false, writable: false</code>.</dd>
+</dl>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#добавить-get-set-свойства" name="добавить-get-set-свойства" class="main__anchor">Добавить get/set-свойства</a></h3><a href="task/replace-property-getter.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Вам попал в руки код объекта <code>User</code>, который хранит имя и фамилию в свойстве <code>this.fullName</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User(fullName) {
+  this.fullName = fullName;
+}
+
+var vasya = new User(&quot;Василий Попкин&quot;);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Имя и фамилия всегда разделяются пробелом.</p>
+<p>Сделайте, чтобы были доступны свойства <code>firstName</code> и <code>lastName</code>, причём не только на чтение, но и на запись, вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var vasya = new User(&quot;Василий Попкин&quot;);
+
+// чтение firstName/lastName
+alert( vasya.firstName ); // Василий
+alert( vasya.lastName ); // Попкин
+
+// запись в lastName
+vasya.lastName = 'Сидоров';
+
+alert( vasya.fullName ); // Василий Сидоров</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Важно: в этой задаче <code>fullName</code> должно остаться свойством, а <code>firstName/lastName</code> – реализованы через <code>get/set</code>. Лишнее дублирование здесь ни к чему.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User(fullName) {
+  this.fullName = fullName;
+
+  Object.defineProperties(this, {
+
+    firstName: {
+
+      get: function() {
+        return this.fullName.split(' ')[0];
+      },
+
+      set: function(newFirstName) {
+        this.fullName = newFirstName + ' ' + this.lastName;
+      }
+
+    },
+
+    lastName: {
+
+      get: function() {
+        return this.fullName.split(' ')[1];
+      },
+
+      set: function(newLastName) {
+        this.fullName = this.firstName + ' ' + newLastName;
+      }
+
+    }
+
+  });
+}
+
+var vasya = new User(&quot;Василий Попкин&quot;);
+
+// чтение firstName/lastName
+alert( vasya.firstName ); // Василий
+alert( vasya.lastName ); // Попкин
+
+// запись в lastName
+vasya.lastName = 'Сидоров';
+
+alert( vasya.fullName ); // Василий Сидоров</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

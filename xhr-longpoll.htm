@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="ajax.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">AJAX и COMET</span></a></li></ol><h1 class="main__header-title">COMET с XMLHttpRequest: длинные опросы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="COMET с XMLHttpRequest: длинные опросы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В этой главе мы рассмотрим способ организации COMET, то есть непрерывного получения данных с сервера, который очень прост и подходит в 90% реальных случаев.</p>
+<h2><a class="main__anchor" name="частые-опросы" href="#частые-опросы">Частые опросы</a></h2><p>Первое решение, которое приходит в голову для непрерывного получения событий с сервера – это «частые опросы» (polling), т.е периодические запросы на сервер: «эй, я тут, изменилось ли что-нибудь?». Например, раз в 10 секунд.</p>
+<p>В ответ сервер во-первых помечает у себя, что клиент онлайн, а во-вторых посылает сообщение, в котором в специальном формате содержится весь пакет событий, накопившихся к данному моменту.</p>
+<p>При этом, однако, возможна задержка между появлением и получением данных, как раз в размере этих 10 секунд между запросами.</p>
+<p>Другой минус – лишний входящий трафик на сервер. При каждом запросе браузер передает множество заголовков и в ответ получает, кроме данных, также заголовки. Для некоторых приложений трафик заголовков может в 10 и более раз превосходить трафик реальных данных.</p>
+<div class="balance"><div class="balance__minuses">
+      <div class="balance__content">
+      <div class="balance__title">Недостатки</div><ul class="balance__list"><li>Задержки между событием и уведомлением.</li>
+<li>Лишний трафик и запросы на сервер.</li>
+</ul></div></div><div class="balance__pluses">
+      <div class="balance__content">
+      <div class="balance__title">Достоинства</div><ul class="balance__list"><li>Простота реализации.</li>
+</ul></div></div></div><p>Причём, простота реализации тут достаточно условная. Клиентская часть – довольно проста, а вот сервер получает сразу большой поток запросов.</p>
+<p>Даже если клиент ушёл пить чай – его браузер каждые 10 секунд будет «долбить» сервер запросами. Готов ли сервер к такому?</p>
+<h2><a class="main__anchor" name="длинные-опросы" href="#длинные-опросы">Длинные опросы</a></h2><p>Длинные опросы – отличная альтернатива частым опросам. Они также удобны в реализации, и при этом сообщения доставляются без задержек.</p>
+<p>Схема:</p>
+<ol>
+<li>Отправляется запрос на сервер.</li>
+<li>Соединение не закрывается сервером, пока не появится сообщение.</li>
+<li>Когда сообщение появилось – сервер отвечает на запрос, пересылая данные.</li>
+<li>Браузер тут же делает новый запрос.</li>
+</ol>
+<p>Ситуация, когда браузер отправил запрос и держит соединение с сервером, ожидая ответа, является стандартной и прерывается только доставкой сообщений.</p>
+<p>Схема коммуникации:</p>
+<figure><div class="image" style="width:500px">
+      <div class="image__ratio" style="padding-top:46.2%"></div>
+      <img src="article/xhr-longpoll/longpoll.png" alt="" width="500" height="231" class="image__image">
+      </div></figure><p>При этом если соединение рвётся само, например, из-за ошибки в сети, то браузер тут же отсылает новый запрос.</p>
+<p>Примерный код клиентской части:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function subscribe(url) {
+  var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function() {
+    if (this.readyState != 4) return;
+
+    if (this.status == 200) {
+      onMessage(this.responseText);
+    } else {
+      onError(this);
+    }
+
+    subscribe(url);
+  }
+  xhr.open(&quot;GET&quot;, url, true);
+  xhr.send();
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Функция <code>subscribe</code> делает запрос, при ответе обрабатывает результат, и тут же запускает процесс по новой.</p>
+<p>Сервер, конечно же, должен уметь работать с большим количеством таких «ожидающих» соединений.</p>
+<h2><a class="main__anchor" name="демо-чат" href="#демо-чат">Демо: чат</a></h2><p>Демо:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">browser.js</div><div class="code-tabs__switch">server.js</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/xhr-longpoll/longpoll/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" href="http://learn.javascript.ru/tutorial/zipview/longpoll.zip?plunkId=uuk4JrwhtN7ESxy6Vy9v" class="code-tabs__button code-tabs__button_download"></a></div></div><div data-code-tabs-content style="height:500px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/xhr-longpoll/longpoll/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>// Посылка запросов -- обычными XHR POST
+function PublishForm(form, url) {
+
+  function sendMessage(message) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(&quot;POST&quot;, url, true);
+    // просто отсылаю сообщение &quot;как есть&quot; без кодировки
+    // если бы было много данных, то нужно было бы отослать JSON из объекта с ними
+    // или закодировать их как-то иначе
+    xhr.send(message);
+  }
+
+  form.onsubmit = function() {
+    var message = form.message.value;
+    if (message) {
+      form.message.value = '';
+      sendMessage(message);
+    }
+    return false;
+  };
+}
+
+// Получение сообщений, COMET
+function SubscribePane(elem, url) {
+
+  function showMessage(message) {
+    var messageElem = document.createElement('div');
+    messageElem.appendChild(document.createTextNode(message));
+    elem.appendChild(messageElem);
+  }
+
+  function subscribe() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (this.readyState != 4) return;
+
+      if (this.status == 200) {
+        if (this.responseText) {
+          // сервер может закрыть соединение без ответа при перезагрузке
+          showMessage(this.responseText);
+        }
+        subscribe();
+        return;
+      }
+
+      if (this.status != 502) {
+        // 502 - прокси ждал слишком долго, надо пересоединиться, это не ошибка
+        showMessage(this.statusText); // показать ошибку
+      }
+
+      setTimeout(subscribe, 1000); // попробовать ещё раз через 1 сек
+    }
+    xhr.open(&quot;GET&quot;, url, true);
+    xhr.send();
+  }
+
+  subscribe();
+
+}</code></pre></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>var http = require('http');
+var url = require('url');
+var querystring = require('querystring');
+var static = require('node-static');
+
+var fileServer = new static.Server('.');
+
+var subscribers = {};
+
+function onSubscribe(req, res) {
+  var id = Math.random();
+
+  res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+  res.setHeader(&quot;Cache-Control&quot;, &quot;no-cache, must-revalidate&quot;);
+
+  subscribers[id] = res;
+  //console.log(&quot;новый клиент &quot; + id + &quot;, клиентов:&quot; + Object.keys(subscribers).length);
+
+  req.on('close', function() {
+    delete subscribers[id];
+    //console.log(&quot;клиент &quot;+id+&quot; отсоединился, клиентов:&quot; + Object.keys(subscribers).length);
+  });
+
+}
+
+function publish(message) {
+
+  //console.log(&quot;есть сообщение, клиентов:&quot; + Object.keys(subscribers).length);
+
+  for (var id in subscribers) {
+    //console.log(&quot;отсылаю сообщение &quot; + id);
+    var res = subscribers[id];
+    res.end(message);
+  }
+
+  subscribers = {};
+}
+
+function accept(req, res) {
+  var urlParsed = url.parse(req.url, true);
+
+  // новый клиент хочет получать сообщения
+  if (urlParsed.pathname == '/subscribe') {
+    onSubscribe(req, res); // собственно, подписка
+    return;
+  }
+
+  // отправка сообщения
+  if (urlParsed.pathname == '/publish' &amp;&amp; req.method == 'POST') {
+    // принять POST-запрос
+    req.setEncoding('utf8');
+    var message = '';
+    req.on('data', function(chunk) {
+      message += chunk;
+    }).on('end', function() {
+      publish(message); // собственно, отправка
+      res.end(&quot;ok&quot;);
+    });
+
+    return;
+  }
+
+  // всё остальное -- статика
+  fileServer.serve(req, res);
+
+}
+
+
+// -----------------------------------
+
+if (!module.parent) {
+  http.createServer(accept).listen(8080);
+  console.log('Сервер запущен на порту 8080');
+} else {
+  exports.accept = accept;
+
+  process.on('SIGINT', function() {
+    for (var id in subscribers) {
+      var res = subscribers[id];
+      res.end();
+    }
+  });
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;script src=&quot;browser.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  Несколько человек при заходе на эту страницу будут получать сообщения друг друга.
+
+  &lt;form name=&quot;publish&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;message&quot; /&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Отправить&quot; /&gt;
+  &lt;/form&gt;
+
+  &lt;div id=&quot;subscribe&quot;&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    new PublishForm(document.forms.publish, 'publish');
+    // random url to fix https://code.google.com/p/chromium/issues/detail?id=46104
+    new SubscribePane(document.getElementById('subscribe'), 'subscribe?random=' + Math.random());
+  &lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><h2><a class="main__anchor" name="область-применения" href="#область-применения">Область применения</a></h2><p>Длинные опросы отлично работают в тех случаях, когда сообщения приходят редко.</p>
+<p>При большом количестве частых сообщений график приёма-отправки, приведённый выше, превращается в «пилу». Каждое сообщение – это новый запрос, дополнительный трафик заголовков.</p>
+<p>В этих случаях используются другие способы получения данных, подразумевающие непрерывное соединение с сервером. Мы рассмотрим их в следующих главах.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

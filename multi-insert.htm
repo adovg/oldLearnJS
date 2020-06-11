@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Мультивставка: insertAdjacentHTML и DocumentFragment</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Мультивставка: insertAdjacentHTML и DocumentFragment"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Обычные методы вставки работают с одним узлом. Но есть и способы вставлять множество узлов одновременно.</p>
+<h2><a class="main__anchor" name="оптимизация-вставки-в-документ" href="#оптимизация-вставки-в-документ">Оптимизация вставки в документ</a></h2><p>Рассмотрим задачу: сгенерировать список <code>UL/LI</code>.</p>
+<p>Есть две возможных последовательности:</p>
+<ol>
+<li>
+<p>Сначала вставить <code>UL</code> в документ, а потом добавить к нему <code>LI</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ul = document.createElement('ul');
+document.body.appendChild(ul); // сначала в документ
+for (...) ul.appendChild(li); // потом узлы</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Полностью создать список «вне DOM», а потом – вставить в документ:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ul = document.createElement('ul');
+for(...) ul.appendChild(li);   // сначала вставить узлы
+document.body.appendChild(ul); // затем в документ</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<p>Как ни странно, между этими последовательностями есть разница. В большинстве браузеров, второй вариант – быстрее.</p>
+<p>Почему же? Иногда говорят: «потому что браузер перерисовывает каждый раз при добавлении элемента». Это не так. Дело вовсе не в перерисовке.</p>
+<p>Браузер достаточно «умён», чтобы ничего не перерисовывать понапрасну. В большинстве случаев процессы перерисовки и сопутствующие вычисления будут отложены до окончания работы скрипта, и на тот момент уже совершенно без разницы, в какой последовательности были изменены узлы.</p>
+<p><strong>Тем не менее, при вставке узла происходят разные внутренние события и обновления внутренних структур данных, скрытые от наших глаз.</strong></p>
+<p>Что именно происходит – зависит от конкретной, внутренней браузерной реализации DOM, но это отнимает время. Конечно, браузеры развиваются и стараются свести лишние действия к минимуму.</p>
+<h3><a class="main__anchor" name="insert-bench-tbody" href="#insert-bench-tbody">Бенчмарк</a></h3><p>Чтобы легко проверить текущее состояние дел – вот два бенчмарка.</p>
+<p>Оба они создают таблицу 20x20, наполняя <code>TBODY</code> элементами <code>TR/TD</code>.</p>
+<p>При этом первый вставляет все в документ тут же, второй – задерживает вставку <code>TBODY</code> в документ до конца процесса.</p>
+<p>Кликните, чтобы запустить.</p>
+<p><input type="button" onclick="alert(bench(appendFirst,50))" value="TBODY сразу в DOM"/> <input type="button" onclick="alert(bench(appendLast,50))" value="Отложенная вставка TBODY в DOM"/></p>
+<table id="bench-table"></table>
+<p>Код для тестов находится в файле <a href="article/multi-insert/insert-bench.js">insert-bench.js</a>.</p>
+<h2><a class="main__anchor" name="добавление-множества-узлов" href="#добавление-множества-узлов">Добавление множества узлов</a></h2><p>Продолжим работать со вставкой узлов.</p>
+<p>Рассмотрим случай, когда в документе <em>уже есть</em> большой список <code>UL</code>. И тут понадобилось срочно добавить еще 20 элементов <code>LI</code>.</p>
+<p>Как это сделать?</p>
+<p>Если новые элементы пришли в виде строки, то можно попробовать добавить их так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">ul.innerHTML += &quot;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;...&quot;;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Но операцию <code>ul.innerHTML += &quot;...&quot;</code> можно по-другому переписать как <code>ul.innerHTML = ul.innerHTML + &quot;...&quot;</code>. Иначе говоря, она <em>не прибавляет, а заменяет</em> всё содержимое списка на дополненную строку. Это и нехорошо с точки зрения производительности, но и будут побочные эффекты. В частности, все внешние ресурсы (картинки) внутри перезаписываемого <code>innerHTML</code> будут загружены заново. Если в каких-то переменных были ссылки на элементы списка – они станут неверны, так как содержимое полностью заменяется. В общем, так лучше не делать.</p>
+<p>А если нужно вставить в середину списка? Здесь <code>innerHTML</code> вообще не поможет.</p>
+<p>Можно, конечно, вставить строку во временный DOM-элемент и перенести оттуда элементы, но есть и гораздо лучший вариант: метод <code>insertAdjacentHTML</code>!</p>
+<h2><a class="main__anchor" name="insertadjacent" href="#insertadjacent">insertAdjacent*</a></h2><p>Метод <a href="https://developer.mozilla.org/en/DOM/element.insertAdjacentHTML">insertAdjacentHTML</a> позволяет вставлять произвольный HTML в любое место документа, в том числе <em>и между узлами</em>!</p>
+<p>Он поддерживается всеми браузерами, кроме Firefox меньше версии 8, ну а там его можно эмулировать.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">elem.insertAdjacentHTML(where, html);</code></pre>
+        </div>
+      </div>
+      
+      </div><dl>
+<dt><code>html</code></dt>
+<dd>Строка HTML, которую нужно вставить</dd>
+</dl>
+<p><code>where</code>
+:Куда по отношению к <code>elem</code> вставлять строку. Всего четыре варианта:</p>
+<pre><code>1. `beforeBegin` -- перед `elem`.
+2. `afterBegin` -- внутрь `elem`, в самое начало.
+3. `beforeEnd` -- внутрь `elem`, в конец.
+4. `afterEnd` -- после `elem`.
+</code></pre>
+<figure><div class="image" style="width:448px">
+      <div class="image__ratio" style="padding-top:20.089285714285715%"></div>
+      <img src="article/multi-insert/insertadjacenthtml.png" alt="" width="448" height="90" class="image__image">
+      </div></figure><p>Например, вставим пропущенные элементы списка <em>перед</em> <code>&lt;li&gt;5&lt;/li&gt;</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;1&lt;/li&gt;
+  &lt;li&gt;2&lt;/li&gt;
+  &lt;li&gt;5&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  var ul = document.body.children[0];
+  var li5 = ul.children[2];
+
+  li5.insertAdjacentHTML(&quot;beforeBegin&quot;, &quot;&lt;li&gt;3&lt;/li&gt;&lt;li&gt;4&lt;/li&gt;&quot;);
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Единственный недостаток этого метода – он не работает в Firefox до версии 8. Но его можно легко добавить, используя <a href="article/multi-insert/insertadjacentff.js">полифилл insertAdjacentHTML для Firefox</a>.</p>
+<p>У этого метода есть «близнецы-братья», которые поддерживаются везде, кроме Firefox, но в него они добавляются тем же полифиллом:</p>
+<ul>
+<li><a href="http://help.dottoro.com/ljbreokf.php">elem.insertAdjacentElement(where, newElem)</a> – вставляет в произвольное место не строку HTML, а элемент <code>newElem</code>.</li>
+<li><a href="http://help.dottoro.com/ljrsluxu.php">elem.insertAdjacentText(where, text)</a> – создаёт текстовый узел из строки <code>text</code> и вставляет его в указанное место относительно <code>elem</code>.</li>
+</ul>
+<p>Синтаксис этих методов, за исключением последнего параметра, полностью совпадает с <code>insertAdjacentHTML</code>. Вместе они образуют «универсальный швейцарский нож» для вставки чего угодно куда угодно.</p>
+<h2><a class="main__anchor" name="documentfragment" href="#documentfragment">DocumentFragment</a></h2><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Важно для старых браузеров</span></div>
+            <div class="important__content"><p>Оптимизация, о которой здесь идёт речь, важна в первую очередь для старых браузеров, включая IE9-. В современных браузерах эффект от нее, как правило, небольшой, а иногда может быть и отрицательным.</p>
+</div></div>
+<p>До этого мы говорили о вставке строки в DOM. А что делать в случае, когда надо в существующий <code>UL</code> вставить много <em>DOM-элементов</em>?</p>
+<p>Можно вставлять их один за другим, вызовом <code>insertBefore/appendChild</code>, но при этом получится много операций с большим живым документом.</p>
+<p><strong>Вставить пачку узлов единовременно поможет <code>DocumentFragment</code>. Это особенный <em>кросс-браузерный</em> DOM-объект, который похож на обычный DOM-узел, но им не является.</strong></p>
+<p>Синтаксис для его создания:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fragment = document.createDocumentFragment();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В него можно добавлять другие узлы.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">fragment.appendChild(node);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Его можно клонировать:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">fragment.cloneNode(true); // клонирование с подэлементами</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>У <code>DocumentFragment</code> нет обычных свойств DOM-узлов, таких как <code>innerHTML</code>, <code>tagName</code> и т.п. Это не узел.</strong></p>
+<p>Его «Фишка» заключается в том, что когда <code>DocumentFragment</code> вставляется в DOM – то он исчезает, а вместо него вставляются его дети. Это свойство является уникальной особенностью <code>DocumentFragment</code>.</p>
+<p>Например, если добавить в него много <code>LI</code>, и потом вызвать <code>ul.appendChild(fragment)</code>, то фрагмент растворится, и в DOM вставятся именно <code>LI</code>, причём в том же порядке, в котором были во фрагменте.</p>
+<p>Псевдокод:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// хотим вставить в список UL много LI
+
+// делаем вспомогательный DocumentFragment
+var fragment = document.createDocumentFragment();
+
+for (цикл по li) {
+  fragment.appendChild(list[i]); // вставить каждый LI в DocumentFragment
+}
+
+ul.appendChild(fragment); // вместо фрагмента вставятся элементы списка</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В современных браузерах эффект от такой оптимизации может быть различным, а на небольших документах иногда и отрицательным.</p>
+<p>Понять текущее положение вещей вы можете, запустив следующий <a href="http://plnkr.co/edit/K0Kcmk2Ax3ZvVQmweal1?p=preview">небольшой бенчмарк</a>.</p>
+<h2><a class="main__anchor" name="append-prepend-before-after-replacewith" href="#append-prepend-before-after-replacewith">append/prepend, before/after, replaceWith</a></h2><p>Сравнительно недавно в <a href="https://dom.spec.whatwg.org/">стандарте</a> появились методы, которые позволяют вставить что угодно и куда угодно.</p>
+<p>Синтаксис:</p>
+<ul>
+<li><code>node.append(...nodes)</code> – вставляет <code>nodes</code> в конец <code>node</code>,</li>
+<li><code>node.prepend(...nodes)</code> – вставляет <code>nodes</code> в начало <code>node</code>,</li>
+<li><code>node.after(...nodes)</code> – вставляет <code>nodes</code> после узла <code>node</code>,</li>
+<li><code>node.before(...nodes)</code> – вставляет <code>nodes</code> перед узлом <code>node</code>,</li>
+<li><code>node.replaceWith(...nodes)</code> – вставляет <code>nodes</code> вместо <code>node</code>.</li>
+</ul>
+<p>Эти методы ничего не возвращают.</p>
+<p>Во всех этих методах <code>nodes</code> – DOM-узлы или строки, в любом сочетании и количестве. Причём строки вставляются именно как текстовые узлы, в отличие от <code>insertAdjacentHTML</code>.</p>
+<p>Пример (с полифиллом):</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;script src=&quot;https://cdn.polyfill.io/v1/polyfill.js?features=Element.prototype.append,Element.prototype.after&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;script&gt;
+    // добавим элемент в конец &lt;body&gt;
+    var p = document.createElement('p');
+    document.body.append(p);
+
+    var em = document.createElement('em');
+    em.append('Мир!');
+
+    // вставить в параграф текстовый и обычный узлы
+    p.append(&quot;Привет, &quot;, em);
+
+    // добавить элемент после &lt;p&gt;
+    p.after(document.createElement('hr'))
+  &lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-y5k67"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>
+<p>Манипуляции, меняющие структуру DOM (вставка, удаление элементов), как правило, быстрее с отдельным маленьким узлом, чем с большим DOM, который находится в документе.</p>
+<p>Конкретная разница зависит от внутренней реализации DOM в браузере.</p>
+</li>
+<li>
+<p>Семейство методов для вставки HTML/элемента/текста в произвольное место документа:</p>
+<ul>
+<li><code>elem.insertAdjacentHTML(where, html)</code></li>
+<li><code>elem.insertAdjacentElement(where, node)</code></li>
+<li><code>elem.insertAdjacentText(where, text)</code></li>
+</ul>
+<p>Два последних метода не поддерживаются в Firefox, на момент написания текста, но есть небольшой полифилл  <a href="article/multi-insert/insertadjacentff.js">insertAdjacentFF.js</a>, который добавляет их. Конечно, он нужен только для Firefox.</p>
+</li>
+<li>
+<p><code>DocumentFragment</code> позволяет минимизировать количество вставок в большой живой DOM. Эта оптимизация особо эффективна в старых браузерах, в новых эффект от неё меньше или наоборот отрицательный.</p>
+<p>Элементы сначала вставляются в него, а потом – он вставляется в DOM. При вставке <code>DocumentFragment</code> «растворяется», и вместо него вставляются содержащиеся в нём узлы.</p>
+<p><code>DocumentFragment</code>, в отличие от <code>insertAdjacent*</code>, работает с коллекцией DOM-узлов.</p>
+</li>
+<li>
+<p>Современные методы, работают с любым количеством узлов и текста, желателен полифилл:</p>
+<ul>
+<li><code>append/prepend</code> – вставка в конец/начало.</li>
+<li><code>before/after</code> – вставка перед/после.</li>
+<li><code>replaceWith</code> – замена.</li>
+</ul>
+</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#вставьте-элементы-в-конец-списка" name="вставьте-элементы-в-конец-списка" class="main__anchor">Вставьте элементы в конец списка</a></h3><a href="task/append-to-list.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите код для вставки текста <code>html</code> в конец списка <code>ul</code> с использованием метода <code>insertAdjacentHTML</code>. Такая вставка, в отличие от присвоения <code>innerHTML+=</code>, не будет перезаписывать текущее содержимое.</p>
+<p>Добавьте к списку ниже элементы <code>&lt;li&gt;3&lt;/li&gt;&lt;li&gt;4&lt;/li&gt;&lt;li&gt;5&lt;/li&gt;</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;1&lt;/li&gt;
+  &lt;li&gt;2&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ul = document.body.children[0];
+
+ul.insertAdjacentHTML(&quot;beforeEnd&quot;, &quot;&lt;li&gt;3&lt;/li&gt;&lt;li&gt;4&lt;/li&gt;&lt;li&gt;5&lt;/li&gt;&quot;);</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#отсортировать-таблицу" name="отсортировать-таблицу" class="main__anchor">Отсортировать таблицу</a></h3><a href="task/sort-table-performance.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Есть таблица:</p>
+<table>
+<tr>
+  <th>Имя</th>
+  <th>Фамилия</th>
+  <th>Отчество</th>
+  <th>Возраст</th>
+</tr>
+<tr>
+  <td>Вася</td>
+  <td>Петров</td>
+  <td>Александрович</td>
+  <td>10</td>
+</tr>
+<tr>
+  <td>Петя</td>
+  <td>Иванов</td>
+  <td>Петрович</td>
+  <td>15</td>
+</tr>
+<tr>
+  <td>Владимир</td>
+  <td>Ленин</td>
+  <td>Ильич</td>
+  <td>9</td>
+</tr>
+<tr>
+  <td>...</td>
+  <td>...</td>
+  <td>...</td>
+  <td>...</td>
+</tr>
+</table>
+<p>Строк в таблице много: может быть 20, 50, 100… Есть и другие элементы в документе.</p>
+<p>Как бы вы предложили отсортировать содержимое таблицы по полю <code>Возраст</code>? Обдумайте алгоритм, реализуйте его.</p>
+<p>Как сделать, чтобы сортировка работала как можно быстрее? А если в таблице 10000 строк (бывает и такое)?</p>
+<p>P.S. Может ли здесь помочь <code>DocumentFragment</code>?</p>
+<p>P.P.S. Если предположить, что у нас заранее есть массив данных для таблицы в JavaScript – что быстрее: отсортировать эту таблицу или сгенерировать новую?</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Для сортировки нам поможет функция <code>sort</code> массива.</p>
+<p>Общая идея лежит на поверхности: сделать массив из строк и отсортировать его. Тонкости кроются в деталях.</p>
+<p>В ифрейме ниже загружен документ, описывающий и реализующий разные алгоритмы. Обратите внимание: разница в производительности может достигать нескольких раз!</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/task/sort-table-performance/solution/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      <div class="toolbar__tool">
+        <a href="http://plnkr.co/edit/GNvczAkbIgUJBuxJHHhh?p=preview" target="_blank" title="открыть в песочнице"
+        data-plunk-id="GNvczAkbIgUJBuxJHHhh" class="toolbar__button toolbar__button_edit"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:800px" src="https://js.cx/task/sort-table-performance/solution/"></iframe>
+  </div><p>P.S. Создавать <code>DocumentFragment</code> здесь ни к чему. Можно вытащить из документа <code>TBODY</code> и иметь дело с ним в отрыве от DOM (алгоритм 4).</p>
+<p>P.P.S. Если нужно сделать много узлов, то обычно <code>innerHTML</code> работает быстрее, чем удаление и вставка элементов через DOM-вызовы. То есть, сгенерировать таблицу заново эффективнее.</p>
+<p><a href="http://plnkr.co/edit/GNvczAkbIgUJBuxJHHhh?p=preview" target="_blank" data-plunk-id="GNvczAkbIgUJBuxJHHhh">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="first-steps.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы JavaScript</span></a></li></ol><h1 class="main__header-title">Рекурсия, стек</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Рекурсия, стек"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В теле функции могут быть вызваны другие функции для выполнения подзадач.</p>
+<p>Частный случай подвызова – когда функция вызывает сама себя. Это называется <em>рекурсией</em>.</p>
+<p>Рекурсия используется для ситуаций, когда выполнение одной сложной задачи можно представить как некое действие в совокупности с решением той же задачи в более простом варианте.</p>
+<p>Сейчас мы посмотрим примеры.</p>
+<p>Рекурсия – общая тема программирования, не относящаяся напрямую к JavaScript. Если вы разрабатывали на других языках или изучали программирование раньше в ВУЗе, то наверняка уже знаете, что это такое.</p>
+<p>Эта глава предназначена для читателей, которые пока с этой темой незнакомы и хотят лучше разобраться в том, как работают функции.</p>
+<h2><a class="main__anchor" name="степень-pow-x-n-через-рекурсию" href="#степень-pow-x-n-через-рекурсию">Степень pow(x, n) через рекурсию</a></h2><p>В качестве первого примера использования рекурсивных вызовов – рассмотрим задачу возведения числа <code>x</code> в натуральную степень <code>n</code>.</p>
+<p>Её можно представить как совокупность более простого действия и более простой задачи того же типа вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">pow(x, n) = x * pow(x, n - 1)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>То есть, <code>x<sup>n</sup> = x * x<sup>n-1</sup></code>.</p>
+<p>Например, вычислим <code>pow(2, 4)</code>, последовательно переходя к более простой задаче:</p>
+<ol>
+<li><code>pow(2, 4) = 2 * pow(2, 3)</code></li>
+<li><code>pow(2, 3) = 2 * pow(2, 2)</code></li>
+<li><code>pow(2, 2) = 2 * pow(2, 1)</code></li>
+<li><code>pow(2, 1) = 2</code></li>
+</ol>
+<p>На шаге 1 нам нужно вычислить <code>pow(2,3)</code>, поэтому мы делаем шаг 2, дальше нам нужно <code>pow(2,2)</code>, мы делаем шаг 3, затем шаг 4, и на нём уже можно остановиться, ведь очевидно, что результат возведения числа в степень 1 – равен самому числу.</p>
+<p>Далее, имея результат на шаге 4, он подставляется обратно в шаг 3, затем имеем <code>pow(2,2)</code> – подставляем в шаг 2 и на шаге 1 уже получаем результат.</p>
+<p>Этот алгоритм на JavaScript:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function pow(x, n) {
+  if (n != 1) { // пока n != 1, сводить вычисление pow(x,n) к pow(x,n-1)
+    return x * pow(x, n - 1);
+  } else {
+    return x;
+  }
+}
+
+alert( pow(2, 3) ); // 8</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Говорят, что «функция <code>pow</code> <em>рекурсивно вызывает сама себя</em>» до <code>n == 1</code>.</p>
+<p>Значение, на котором рекурсия заканчивается, называют <em>базисом рекурсии</em>. В примере выше базисом является <code>1</code>.</p>
+<p>Общее количество вложенных вызовов называют <em>глубиной рекурсии</em>. В случае со степенью, всего будет <code>n</code> вызовов.</p>
+<p>Максимальная глубина рекурсии в браузерах ограничена, точно можно рассчитывать на <code>10000</code> вложенных вызовов, но некоторые интерпретаторы допускают и больше.</p>
+<p>Итак, рекурсию используют, когда вычисление функции можно свести к её более простому вызову, а его – ещё к более простому, и так далее, пока значение не станет очевидно.</p>
+<h2><a class="main__anchor" name="контекст-выполнения-стек" href="#контекст-выполнения-стек">Контекст выполнения, стек</a></h2><p>Теперь мы посмотрим, как работают рекурсивные вызовы. Для этого мы рассмотрим, как вообще работают функции, что происходит при вызове.</p>
+<p><strong>У каждого вызова функции есть свой «контекст выполнения» (execution context).</strong></p>
+<p>Контекст выполнения – это служебная информация, которая соответствует текущему запуску функции. Она включает в себя локальные переменные функции и конкретное место в коде, на котором находится интерпретатор.</p>
+<p>Например, для вызова <code>pow(2, 3)</code> из примера выше будет создан контекст выполнения, который будет хранить переменные <code>x = 2, n = 3</code>. Мы схематично обозначим его так:</p>
+<ul class="function-execution-context">
+  <li>Контекст: { x: 2, n: 3, строка 1 }</li>
+</ul>
+<p>Далее функция <code>pow</code> начинает выполняться. Вычисляется выражение <code>n != 1</code> – оно равно <code>true</code>, ведь в текущем контексте <code>n=3</code>. Поэтому задействуется первая ветвь <code>if</code> :</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function pow(x, n) {
+  if (n != 1) { // пока n != 1 сводить вычисление pow(x,n) к pow(x,n-1)
+    return x * pow(x, n - 1);
+  } else {
+    return x;
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Чтобы вычислить выражение <code>x * pow(x, n-1)</code>, требуется произвести запуск <code>pow</code> с новыми аргументами.</p>
+<p><strong>При любом вложенном вызове JavaScript запоминает текущий контекст выполнения в специальной внутренней структуре данных – «стеке контекстов».</strong></p>
+<p>Затем интерпретатор приступает к выполнению вложенного вызова.</p>
+<p>В данном случае вызывается та же <code>pow</code>, однако это абсолютно неважно. Для любых функций процесс одинаков.</p>
+<p>Для нового вызова создаётся свой контекст выполнения, и управление переходит в него, а когда он завершён – старый контекст достаётся из стека и выполнение внешней функции возобновляется.</p>
+<p>Разберём происходящее с контекстами более подробно, начиная с вызова <code>(*)</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="8-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function pow(x, n) {
+  if (n != 1) { // пока n!=1 сводить вычисление pow(..n) к pow(..n-1)
+    return x * pow(x, n - 1);
+  } else {
+    return x;
+  }
+}
+
+alert( pow(2, 3) ); // (*)</code></pre>
+        </div>
+      </div>
+      
+      </div><dl>
+<dt><code>pow(2, 3)</code></dt>
+<dd>
+<p>Запускается функция <code>pow</code>, с аргументами <code>x=2</code>, <code>n=3</code>. Эти переменные хранятся в контексте выполнения, схематично изображённом ниже:</p>
+  <ul class="function-execution-context">
+    <li>Контекст: { x: 2, n: 3, строка 1 }</li>
+  </ul>
+  Выполнение в этом контексте продолжается, пока не встретит вложенный вызов в строке 3.
+</dd>
+<dt><code>pow(2, 2)</code></dt>
+<dd>
+<p>В строке <code>3</code> происходит вложенный вызов <code>pow</code> с аргументами <code>x=2</code>, <code>n=2</code>. Текущий контекст сохраняется в стеке, а для вложеннного вызова создаётся новый контекст (выделен жирным ниже):</p>
+  <ul class="function-execution-context">
+    <li>Контекст: { x: 2, n: 3, строка 3 }</li>
+    <li>Контекст: { x: 2, n: 2, строка 1 }</li>
+  </ul>
+  Обратим внимание, что контекст включает в себя не только переменные, но и место в коде, так что когда вложенный вызов завершится -- можно будет легко вернуться назад.
+<p>Слово «строка» здесь условно, на самом деле, конечно, запомнено более точное место в цепочке команд.</p>
+</dd>
+<dt><code>pow(2, 1)</code></dt>
+<dd>
+<p>Опять вложенный вызов в строке <code>3</code>, на этот раз – с аргументами <code>x=2</code>, <code>n=1</code>. Создаётся новый текущий контекст, предыдущий добавляется в стек:</p>
+  <ul class="function-execution-context">
+    <li>Контекст: { x: 2, n: 3, строка 3 }</li>
+    <li>Контекст: { x: 2, n: 2, строка 3 }</li>
+    <li>Контекст: { x: 2, n: 1, строка 1 }</li>
+  </ul>
+  На текущий момент в стеке уже два старых контекста.
+</dd>
+<dt>Выход из <code>pow(2, 1)</code>.</dt>
+<dd>
+<p>При выполнении <code>pow(2, 1)</code>, в отличие от предыдущих запусков, выражение <code>n != 1</code> будет равно <code>false</code>, поэтому  сработает вторая ветка <code>if..else</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function pow(x, n) {
+  if (n != 1) {
+    return x * pow(x, n - 1);
+  } else {
+    return x; // первая степень числа равна самому числу
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь вложенных вызовов нет, так что функция заканчивает свою работу, возвращая <code>2</code>. Текущий контекст больше не нужен и удаляется из памяти, из стека восстанавливается предыдущий:</p>
+  <ul class="function-execution-context">
+    <li>Контекст: { x: 2, n: 3, строка 3 }</li>
+    <li>Контекст: { x: 2, n: 2, строка 3 }</li>
+  </ul>
+  Возобновляется обработка внешнего вызова `pow(2, 2)`.
+</dd>
+<dt>Выход из <code>pow(2, 2)</code>.</dt>
+<dd>
+<p>…И теперь уже <code>pow(2, 2)</code> может закончить свою работу, вернув <code>4</code>. Восстанавливается контекст предыдущего вызова:</p>
+  <ul class="function-execution-context">
+    <li>Контекст: { x: 2, n: 3, строка 3 }</li>
+  </ul>
+  Возобновляется обработка внешнего вызова `pow(2, 3)`.
+</dd>
+<dt>Выход из <code>pow(2, 3)</code>.</dt>
+<dd>
+<p>Самый внешний вызов заканчивает свою работу, его результат: <code>pow(2, 3) = 8</code>.</p>
+<p>Глубина рекурсии в данном случае составила: <strong>3</strong>.</p>
+</dd>
+</dl>
+<p>Как видно из иллюстраций выше, глубина рекурсии равна максимальному числу контекстов, одновременно хранимых в стеке.</p>
+<p>Обратим внимание на требования к памяти. Рекурсия приводит к хранению всех данных для неоконченных внешних вызовов в стеке, в данном случае это приводит к тому, что возведение в степень <code>n</code> хранит в памяти <code>n</code> различных контекстов.</p>
+<p>Реализация возведения в степень через цикл гораздо более экономна:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function pow(x, n) {
+  var result = x;
+  for (var i = 1; i &lt; n; i++) {
+    result *= x;
+  }
+  return result;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>У такой функции <code>pow</code> будет один контекст, в котором будут последовательно меняться значения <code>i</code> и <code>result</code>.</p>
+<p><strong>Любая рекурсия может быть переделана в цикл. Как правило, вариант с циклом будет эффективнее.</strong></p>
+<p>Но переделка рекурсии в цикл может быть нетривиальной, особенно когда в функции, в зависимости от условий, используются различные рекурсивные подвызовы, когда ветвление более сложное.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Рекурсия – это когда функция вызывает сама себя, как правило, с другими аргументами.</p>
+<p>Существуют много областей применения рекурсивных вызовов. Здесь мы посмотрели на один из них – решение задачи путём сведения её к более простой (с меньшими аргументами), но также рекурсия используется для работы с «естественно рекурсивными» структурами данных, такими как HTML-документы, для «глубокого» копирования сложных объектов.</p>
+<p>Есть и другие применения, с которыми мы встретимся по мере изучения JavaScript.</p>
+<p>Здесь мы постарались рассмотреть происходящее достаточно подробно, однако, если пожелаете, допустимо временно забежать вперёд и открыть главу <a href="debugging-chrome.htm">Отладка в браузере Chrome</a>, с тем чтобы при помощи отладчика построчно пробежаться по коду и посмотреть стек на каждом шаге. Отладчик даёт к нему доступ.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#вычислить-сумму-чисел-до-данного" name="вычислить-сумму-чисел-до-данного" class="main__anchor">Вычислить сумму чисел до данного</a></h3><a href="task/sum-to.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите функцию <code>sumTo(n)</code>, которая для данного <code>n</code> вычисляет сумму чисел от 1 до <code>n</code>, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">sumTo(1) = 1
+sumTo(2) = 2 + 1 = 3
+sumTo(3) = 3 + 2 + 1 = 6
+sumTo(4) = 4 + 3 + 2 + 1 = 10
+...
+sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Сделайте три варианта решения:</p>
+<ol>
+<li>С использованием цикла.</li>
+<li>Через рекурсию, т.к. <code>sumTo(n) = n + sumTo(n-1)</code> для <code>n &gt; 1</code>.</li>
+<li>С использованием формулы для суммы <a href="http://ru.wikipedia.org/wiki/%D0%90%D1%80%D0%B8%D1%84%D0%BC%D0%B5%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B5%D1%81%D1%81%D0%B8%D1%8F">арифметической прогрессии</a>.</li>
+</ol>
+<p>Пример работы вашей функции:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumTo(n) { /*... ваш код ... */ }
+
+alert( sumTo(100) ); // 5050</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Какой вариант решения самый быстрый? Самый медленный? Почему?</strong></p>
+<p><strong>Можно ли при помощи рекурсии посчитать <code>sumTo(100000)</code>? Если нет, то почему?</strong></p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение <strong>с использованием цикла</strong>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumTo(n) {
+  var sum = 0;
+  for (var i = 1; i &lt;= n; i++) {
+    sum += i;
+  }
+  return sum;
+}
+
+alert( sumTo(100) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Решение через <strong>рекурсию</strong>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumTo(n) {
+  if (n == 1) return 1;
+  return n + sumTo(n - 1);
+}
+
+alert( sumTo(100) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Решение <strong>по формуле</strong>: <code>sumTo(n) = n*(n+1)/2</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumTo(n) {
+  return n * (n + 1) / 2;
+}
+
+alert( sumTo(100) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>P.S. Надо ли говорить, что решение по формуле работает быстрее всех? Это очевидно. Оно использует всего три операции для любого <code>n</code>, а цикл и рекурсия требуют как минимум <code>n</code> операций сложения.</p>
+<p>Вариант с циклом – второй по скорости. Он быстрее рекурсии, так как операций сложения столько же, но нет дополнительных вычислительных затрат на организацию вложенных вызовов.</p>
+<p>Рекурсия в данном случае работает медленнее всех.</p>
+<p>P.P.S. Существует ограничение глубины вложенных вызовов, поэтому рекурсивный вызов <code>sumTo(100000)</code> выдаст ошибку.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#вычислить-факториал" name="вычислить-факториал" class="main__anchor">Вычислить факториал</a></h3><a href="task/factorial.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p><em>Факториа́л числа</em> – это число, умноженное на «себя минус один», затем на «себя минус два» и так далее, до единицы. Обозначается <code>n!</code></p>
+<p>Определение факториала можно записать как:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">n! = n * (n - 1) * (n - 2) * ...*1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Примеры значений для разных <code>n</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">1! = 1
+2! = 2 * 1 = 2
+3! = 3 * 2 * 1 = 6
+4! = 4 * 3 * 2 * 1 = 24
+5! = 5 * 4 * 3 * 2 * 1 = 120</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Задача – написать функцию <code>factorial(n)</code>, которая возвращает факториал числа <code>n!</code>, используя рекурсивный вызов.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( factorial(5) ); // 120</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Подсказка: обратите внимание, что <code>n!</code> можно записать как <code>n * (n-1)!</code>. Например: <code>3! = 3*2! = 3*2*1! = 6</code></p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>По свойствам факториала, как описано в условии, <code>n!</code> можно записать как <code>n * (n-1)!</code>.</p>
+<p>То есть, результат функции для <code>n</code> можно получить как <code>n</code>, умноженное на результат функции для <code>n-1</code>, и так далее до <code>1!</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function factorial(n) {
+  return (n != 1) ? n * factorial(n - 1) : 1;
+}
+
+alert( factorial(5) ); // 120</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Базисом рекурсии является значение <code>1</code>. А можно было бы сделать базисом и <code>0</code>. Тогда код станет чуть короче:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function factorial(n) {
+  return n ? n * factorial(n - 1) : 1;
+}
+
+alert( factorial(5) ); // 120</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом случае вызов <code>factorial(1)</code> сведётся к <code>1*factorial(0)</code>, будет дополнительный шаг рекурсии.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#числа-фибоначчи" name="числа-фибоначчи" class="main__anchor">Числа Фибоначчи</a></h3><a href="task/fibonacci-numbers.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Последовательность <a href="http://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D1%87%D0%B8">чисел Фибоначчи</a> имеет формулу <code>F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub></code>. То есть, следующее число получается как сумма двух предыдущих.</p>
+<p>Первые два числа равны <code>1</code>, затем <code>2(1+1)</code>, затем <code>3(1+2)</code>, <code>5(2+3)</code> и так далее: <code>1, 1, 2, 3, 5, 8, 13, 21...</code>.</p>
+<p>Числа Фибоначчи тесно связаны с <a href="http://ru.wikipedia.org/wiki/%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B5_%D1%81%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D0%B5">золотым сечением</a> и множеством природных явлений вокруг нас.</p>
+<p>Напишите функцию <code>fib(n)</code>, которая возвращает <code>n-е</code> число Фибоначчи. Пример работы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function fib(n) { /* ваш код */ }
+
+alert( fib(3) ); // 2
+alert( fib(7) ); // 13
+alert( fib(77)); // 5527939700884757</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Все запуски функций из примера выше должны срабатывать быстро.</strong></p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Вычисление рекурсией (медленное)</button><div class="task__answer-content"><h4 class="task__step-title">Вычисление рекурсией (медленное)</h4><p>Решение по формуле, используя рекурсию:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function fib(n) {
+  return n &lt;= 1 ? n : fib(n - 1) + fib(n - 2);
+}
+
+alert( fib(3) ); // 2
+alert( fib(7) ); // 13
+// fib(77); // не запускаем, подвесит браузер</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При больших значениях <code>n</code> оно будет работать очень медленно. Например, <code>fib(77)</code> уже будет вычисляться очень долго.</p>
+<p>Это потому, что функция порождает обширное дерево вложенных вызовов. При этом ряд значений вычисляется много раз. Например, посмотрим на отрывок вычислений:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">...
+fib(5) = fib(4) + fib(3)
+fib(4) = fib(3) + fib(2)
+...</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь видно, что значение <code>fib(3)</code> нужно одновременно и для <code>fib(5)</code> и для <code>fib(4)</code>. В коде оно будет вычислено два раза, совершенно независимо.</p>
+<p>Можно это оптимизировать, запоминая уже вычисленные значения, получится гораздо быстрее. Альтернативный вариант – вообще отказаться от рекурсии, а вместо этого в цикле начать с первых значений <code>1</code>, <code>2</code>, затем из них получить <code>fib(3)</code>, далее <code>fib(4)</code>, затем <code>fib(5)</code> и так далее, до нужного значения.</p>
+<p>Это решение будет наиболее эффективным. Попробуйте его написать.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Алгоритм вычисления в цикле</button><div class="task__answer-content"><h4 class="task__step-title">Алгоритм вычисления в цикле</h4><p>Будем идти по формуле слева-направо:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 1, b = 1; // начальные значения
+var c = a + b; // 2
+
+/* переменные на начальном шаге:
+a  b  c
+1, 1, 2
+*/</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь следующий шаг, присвоим <code>a</code> и <code>b</code> текущие 2 числа и получим новое следующее в <code>c</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">a = b, b = c;
+c = a + b;
+
+/* стало так (ещё число):
+   a  b  c
+1, 1, 2, 3
+*/</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Следующий шаг даст нам ещё одно число последовательности:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">a = b, b = c;
+c = a + b;
+
+/* стало так (ещё число):
+      a  b  c
+1, 1, 2, 3, 5
+*/</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Повторять в цикле до тех пор, пока не получим нужное значение. Это гораздо быстрее, чем рекурсия, хотя бы потому что ни одно из чисел не вычисляется дважды.</p>
+<p>P.S. Этот подход к вычислению называется <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">динамическое программирование снизу-вверх</a>.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Код для вычисления в цикле</button><div class="task__answer-content"><h4 class="task__step-title">Код для вычисления в цикле</h4><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function fib(n) {
+  var a = 1,
+    b = 1;
+  for (var i = 3; i &lt;= n; i++) {
+    var c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
+}
+
+alert( fib(3) ); // 2
+alert( fib(7) ); // 13
+alert( fib(77) ); // 5527939700884757</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Цикл здесь начинается с <code>i=3</code>, так как первое и второе числа Фибоначчи заранее записаны в переменные <code>a=1</code>, <code>b=1</code>.</p>
+</div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

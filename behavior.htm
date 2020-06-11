@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="events-and-interfaces.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы работы с событиями</span></a></li></ol><h1 class="main__header-title">Приём проектирования &quot;поведение&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Приём проектирования &quot;поведение&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Шаблон проектирования «поведение» (behavior) позволяет задавать хитрые обработчики на элементе <em>декларативно</em>, установкой специальных HTML-атрибутов и классов.</p>
+<h2><a class="main__anchor" name="описание" href="#описание">Описание</a></h2><p>Приём проектирования «поведение» состоит из двух частей:</p>
+<ol>
+<li>Элементу ставится атрибут, описывающий его поведение.</li>
+<li>При помощи делегирования ставится обработчик на документ, который ловит все клики и, если элемент имеет нужный атрибут, производит нужное действие.</li>
+</ol>
+<h2><a class="main__anchor" name="пример" href="#пример">Пример</a></h2><p>Например, добавим «поведение», которое всем элементам, у которых стоит атрибут <code>data-counter</code>, будет при клике увеличивать значение на <code>1</code>:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">Счётчик:
+&lt;button data-counter&gt;1&lt;/button&gt;
+Ещё счётчик:
+&lt;button data-counter&gt;2&lt;/button&gt;
+
+&lt;script&gt;
+  document.onclick = function(event) {
+    if (!event.target.hasAttribute('data-counter')) return;
+
+    var counter = event.target;
+
+    counter.innerHTML++;
+  };
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-bwxxrp"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Если запустить HTML-код выше, то при клике на каждую кнопку – её значение будет увеличиваться.</p>
+<p>Конечно, нам важны не счётчики, а общий подход, который они демонстрируют.</p>
+<p>Элементов <code>data-counter</code> может быть сколько угодно. Новые могут добавляться в HTML в любой момент. При помощи делегирования мы, фактически, добавили новый «псевдо-стандартный» атрибут в HTML, который добавляет элементу новую возможность («поведение»).</p>
+<h2><a class="main__anchor" name="ещё-пример" href="#ещё-пример">Ещё пример</a></h2><p>Добавим ещё поведение.</p>
+<p>Сделаем так, что при клике на элемент с атрибутом <code>data-toggle-id</code> будет скрываться/показываться элемент с заданным <code>id</code>:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true" data-highlight-block="9-18" data-highlight-inline="0:8-39">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;button data-toggle-id=&quot;subscribe-mail&quot;&gt;
+  Показать форму подписки
+&lt;/button&gt;
+
+&lt;form id=&quot;subscribe-mail&quot; hidden&gt;
+  Ваша почта: &lt;input type=&quot;email&quot;&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  document.onclick = function(event) {
+    var target = event.target;
+
+    var id = target.getAttribute('data-toggle-id');
+    if (!id) return;
+
+    var elem = document.getElementById(id);
+
+    elem.hidden = !elem.hidden;
+  };
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-ewwimo"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Ещё раз заметим, что мы сделали. Теперь для того, чтобы добавить скрытие-раскрытие любому элементу – даже не надо знать JavaScript, можно просто написать атрибут <code>data-toggle-id</code>.</p>
+<p>Это бывает очень удобно – не нужно писать JavaScript-код для каждого элемента, который должен служить такой кнопкой. Просто используем поведение.</p>
+<p>Обратите внимание: обработчик поставлен на <code>document</code>, клик на любом элементе страницы пройдёт через него, так что поведение определено глобально.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Не только атрибут</span></div>
+            <div class="important__content"><p>Для своих целей мы можем использовать в HTML любые атрибуты, но стандарт рекомендует для своих целей называть атрибуты <code>data-*</code>.</p>
+<p>В обработчике <code>document.onclick</code> мы могли бы проверять не атрибут, а класс или что-то ещё, но с атрибутом – проще и понятнее всего.</p>
+<p>Также для добавления обработчиков на <code>document</code> рекомендуется использовать <code>addEventListener</code>, чтобы можно было добавить более одного обработчика для типа события.</p>
+</div></div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Шаблон «поведение» удобен тем, что сколь угодно сложное JavaScript-поведение можно «навесить» на элемент одним лишь атрибутом. А можно – несколькими атрибутами на связанных элементах.</p>
+<p>Здесь мы рассмотрели базовый пример, который можно как угодно модифицировать и масштабировать. Важно не переусердствовать.</p>
+<p>Приём разработки «поведение» рекомендуется использовать для расширения возможностей разметки, как альтернативу мини-фрагментам JavaScript.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#поведение-подсказка" name="поведение-подсказка" class="main__anchor">Поведение &quot;подсказка&quot;</a></h3><a href="task/behavior-tooltip.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>При наведении мыши на элемент, на нём возникает событие <code>mouseover</code>, при удалении мыши с элемента – событие <code>mouseout</code>.</p>
+<p>Зная это, напишите JS-код, который будет делать так, что при наведении на элемент, если у него есть атрибут <code>data-tooltip</code> – над ним будет показываться подсказка с содержимым этого атрибута.</p>
+<p>Например, две кнопки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;button data-tooltip=&quot;подсказка длиннее, чем элемент&quot;&gt;Короткая кнопка&lt;/button&gt;
+&lt;button data-tooltip=&quot;HTML&lt;br&gt;подсказка&quot;&gt;Ещё кнопка&lt;/button&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Результат в ифрейме с документом:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:200px" src="https://js.cx/task/behavior-tooltip/solution/"></iframe>
+  </div><p>В этой задаче можно полагать, что в элементе с атрибутом <code>data-tooltip</code> – только текст, то есть нет подэлементов.</p>
+<p>Детали оформления:</p>
+<ul>
+<li>Подсказка должна появляться при наведении на элемент, по центру и на небольшом расстоянии сверху. При уходе курсора с элемента – исчезать.</li>
+<li>Текст подсказки брать из значения атрибута <code>data-tooltip</code>. Это может быть произвольный HTML.</li>
+<li>Оформление подсказки должно задаваться CSS.</li>
+<li>Подсказка не должна вылезать за границы экрана, в том числе если страница частично прокручена. Если нельзя показать сверху – показывать снизу элемента.</li>
+</ul>
+<p>Важно: нужно использовать приём разработки «поведение», то есть поставить обработчик (точнее два) на <code>document</code>, а не на каждый элемент.</p>
+<p>Плюс этого подхода – динамически добавленные в DOM позже элементы автоматически получат этот функционал.</p>
+<p><a href="http://plnkr.co/edit/98f9qkMAc8TeR70rTh7G?p=preview" target="_blank" data-plunk-id="98f9qkMAc8TeR70rTh7G">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/CEYfQIQmvQO45sEveChc?p=preview" target="_blank" data-plunk-id="CEYfQIQmvQO45sEveChc">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

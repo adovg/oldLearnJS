@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="objects-more.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Методы объектов и контекст вызова</span></a></li></ol><h1 class="main__header-title">Явное указание this: &quot;call&quot;, &quot;apply&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Явное указание this: &quot;call&quot;, &quot;apply&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Итак, мы знаем, что <code>this</code> – это текущий объект при вызове «через точку» и новый объект при конструировании через <code>new</code>.</p>
+<p>В этой главе наша цель получить окончательное и полное понимание <code>this</code> в JavaScript. Для этого не хватает всего одного элемента: способа явно указать <code>this</code> при помощи методов <code>call</code> и <code>apply</code>.</p>
+<h2><a class="main__anchor" name="метод-call" href="#метод-call">Метод call</a></h2><p>Синтаксис метода <code>call</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">func.call(context, arg1, arg2, ...)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом вызывается функция <code>func</code>, первый аргумент <code>call</code> становится её <code>this</code>, а остальные передаются «как есть».</p>
+<p><strong>Вызов <code>func.call(context, a, b...)</code> – то же, что обычный вызов  <code>func(a, b...)</code>, но с явно указанным <code>this(=context)</code>.</strong></p>
+<p>Например, у нас есть функция <code>showFullName</code>, которая  работает с <code>this</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function showFullName() {
+  alert( this.firstName + &quot; &quot; + this.lastName );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пока объекта нет, но это нормально, ведь JavaScript позволяет использовать <code>this</code> везде. Любая функция может в своём коде упомянуть <code>this</code>, каким будет это значение – выяснится в момент запуска.</p>
+<p>Вызов <code>showFullName.call(user)</code> запустит функцию, установив <code>this = user</code>, вот так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="9-10">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function showFullName() {
+  alert( this.firstName + &quot; &quot; + this.lastName );
+}
+
+var user = {
+  firstName: &quot;Василий&quot;,
+  lastName: &quot;Петров&quot;
+};
+
+// функция вызовется с this=user
+showFullName.call(user) // &quot;Василий Петров&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>После контекста в <code>call</code> можно передать аргументы для функции. Вот пример с более сложным вариантом <code>showFullName</code>, который конструирует ответ из указанных свойств объекта:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  firstName: &quot;Василий&quot;,
+  surname: &quot;Петров&quot;,
+  patronym: &quot;Иванович&quot;
+};
+
+function showFullName(firstPart, lastPart) {
+  alert( this[firstPart] + &quot; &quot; + this[lastPart] );
+}
+
+// f.call(контекст, аргумент1, аргумент2, ...)
+showFullName.call(user, 'firstName', 'surname') // &quot;Василий Петров&quot;
+showFullName.call(user, 'firstName', 'patronym') // &quot;Василий Иванович&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="одалживание-метода" href="#одалживание-метода">«Одалживание метода»</a></h2><p>При помощи <code>call</code> можно легко взять метод одного объекта, в том числе встроенного, и вызвать в контексте другого.</p>
+<p>Это называется «одалживание метода» (на англ. <em>method borrowing</em>).</p>
+<p><strong>Используем эту технику для упрощения манипуляций с <code>arguments</code>.</strong></p>
+<p>Как мы знаем, <code>arguments</code> не массив, а обычный объект, поэтому таких полезных методов как <code>push</code>, <code>pop</code>, <code>join</code> и других у него нет. Но иногда так хочется, чтобы были…</p>
+<p>Нет ничего проще! Давайте скопируем метод <code>join</code> из обычного массива:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function printArgs() {
+  arguments.join = [].join; // одолжили метод (1)
+
+  var argStr = arguments.join(':'); // (2)
+
+  alert( argStr ); // сработает и выведет 1:2:3
+}
+
+printArgs(1, 2, 3);</code></pre>
+        </div>
+      </div>
+      
+      </div><ol>
+<li>В строке <code>(1)</code> объявлен пустой массив <code>[]</code> и скопирован его метод <code>[].join</code>. Обратим внимание, мы не вызываем его, а просто копируем. Функция, в том числе встроенная – обычное значение, мы можем скопировать любое свойство любого объекта, и <code>[].join</code> здесь не исключение.</li>
+<li>В строке <code>(2)</code> запустили <code>join</code> в контексте <code>arguments</code>, как будто он всегда там был.</li>
+</ol>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Почему вызов сработает?</span></div>
+            <div class="important__content"><p>Здесь метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/join">join</a> массива скопирован и вызван в контексте <code>arguments</code>. Не произойдёт ли что-то плохое от того, что <code>arguments</code> – не массив? Почему он, вообще, сработал?</p>
+<p>Ответ на эти вопросы простой. В соответствии <a href="http://es5.github.com/x15.4.html#x15.4.4.5">со спецификацией</a>, внутри <code>join</code> реализован примерно так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function join(separator) {
+  if (!this.length) return '';
+
+  var str = this[0];
+
+  for (var i = 1; i &lt; this.length; i++) {
+    str += separator + this[i];
+  }
+
+  return str;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как видно, используется <code>this</code>, числовые индексы и свойство <code>length</code>. Если эти свойства есть, то все в порядке. А больше ничего и не нужно.</p>
+<p>В качестве <code>this</code> подойдёт даже обычный объект:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="7-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = { // обычный объект с числовыми индексами и length
+  0: &quot;А&quot;,
+  1: &quot;Б&quot;,
+  2: &quot;В&quot;,
+  length: 3
+};
+
+obj.join = [].join;
+alert( obj.join(';') ); // &quot;A;Б;В&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<p>…Однако, копирование метода из одного объекта в другой не всегда приемлемо!</p>
+<p>Представим на минуту, что вместо <code>arguments</code> у нас – произвольный объект. У него тоже есть числовые индексы, <code>length</code> и мы хотим вызвать в его контексте метод <code>[].join</code>. То есть, ситуация похожа на <code>arguments</code>, но (!) вполне возможно, что у объекта есть <em>свой</em> метод <code>join</code>.</p>
+<p>Поэтому копировать <code>[].join</code>, как сделано выше, нельзя: если он перезапишет собственный <code>join</code> объекта, то будет страшный бардак и путаница.</p>
+<p>Безопасно вызвать метод нам поможет <code>call</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function printArgs() {
+  var join = [].join; // скопируем ссылку на функцию в переменную
+
+  // вызовем join с this=arguments,
+  // этот вызов эквивалентен arguments.join(':') из примера выше
+  var argStr = join.call(arguments, ':');
+
+  alert( argStr ); // сработает и выведет 1:2:3
+}
+
+printArgs(1, 2, 3);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Мы вызвали метод без копирования. Чисто, безопасно.</p>
+<h2><a class="main__anchor" name="ещё-пример-slice-call-arguments" href="#ещё-пример-slice-call-arguments">Ещё пример: [].slice.call(arguments)</a></h2><p>В JavaScript есть очень простой способ сделать из <code>arguments</code> настоящий массив. Для этого возьмём метод массива: <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/slice">slice</a>.</p>
+<p>По стандарту вызов <code>arr.slice(start, end)</code> создаёт новый массив и копирует в него элементы массива <code>arr</code> от <code>start</code> до <code>end</code>. А если <code>start</code> и <code>end</code> не указаны, то копирует весь массив.</p>
+<p>Вызовем его в контексте <code>arguments</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function printArgs() {
+  // вызов arr.slice() скопирует все элементы из this в новый массив
+  var args = [].slice.call(arguments);
+  alert( args.join(', ') ); // args - полноценный массив из аргументов
+}
+
+printArgs('Привет', 'мой', 'мир'); // Привет, мой, мир</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как и в случае с <code>join</code>, такой вызов технически возможен потому, что <code>slice</code> для работы требует только нумерованные свойства и <code>length</code>. Всё это в <code>arguments</code> есть.</p>
+<h2><a class="main__anchor" name="метод-apply" href="#метод-apply">Метод apply</a></h2><p>Если нам неизвестно, с каким количеством аргументов понадобится вызвать функцию, можно использовать более мощный метод: <code>apply</code>.</p>
+<p><strong>Вызов функции при помощи <code>func.apply</code> работает аналогично <code>func.call</code>, но принимает массив аргументов вместо списка.</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">func.call(context, arg1, arg2);
+// идентичен вызову
+func.apply(context, [arg1, arg2]);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В частности, эти две строчки сработают одинаково:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">showFullName.call(user, 'firstName', 'surname');
+
+showFullName.apply(user, ['firstName', 'surname']);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Преимущество <code>apply</code> перед <code>call</code> отчётливо видно, когда мы формируем массив аргументов динамически.</p>
+<p>Например, в JavaScript есть встроенная функция <code>Math.max(a, b, c...)</code>, которая возвращает максимальное значение из аргументов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( Math.max(1, 5, 2) ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При помощи <code>apply</code> мы могли бы найти максимум в произвольном массиве, вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [];
+arr.push(1);
+arr.push(5);
+arr.push(2);
+
+// получить максимум из элементов arr
+alert( Math.max.apply(null, arr) ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере выше мы передали аргументы через массив – второй параметр <code>apply</code>… Но вы, наверное, заметили небольшую странность? В качестве контекста <code>this</code> был передан <code>null</code>.</p>
+<p>Строго говоря, полным эквивалентом вызову <code>Math.max(1,2,3)</code> был бы вызов <code>Math.max.apply(Math, [1,2,3])</code>. В обоих этих вызовах контекстом будет объект <code>Math</code>.</p>
+<p>Но в данном случае в качестве контекста можно передавать что угодно, поскольку в своей внутренней реализации метод <code>Math.max</code> не использует <code>this</code>. Действительно, зачем <code>this</code>, если нужно всего лишь выбрать максимальный из аргументов? Вот так, при помощи <code>apply</code> мы получили короткий и элегантный способ вычислить максимальное значение в массиве!</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Вызов <code>call/apply</code> с <code>null</code> или <code>undefined</code></span></div>
+            <div class="important__content"><p>В современном стандарте <code>call/apply</code> передают <code>this</code> «как есть». А в старом, без <code>use strict</code>, при указании первого аргумента <code>null</code> или <code>undefined</code> в <code>call/apply</code>, функция получает <code>this = window</code>, например:</p>
+<p>Современный стандарт:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function f() {
+  &quot;use strict&quot;;
+  alert( this ); // null
+}
+
+f.call(null);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Без <code>use strict</code>:</p>
+<div data-trusted="1" class="code-example" data-no-strict="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function f() {
+  alert( this ); // window
+}
+
+f.call(null);</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h2><a class="main__anchor" name="итого-про-this" href="#итого-про-this">Итого про this</a></h2><p>Значение <code>this</code> устанавливается в зависимости от того, как вызвана функция:</p>
+<ul>
+<li>
+<p>При вызове функции как метода:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">obj.func(...)    // this = obj
+obj[&quot;func&quot;](...)</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>При обычном вызове:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">func(...) // this = window (ES3) /undefined (ES5)</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>В <code>new</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">new func() // this = {} (новый объект)</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Явное указание:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">func.apply(context, args) // this = context (явная передача)
+func.call(context, arg1, arg2, ...)</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#перепишите-суммирование-аргументов" name="перепишите-суммирование-аргументов" class="main__anchor">Перепишите суммирование аргументов</a></h3><a href="task/rewrite-sum-arguments.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Есть функция <code>sum</code>, которая суммирует все элементы массива:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sum(arr) {
+  return arr.reduce(function(a, b) {
+    return a + b;
+  });
+}
+
+alert( sum([1, 2, 3]) ); // 6 (=1+2+3)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Создайте аналогичную функцию <code>sumArgs()</code>, которая будет суммировать все свои аргументы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumArgs() {
+  /* ваш код */
+}
+
+alert( sumArgs(1, 2, 3) ); // 6, аргументы переданы через запятую, без массива</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для решения примените метод <code>reduce</code> к <code>arguments</code>, используя <code>call</code>, <code>apply</code> или одалживание метода.</p>
+<p>P.S. Функция <code>sum</code> вам не понадобится, она приведена в качестве примера использования <code>reduce</code> для похожей задачи.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Первый вариант</button><div class="task__answer-content"><h4 class="task__step-title">Первый вариант</h4><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumArgs() {
+  // скопируем reduce из массива
+  arguments.reduce = [].reduce;
+  return arguments.reduce(function(a, b) {
+    return a + b;
+  });
+}
+
+alert( sumArgs(4, 5, 6) ); // 15</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div><div class="task__step"><button type="button" class="task__step-show">Второй вариант</button><div class="task__answer-content"><h4 class="task__step-title">Второй вариант</h4><p>Метод <code>call</code> здесь вполне подойдёт, так как требуется вызвать <code>reduce</code> в контексте <code>arguments</code> с одним аргументом.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sumArgs() {
+  // запустим reduce из массива напрямую
+  return [].reduce.call(arguments, function(a, b) {
+    return a + b;
+  });
+}
+
+alert( sumArgs(4, 5, 6) ); // 15</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#примените-функцию-к-аргументам" name="примените-функцию-к-аргументам" class="main__anchor">Примените функцию к аргументам</a></h3><a href="task/apply-function-skip-first-argument.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите функцию <code>applyAll(func, arg1, arg2...)</code>, которая получает функцию <code>func</code> и произвольное количество аргументов.</p>
+<p>Она должна вызвать <code>func(arg1, arg2...)</code>, то есть передать в <code>func</code> все аргументы, начиная со второго, и возвратить результат.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Применить Math.max к аргументам 2, -2, 3
+alert( applyAll(Math.max, 2, -2, 3) ); // 3
+
+// Применить Math.min к аргументам 2, -2, 3
+alert( applyAll(Math.min, 2, -2, 3) ); // -2</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Область применения <code>applyAll</code>, конечно, шире, можно вызывать её и со своими функциями:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="12-13">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sum() { // суммирует аргументы: sum(1,2,3) = 6
+  return [].reduce.call(arguments, function(a, b) {
+    return a + b;
+  });
+}
+
+function mul() { // перемножает аргументы: mul(2,3,4) = 24
+  return [].reduce.call(arguments, function(a, b) {
+    return a * b;
+  });
+}
+
+alert( applyAll(sum, 1, 2, 3) ); // -&gt; sum(1, 2, 3) = 6
+alert( applyAll(mul, 2, 3, 4) ); // -&gt; mul(2, 3, 4) = 24</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/PabBRPd6pxLwFkjnmZ9z?p=preview" target="_blank" data-plunk-id="PabBRPd6pxLwFkjnmZ9z">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-highlight-block="12-14">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sum() {
+  return [].reduce.call(arguments, function(a, b) {
+    return a + b;
+  });
+}
+
+function mul() {
+  return [].reduce.call(arguments, function(a, b) {
+    return a * b;
+  });
+}
+
+function applyAll(func) {
+    return func.apply(this, [].slice.call(arguments, 1));
+  }
+
+alert( applyAll(sum, 1, 2, 3) ); // 6
+alert( applyAll(mul, 2, 3, 4) ); // 24
+alert( applyAll(Math.max, 2, -2, 3) ); // 3
+alert( applyAll(Math.min, 2, -2, 3) ); // -2</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/MT732j0mqdf5VX5hBXCV?p=preview" target="_blank" data-plunk-id="MT732j0mqdf5VX5hBXCV">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="objects-more.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Методы объектов и контекст вызова</span></a></li></ol><h1 class="main__header-title">Статические и фабричные методы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Статические и фабричные методы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Методы и свойства, которые не привязаны к конкретному экземпляру объекта, называют «статическими». Их записывают прямо в саму функцию-конструктор.</p>
+<h2><a class="main__anchor" name="статические-свойства" href="#статические-свойства">Статические свойства</a></h2><p>В коде ниже используются статические свойства <code>Article.count</code> и <code>Article.DEFAULT_FORMAT</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Article() {
+  Article.count++;
+}
+
+Article.count = 0; // статическое свойство-переменная
+Article.DEFAULT_FORMAT = &quot;html&quot;; // статическое свойство-константа</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Они хранят данные, специфичные не для одного объекта, а для всех статей целиком.</p>
+<p>Как правило, это чаще константы, такие как формат «по умолчанию» <code>Article.DEFAULT_FORMAT</code>.</p>
+<h2><a class="main__anchor" name="статические-методы" href="#статические-методы">Статические методы</a></h2><p>С примерами статических методов мы уже знакомы: это встроенные методы <a href="http://javascript.ru/String.fromCharCode">String.fromCharCode</a>, <a href="http://javascript.ru/Date.parse">Date.parse</a>.</p>
+<p>Создадим для <code>Article</code> статический метод <code>Article.showCount()</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="8-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Article() {
+  Article.count++;
+
+  //...
+}
+Article.count = 0;
+
+Article.showCount = function() {
+  alert( this.count ); // (1)
+}
+
+// использование
+new Article();
+new Article();
+Article.showCount(); // (2)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь <code>Article.count</code> – статическое свойство, а <code>Article.showCount</code> – статический метод.</p>
+<p>Обратим внимание на использование <code>this</code> в примере выше. Несмотря на то, что переменная и метод – статические, он всё ещё полезен. В строке <code>(1)</code> он равен <code>Article</code>.</p>
+<h2><a class="main__anchor" name="пример-сравнение-объектов" href="#пример-сравнение-объектов">Пример: сравнение объектов</a></h2><p>Ещё один хороший способ применения – сравнение объектов.</p>
+<p>Например, у нас есть объект <code>Journal</code> для журналов. Журналы можно сравнивать – по толщине, по весу, по другим параметрам.</p>
+<p>Объявим «стандартную» функцию сравнения, которая будет сравнивать по дате издания. Эта функция сравнения, естественно, не привязана к конкретному журналу, но относится к журналам вообще.</p>
+<p>Поэтому зададим её как статический метод <code>Journal.compare</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Journal(date) {
+  this.date = date;
+  // ...
+}
+
+// возвращает значение, большее 0, если A больше B, иначе меньшее 0
+Journal.compare = function(journalA, journalB) {
+  return journalA.date - journalB.date;
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере ниже эта функция используется для поиска самого раннего журнала из массива:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="13-15,27-28">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Journal(date) {
+  this.date = date;
+
+  this.formatDate = function(date) {
+    return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+  };
+
+  this.getTitle = function() {
+    return &quot;Выпуск от &quot; + this.formatDate(this.date);
+  };
+
+}
+
+Journal.compare = function(journalA, journalB) {
+  return journalA.date - journalB.date;
+};
+
+// использование:
+var journals = [
+  new Journal(new Date(2012, 1, 1)),
+  new Journal(new Date(2012, 0, 1)),
+  new Journal(new Date(2011, 11, 1))
+];
+
+function findMin(journals) {
+  var min = 0;
+  for (var i = 0; i &lt; journals.length; i++) {
+    // используем статический метод
+    if (Journal.compare(journals[min], journals[i]) &gt; 0) min = i;
+  }
+  return journals[min];
+}
+
+alert( findMin(journals).getTitle() );</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Статический метод также можно использовать для функций, которые вообще не требуют наличия объекта.</strong></p>
+<p>Например, метод <code>formatDate(date)</code> можно сделать статическим. Он будет форматировать дату «как это принято в журналах», при этом его можно использовать в любом месте кода, не обязательно создавать журнал.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="7:7-35">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Journal() { /*...*/ }
+
+Journal.formatDate = function(date) {
+  return date.getDate() + '.' + (date.getMonth()+1) + '.' + date.getFullYear();
+}
+
+// ни одного объекта Journal нет, просто форматируем дату
+alert( Journal.formatDate(new Date) );</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="фабричные-методы" href="#фабричные-методы">Фабричные методы</a></h2><p>Рассмотрим ситуацию, когда объект нужно создавать различными способами. Например, это реализовано во встроенном объекте <a href="datetime.htm">Date</a>. Он по-разному обрабатывает аргументы разных типов:</p>
+<ul>
+<li><code>new Date()</code> – создаёт объект с текущей датой,</li>
+<li><code>new Date(milliseconds)</code> – создаёт дату по количеству миллисекунд <code>milliseconds</code>,</li>
+<li><code>new Date(year, month, day ...)</code> – создаёт дату по компонентам год, месяц, день…</li>
+<li><code>new Date(datestring)</code> – читает дату из строки <code>datestring</code></li>
+</ul>
+<p><strong>&quot;Фабричный статический метод&quot; – удобная альтернатива такому конструктору. Так называется статический метод, который служит для создания новых объектов (поэтому и называется «фабричным»).</strong></p>
+<p>Пример встроенного фабричного метода – <a href="http://javascript.ru/String.fromCharCode">String.fromCharCode(code)</a>. Этот метод создает строку из кода символа:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = String.fromCharCode(65);
+alert( str ); // 'A'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Но строки – слишком простой пример, посмотрим что-нибудь посложнее.</p>
+<p>Допустим, нам нужно создавать объекты <code>User</code>: анонимные <code>new User()</code> и с данными <code>new User({name: 'Вася', age: 25})</code>.</p>
+<p>Можно, конечно, создать полиморфную функцию-конструктор <code>User</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User(userData) {
+  if (userData) { // если указаны данные -- одна ветка if
+    this.name = userData.name;
+    this.age = userData.age;
+  } else { // если не указаны -- другая
+    this.name = 'Аноним';
+  }
+
+  this.sayHi = function() {
+    alert(this.name)
+  };
+  // ...
+}
+
+// Использование
+
+var guest = new User();
+guest.sayHi(); // Аноним
+
+var knownUser = new User({
+  name: 'Вася',
+  age: 25
+});
+knownUser.sayHi(); // Вася</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Подход с использованием фабричных методов был бы другим. Вместо разбора параметров в конструкторе – делаем два метода: <code>User.createAnonymous</code> и <code>User.createFromData</code>.</p>
+<p>Код:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="21-28">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User() {
+  this.sayHi = function() {
+    alert(this.name)
+  };
+}
+
+User.createAnonymous = function() {
+  var user = new User;
+  user.name = 'Аноним';
+  return user;
+}
+
+User.createFromData = function(userData) {
+  var user = new User;
+  user.name = userData.name;
+  user.age = userData.age;
+  return user;
+}
+
+// Использование
+
+var guest = User.createAnonymous();
+guest.sayHi(); // Аноним
+
+var knownUser = User.createFromData({
+  name: 'Вася',
+  age: 25
+});
+knownUser.sayHi(); // Вася</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Преимущества использования фабричных методов:</p>
+<div class="balance balance_single"><div class="balance__pluses"><div class="balance__content"><ul class="balance__list"><li>Лучшая читаемость кода. Как конструктора – вместо одной большой функции несколько маленьких, так и вызывающего кода – явно видно, что именно создаётся.</li>
+<li>Лучший контроль ошибок, т.к. если в <code>createFromData</code> ничего не передали, то будет ошибка, а полиморфный конструктор создал бы анонимного посетителя.</li>
+<li>Удобная расширяемость. Например, нужно добавить создание администратора, без аргументов. Фабричный метод сделать легко: <code>User.createAdmin = function() { ... }</code>. А для  полиморфного конструктора вызов без аргумента создаст анонима, так что нужно добавить параметр – «тип посетителя» и усложнить этим код.</li>
+</ul></div></div></div><p><strong>Поэтому полиморфные конструкторы лучше использовать там, где нужен именно полиморфизм</strong>, т.е. когда непонятно, какого типа аргумент передадут, и хочется в одном конструкторе охватить все варианты.</p>
+<p>А в остальных случаях отличная альтернатива – фабричные методы.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Статические свойства и методы объекта удобно применять в следующих случаях:</p>
+<ul>
+<li>Общие действия и подсчёты, имеющие отношения ко всем объектам данного типа. В примерах выше это подсчёт количества.</li>
+<li>Методы, не привязанные к конкретному объекту, например сравнение.</li>
+<li>Вспомогательные методы, которые полезны вне объекта, например для форматирования даты.</li>
+<li>Фабричные методы.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#счетчик-объектов" name="счетчик-объектов" class="main__anchor">Счетчик объектов</a></h3><a href="task/objects-counter.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Добавить в конструктор <code>Article</code>:</p>
+<ul>
+<li>Подсчёт общего количества созданных объектов.</li>
+<li>Запоминание даты последнего созданного объекта.</li>
+</ul>
+<p>Используйте для этого статические свойства.</p>
+<p>Пусть вызов <code>Article.showStats()</code> выводит то и другое.</p>
+<p>Использование:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Article() {
+  this.created = new Date();
+  // ... ваш код ...
+}
+
+new Article();
+new Article();
+
+Article.showStats(); // Всего: 2, Последняя: (дата)
+
+new Article();
+
+Article.showStats(); // Всего: 3, Последняя: (дата)</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/UX0L2PtRJByWosmw3JKe?p=preview" target="_blank" data-plunk-id="UX0L2PtRJByWosmw3JKe">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение (как вариант):</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Article() {
+  this.created = new Date();
+
+  Article.count++; // увеличиваем счетчик при каждом вызове
+  Article.last = this.created; // и запоминаем дату
+}
+Article.count = 0; // начальное значение
+// (нельзя оставить undefined, т.к. Article.count++ будет NaN)
+
+Article.showStats = function() {
+  alert( 'Всего: ' + this.count + ', Последняя: ' + this.last );
+};
+
+new Article();
+new Article();
+
+Article.showStats(); // Всего: 2, Последняя: (дата)
+
+new Article();
+
+Article.showStats(); // Всего: 3, Последняя: (дата)</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/8MH3ef3VlF6g6h0zjkpf?p=preview" target="_blank" data-plunk-id="8MH3ef3VlF6g6h0zjkpf">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

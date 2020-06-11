@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="extra.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">О всякой всячине</span></a></li></ol><h1 class="main__header-title">Позднее связывание &quot;bindLate&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Позднее связывание &quot;bindLate&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Обычный метод <code>bind</code> называется «ранним связыванием», поскольку фиксирует привязку сразу же.</p>
+<p>Как только значения привязаны – они уже не могут быть изменены. В том числе, если метод объекта, который привязали, кто-то переопределит – «привязанная» функция этого не заметит.</p>
+<p>Позднее связывание – более гибкое, оно позволяет переопределить привязанный метод когда угодно.</p>
+<h2><a class="main__anchor" name="раннее-связывание" href="#раннее-связывание">Раннее связывание</a></h2><p>Например, попытаемся переопределить метод при раннем связывании:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="11-11" data-highlight-inline="17:16-33">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function bind(func, context) {
+  return function() {
+    return func.apply(context, arguments);
+  };
+}
+
+var user = {
+  sayHi: function() { alert('Привет!'); }
+}
+
+// привязали метод к объекту
+var userSayHi = bind(user.sayHi, user);
+
+// понадобилось переопределить метод
+user.sayHi = function() { alert('Новый метод!'); }
+
+// будет вызван старый метод, а хотелось бы - новый!
+userSayHi(); // выведет &quot;Привет!&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Привязка всё ещё работает со старым методом, несмотря на то что он был переопределён.</p>
+<h2><a class="main__anchor" name="позднее-связывание" href="#позднее-связывание">Позднее связывание</a></h2><p>При позднем связывании <code>bind</code> вызовет не ту функцию, которая была в <code>sayHi</code> на момент привязки, а ту, которая есть на момент вызова.**</p>
+<p>Встроенного метода для этого нет, поэтому нужно реализовать.</p>
+<p>Синтаксис будет таков:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var func = bindLate(obj, &quot;method&quot;);</code></pre>
+        </div>
+      </div>
+      
+      </div><dl>
+<dt><code>obj</code></dt>
+<dd>Объект</dd>
+<dt><code>method</code></dt>
+<dd>Название метода (строка)</dd>
+</dl>
+<p>Код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function bindLate(context, funcName) {
+  return function() {
+    return context[funcName].apply(context, arguments);
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Этот вызов похож на обычный <code>bind</code>, один из вариантов которого как раз и выглядит как <code>bind(obj, &quot;method&quot;)</code>, но работает по-другому.</p>
+<p><strong>Поиск метода в объекте: <code>context[funcName]</code>, осуществляется при вызове, самой обёрткой</strong>.</p>
+<p><strong>Поэтому, если метод переопределили – будет использован всегда последний вариант.</strong></p>
+<p>В частности, пример, рассмотренный выше, станет работать правильно:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-10" data-highlight-inline="14:16-29">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function bindLate(context, funcName) {
+  return function() {
+    return context[funcName].apply(context, arguments);
+  };
+}
+
+var user = {
+  sayHi: function() { alert('Привет!'); }
+}
+
+var userSayHi = bindLate(user, 'sayHi');
+
+user.sayHi = function() { alert('Здравствуйте!'); }
+
+userSayHi(); // Здравствуйте!</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="привязка-метода-которого-нет" href="#привязка-метода-которого-нет">Привязка метода, которого нет</a></h2><p>Позднее связывание позволяет привязать к объекту даже метод, которого ещё нет!</p>
+<p>Конечно, предполагается, что к моменту вызова он уже будет определён ;).</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-10" data-highlight-inline="6:3-13,9:3-25,15:32-39">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function bindLate(context, funcName) {
+  return function() {
+    return context[funcName].apply(context, arguments);
+  };
+}
+
+// метода нет
+var user = {  };
+
+// ..а привязка возможна!
+var userSayHi = bindLate(user, 'sayHi');
+
+// по ходу выполнения добавили метод..
+user.sayHi = function() { alert('Привет!'); }
+
+userSayHi(); // Метод работает: Привет!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В некотором смысле, позднее связывание всегда лучше, чем раннее. Оно удобнее и надежнее, так как всегда вызывает нужный метод, который в объекте сейчас.</p>
+<p>Но оно влечет и небольшие накладные расходы – поиск метода при каждом вызове.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p><em>Позднее связывание</em> ищет функцию в объекте в момент вызова.</p>
+<p>Оно используется для привязки в тех случаях, когда метод <em>может быть переопределён</em> после привязки или <em>на момент привязки не существует</em>.</p>
+<p>Обёртка для позднего связывания (без карринга):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function bindLate(context, funcName) {
+  return function() {
+    return context[funcName].apply(context, arguments);
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="functions-closures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Замыкания, область видимости</span></a></li></ol><h1 class="main__header-title">Глобальный объект</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Глобальный объект"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Механизм работы функций и переменных в JavaScript очень отличается от большинства языков.</p>
+<p>Чтобы его понять, мы в этой главе рассмотрим переменные и функции в глобальной области. А в следующей – пойдём дальше.</p>
+<h2><a class="main__anchor" name="глобальный-объект" href="#глобальный-объект">Глобальный объект</a></h2><p><em>Глобальными</em> называют переменные и функции, которые не находятся внутри какой-то функции. То есть, иными словами, если переменная или функция не находятся внутри конструкции <code>function</code>, то они – «глобальные».</p>
+<p><strong>В JavaScript все глобальные переменные и функции являются свойствами специального объекта, который называется <em>«глобальный объект»</em> (<code>global object</code>).</strong></p>
+<p>В браузере этот объект явно доступен под именем <code>window</code>. Объект <code>window</code> одновременно является глобальным объектом и содержит ряд свойств и методов для работы с окном браузера, но нас здесь интересует только его роль как глобального объекта.</p>
+<p>В других окружениях, например Node.JS, глобальный объект может быть недоступен в явном виде, но суть происходящего от этого не изменяется, поэтому далее для обозначения глобального объекта мы будем использовать <code>&quot;window&quot;</code>.</p>
+<p><strong>Присваивая или читая глобальную переменную, мы, фактически, работаем со свойствами <code>window</code>.</strong></p>
+<p>Например:</p>
+<div data-trusted="0" class="code-example" data-no-strict="1" data-refresh="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 5; // объявление var создаёт свойство window.a
+alert( window.a ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Создать переменную можно и явным присваиванием в <code>window</code>:</p>
+<div data-trusted="0" class="code-example" data-refresh="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">window.a = 5;
+alert( a ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="порядок-инициализации" href="#порядок-инициализации">Порядок инициализации</a></h2><p>Выполнение скрипта происходит в две фазы:</p>
+<ol>
+<li>
+<p>На первой фазе происходит инициализация, подготовка к запуску.</p>
+<p>Во время инициализации скрипт сканируется на предмет объявления функций вида <a href="function-declaration-expression.htm">Function Declaration</a>, а затем – на предмет объявления переменных <code>var</code>. Каждое такое объявление добавляется в <code>window</code>.</p>
+<p><strong>Функции, объявленные как Function Declaration, создаются сразу работающими, а переменные – равными <code>undefined</code>.</strong></p>
+</li>
+<li>
+<p>На второй фазе – собственно, выполнение.</p>
+<p>Присваивание (<code>=</code>) значений переменных происходит, когда поток выполнения доходит до соответствующей строчки кода, до этого они <code>undefined</code>.</p>
+</li>
+</ol>
+<p>В коде ниже указано содержание глобального объекта на момент инициализации и далее последовательно по коду:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="4:27-31,10:36-44">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// На момент инициализации, до выполнения кода:
+// window = { f: function, a: undefined, g: undefined }
+
+var a = 5;
+// window = { f: function, a: 5, g: undefined }
+
+function f(arg) { /*...*/ }
+// window = { f: function, a: 5, g: undefined } без изменений, f обработана ранее
+
+var g = function(arg) { /*...*/ };
+// window = { f: function, a: 5, g: function }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кстати, тот факт, что к началу выполнения кода переменные и функции <em>уже</em> содержатся в <code>window</code>, можно легко проверить, выведя их:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-inline="0:25-29,1:19-28,2:13-25,3:13-22">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert(&quot;a&quot; in window); // true,  т.к. есть свойство window.a
+alert(a); // равно undefined,  присваивание будет выполнено далее
+alert(f); // function ...,  готовая к выполнению функция
+alert(g); // undefined, т.к. это переменная, а не Function Declaration
+
+var a = 5;
+function f() { /*...*/ }
+var g = function() { /*...*/ };</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Присвоение переменной без объявления</span></div>
+            <div class="important__content"><p>В старом стандарте JavaScript переменную можно было создать и без объявления <code>var</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">a = 5;
+
+alert( a ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такое присвоение, как и <code>var a = 5</code>, создает свойство <code>window.a = 5</code>. Отличие от <code>var a = 5</code> – в том, что переменная будет создана не на этапе входа в область видимости, а в момент присвоения.</p>
+<p>Сравните два кода ниже.</p>
+<p>Первый выведет <code>undefined</code>, так как переменная была добавлена в <code>window</code> на фазе инициализации:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="0-0">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( a ); // undefined
+
+var a = 5;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Второй код выведет ошибку, так как переменной ещё не существует:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="0-0">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( a ); // error, a is not defined
+
+a = 5;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это, конечно, для общего понимания, мы всегда объявляем переменные через <code>var</code>.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Конструкции <code>for, if...</code> не влияют на видимость переменных</span></div>
+            <div class="important__content"><p>Фигурные скобки, которые используются в <code>for, while, if</code>, в отличие от объявлений функции, имеют «декоративный» характер.</p>
+<p>В JavaScript нет разницы между объявлением вне блока:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:0-3">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i;
+{
+  i = 5;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…И внутри него:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="2:2-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">i = 5;
+{
+  var i;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Также нет разницы между объявлением в цикле и вне его:</strong></p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-inline="0:5-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 5; i++) { }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Идентичный по функциональности код:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-inline="0:0-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i;
+for (i = 0; i &lt; 5; i++) { }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В обоих случаях переменная будет создана до выполнения цикла, на стадии инициализации, и ее значение будет сохранено после окончания цикла.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Не важно, где и сколько раз объявлена переменная</span></div>
+            <div class="important__content"><p>Объявлений <code>var</code> может быть сколько угодно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 10;
+
+for (var i = 0; i &lt; 20; i++) {
+  ...
+}
+
+var i = 5;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Все <code>var</code> будут обработаны один раз, на фазе инициализации.</strong></p>
+<p>На фазе исполнения объявления <code>var</code> будут проигнорированы: они уже были обработаны. Зато будут выполнены присваивания.</p>
+</div></div>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Ошибки при работе с <code>window</code> в IE8-</span></div>
+            <div class="important__content"><p>В старых IE есть две забавные ошибки при работе с переменными в <code>window</code>:</p>
+<ol>
+<li>
+<p>Переопределение переменной, у которой такое же имя, как и <code>id</code> элемента, приведет к ошибке:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div id=&quot;a&quot;&gt;...&lt;/div&gt;
+&lt;script&gt;
+  a = 5; // ошибка в IE8-! Правильно будет &quot;var a = 5&quot;
+  alert( a ); // никогда не сработает
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>А если сделать через <code>var</code>, то всё будет хорошо.</p>
+<p>Это была реклама того, что надо везде ставить <code>var</code>.</p>
+</li>
+<li>
+<p>Ошибка при рекурсии через функцию-свойство <code>window</code>. Следующий код «умрет» в IE8-:</p>
+<div data-trusted="1" class="code-example" data-demo-height="0">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  // рекурсия через функцию, явно записанную в window
+  window.recurse = function(times) {
+    if (times !== 0) recurse(times - 1);
+  }
+
+  recurse(13);
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Проблема здесь возникает из-за того, что функция напрямую присвоена в <code>window.recurse = ...</code>. Ее не будет при обычном объявлении функции.</p>
+<p><strong>Этот пример выдаст ошибку только в настоящем IE8!</strong> Не IE9 в режиме эмуляции. Вообще, режим эмуляции позволяет отлавливать где-то 95% несовместимостей и проблем, а для оставшихся 5% вам нужен будет настоящий IE8 в виртуальной машине.</p>
+</li>
+</ol>
+</div></div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>В результате инициализации, к началу выполнения кода:</p>
+<ol>
+<li>Функции, объявленные как <code>Function Declaration</code>, создаются полностью и готовы к использованию.</li>
+<li>Переменные объявлены, но равны <code>undefined</code>. Присваивания выполнятся позже, когда выполнение дойдет до них.</li>
+</ol>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#window-и-переменная" name="window-и-переменная" class="main__anchor">Window и переменная</a></h3><a href="task/window-and-variable.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Каков будет результат кода?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;a&quot; in window) {
+  var a = 1;
+}
+alert( a );</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответ: <code>1</code>.</p>
+<div data-trusted="0" class="code-example" data-no-strict="1" data-refresh="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;a&quot; in window) {
+  var a = 1;
+}
+alert( a );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Посмотрим, почему.</p>
+<p>На стадии подготовки к выполнению, из <code>var a</code> создается <code>window.a</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// window = {a:undefined}
+
+if (&quot;a&quot; in window) { // в if видно что window.a уже есть
+  var a = 1; // поэтому эта строка сработает
+}
+alert( a );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В результате <code>a</code> становится <code>1</code>.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#window-и-переменная-2" name="window-и-переменная-2" class="main__anchor">Window и переменная 2</a></h3><a href="task/window-and-variable-2.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Каков будет результат (перед <code>a</code> нет <code>var</code>)?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;a&quot; in window) {
+  a = 1;
+}
+alert( a );</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответ: <strong>ошибка</strong>.</p>
+<p>Переменной <code>a</code> нет, так что условие <code>&quot;a&quot; in window</code> не выполнится. В результате на последней строчке – обращение к неопределенной переменной.</p>
+<div data-trusted="0" class="code-example" data-refresh="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;a&quot; in window) {
+  a = 1;
+}
+alert( a ); // &lt;-- error!</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#window-и-переменная-3" name="window-и-переменная-3" class="main__anchor">Window и переменная 3</a></h3><a href="task/window-and-variable-3.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Каков будет результат (перед <code>a</code> нет <code>var</code>, а ниже есть)?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;a&quot; in window) {
+  a = 1;
+}
+var a;
+
+alert( a );</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответ: <code>1</code>.</p>
+<p>Переменная <code>a</code> создается до начала выполнения кода, так что условие <code>&quot;a&quot; in window</code> выполнится и сработает <code>a = 1</code>.</p>
+<div data-trusted="0" class="code-example" data-no-strict="1" data-refresh="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;a&quot; in window) {
+  a = 1;
+}
+var a;
+
+alert( a ); // 1</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

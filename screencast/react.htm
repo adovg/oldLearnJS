@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main-headered "><div class="content"><div class="screencast-header screencast-header_style_react"><p class="screencast-header__top">Скринкаст</p><h1 class="screencast-header__title">Основы<strong class="screencast-header__title-accent">React.js</strong></h1><div class="share-icons"><span class="share-icons__title">Поделиться</span><a href="https://twitter.com/share?url=https%3A%2F%2Flearn.javascript.ru%2Fscreencast%2Freact" class="share share_tw"></a><a href="https://www.facebook.com/sharer/sharer.php?s=100&p%5Burl%5D=https%3A%2F%2Flearn.javascript.ru%2Fscreencast%2Freact" class="share share_fb"></a><a href="https://plus.google.com/share?url=https%3A%2F%2Flearn.javascript.ru%2Fscreencast%2Freact" class="share share_gp"></a><a href="https://vkontakte.ru/share.php?url=https%3A%2F%2Flearn.javascript.ru%2Fscreencast%2Freact" class="share share_vk"></a></div><a href="../courses/default.htm" class="screencast-header__tag">Не прозевайте<br>курсы по <strong>React.js!</strong></a></div><div class="main main_width-limit-wide screencast-content"><p><a href="https://reactjs.org/">React.js</a> – одна из самых популярных библиотек для создания сложных Frontend-приложений.</p>
+<p>Однако, успешная разработка на нём требует хорошего понимания концепций, на которых он построен.</p>
+<p>В этом скринкасте мы:</p>
+<ul>
+<li>Познакомимся с основными понятиями и внутренним устройством React.js.</li>
+<li>Разберёмся с тем, как создавать компоненты на React.js.</li>
+<li>Разберём ряд подводных камней, на которые часто наступают начинающие React-разработчики.</li>
+</ul>
+<p>Одна из главных особенностей React.js – свобода действий, существует огромное количество подходов к построению приложений с его помощью (redux, mobx и другие).</p>
+<p>Они не являются частью собственно React.js, а представляют собой архитектурные надстройки и также постоянно развиваются. Мы осваиваем их на
+<a href="../courses/react/default.htm">Основном</a> и <a href="../courses/advreact/default.htm">Продвинутом</a> онлайн-курсах по React.JS.</p>
+<h2>Выпуски скринкаста</h2>
+<div class="lessons-list lessons-list_screencast">
+<ol class="lessons-list__lessons">
+<li class="lessons-list__lesson" data-mnemo="01-components"><a href="#" data-video-id="ol4OVMJZC1w">Введение, компонентный подход</a></li>
+<li class="lessons-list__lesson" data-mnemo="02-environment"><a href="#" data-video-id="2op_HAh1j3I">Настройка окружения, create-react-app</a></li>
+<li class="lessons-list__lesson" data-mnemo="03-jsx"><a href="#" data-video-id="CqkiEayFzpY">JSX - синтаксис для разметки в React.js</a></li>
+<li class="lessons-list__lesson" data-mnemo="04-data-for-component"><a href="#" data-video-id="Os_cEPPewxA">React-компонент, передача данных</a></li>
+<li class="lessons-list__lesson" data-mnemo="05-state"><a href="#" data-video-id="UNEp4uXY9TA">Интерактивность, состояние компонентов</a></li>
+<li class="lessons-list__lesson" data-mnemo="06-virtual-DOM"><a href="#" data-video-id="gb-93KcTRFo">Virtual DOM - основной алгоритм React.js</a></li>
+<li class="lessons-list__lesson" data-mnemo="07-lists"><a href="#" data-video-id="tn9HyYRVZ9A">Отображение массивов, смысл аттрибута key</a></li>
+<li class="lessons-list__lesson" data-mnemo="08-css"><a href="#" data-video-id="xAO--NOX3PY">Оформление компонентов, работа с CSS</a></li>
+<li class="lessons-list__lesson" data-mnemo="09-lifecycle"><a href="#" data-video-id="i2NE0cbuQa4">Жизненный цикл React-компонентов</a></li>
+<li class="lessons-list__lesson" data-mnemo="10-optimization-shouldComponentUpdate"><a href="#" data-video-id="Jw1zocLDnnc">Оптимизация приложений, shouldComponentUpdate</a></li>
+<li class="lessons-list__lesson" data-mnemo="11-debugging-react-apps"><a href="#" data-video-id="NhT5nMvve4Q">Отладка React-приложений</a></li>
+<li class="lessons-list__lesson" data-mnemo="12-reverse-dataflow-and-state-lifting"><a href="#" data-video-id="qdaDgC_xU0w">Обратный поток данных, подъём состояния</a></li>
+</ol>
+</div>
+<p>Автор этого скринкаста – <a href="../profile/roman-iakobchuk/default.htm">Роман Якобчук</a>, с небольшой помощью в плане организации материала от <a href="../profile/ilyakantor.htm">Ильи Кантора</a>.</p>
+<h2>Код</h2>
+<p>Код к большинству выпусков находится в здесь: <a href="https://github.com/javascriptru/react-screencast-code">https://github.com/javascriptru/react-screencast-code</a>.</p>
+<p>Вы также можете скачать все скринкаста в виде <a href="http://learn.javascript.ru/screencast/react/mp4.zip">архива с видео-файлами</a>.</p>
+<div class="subscribe subscribe_fancy"><h3 class="subscribe__title">Следите за обновлениями javascript.ru</h3><form method="POST" action="/newsletter/subscribe" data-newsletter-subscribe-form="newsletters-all" class="subscribe__form"><input type="hidden" name="_csrf"/><input type="hidden" name="replace" value="1"/><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="js" class="subscribe__input"> Курс JavaScript/DOM/интерфейсы</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="nodejs" class="subscribe__input"> Курс по Node.JS</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="angular" class="subscribe__input"> Курс по Angular</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="angularpro" class="subscribe__input"> &quot;Продвинутый&quot; курс по Angular</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="react" class="subscribe__input"> Курс по React.JS</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="advreact" class="subscribe__input"> &quot;Продвинутый&quot; курс по React.JS, включая React Native, Redux, MobX</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="typescript" class="subscribe__input"> Курс по TypeScript</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="vue" class="subscribe__input"> Курс по Vue.JS</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="testing" class="subscribe__input"> Курс по Frontend-тестированию</label></div><div class="subscribe__line"><label class="subscribe__name"><input type="checkbox" name="slug" value="advanced" class="subscribe__input"> Новые курсы, мастер-классы, выпуски статей и скринкастов</label></div><div class="subscribe__line subscribe__line_email"><div class="text-input-button"><div class="text-input-button__input"><div class="text-input"><input type="email" placeholder="Ваш e-mail" name="email" required class="text-input__control"></div></div><div class="text-input-button__button"><button type="submit" class="button button_action"><span class="button__text">Подписаться</span></button></div></div></div></form></div><div id="comments" class="comments"><div class="comments__header"><h2 class="comments__header-title"><a href="#comments" name="comments">Комментарии</a></h2><div class="comments__read-before"><span class="comments__read-before-link">перед тем как писать…</span><div class="comments__read-before-popup"><div class="comments__read-before-popup-i"><ul><li>Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.</li><li>Для одной строки кода используйте тег <code>&lt;code&gt;</code>, для нескольких строк кода&nbsp;&mdash; тег <code>&lt;pre&gt;</code>, если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href='http://plnkr.co/edit/?p=preview'>plnkr</a>, <a href='http://jsbin.com/'>JSBin</a>, <a href='http://codepen.io/'>codepen</a>…)</li><li>Если что-то непонятно в статье&nbsp;&mdash; пишите, что именно и с какого места.</li></ul></div></div></div></div></div><div id="disqus_thread"></div><script>var disqus_config = function() { if (!this.page) this.page = {}; Object.assign(this.page, {"url":"../../https@learn.javascript.ru\screencast\react\default.htm","identifier":"\/screencast\/react"}); };</script><script>var disqus_shortname = "learnjavascriptru";</script><script>var disqus_enabled = true;</script></div></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

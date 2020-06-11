@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="optimize.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Оптимизация</span></a></li></ol><h1 class="main__header-title">Очистка памяти при removeChild/innerHTML</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Очистка памяти при removeChild/innerHTML"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Управление памятью в случае с DOM работает по сути так же, как и с обычными JavaScript-объектами. Пока объект достижим – он остаётся в памяти.</p>
+<p>Но есть и особенности, поскольку DOM весь переплетён ссылками.</p>
+<h2><a class="main__anchor" name="пример" href="#пример">Пример</a></h2><p>Для примера рассмотрим следующий HTML:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;html&gt;
+
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Список&lt;/li&gt;
+    &lt;/ul&gt;
+    Сосед
+  &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Его DOM (показаны только основные ссылки):</p>
+<figure><div class="image" style="width:314px">
+      <div class="image__ratio" style="padding-top:98.08917197452229%"></div>
+      <img src="article/memory-removechild-innerhtml/html.png" alt="" width="314" height="308" class="image__image">
+      </div></figure><h2><a class="main__anchor" name="удаление-removechild" href="#удаление-removechild">Удаление removeChild</a></h2><p>Операция <code>removeChild</code> разрывает все связи между удаляемым узлом и его родителем.</p>
+<p>Поэтому, если удалить <code>DIV</code> из <code>BODY</code>, то всё поддерево под <code>DIV</code> станет недостижимым и будет удалено.</p>
+<p>А что происходит, если на какой-то элемент внутри удаляемого поддерева есть ссылка?</p>
+<p>Например, <code>UL</code> сохранён в переменную <code>list</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var list = document.getElementsByTagName('UL')[0];
+document.body.removeChild(document.body.children[0]);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом случае, так как из этого <code>UL</code> можно по ссылкам добраться до любого другого места DOM, то получается, что все объекты по-прежнему достижимы и должны остаться в памяти:</p>
+<figure><div class="image" style="width:367px">
+      <div class="image__ratio" style="padding-top:83.92370572207084%"></div>
+      <img src="article/memory-removechild-innerhtml/html-list.png" alt="" width="367" height="308" class="image__image">
+      </div></figure><p>То есть, DOM-объекты при использовании <code>removeChild</code> работают по той же логике, что и обычные объекты.</p>
+<h2><a class="main__anchor" name="удаление-через-innerhtml" href="#удаление-через-innerhtml">Удаление через innerHTML</a></h2><p>А вот удаление через очистку <code>elem.innerHTML=&quot;...&quot;</code> браузеры интерпретируют по-разному.</p>
+<p>По идее, при присвоении <code>elem.innerHTML=html</code> из DOM должны удаляться предыдущие узлы и добавляться новые,  из указанного <code>html</code>. Но стандарт ничего не говорит о том, что делать с узлами после удаления. И тут разные браузеры имеют разное мнение.</p>
+<p>Посмотрим, что произойдёт с DOM-структурой при очистке <code>BODY</code>, если на какой-либо элемент есть ссылка.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var list = document.getElementsByTagName('UL')[0];
+document.body.innerHTML = &quot;&quot;;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обращаю внимание – связь разрывается только между <code>DIV</code> и <code>BODY</code>, т.е. на верхнем уровне, а <code>list</code> – это произвольный элемент.</p>
+<p>Чтобы увидеть, что останется в памяти, а что нет – запустим код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Список&lt;/li&gt;
+  &lt;/ul&gt;
+  Сосед
+&lt;/div&gt;
+
+&lt;script&gt;
+  var list = document.getElementsByTagName('ul')[0];
+  document.body.innerHTML = ''; // удалили DIV
+
+  alert( list.parentNode ); // цела ли ссылка UL -&gt; DIV ?
+  alert( list.nextSibling ); // живы ли соседи UL ?
+  alert( list.children.length ); // живы ли потомки UL ?
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как ни странно, браузеры ведут себя по-разному:</p>
+<table>
+<thead>
+<tr><th></th>
+<th><code>parentNode</code></th>
+<th><code>nextSibling</code></th>
+<th><code>children.length</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chrome/Safari/Opera</td>
+<td><code>null</code></td>
+<td><code>null</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>Firefox</td>
+<td>узел DOM</td>
+<td>узел DOM</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>IE 11-</td>
+<td><code>null</code></td>
+<td><code>null</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Иными словами, браузеры ведут себя с различной степенью агрессивности по отношению к элементам.</p>
+<dl>
+<dt>Firefox</dt>
+<dd>Главный пацифист. Оставляет всё, на что есть ссылки, т.е. элемент, его родителя, соседей и детей, в точности как при <code>removeChild</code>.</dd>
+<dt>Chrome/Safari/Opera</dt>
+<dd>Считают, что раз мы задали ссылку на <code>UL</code>, то нам нужно только это поддерево, а остальные узлы (соседей, родителей) можно удалить.</dd>
+<dt>Internet Explorer</dt>
+<dd>Как ни странно, самый агрессивный. Удаляет вообще всё, кроме узла, на который есть ссылка. Это поведение одинаково для всех версий IE.</dd>
+</dl>
+<p>На иллюстрации ниже показано, какую часть DOM оставит каждый из браузеров:
+<img src="article/memory-removechild-innerhtml/html-innerhtml.png" alt="" width="415" height="325"></p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Если на какой-то DOM-узел есть ссылка, то:</p>
+<ul>
+<li>
+<p>При использовании <code>removeChild</code> на родителе (или на этом узле, не важно) все узлы, достижимые из данного, остаются в памяти.</p>
+<p>То есть, фактически, в памяти может остаться большая часть дерева DOM. Это даёт наибольшую свободу в коде, но может привести к большим «утечкам памяти» из-за сохранения данных, которые реально не нужны.</p>
+</li>
+<li>
+<p>При удалении через <code>innerHTML</code> браузеры ведут себя с различной степенью агрессивности. Кросс-браузерно гарантировано одно: сам узел, на который есть ссылка, останется в памяти.</p>
+<p>Поэтому обращаться к соседям и детям узла, предок которого удалён через присвоение <code>innerHTML</code>, нельзя.</p>
+</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="widgets.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Создание графических компонентов</span></a></li></ol><h1 class="main__header-title">Коллбэки и события на компонентах</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Коллбэки и события на компонентах"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Компоненты, хоть и каждый сам по себе, обычно как-то общаются с остальной частью страницы</p>
+<p>Есть несколько способов, при помощи которых компоненты сообщают друг другу о важных событиях, которые в них произошли.</p>
+<h2><a class="main__anchor" name="коллбэки" href="#коллбэки">Коллбэки</a></h2><p>Коллбэк (от англ. callback) – это функция, которую мы передаём куда-либо и ожидаем, что она будет вызвана при наступлении события.</p>
+<p>Например, мы можем добавить в <code>options</code> для <code>Menu</code> новый параметр – функцию <code>onselect</code>, которая будет вызываться при выборе пункта меню:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="9-9,12-14">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var menu = new Menu({
+  title: &quot;Сладости&quot;,
+  template: _.template(document.getElementById('menu-template').innerHTML),
+  listTemplate: _.template(document.getElementById('menu-list-template').innerHTML,
+  items: {
+    &quot;donut&quot;: &quot;Пончик&quot;,
+    &quot;cake&quot;: &quot;Пирожное&quot;,
+    &quot;chocolate&quot;: &quot;Шоколадка&quot;
+  },
+  onselect: showSelected
+});
+
+function showSelected(href) {
+  alert(href);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В коде меню нужно будет вызывать её, например так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">...
+  function select(link) {
+    options.onselect(link.getAttribute('href').slice(1));
+    ...
+  }
+...</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Полный пример:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">menu.js</div><div class="code-tabs__switch">menu.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/custom-events/menu-callback/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/r2PNj2QUrCgMXakiCqyQ?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:180px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/custom-events/menu-callback/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>function Menu(options) {
+  var elem;
+
+  function getElem() {
+    if (!elem) render();
+    return elem;
+  }
+
+  function render() {
+    var html = options.template({
+      title: options.title
+    });
+
+    elem = document.createElement('div');
+    elem.innerHTML = html;
+    elem = elem.firstElementChild;
+
+    elem.onmousedown = function() {
+      return false;
+    }
+
+    elem.onclick = function(event) {
+      if (event.target.closest('.title')) {
+        toggle();
+      }
+
+      if (event.target.closest('a')) {
+        event.preventDefault();
+        select(event.target.closest('a'));
+      }
+
+    }
+  }
+
+  function renderItems() {
+    if (elem.querySelector('ul')) return;
+
+    var listHtml = options.listTemplate({
+      items: options.items
+    });
+    elem.insertAdjacentHTML(&quot;beforeEnd&quot;, listHtml);
+  }
+
+  function select(link) {
+    options.onselect(link.getAttribute('href').slice(1));
+  }
+
+  function open() {
+    renderItems();
+    elem.classList.add('open');
+  };
+
+  function close() {
+    elem.classList.remove('open');
+  };
+
+  function toggle() {
+    if (elem.classList.contains('open')) close();
+    else open();
+  };
+
+  this.getElem = getElem;
+  this.toggle = toggle;
+  this.close = close;
+  this.open = open;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>.menu ul {
+  display: none;
+  margin: 0;
+}
+
+.menu .title {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menu .title:before {
+  content: '▶';
+  padding-right: 6px;
+  color: green;
+}
+
+.menu.open ul {
+  display: block;
+}
+
+.menu.open .title:before {
+  content: '▼';
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;menu.css&quot;&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdn.polyfill.io/v1/polyfill.js?features=Element.prototype.closest&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;menu.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;script type=&quot;text/template&quot; id=&quot;menu-template&quot;&gt;
+    &lt;div class=&quot;menu&quot;&gt;
+      &lt;span class=&quot;title&quot;&gt;&lt;%-title%&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/script&gt;
+
+  &lt;!--
+встроенная браузерная функция encodeURIComponent кодирует спец-символы для URL,
+например русские буквы и пробелы
+в этом примере русских букв в ключах items нет, но потенциально они возможны
+--&gt;
+  &lt;script type=&quot;text/template&quot; id=&quot;menu-list-template&quot;&gt;
+    &lt;ul&gt;
+      &lt;% for(var name in items) { %&gt;
+        &lt;li&gt;
+          &lt;a href=&quot;#&lt;%=encodeURIComponent(name)%&gt;&quot;&gt;
+            &lt;%-items[name]%&gt;
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;% } %&gt;
+    &lt;/ul&gt;
+  &lt;/script&gt;
+
+  &lt;script&gt;
+    var menu = new Menu({
+      title: &quot;Сладости&quot;,
+      template: _.template(document.getElementById('menu-template').innerHTML.trim()),
+      listTemplate: _.template(document.getElementById('menu-list-template').innerHTML.trim()),
+      items: {
+        cake: &quot;Торт&quot;, // cake  &lt;a href=&quot;#cake&quot;&gt;Торт&lt;/a&gt;
+        donut: &quot;Пончик&quot;, // donut
+        chocolate: &quot;Шоколадка&quot; // chocolate
+      },
+      onselect: showSelected
+    });
+
+    function showSelected(itemName) {
+      alert(itemName);
+    }
+
+    document.body.appendChild(menu.getElem());
+  &lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><h2><a class="main__anchor" name="свои-события" href="#свои-события">Свои события</a></h2><p>Как мы уже знаем, в современных браузерах DOM-элементы могут <a href="dispatch-events.htm">генерировать произвольные события</a> при помощи встроенных методов, а в IE8- это возможно с использованием фреймворка, к примеру, jQuery.</p>
+<p>Воспользуемся ими, чтобы корневой элемент меню генерировал событие, которое мы назовём <code>select</code>, при выборе элемента, и передавал в объект события выбранное значение.</p>
+<p>Для этого модифицируем функцию <code>select</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-9">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Menu(options) {
+  ...
+
+  function select(link) {
+    var widgetEvent = new CustomEvent(&quot;select&quot;, {
+      bubbles: true,
+      // detail - стандартное свойство CustomEvent для произвольных данных
+      detail: link.getAttribute('href').slice(1)
+    });
+    elem.dispatchEvent(widgetEvent);
+  }
+
+  ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Код, который заинтересован в том, чтобы узнавать, что выбрано в меню, подписывается на событие <code>select</code> его корневого элемента:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var menu = new Menu(...);
+
+var elem = menu.getElem();
+
+elem.addEventListener('select', function(event) {
+  alert( event.detail );
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вместо <code>detail</code> можно было бы выбрать и другое название свойства, но тогда нужно позаботиться о том, чтобы оно не конфликтовало со стандартными. Кроме того, в конструкторе <code>CustomEvent</code> разрешено только <code>detail</code>, другое свойство понадобилось бы присваивать в отдельной строке.</p>
+<p>Полный пример:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">menu.js</div><div class="code-tabs__switch">menu.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/custom-events/menu-event/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/tPjydo3vuVHtQ0rVvHq5?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/custom-events/menu-event/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>function Menu(options) {
+  var elem;
+
+  function getElem() {
+    if (!elem) render();
+    return elem;
+  }
+
+  function render() {
+    var html = options.template({
+      title: options.title
+    });
+
+    elem = document.createElement('div');
+    elem.innerHTML = html;
+    elem = elem.firstElementChild;
+
+    elem.onmousedown = function() {
+      return false;
+    }
+
+    elem.onclick = function(event) {
+      if (event.target.closest('.title')) {
+        toggle();
+      }
+
+      if (event.target.closest('a')) {
+        event.preventDefault();
+        select(event.target.closest('a'));
+      }
+
+    }
+  }
+
+  function renderItems() {
+    if (elem.querySelector('ul')) return;
+
+    var listHtml = options.listTemplate({
+      items: options.items
+    });
+    elem.insertAdjacentHTML(&quot;beforeEnd&quot;, listHtml);
+  }
+
+  function select(link) {
+    var widgetEvent = new CustomEvent(&quot;select&quot;, {
+      bubbles: true,
+      detail: link.getAttribute('href').slice(1)
+    });
+    elem.dispatchEvent(widgetEvent);
+  }
+
+  function open() {
+    renderItems();
+    elem.classList.add('open');
+  };
+
+  function close() {
+    elem.classList.remove('open');
+  };
+
+  function toggle() {
+    if (elem.classList.contains('open')) close();
+    else open();
+  };
+
+  this.getElem = getElem;
+  this.toggle = toggle;
+  this.close = close;
+  this.open = open;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>.menu ul {
+  display: none;
+  margin: 0;
+}
+
+.menu .title {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menu .title:before {
+  content: '▶';
+  padding-right: 6px;
+  color: green;
+}
+
+.menu.open ul {
+  display: block;
+}
+
+.menu.open .title:before {
+  content: '▼';
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;menu.css&quot;&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdn.polyfill.io/v1/polyfill.js?features=CustomEvent,Element.prototype.closest&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;menu.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;script type=&quot;text/template&quot; id=&quot;menu-template&quot;&gt;
+    &lt;div class=&quot;menu&quot;&gt;
+      &lt;span class=&quot;title&quot;&gt;&lt;%-title%&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/script&gt;
+
+  &lt;script type=&quot;text/template&quot; id=&quot;menu-list-template&quot;&gt;
+    &lt;ul&gt;
+      &lt;% for(var name in items) { %&gt;
+        &lt;li&gt;
+          &lt;a href=&quot;#&lt;%=encodeURIComponent(name)%&gt;&quot;&gt;
+            &lt;%-items[name]%&gt;
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;% } %&gt;
+    &lt;/ul&gt;
+  &lt;/script&gt;
+
+  &lt;script&gt;
+    var menu = new Menu({
+      title: &quot;Сладости&quot;,
+      template: _.template(document.getElementById('menu-template').innerHTML.trim()),
+      listTemplate: _.template(document.getElementById('menu-list-template').innerHTML.trim()),
+      items: {
+        cake: &quot;Торт&quot;, // cake  &lt;a href=&quot;#cake&quot;&gt;Торт&lt;/a&gt;
+        donut: &quot;Пончик&quot;, // donut
+        chocolate: &quot;Шоколадка&quot; // chocolate
+      }
+    });
+
+    var elem = menu.getElem();
+    document.body.appendChild(elem);
+    elem.addEventListener('select', function(event) {
+      alert(event.detail);
+    });
+  &lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Внимание, инкапсуляция!</span></div>
+            <div class="important__content"><p>Очень важно, что внешний код ставит обработчик на корневой элемент, но не на внутренние элементы меню.</p>
+<p>Строго говоря, он вообще не знает про то, как устроено меню, есть ли там ссылки и какие, или там вообще всё реализовано через кнопки.</p>
+<p>Меню для него – «чёрный ящик». Корневой элемент – точка доступа к его функционалу. Событие – не то, которое произошло на ссылке, а «переработанный вариант», интерпретация действия со стороны меню.</p>
+<p>Такое правило позволяет нам не опасаться проблем при оптимизации, расширении и даже полной переделке DOM-структуры меню. Коль скоро события и методы сохраняются, внешний код будет работать как прежде.</p>
+<p>Ещё раз – внешний код не имеет права залезать внутрь DOM-структуры меню, ставить там обработчики и так далее.</p>
+</div></div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Для того, чтобы внешний код мог узнавать о важных событиях, произошедших внутри компонента, используются:</p>
+<ul>
+<li>Коллбэки – функции, которые передаются «снаружи» при создании компонента, и которые он обязуется вызвать при наступлении событий.</li>
+<li>События – компонент генерирует их на корневом элементе при помощи <code>dispatchEvent</code>, а внешний код ставит обработчики при помощи <code>addEventListener</code>. Такие события всплывают, если указан флаг <code>bubbles</code>, поэтому с ними можно использовать делегирование.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#голосовалка-на-событиях" name="голосовалка-на-событиях" class="main__anchor">Голосовалка &quot;на событиях&quot;</a></h3><a href="task/voter-events.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Добавьте событие в голосовалку, созданную в задаче <a href="task/voter.htm">Голосовалка</a>, используя механизм генерации событий на объекте.</p>
+<p>Пусть каждое изменение голоса сопровождается событием <code>change</code> со свойством <code>detail</code>, содержащим обновлённое значение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var voter = new Voter({
+  elem: document.getElementById('voter')
+});
+
+voter.setVote(5);
+
+document.getElementById('voter').addEventListener('change', function(e) {
+  alert( e.detail ); // новое значение голоса
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Все изменения голоса должны производиться централизованно, через метод <code>setVote</code>, который и генерирует событие.</p>
+<p>Результат использования кода выше (планируемый):</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:60px" src="https://js.cx/task/voter-events/solution/"></iframe>
+  </div><p>Исходный документ возьмите из решения задачи <a href="task/voter.htm">Голосовалка</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/IvMMi8tQFsvtv4GYqszJ?p=preview" target="_blank" data-plunk-id="IvMMi8tQFsvtv4GYqszJ">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#список-с-выделением-и-событием" name="список-с-выделением-и-событием" class="main__anchor">Список с выделением и событием</a></h3><a href="task/selectable-list-evented.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Добавьте в решение задачи <a href="task/selectable-list-component.htm">Компонент: список с выделением</a> событие <code>select</code>.</p>
+<p>Оно должно срабатывать при каждом изменении выбора и в свойстве <code>detail</code> содержать список выбранных строк.</p>
+<p>Во внешнем коде добавьте обработчик к списку, который при изменениях выводит список значений.</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/selectable-list-evented/solution/"></iframe>
+  </div><p>В качестве исходного кода возьмите решение задачи <a href="task/selectable-list-component.htm">Компонент: список с выделением</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/TPVvKSjWg2stmx1S3loW?p=preview" target="_blank" data-plunk-id="TPVvKSjWg2stmx1S3loW">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#свой-селект" name="свой-селект" class="main__anchor">Свой селект</a></h3><a href="task/custom-select.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите свой, самостоятельно оформленный, селект.</p>
+<p>Требования:</p>
+<ul>
+<li>Открытие и закрытие по клику на заголовок.</li>
+<li>Закрытие селекта происходит при выборе или клике на любое другое место документа, в том числе на другой аналогичный селект.</li>
+<li>Событие <code>&quot;select&quot;</code> при выборе опции возникает на элементе селекта и всплывает.</li>
+<li>Значение опции хранится в атрибуте <code>data-value</code> (HTML-структура есть в исходном документе).</li>
+</ul>
+<p>Например:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:200px" src="https://js.cx/task/custom-select/solution/"></iframe>
+  </div><p>В примере выше два селекта, чтобы можно было проверить процесс открытия-закрытия.</p>
+<p><a href="http://plnkr.co/edit/6BxjjMtb08GbgzvB3YaW?p=preview" target="_blank" data-plunk-id="6BxjjMtb08GbgzvB3YaW">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>В этом решении для закрытия селекта по клику вне него используется отслеживание произвольных кликов внутри документа.</p>
+<p>Альтернатива – события <code>focusin/focusout</code>, т.е. считаем, что пока фокус в селекте – он открыт. С одной стороны, это более мощный способ, он позволяет перемещаться по элементам управления при помощи <kbd class="shortcut">Tab</kbd> и корректно обрабатывать уход при помощи клавиатуры.</p>
+<p>С другой стороны, это решение не универсально: если выводится <code>alert</code>, то фокус «прыгает» в него, уходя с элемента, а потом возвращается обратно. При этом JavaScript зарегистрирует уход фокуса <code>focusout</code> и возвращение <code>focusin</code>, хотя по смыслу фокус с элемента никуда не уходил, просто был <code>alert</code>.</p>
+<p>Побочный эффект – закрытие и (лишнее) раскрытие элемента управления при таких «ненамеренных» потерях фокуса. Поэтому был выбран <code>onclick</code>.</p>
+<p>Решение:</p>
+<p><a href="http://plnkr.co/edit/7BfHwWbImtDDymtFeyfH?p=preview" target="_blank" data-plunk-id="7BfHwWbImtDDymtFeyfH">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#слайдер-с-событиями" name="слайдер-с-событиями" class="main__anchor">Слайдер с событиями</a></h3><a href="task/slider-events/default.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>На основе слайдера из задачи <a href="task/slider-widget.htm">Слайдер-компонент</a> создайте графический компонент, который умеет возвращать/получать значение.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var slider = new Slider({
+  elem: document.getElementById('slider'),
+  max: 100 // слайдер на самой правой позиции соответствует 100
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Метод <code>setValue</code> устанавливает значение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">slider.setValue(50);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>У слайдера должно быть два события: <code>slide</code> при каждом передвижении и <code>change</code> при отпускании мыши (установке значения).</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var sliderElem = document.getElementById('slider');
+
+sliderElem.addEventListener('slide', function(event) {
+  document.getElementById('slide').innerHTML = event.detail;
+});
+
+sliderElem.addEventListener('change', function(event) {
+  document.getElementById('change').innerHTML = event.detail;
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В действии:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/task/slider-events/solution/"></iframe>
+  </div><ul>
+<li>Ширина/высота слайдера может быть любой, JS-код это должен учитывать.</li>
+<li>Центр бегунка должен располагаться в точности над выбранным значением. Например, он должен быть в центре для 50 при <code>max=100</code>.</li>
+</ul>
+<p>Исходный документ – возьмите решение задачи <a href="task/slider-widget.htm">Слайдер-компонент</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Для решения этой задачи достаточно создать две функции: <code>valueToPosition</code> будет получать по значению положение бегунка, а <code>positionToValue</code> – наоборот, транслировать текущую координату бегунка в значение.</p>
+<p>Как сопоставить позицию слайдера и значение?</p>
+<p>Для этого посмотрим крайние значения слайдера. Допустим, размер бегунка <code>10px</code>.</p>
+<p>Раз центр соответствует значению, то крайнее левое значение будет соответствовать центру на <code>5px</code>, а крайнее правой – центру на <code>5px</code> от правой границы:</p>
+<figure><div class="image" style="width:567px">
+      <div class="image__ratio" style="padding-top:47.08994708994709%"></div>
+      <img src="task/slider-events/slider.png" alt="" width="567" height="267" class="image__image">
+      </div></figure><p>Соответственно, ширина области изменения будет <code>sliderElem.clientWidth - thumbElem.clientWidth</code>. Далее её можно уже поделить на части, количество пикселей на значение будет:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">pixelsPerValue = (sliderElem.clientWidth - thumbElem.clientWidth) / max;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Может получиться так, что это значение будет дробным, меньше единицы. Например, если <code>max = 1000</code>, а ширина слайдера <code>110</code> (пробег 100), то будет <code>0.1</code> пикселя на значение.</p>
+<p>Используя <code>pixelsPerValue</code> мы сможем переводить позицию бегунка в значение и обратно.</p>
+<p>Крайнее левое значение <code>thumbElem.style.left</code> равно нулю, крайнее правой – как раз ширине доступной области <code>sliderElem.clientWidth - thumbElem.clientWidth</code>. Поэтому можно получить значение слайдера, поделив его на <code>pixelsPerValue</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function positionToValue(left) {
+  return Math.round(left / pixelsPerValue);
+}
+
+function valueToPosition(value) {
+  return pixelsPerValue * value;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/pAI60McgiArQJNQEJr8i?p=preview" target="_blank" data-plunk-id="pAI60McgiArQJNQEJr8i">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

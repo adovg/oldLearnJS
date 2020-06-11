@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Поиск: getElement* и querySelector* и не только</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Поиск: getElement* и querySelector* и не только"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Прямая навигация от родителя к потомку удобна, если элементы рядом. А если нет?</p>
+<p>Как достать произвольный элемент откуда-то из глубины документа?</p>
+<p>Для этого в DOM есть дополнительные методы поиска.</p>
+<h2><a class="main__anchor" name="document-getelementbyid-или-просто-id" href="#document-getelementbyid-или-просто-id">document.getElementById или просто id</a></h2><p>Если элементу назначен специальный атрибут <code>id</code>, то можно получить его прямо по переменной с именем из значения <code>id</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-6" data-highlight-inline="0:9-23,1:11-18">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div id=&quot;content-holder&quot;&gt;
+  &lt;div id=&quot;content&quot;&gt;Элемент&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  alert( content ); // DOM-элемент
+  alert( window['content-holder'] ); // в имени дефис, поэтому через [...]
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это поведение соответствует <a href="http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem">стандарту</a>. Оно существует, в первую очередь, для совместимости, как осколок далёкого прошлого и не очень приветствуется, поскольку использует глобальные переменные.  Браузер пытается помочь нам, смешивая пространства имён JS и DOM, но при этом возможны конфликты.</p>
+<p><strong>Более правильной и общепринятой практикой является доступ к элементу вызовом <code>document.getElementById(&quot;идентификатор&quot;)</code>.</strong></p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-9" data-highlight-inline="0:9-16">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div id=&quot;content&quot;&gt;Выделим этот элемент&lt;/div&gt;
+
+&lt;script&gt;
+  var elem = document.getElementById('content');
+
+  elem.style.background = 'red';
+
+  alert( elem == content ); // true
+
+  content.style.background = &quot;&quot;; // один и тот же элемент
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Должен остаться только один</span></div>
+            <div class="important__content"><p>По стандарту значение <code>id</code> должно быть уникально, то есть в документе может быть только один элемент с данным <code>id</code>. И именно он будет возвращён.</p>
+<p>Если в документе есть несколько элементов с уникальным <code>id</code>, то поведение неопределено. То есть, нет гарантии, что браузер вернёт именно первый или последний – вернёт случайным образом.</p>
+<p>Поэтому стараются следовать правилу уникальности <code>id</code>.</p>
+</div></div>
+<p>Далее в примерах я часто буду использовать прямое обращение через переменную, чтобы было меньше букв и проще было понять происходящее. Но предпочтительным методом является <code>document.getElementById</code>.</p>
+<h2><a class="main__anchor" name="getelementsbytagname" href="#getelementsbytagname">getElementsByTagName</a></h2><p>Метод <code>elem.getElementsByTagName(tag)</code> ищет все элементы с заданным тегом <code>tag</code> внутри элемента <code>elem</code> и возвращает их в виде списка.</p>
+<p>Регистр тега не имеет значения.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// получить все div-элементы
+var elements = document.getElementsByTagName('div');</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Обратим внимание: в отличие от <code>getElementById</code>, который существует только в контексте <code>document</code>, метод <code>getElementsByTagName</code> может искать внутри любого элемента.</strong></p>
+<p>Например, найдём все элементы <code>input</code> внутри таблицы:</p>
+<div data-trusted="1" class="code-example" data-demo-height="50" data-highlight-block="20-21">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;table id=&quot;age-table&quot;&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ваш возраст:&lt;/td&gt;
+
+    &lt;td&gt;
+      &lt;label&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;age&quot; value=&quot;young&quot; checked&gt; младше 18
+      &lt;/label&gt;
+      &lt;label&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;age&quot; value=&quot;mature&quot;&gt; от 18 до 50
+      &lt;/label&gt;
+      &lt;label&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;age&quot; value=&quot;senior&quot;&gt; старше 60
+      &lt;/label&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/table&gt;
+
+&lt;script&gt;
+  var tableElem = document.getElementById('age-table');
+  var elements = tableElem.getElementsByTagName('input');
+
+  for (var i = 0; i &lt; elements.length; i++) {
+    var input = elements[i];
+    alert( input.value + ': ' + input.checked );
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Можно получить всех потомков, передав звездочку <code>'*'</code> вместо тега:</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// получить все элементы документа
+document.getElementsByTagName('*');
+
+// получить всех потомков элемента elem:
+elem.getElementsByTagName('*');</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Не забываем про букву <code>&quot;s&quot;</code>!</span></div>
+            <div class="important__content"><p>Одна из самых частых ошибок начинающих (впрочем, иногда и не только) – это забыть букву <code>&quot;s&quot;</code>, то есть пробовать вызывать метод <code>getElementByTagName</code> вместо <code>getElement<b>s</b>ByTagName</code>.</p>
+<p>Буква <code>&quot;s&quot;</code> не нужна там, где элемент только один, то есть в <code>getElementById</code>, в остальных методах она обязательна.</p>
+</div></div>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Возвращается коллекция, а не элемент</span></div>
+            <div class="important__content"><p>Другая частая ошибка – это код вида:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// не работает
+document.getElementsByTagName('input').value = 5;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>То есть, вместо элемента присваивают значение коллекции. Работать такое не будет.</p>
+<p>Коллекцию нужно или перебрать в цикле или получить элемент по номеру и уже ему присваивать <code>value</code>, например так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// работает
+document.getElementsByTagName('input')[0].value = 5;</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h2><a class="main__anchor" name="document-getelementsbyname" href="#document-getelementsbyname">document.getElementsByName</a></h2><p>Вызов <code>document.getElementsByName(name)</code> позволяет получить все элементы с данным атрибутом <code>name</code>.</p>
+<p>Например, все элементы с именем <code>age</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var elems = document.getElementsByName('age');</code></pre>
+        </div>
+      </div>
+      
+      </div><p>До появления стандарта HTML5 этот метод возвращал только те элементы, в которых предусмотрена поддержка атрибута <code>name</code>, в частности: <code>iframe</code>, <code>a</code>, <code>input</code> и другими. В современных браузерах (IE10+) тег не имеет значения.</p>
+<p>Используется этот метод весьма редко.</p>
+<h2><a class="main__anchor" name="getelementsbyclassname" href="#getelementsbyclassname">getElementsByClassName</a></h2><p>Вызов <code>elem.getElementsByClassName(className)</code> возвращает коллекцию элементов с классом <code>className</code>. Находит элемент и в том случае, если у него несколько классов, а искомый – один из них.</p>
+<p>Поддерживается всеми современными браузерами, кроме IE8-.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-demo-height="50">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div class=&quot;article&quot;&gt;Статья&lt;/div&gt;
+&lt;div class=&quot;long article&quot;&gt;Длинная статья&lt;/div&gt;
+
+&lt;script&gt;
+  var articles = document.getElementsByClassName('article');
+  alert( articles.length ); // 2, найдёт оба элемента
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как и <code>getElementsByTagName</code>, этот метод может быть вызван и в контексте DOM-элемента, и в контексте документа.</p>
+<h2><a class="main__anchor" name="querySelectorAll" href="#querySelectorAll">querySelectorAll</a></h2><p>Вызов <code>elem.querySelectorAll(css)</code> возвращает все элементы внутри <code>elem</code>, удовлетворяющие CSS-селектору <code>css</code>.</p>
+<p>Это один из самых часто используемых и полезных методов при работе с DOM.</p>
+<p>Он есть во всех современных браузерах, включая IE8+ (в режиме соответствия стандарту).</p>
+<p>Следующий запрос получает все элементы <code>LI</code>, которые являются последними потомками в <code>UL</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="9-9">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;Этот&lt;/li&gt;
+  &lt;li&gt;тест&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+  &lt;li&gt;полностью&lt;/li&gt;
+  &lt;li&gt;пройден&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script&gt;
+  var elements = document.querySelectorAll('ul &gt; li:last-child');
+
+  for (var i = 0; i &lt; elements.length; i++) {
+    alert( elements[i].innerHTML ); // &quot;тест&quot;, &quot;пройден&quot;
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Псевдо-класс тоже работает</span></div>
+            <div class="important__content"><p>Псевдо-классы в CSS-селекторе, в частности <code>:hover</code> и <code>:active</code>, также поддерживаются. Например, <code>document.querySelectorAll(':hover')</code> вернёт список, в порядке вложенности, из текущих элементов под курсором мыши.</p>
+</div></div>
+<h2><a class="main__anchor" name="querySelector" href="#querySelector">querySelector</a></h2><p>Вызов <code>elem.querySelector(css)</code> возвращает не все, а только первый элемент, соответствующий CSS-селектору <code>css</code>.</p>
+<p>Иначе говоря, результат – такой же, как и при <code>elem.querySelectorAll(css)[0]</code>, но в последнем вызове сначала ищутся все элементы, а потом берётся первый, а в <code>elem.querySelector(css)</code> ищется только первый, то есть он эффективнее.</p>
+<p>Этот метод часто используется, когда мы заведомо знаем, что подходящий элемент только один, и хотим получить в переменную сразу его.</p>
+<h2><a class="main__anchor" name="matches" href="#matches">matches</a></h2><p>Предыдущие методы искали по DOM.</p>
+<p>Метод <a href="http://dom.spec.whatwg.org/#dom-element-matches">elem.matches(css)</a> ничего не ищет, а проверяет, удовлетворяет ли <code>elem</code> селектору <code>css</code>. Он возвращает <code>true</code> либо <code>false</code>.</p>
+<p>Не поддерживается в IE8-.</p>
+<p>Этот метод бывает полезным, когда мы перебираем элементы (в массиве или по обычным навигационным ссылкам) и пытаемся отфильтровать те из них, которые нам интересны.</p>
+<p>Ранее в спецификации он назывался <code>matchesSelector</code>, и большинство браузеров поддерживают его под этим старым именем, либо с префиксами <code>ms/moz/webkit</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="7-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;a href=&quot;http://example.com/file.zip&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://ya.ru&quot;&gt;...&lt;/a&gt;
+
+&lt;script&gt;
+  var elems = document.body.children;
+
+  for (var i = 0; i &lt; elems.length; i++) {
+    if (elems[i].matches('a[href$=&quot;zip&quot;]')) {
+      alert( &quot;Ссылка на архив: &quot; + elems[i].href );
+    }
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="closest" href="#closest">closest</a></h2><p>Метод <code>elem.closest(css)</code> ищет ближайший элемент выше по иерархии DOM, подходящий под CSS-селектор <code>css</code>. Сам элемент тоже включается в поиск.</p>
+<p>Иначе говоря, метод <code>closest</code> бежит от текущего элемента вверх по цепочке родителей и проверяет, подходит ли элемент под указанный CSS-селектор. Если подходит – останавливается и возвращает его.</p>
+<p>Он самый новый из методов, рассмотренных в этой главе, поэтому старые браузеры его слабо поддерживают. Это, конечно, легко поправимо, как мы увидим позже в главе <a href="dom-polyfill.htm">Современный DOM: полифиллы</a>.</p>
+<p>Пример использования (браузер должен поддерживать <code>closest</code>):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li class=&quot;chapter&quot;&gt;Глава I
+    &lt;ul&gt;
+      &lt;li class=&quot;subchapter&quot;&gt;Глава &lt;span class=&quot;num&quot;&gt;1.1&lt;/span&gt;&lt;/li&gt;
+      &lt;li class=&quot;subchapter&quot;&gt;Глава &lt;span class=&quot;num&quot;&gt;1.2&lt;/span&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  var numberSpan = document.querySelector('.num');
+
+  // ближайший элемент сверху подходящий под селектор li
+  alert(numberSpan.closest('li').className) // subchapter
+
+  // ближайший элемент сверху подходящий под селектор .chapter
+  alert(numberSpan.closest('.chapter').tagName) // LI
+
+  // ближайший элемент сверху, подходящий под селектор span
+  // это сам numberSpan, так как поиск включает в себя сам элемент
+  alert(numberSpan.closest('span') === numberSpan) // true
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="xpath-в-современных-браузерах" href="#xpath-в-современных-браузерах">XPath в современных браузерах</a></h2><p>Для полноты картины рассмотрим ещё один способ поиска, который обычно используется в XML. Это <a href="http://www.w3.org/TR/xpath/">язык запросов XPath</a>.</p>
+<p>Он очень мощный, во многом мощнее CSS, но сложнее. Например, запрос для поиска элементов <code>H2</code>, содержащих текст <code>&quot;XPath&quot;</code>, будет выглядеть так: <code>//h2[contains(., &quot;XPath&quot;)]</code>.</p>
+<p>Все современные браузеры, кроме IE, поддерживают XPath с синтаксисом, близким к <a href="https://developer.mozilla.org/en/XPath">описанному в MDN</a>.</p>
+<p>Найдем заголовки с текстом <code>XPath</code> в текущем документе:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var result = document.evaluate(&quot;//h2[contains(., 'XPath')]&quot;, document.documentElement, null,
+  XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+
+for (var i = 0; i &lt; result.snapshotLength; i++) {
+  alert( result.snapshotItem(i).outerHTML );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>IE тоже поддерживает XPath, но эта поддержка не соответствует стандарту и работает только для XML-документов, например, полученных с помощью <code>XMLHTTPRequest</code> (AJAX).  Для обычных же HTML-документов XPath в IE не поддерживается.</p>
+<p>Так как XPath сложнее и длиннее CSS, то используют его очень редко.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Есть 6 основных методов поиска элементов DOM:</p>
+<table>
+<thead>
+<tr>
+<td>Метод</td>
+<td>Ищет по...</td>
+<td>Ищет внутри элемента?</td>
+<td>Поддержка</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getElementById</code></td>
+<td><code>id</code></td>
+<td>-</td>
+<td>везде</td>
+</tr>
+<tr>
+<td><code>getElementsByName</code></td>
+<td><code>name</code></td>
+<td>-</td>
+<td>везде</td>
+</tr>
+<tr>
+<td><code>getElementsByTagName</code></td>
+<td>тег или <code>'*'</code></td>
+<td>✔</td>
+<td>везде</td>
+</tr>
+<tr>
+<td><code>getElementsByClassName</code></td>
+<td>классу</td>
+<td>✔</td>
+<td>кроме IE8-</td>
+</tr>
+<tr>
+<td><code>querySelector</code></td>
+<td>CSS-селектор</td>
+<td>✔</td>
+<td>везде</td>
+</tr>
+<tr>
+<td><code>querySelectorAll</code></td>
+<td>CSS-селектор</td>
+<td>✔</td>
+<td>везде</td>
+</tr>
+</tbody>
+</table>
+<p>Практика показывает, что в 95% ситуаций достаточно <code>querySelector/querySelectorAll</code>. Хотя более специализированные методы <code>getElement*</code> работают чуть быстрее, но разница в миллисекунду-другую редко играет роль.</p>
+<p>Кроме того:</p>
+<ul>
+<li>Есть метод <code>elem.matches(css)</code>, который проверяет, удовлетворяет ли элемент CSS-селектору. Он поддерживается большинством браузеров в префиксной форме (<code>ms</code>, <code>moz</code>, <code>webkit</code>).</li>
+<li>Метод <code>elem.closest(css)</code> ищет ближайший элемент выше по иерархии DOM, подходящий под CSS-селектор css. Сам элемент тоже включается в поиск.</li>
+<li>Язык запросов XPath поддерживается большинством браузеров, кроме IE, даже 9-й версии, но <code>querySelector</code> удобнее. Поэтому XPath используется редко.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#поиск-элементов" name="поиск-элементов" class="main__anchor">Поиск элементов</a></h3><a href="task/find-elements/default.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Ниже находится документ с таблицей и формой.</p>
+<p>Найдите (получите в переменную) в нём:</p>
+<ol>
+<li>Все элементы <code>label</code> внутри таблицы. Должно быть 3 элемента.</li>
+<li>Первую ячейку таблицы (со словом <code>&quot;Возраст&quot;</code>).</li>
+<li>Вторую форму в документе.</li>
+<li>Форму с именем <code>search</code>, без использования её позиции в документе.</li>
+<li>Элемент <code>input</code> в форме с именем <code>search</code>. Если их несколько, то нужен первый.</li>
+<li>Элемент с именем <code>info[0]</code>, без точного знания его позиции в документе.</li>
+<li>Элемент с именем <code>info[0]</code>, внутри формы с именем <code>search-person</code>.</li>
+</ol>
+<p>Используйте для этого консоль браузера, открыв страницу <a href="task/find-elements/table.html">table.html</a> в отдельном окне.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Есть много вариантов решения, вот некоторые из них:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// 1
+document.getElementById('age-table').getElementsByTagName('label');
+
+// 2
+document.getElementById('age-table').getElementsByTagName('td')[0];
+// в современных браузерах можно одним запросом:
+var result = document.querySelector('#age-table td');
+
+// 3
+document.getElementsByTagName('form')[1];
+
+// 4
+document.querySelector('form[name=&quot;search&quot;]');
+
+// 5
+document.querySelector('form[name=&quot;search&quot;] input')
+
+// 6
+document.getElementsByName(&quot;info[0]&quot;)[0];
+
+// 7
+document.querySelector('form[name=&quot;search-person&quot;] [name=&quot;info[0]&quot;]');</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#дерево" name="дерево" class="main__anchor">Дерево</a></h3><a href="task/tree-info.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Есть дерево из тегов <code>&lt;ul&gt;/&lt;li&gt;</code>.</p>
+<p>Напишите код, который для каждого элемента <code>&lt;li&gt;</code> выведет:</p>
+<ol>
+<li>Текст непосредственно в нём (без подразделов).</li>
+<li>Количество вложенных в него элементов <code>&lt;li&gt;</code> – всех, с учётом вложенных.</li>
+</ol>
+<p><a href="https://js.cx/task/tree-info/solution/" target="blank">Демо в новом окне</a></p><p><a href="http://plnkr.co/edit/L3ITT6sSOOYYDW74tWN2?p=preview" target="_blank" data-plunk-id="L3ITT6sSOOYYDW74tWN2">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Сделаем цикл по узлам <code>&lt;li&gt;</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var lis = document.getElementsByTagName('li');
+
+for (i = 0; i &lt; lis.length; i++) {
+  ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В цикле для каждого <code>lis[i]</code> можно получить текст, используя свойство <code>firstChild</code>. Ведь первым в <code>&lt;li&gt;</code> является как раз текстовый узел, содержащий текст названия.</p>
+<p>Также можно получить количество потомков, используя <code>lis[i].getElementsByTagName('li')</code>.</p>
+<p>Напишите код с этой подсказкой.</p>
+<p>Если уж не выйдет – тогда откройте решение.</p>
+<p><a href="http://plnkr.co/edit/6zLbAASNFrwH7oVCi1PY?p=preview" target="_blank" data-plunk-id="6zLbAASNFrwH7oVCi1PY">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

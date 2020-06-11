@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="es-modern.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Современные возможности ES-2015</span></a></li></ol><h1 class="main__header-title">Итераторы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Итераторы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В современный JavaScript добавлена новая концепция «итерируемых» (iterable) объектов.</p>
+<p>Итерируемые или, иными словами, «перебираемые» объекты – это те, содержимое которых можно перебрать в цикле.</p>
+<p>Например, перебираемым объектом является массив. Но не только он. В браузере существует множество объектов, которые не являются массивами, но содержимое которых можно перебрать (к примеру, список DOM-узлов).</p>
+<p>Для перебора таких объектов добавлен новый синтаксис цикла: <code>for..of</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let arr = [1, 2, 3]; // массив — пример итерируемого объекта
+
+for (let value of arr) {
+  alert(value); // 1, затем 2, затем 3
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Также итерируемой является строка:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+for (let char of &quot;Привет&quot;) {
+  alert(char); // Выведет по одной букве: П, р, и, в, е, т
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Итераторы – расширяющая понятие «массив» концепция, которая пронизывает современный стандарт JavaScript сверху донизу.</p>
+<p>Практически везде, где нужен перебор, он осуществляется через итераторы. Это включает в себя не только строки, массивы, но и вызов функции с оператором spread <code>f(...args)</code>, и многое другое.</p>
+<p>В отличие от массивов, «перебираемые» объекты могут не иметь «длины» <code>length</code>. Как мы увидим далее, итераторы дают возможность сделать «перебираемыми» любые объекты.</p>
+<h2><a class="main__anchor" name="свой-итератор" href="#свой-итератор">Свой итератор</a></h2><p>Допустим, у нас есть некий объект, который надо «умным способом» перебрать.</p>
+<p>Например, <code>range</code> – диапазон чисел от <code>from</code> до <code>to</code>, и мы хотим, чтобы <code>for (let num of range)</code> «перебирал» этот объект. При этом под перебором мы подразумеваем перечисление чисел от <code>from</code> до <code>to</code>.</p>
+<p>Объект <code>range</code> без итератора:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">let range = {
+  from: 1,
+  to: 5
+};
+
+// хотим сделать перебор
+// for (let num of range) ...</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для возможности использовать объект в <code>for..of</code> нужно создать в нём свойство с названием <code>Symbol.iterator</code> (системный символ).</p>
+<p>При вызове метода <code>Symbol.iterator</code> перебираемый объект должен возвращать другой объект («итератор»), который умеет осуществлять перебор.</p>
+<p>По стандарту у такого объекта должен быть метод <code>next()</code>, который при каждом вызове возвращает очередное значение и проверяет, окончен ли перебор.</p>
+<p>В коде это выглядит следующим образом:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let range = {
+  from: 1,
+  to: 5
+}
+
+// сделаем объект range итерируемым
+range[Symbol.iterator] = function() {
+
+  let current = this.from;
+  let last = this.to;
+
+  // метод должен вернуть объект с методом next()
+  return {
+    next() {
+      if (current &lt;= last) {
+        return {
+          done: false,
+          value: current++
+        };
+      } else {
+        return {
+          done: true
+        };
+      }
+    }
+
+  }
+};
+
+for (let num of range) {
+  alert(num); // 1, затем 2, 3, 4, 5
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как видно из кода выше, здесь имеет место разделение сущностей:</p>
+<ul>
+<li>Перебираемый объект <code>range</code> сам не реализует методы для своего перебора.</li>
+<li>Для этого создаётся другой объект, который хранит текущее состояние перебора и возвращает значение. Этот объект называется итератором и возвращается при вызове метода <code>range[Symbol.iterator]</code>.</li>
+<li>У итератора должен быть метод <code>next()</code>, который при каждом вызове возвращает объект со свойствами:
+<ul>
+<li><code>value</code> – очередное значение,</li>
+<li><code>done</code> – равно <code>false</code> если есть ещё значения, и <code>true</code> – в конце.</li>
+</ul>
+</li>
+</ul>
+<p>Конструкция <code>for..of</code> в начале своего выполнения автоматически вызывает <code>Symbol.iterator()</code>, получает итератор и далее вызывает метод <code>next()</code> до получения <code>done: true</code>. Такова внутренняя механика. Внешний код при переборе через <code>for..of</code> видит только значения.</p>
+<p>Такое отделение функционала перебора от самого объекта даёт дополнительную гибкость. Например, объект может возвращать разные итераторы в зависимости от своего настроения и времени суток. Однако, бывают ситуации когда оно не нужно.</p>
+<p>Если функционал по перебору (метод <code>next</code>) предоставляется самим объектом, то можно вернуть <code>this</code> в качестве итератора:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let range = {
+  from: 1,
+  to: 5,
+
+  [Symbol.iterator]() {
+    return this;
+  },
+
+  next() {
+    if (this.current === undefined) {
+      // инициализация состояния итерации
+      this.current = this.from;
+    }
+
+    if (this.current &lt;= this.to) {
+      return {
+        done: false,
+        value: this.current++
+      };
+    } else {
+      // очистка текущей итерации
+      delete this.current;
+      return {
+        done: true
+      };
+    }
+  }
+
+};
+
+for (let num of range) {
+  alert(num); // 1, затем 2, 3, 4, 5
+}
+
+// Произойдёт вызов Math.max(1,2,3,4,5);
+alert( Math.max(...range) ); // 5 (*)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При таком подходе сам объект и хранит состояние итерации (текущий перебираемый элемент).</p>
+<p>В данном случае это работает, но для большей гибкости и понятности кода рекомендуется, всё же, выделять итератор в отдельный объект со своим состоянием и кодом.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Оператор spread <code>...</code> и итераторы</span></div>
+            <div class="important__content"><p>В последней строке <code>(*)</code> примера выше можно видеть, что итерируемый объект передаётся через spread для <code>Math.max</code>.</p>
+<p>При этом <code>...range</code>  интерпретируется как последовательность чисел. То есть произойдёт цикл <code>for..of</code> по <code>range</code>, и его результаты будут использованы в качестве списка аргументов.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Бесконечные итераторы</span></div>
+            <div class="important__content"><p>Возможны и бесконечные итераторы. Например, пример выше при <code>range.to = Infinity</code> будет таковым. Или можно сделать итератор, генерирующий бесконечную последовательность псевдослучайных чисел. Тоже полезно.</p>
+<p>Нет никаких ограничений на <code>next</code>, он может возвращать всё новые и новые значения, и это нормально.</p>
+<p>Разумеется, цикл <code>for..of</code> по такому итератору тоже будет бесконечным, нужно его прерывать, например, через <code>break</code>.</p>
+</div></div>
+<h2><a class="main__anchor" name="встроенные-итераторы" href="#встроенные-итераторы">Встроенные итераторы</a></h2><p>Встроенные в JavaScript итераторы можно получить и явным образом, без <code>for..of</code>, прямым вызовом <code>Symbol.iterator</code>.</p>
+<p>Например, этот код получает итератор для строки и вызывает его полностью «вручную»:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let str = &quot;Hello&quot;;
+
+// Делает то же, что и
+// for (var letter of str) alert(letter);
+
+let iterator = str[Symbol.iterator]();
+
+while(true) {
+  let result = iterator.next();
+  if (result.done) break;
+  alert(result.value); // Выведет все буквы по очереди
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>То же самое будет работать и для массивов.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li><em>Итератор</em> – объект, предназначенный для перебора другого объекта.</li>
+<li>У итератора должен быть метод <code>next()</code>, возвращающий объект <code>{done: Boolean, value: any}</code>, где <code>value</code> – очередное значение, а <code>done: true</code> в конце.</li>
+<li>Метод <code>Symbol.iterator</code> предназначен для получения итератора из объекта. Цикл <code>for..of</code> делает это автоматически, но можно и вызвать его напрямую.</li>
+<li>В современном стандарте есть много мест, где вместо массива используются более абстрактные «итерируемые» (со свойством <code>Symbol.iterator</code>) объекты, например оператор spread <code>...</code>.</li>
+<li>Встроенные объекты, такие как массивы и строки, являются итерируемыми, в соответствии с описанным выше.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

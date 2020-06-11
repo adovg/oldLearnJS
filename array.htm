@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="data-structures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Структуры данных</span></a></li></ol><h1 class="main__header-title">Массивы с числовыми индексами</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Массивы с числовыми индексами"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p><em>Массив</em> – разновидность объекта, которая предназначена для хранения пронумерованных значений и предлагает дополнительные методы для удобного манипулирования такой коллекцией.</p>
+<p>Они обычно используются для хранения упорядоченных коллекций данных, например – списка товаров на странице, студентов в группе и т.п.</p>
+<h2><a class="main__anchor" name="объявление" href="#объявление">Объявление</a></h2><p>Синтаксис для создания нового массива – квадратные скобки со списком элементов внутри.</p>
+<p>Пустой массив:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [];</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Массив <code>fruits</code> с тремя элементами:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Слива&quot;];</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Элементы нумеруются, начиная с нуля.</strong></p>
+<p>Чтобы получить нужный элемент из массива – указывается его номер в квадратных скобках:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Слива&quot;];
+
+alert( fruits[0] ); // Яблоко
+alert( fruits[1] ); // Апельсин
+alert( fruits[2] ); // Слива</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Элемент можно всегда заменить:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">fruits[2] = 'Груша'; // теперь [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Или добавить:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">fruits[3] = 'Лимон'; // теперь [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;, &quot;Лимон&quot;]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Общее число элементов, хранимых в массиве, содержится в его свойстве <code>length</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+alert( fruits.length ); // 3</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Через <code>alert</code> можно вывести и массив целиком.</strong></p>
+<p>При этом его элементы будут перечислены через запятую:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+alert( fruits ); // Яблоко,Апельсин,Груша</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>В массиве может храниться любое число элементов любого типа.</strong></p>
+<p>В том числе, строки, числа, объекты, вот например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// микс значений
+var arr = [ 1, 'Имя', { name: 'Петя' }, true ];
+
+// получить объект из массива и тут же -- его свойство
+alert( arr[2].name ); // Петя</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="методы-pop-push-shift-unshift" href="#методы-pop-push-shift-unshift">Методы pop/push, shift/unshift</a></h2><p>Одно из применений массива – это <a href="http://ru.wikipedia.org/wiki/%D0%9E%D1%87%D0%B5%D1%80%D0%B5%D0%B4%D1%8C_%28%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%29">очередь</a>. В классическом программировании так называют упорядоченную коллекцию элементов, такую что элементы добавляются в конец, а обрабатываются – с начала.</p>
+<figure><div class="image" style="width:187px">
+      <div class="image__ratio" style="padding-top:57.75401069518716%"></div>
+      <img src="article/array/queue.png" alt="" width="187" height="108" class="image__image">
+      </div></figure><p>В реальной жизни эта структура данных встречается очень часто. Например, очередь сообщений, которые надо показать на экране.</p>
+<p>Очень близка к очереди еще одна структура данных: <a href="http://ru.wikipedia.org/wiki/%D0%A1%D1%82%D0%B5%D0%BA">стек</a>. Это такая коллекция элементов, в которой новые элементы добавляются в конец и берутся с конца.</p>
+<figure><div class="image" style="width:145px">
+      <div class="image__ratio" style="padding-top:102.75862068965517%"></div>
+      <img src="article/array/stack.png" alt="" width="145" height="149" class="image__image">
+      </div></figure><p>Например, стеком является колода карт, в которую новые карты кладутся сверху, и берутся – тоже сверху.</p>
+<p>Для того, чтобы реализовывать эти структуры данных, и просто для более удобной работы с началом и концом массива существуют специальные методы.</p>
+<h3><a class="main__anchor" name="конец-массива" href="#конец-массива">Конец массива</a></h3><dl>
+<dt><code>pop</code></dt>
+<dd>
+<p>Удаляет <em>последний</em> элемент из массива и возвращает его:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+alert( fruits.pop() ); // удалили &quot;Груша&quot;
+
+alert( fruits ); // Яблоко, Апельсин</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+<dt><code>push</code></dt>
+<dd>
+<p>Добавляет элемент <em>в конец</em> массива:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;];
+
+fruits.push(&quot;Груша&quot;);
+
+alert( fruits ); // Яблоко, Апельсин, Груша</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вызов <code>fruits.push(...)</code> равнозначен <code>fruits[fruits.length] = ...</code>.</p>
+</dd>
+</dl>
+<h3><a class="main__anchor" name="начало-массива" href="#начало-массива">Начало массива</a></h3><dl>
+<dt><code>shift</code></dt>
+<dd>
+<p>Удаляет из массива <em>первый</em> элемент и возвращает его:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+alert( fruits.shift() ); // удалили Яблоко
+
+alert( fruits ); // Апельсин, Груша</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+<dt><code>unshift</code></dt>
+<dd>
+<p>Добавляет элемент <em>в начало</em> массива:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Апельсин&quot;, &quot;Груша&quot;];
+
+fruits.unshift('Яблоко');
+
+alert( fruits ); // Яблоко, Апельсин, Груша</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+</dl>
+<p>Методы <code>push</code> и <code>unshift</code> могут добавлять сразу по несколько элементов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;];
+
+fruits.push(&quot;Апельсин&quot;, &quot;Персик&quot;);
+fruits.unshift(&quot;Ананас&quot;, &quot;Лимон&quot;);
+
+// результат: [&quot;Ананас&quot;, &quot;Лимон&quot;, &quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Персик&quot;]
+alert( fruits );</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="внутреннее-устройство-массива" href="#внутреннее-устройство-массива">Внутреннее устройство массива</a></h2><p>Массив – это объект, где в качестве ключей выбраны цифры, с дополнительными методами и свойством <code>length</code>.</p>
+<p>Так как это объект, то в функцию он передаётся по ссылке:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function eat(arr) {
+  arr.pop();
+}
+
+var arr = [&quot;нам&quot;, &quot;не&quot;, &quot;страшен&quot;, &quot;серый&quot;, &quot;волк&quot;]
+
+alert( arr.length ); // 5
+eat(arr);
+eat(arr);
+alert( arr.length ); // 3, в функцию массив не скопирован, а передана ссылка</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Ещё одно следствие – можно присваивать в массив любые свойства.</strong></p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = []; // создать массив
+
+fruits[99999] = 5; // присвоить свойство с любым номером
+
+fruits.age = 25; // назначить свойство со строковым именем</code></pre>
+        </div>
+      </div>
+      
+      </div><p>… Но массивы для того и придуманы в JavaScript, чтобы удобно работать именно <em>с упорядоченными, нумерованными данными</em>. Для этого в них существуют специальные методы и свойство <code>length</code>.</p>
+<p>Как правило, нет причин использовать массив как обычный объект, хотя технически это и возможно.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Вывод массива с «дырами»</span></div>
+            <div class="important__content"><p>Если в массиве есть пропущенные индексы, то при выводе в большинстве браузеров появляются «лишние» запятые, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = [];
+a[0] = 0;
+a[5] = 5;
+
+alert( a ); // 0,,,,,5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Эти запятые появляются потому, что алгоритм вывода массива идёт от <code>0</code> до <code>arr.length</code> и выводит всё через запятую. Отсутствие значений даёт несколько запятых подряд.</p>
+</div></div>
+<h3><a class="main__anchor" name="влияние-на-быстродействие" href="#влияние-на-быстродействие">Влияние на быстродействие</a></h3><p>Методы <code>push/pop</code> выполняются быстро, а <code>shift/unshift</code> – медленно.</p>
+<figure><div class="image" style="width:354px">
+      <div class="image__ratio" style="padding-top:48.87005649717514%"></div>
+      <img src="article/array/array-speed.png" alt="" width="354" height="173" class="image__image">
+      </div></figure><p>Чтобы понять, почему работать с концом массива – быстрее, чем с его началом, разберём подробнее происходящее при операции:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">fruits.shift(); // убрать 1 элемент с начала</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом, так как все элементы находятся в своих ячейках, просто удалить элемент с номером <code>0</code> недостаточно. Нужно еще и переместить остальные элементы на их новые индексы.</p>
+<p>Операция <code>shift</code> должна выполнить целых три действия:</p>
+<ol>
+<li>Удалить нулевой элемент.</li>
+<li>Переместить все свойства влево, с индекса <code>1</code> на <code>0</code>, с <code>2</code> на <code>1</code> и так далее.</li>
+<li>Обновить свойство <code>length</code>.</li>
+</ol>
+<figure><div class="image" style="width:610px">
+      <div class="image__ratio" style="padding-top:28.688524590163933%"></div>
+      <img src="article/array/array-shift.png" alt="" width="610" height="175" class="image__image">
+      </div></figure><p><strong>Чем больше элементов в массиве, тем дольше их перемещать, это много операций с памятью.</strong></p>
+<p>Аналогично работает <code>unshift</code>: чтобы добавить элемент в начало массива, нужно сначала перенести вправо, в увеличенные индексы, все существующие.</p>
+<p>А что же с <code>push/pop</code>? Им как раз перемещать ничего не надо. Для того, чтобы удалить элемент, метод <code>pop</code> очищает ячейку и уменьшает значение <code>length</code>.</p>
+<p>Действия при операции:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">fruits.pop(); // убрать 1 элемент с конца</code></pre>
+        </div>
+      </div>
+      
+      </div><figure><div class="image" style="width:479px">
+      <div class="image__ratio" style="padding-top:30.89770354906054%"></div>
+      <img src="article/array/array-pop.png" alt="" width="479" height="148" class="image__image">
+      </div></figure><p><strong>Перемещать при <code>pop</code> не требуется, так как прочие элементы после этой операции остаются на тех же индексах.</strong></p>
+<p>Аналогично работает <code>push</code>.</p>
+<h2><a class="main__anchor" name="перебор-элементов" href="#перебор-элементов">Перебор элементов</a></h2><p>Для перебора элементов обычно используется цикл:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+for (var i = 0; i &lt; arr.length; i++) {
+  alert( arr[i] );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Не используйте <code>for..in</code> для массивов</span></div>
+            <div class="important__content"><p>Так как массив является объектом, то возможен и вариант <code>for..in</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+for (var key in arr) {
+  alert( arr[key] ); // Яблоко, Апельсин, Груша
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Недостатки этого способа:</p>
+<ol>
+<li>
+<p>Цикл <code>for..in</code> выведет <em>все свойства</em> объекта, а не только цифровые.</p>
+<p>В браузере, при работе с объектами страницы, встречаются коллекции элементов, которые по виду как массивы, но имеют дополнительные нецифровые свойства. При переборе таких «похожих на массив» коллекций через <code>for..in</code> эти свойства будут выведены, а они как раз не нужны.</p>
+<p>Бывают и библиотеки, которые предоставляют такие коллекции. Классический <code>for</code> надёжно выведет только цифровые свойства, что обычно и требуется.</p>
+</li>
+<li>
+<p>Цикл <code>for (var i=0; i&lt;arr.length; i++)</code> в современных браузерах выполняется в 10-100 раз быстрее. Казалось бы, по виду он сложнее, но браузер особым образом оптимизирует такие циклы.</p>
+</li>
+</ol>
+<p>Если коротко: цикл <code>for(var i=0; i&lt;arr.length...)</code> надёжнее и быстрее.</p>
+</div></div>
+<h2><a class="main__anchor" name="особенности-работы-length" href="#особенности-работы-length">Особенности работы length</a></h2><p>Встроенные методы для работы с массивом автоматически обновляют его длину <code>length</code>.</p>
+<p><strong>Длина <code>length</code> – не количество элементов массива, а <code>последний индекс + 1</code></strong>.</p>
+<p>Так уж оно устроено.</p>
+<p>Это легко увидеть на следующем примере:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="3:22-26">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [];
+arr[1000] = true;
+
+alert(arr.length); // 1001</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кстати, если у вас элементы массива нумеруются случайно или с большими пропусками, то стоит подумать о том, чтобы использовать обычный объект. Массивы предназначены именно для работы с непрерывной упорядоченной коллекцией элементов.</p>
+<h3><a class="main__anchor" name="используем-length-для-укорачивания-массива" href="#используем-length-для-укорачивания-массива">Используем length для укорачивания массива</a></h3><p>Обычно нам не нужно самостоятельно менять <code>length</code>… Но есть один фокус, который можно провернуть.</p>
+<p><strong>При уменьшении <code>length</code> массив укорачивается.</strong></p>
+<p>Причем этот процесс необратимый, т.е. даже если потом вернуть <code>length</code> обратно – значения не восстановятся:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, 2, 3, 4, 5];
+
+arr.length = 2; // укоротить до 2 элементов
+alert( arr ); // [1, 2]
+
+arr.length = 5; // вернуть length обратно, как было
+alert( arr[3] ); // undefined: значения не вернулись</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Самый простой способ очистить массив – это <code>arr.length=0</code>.</p>
+<h2><a class="main__anchor" name="new-array" href="#new-array">Создание вызовом new Array</a></h2><h3><a class="main__anchor" name="new-array-2" href="#new-array-2">new Array()</a></h3><p>Существует еще один синтаксис для создания массива:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:10-19">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = new Array(&quot;Яблоко&quot;, &quot;Груша&quot;, &quot;и т.п.&quot;);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Он редко используется, т.к. квадратные скобки <code>[]</code> короче.</p>
+<p>Кроме того, у него есть одна особенность. Обычно <code>new Array(элементы, ...)</code> создаёт массив из данных элементов, но если у него один аргумент-число <code>new Array(число)</code>, то он создает массив <em>без элементов, но с заданной длиной</em>.</p>
+<p>Проверим это:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = new Array(2, 3);
+alert( arr[0] ); // 2, создан массив [2, 3], всё ок
+
+arr = new Array(2); // создаст массив [2] ?
+alert( arr[0] ); // undefined! у нас массив без элементов, длины 2</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Что же такое этот «массив без элементов, но с длиной»? Как такое возможно?</p>
+<p>Оказывается, очень даже возможно и соответствует объекту <code>{length: 2}</code>. Получившийся массив ведёт себя так, как будто его элементы равны <code>undefined</code>.</p>
+<p>Это может быть неожиданным сюрпризом, поэтому обычно используют квадратные скобки.</p>
+<h3><a class="main__anchor" name="многомерные-массивы" href="#многомерные-массивы">Многомерные массивы</a></h3><p>Массивы в JavaScript могут содержать в качестве элементов другие массивы. Это можно использовать для создания многомерных массивов, например матриц:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+
+alert( matrix[1][1] ); // центральный элемент</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="внутреннее-представление-массивов" href="#внутреннее-представление-массивов">Внутреннее представление массивов</a></h2><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Hardcore coders only</span></div>
+            <div class="important__content"><p>Эта секция относится ко внутреннему устройству структуры данных и требует специальных знаний. Она не обязательна к прочтению.</p>
+</div></div>
+<p>Числовые массивы, согласно спецификации, являются объектами, в которые добавили ряд свойств, методов и автоматическую длину <code>length</code>. Но внутри они, как правило, устроены по-другому.</p>
+<p><strong>Современные интерпретаторы стараются оптимизировать их и хранить в памяти не в виде хэш-таблицы, а в виде непрерывной области памяти, по которой легко пробежаться от начала до конца.</strong></p>
+<p>Операции с массивами также оптимизируются, особенно если массив хранит только один тип данных, например только числа. Порождаемый набор инструкций для процессора получается очень эффективным.</p>
+<p>Чтобы у интерпретатора получались эти оптимизации, программист не должен мешать.</p>
+<p>В частности:</p>
+<ul>
+<li>Не ставить массиву произвольные свойства, такие как <code>arr.test = 5</code>. То есть, работать именно как с массивом, а не как с объектом.</li>
+<li>Заполнять массив непрерывно и по возрастающей. Как только браузер встречает необычное поведение массива, например устанавливается значение <code>arr[0]</code>, а потом сразу <code>arr[1000]</code>, то он начинает работать с ним, как с обычным объектом. Как правило, это влечёт преобразование его в хэш-таблицу.</li>
+</ul>
+<p>Если следовать этим принципам, то массивы будут занимать меньше памяти и быстрее работать.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Массивы существуют для работы с упорядоченным набором элементов.</p>
+<p><strong>Объявление:</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// предпочтительное
+var arr = [элемент1, элемент2...];
+
+// new Array
+var arr = new Array(элемент1, элемент2...);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом <code>new Array(число)</code> создаёт массив заданной длины, <em>без элементов</em>. Чтобы избежать ошибок, предпочтителен первый синтаксис.</p>
+<p><strong>Свойство <code>length</code></strong> – длина массива. Если точнее, то последний индекс массива плюс <code>1</code>. Если её уменьшить вручную, то массив укоротится. Если <code>length</code> больше реального количества элементов, то отсутствующие элементы равны <code>undefined</code>.</p>
+<p>Массив можно использовать как очередь или стек.</p>
+<p><strong>Операции с концом массива:</strong></p>
+<ul>
+<li><code>arr.push(элемент1, элемент2...)</code> добавляет элементы в конец.</li>
+<li><code>var elem = arr.pop()</code> удаляет и возвращает последний элемент.</li>
+</ul>
+<p><strong>Операции с началом массива:</strong></p>
+<ul>
+<li><code>arr.unshift(элемент1, элемент2...)</code> добавляет элементы в начало.</li>
+<li><code>var elem = arr.shift()</code> удаляет и возвращает первый элемент.</li>
+</ul>
+<p>Эти операции перенумеровывают все элементы, поэтому работают медленно.</p>
+<p>В следующей главе мы рассмотрим другие методы для работы с массивами.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#получить-последний-элемент-массива" name="получить-последний-элемент-массива" class="main__anchor">Получить последний элемент массива</a></h3><a href="task/get-last-in-array.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Как получить последний элемент из произвольного массива?</p>
+<p>У нас есть массив <code>goods</code>. Сколько в нем элементов – не знаем, но можем прочитать из <code>goods.length</code>.</p>
+<p>Напишите код для получения последнего элемента <code>goods</code>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Последний элемент имеет индекс на <code>1</code> меньший, чем длина массива.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fruits = [&quot;Яблоко&quot;, &quot;Груша&quot;, &quot;Слива&quot;];</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Длина этого массива <code>fruits.length</code> равна <code>3</code>. Здесь «Яблоко» имеет индекс <code>0</code>, «Груша» – индекс <code>1</code>, «Слива» – индекс <code>2</code>.</p>
+<p>То есть, для массива длины <code>goods</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var lastItem = goods[goods.length - 1]; // получить последний элемент</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#добавить-новый-элемент-в-массив" name="добавить-новый-элемент-в-массив" class="main__anchor">Добавить новый элемент в массив</a></h3><a href="task/add-item-to-array.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Как добавить элемент в конец произвольного массива?</p>
+<p>У нас есть массив <code>goods</code>. Напишите код для добавления в его конец значения «Компьютер».</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Текущий последний элемент имеет индекс <code>goods.length-1</code>. Значит, индексом нового элемента будет <code>goods.length</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">goods[goods.length] = 'Компьютер'</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#создание-массива" name="создание-массива" class="main__anchor">Создание массива</a></h3><a href="task/create-array.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Задача из 5 шагов-строк:</p>
+<ol>
+<li>Создайте массив <code>styles</code> с элементами «Джаз», «Блюз».</li>
+<li>Добавьте в конец значение «Рок-н-Ролл»</li>
+<li>Замените предпоследнее значение с конца на «Классика». Код замены предпоследнего значения должен работать для массивов любой длины.</li>
+<li>Удалите первое значение массива и выведите его <code>alert</code>.</li>
+<li>Добавьте в начало значения «Рэп» и «Регги».</li>
+</ol>
+<p>Массив в результате каждого шага:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Джаз, Блюз
+Джаз, Блюз, Рок-н-Ролл
+Джаз, Классика, Рок-н-Ролл
+Классика, Рок-н-Ролл
+Рэп, Регги, Классика, Рок-н-Ролл</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var styles = [&quot;Джаз&quot;, &quot;Блюз&quot;];
+styles.push(&quot;Рок-н-Ролл&quot;);
+styles[styles.length - 2] = &quot;Классика&quot;;
+alert( styles.shift() );
+styles.unshift(&quot;Рэп&quot;, &quot;Регги&quot;);</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#получить-случайное-значение-из-массива" name="получить-случайное-значение-из-массива" class="main__anchor">Получить случайное значение из массива</a></h3><a href="task/random-from-array.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Напишите код для вывода <code>alert</code> случайного значения из массива:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;, &quot;Лимон&quot;];</code></pre>
+        </div>
+      </div>
+      
+      </div><p>P.S. Код для генерации случайного целого от <code>min</code> to <code>max</code> включительно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var rand = min + Math.floor(Math.random() * (max + 1 - min));</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Для вывода нужен случайный номер от <code>0</code> до <code>arr.length-1</code> включительно.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;, &quot;Лимон&quot;];
+
+var rand = Math.floor(Math.random() * arr.length);
+
+alert( arr[rand] );</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#создайте-калькулятор-для-введённых-значений" name="создайте-калькулятор-для-введённых-значений" class="main__anchor">Создайте калькулятор для введённых значений</a></h3><a href="task/calculator-for-input.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Напишите код, который:</p>
+<ul>
+<li>Запрашивает по очереди значения при помощи <code>prompt</code> и сохраняет их в массиве.</li>
+<li>Заканчивает ввод, как только посетитель введёт пустую строку, не число или нажмёт «Отмена».</li>
+<li>При этом ноль <code>0</code> не должен заканчивать ввод, это разрешённое число.</li>
+<li>Выводит сумму всех значений массива</li>
+</ul>
+<p><a href="#" onclick="event.preventDefault(); runDemo(this)">Запустить демо</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>В решение ниже обратите внимание: мы не приводим <code>value</code> к числу сразу после <code>prompt</code>, так как если сделать <code>value = +value</code>, то после этого отличить пустую строку от нуля уже никак нельзя. А нам здесь нужно при пустой строке прекращать ввод, а при нуле – продолжать.</p>
+<div data-trusted="1" class="code-example" data-demo="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var numbers = [];
+
+while (true) {
+
+  var value = prompt(&quot;Введите число&quot;, 0);
+
+  if (value === &quot;&quot; || value === null || isNaN(value)) break;
+
+  numbers.push(+value);
+}
+
+var sum = 0;
+for (var i = 0; i &lt; numbers.length; i++) {
+  sum += numbers[i];
+}
+
+alert( sum );</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#чему-равен-элемент-массива" name="чему-равен-элемент-массива" class="main__anchor">Чему равен элемент массива?</a></h3><a href="task/item-value.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Что выведет этот код?</p>
+<div data-trusted="1" class="code-example" data-highlight-block="5-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, 2, 3];
+
+var arr2 = arr;
+arr2[0] = 5;
+
+alert( arr[0] );
+alert( arr2[0] );</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, 2, 3];
+
+var arr2 = arr; // (*)
+arr2[0] = 5;
+
+alert( arr[0] );
+alert( arr2[0] );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Код выведет <code>5</code> в обоих случаях, так как массив является объектом. В строке <code>(*)</code> в переменную <code>arr2</code> копируется ссылка на него, а сам объект в памяти по-прежнему один, в нём отражаются изменения, внесенные через <code>arr2</code> или <code>arr</code>.</p>
+<p>В частности, сравнение <code>arr2 == arr</code> даст <code>true</code>.</p>
+<p>Если нужно именно скопировать массив, то это можно сделать, например, так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr2 = [];
+for (var i = 0; i &lt; arr.length; i++) arr2[i] = arr[i];</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#поиск-в-массиве" name="поиск-в-массиве" class="main__anchor">Поиск в массиве</a></h3><a href="task/array-find.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Создайте функцию <code>find(arr, value)</code>, которая ищет в массиве <code>arr</code> значение <code>value</code> и возвращает его номер, если найдено, или <code>-1</code>, если не найдено.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">arr = [&quot;test&quot;, 2, 1.5, false];
+
+find(arr, &quot;test&quot;); // 0
+find(arr, 2); // 1
+find(arr, 1.5); // 2
+
+find(arr, 0); // -1</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/HjP1IbSp79F8Q8Uh34jT?p=preview" target="_blank" data-plunk-id="HjP1IbSp79F8Q8Uh34jT">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Возможное решение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function find(array, value) {
+
+  for (var i = 0; i &lt; array.length; i++) {
+    if (array[i] == value) return i;
+  }
+
+  return -1;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Однако, в нем ошибка, т.к. сравнение <code>==</code> не различает <code>0</code> и <code>false</code>.</p>
+<p>Поэтому лучше использовать <code>===</code>. Кроме того, в современном стандарте JavaScript существует встроенная функция <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf">Array#indexOf</a>, которая работает именно таким образом. Имеет смысл ей воспользоваться, если браузер ее поддерживает.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function find(array, value) {
+  if (array.indexOf) { // если метод существует
+    return array.indexOf(value);
+  }
+
+  for (var i = 0; i &lt; array.length; i++) {
+    if (array[i] === value) return i;
+  }
+
+  return -1;
+}
+
+var arr = [&quot;a&quot;, -1, 2, &quot;b&quot;];
+
+var index = find(arr, 2);
+
+alert( index );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>… Но еще лучшим вариантом было бы определить <code>find</code> по-разному в зависимости от поддержки браузером метода <code>indexOf</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// создаем пустой массив и проверяем поддерживается ли indexOf
+if ([].indexOf) {
+
+  var find = function(array, value) {
+    return array.indexOf(value);
+  }
+
+} else {
+  var find = function(array, value) {
+    for (var i = 0; i &lt; array.length; i++) {
+      if (array[i] === value) return i;
+    }
+
+    return -1;
+  }
+
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Этот способ – лучше всего, т.к. не требует при каждом запуске <code>find</code> проверять поддержку <code>indexOf</code>.</p>
+<p><a href="http://plnkr.co/edit/dYiHGKhj9iYt9JT83UA9?p=preview" target="_blank" data-plunk-id="dYiHGKhj9iYt9JT83UA9">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#фильтр-диапазона" name="фильтр-диапазона" class="main__anchor">Фильтр диапазона</a></h3><a href="task/filter-range.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Создайте функцию <code>filterRange(arr, a, b)</code>, которая принимает массив чисел <code>arr</code> и возвращает новый массив, который содержит только числа из <code>arr</code> из диапазона от <code>a</code> до <code>b</code>. То есть, проверка имеет вид <code>a ≤ arr[i] ≤ b</code>.
+Функция не должна менять <code>arr</code>.</p>
+<p>Пример работы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [5, 4, 3, 8, 0];
+
+var filtered = filterRange(arr, 3, 5);
+// теперь filtered = [5, 4, 3]
+// arr не изменился</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/6EIoOuy8oFBpZu7W9IgZ?p=preview" target="_blank" data-plunk-id="6EIoOuy8oFBpZu7W9IgZ">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Алгоритм решения</button><div class="task__answer-content"><h4 class="task__step-title">Алгоритм решения</h4><ol>
+<li>Создайте временный пустой массив <code>var results = []</code>.</li>
+<li>Пройдите по элементам <code>arr</code> в цикле и заполните его.</li>
+<li>Возвратите <code>results</code>.</li>
+</ol>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function filterRange(arr, a, b) {
+  var result = [];
+
+  for (var i = 0; i &lt; arr.length; i++) {
+    if (arr[i] &gt;= a &amp;&amp; arr[i] &lt;= b) {
+      result.push(arr[i]);
+    }
+  }
+
+  return result;
+}
+
+var arr = [5, 4, 3, 8, 0];
+
+var filtered = filterRange(arr, 3, 5);
+alert( filtered );</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/pXX8Duh7PYcDnypCrLco?p=preview" target="_blank" data-plunk-id="pXX8Duh7PYcDnypCrLco">Открыть решение с тестами в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#решето-эратосфена" name="решето-эратосфена" class="main__anchor">Решето Эратосфена</a></h3><a href="task/eratosthenes-sieve/default.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Целое число, большее <code>1</code>, называется <em>простым</em>, если оно не делится нацело ни на какое другое, кроме себя и <code>1</code>.</p>
+<p>Древний алгоритм «Решето Эратосфена» для поиска всех простых чисел до <code>n</code> выглядит так:</p>
+<ol>
+<li>Создать список последовательных чисел от <code>2</code> до <code>n</code>: <code>2, 3, 4, ..., n</code>.</li>
+<li>Пусть <code>p=2</code>, это первое простое число.</li>
+<li>Зачеркнуть все последующие числа в списке с разницей в <code>p</code>, т.е. <code>2*p, 3*p, 4*p</code> и т.д. В случае <code>p=2</code> это будут <code>4,6,8...</code>.</li>
+<li>Поменять значение <code>p</code> на первое не зачеркнутое число после <code>p</code>.</li>
+<li>Повторить шаги 3-4 пока <code>p<sup>2</sup> &lt; n</code>.</li>
+<li>Все оставшиеся не зачеркнутыми числа – простые.</li>
+</ol>
+<p>Посмотрите также <a href="task/eratosthenes-sieve/sieve.gif">анимацию алгоритма</a>.</p>
+<p>Реализуйте «Решето Эратосфена» в JavaScript, используя массив.</p>
+<p>Найдите все простые числа до <code>100</code> и выведите их сумму.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Их сумма равна <code>1060</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// шаг 1
+var arr = [];
+
+for (var i = 2; i &lt; 100; i++) {
+  arr[i] = true
+}
+
+// шаг 2
+var p = 2;
+
+do {
+  // шаг 3
+  for (i = 2 * p; i &lt; 100; i += p) {
+    arr[i] = false;
+  }
+
+  // шаг 4
+  for (i = p + 1; i &lt; 100; i++) {
+    if (arr[i]) break;
+  }
+
+  p = i;
+} while (p * p &lt; 100); // шаг 5
+
+// шаг 6 (готово)
+// посчитать сумму
+var sum = 0;
+for (i = 0; i &lt; arr.length; i++) {
+  if (arr[i]) {
+    sum += i;
+  }
+}
+
+alert( sum );</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#подмассив-наибольшей-суммы" name="подмассив-наибольшей-суммы" class="main__anchor">Подмассив наибольшей суммы</a></h3><a href="task/maximal-subarray.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 2</span></div><div class="task__content"><p>На входе массив чисел, например: <code>arr = [1, -2, 3, 4, -9, 6]</code>.</p>
+<p>Задача – найти непрерывный подмассив <code>arr</code>, сумма элементов которого максимальна.</p>
+<p>Ваша функция должна возвращать только эту сумму.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:18-22,1:14-25,2:28-30,3:22-26,4:14-17,5:14-21">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">getMaxSubSum([-1, 2, 3, -9]) = 5 (сумма выделенных)
+getMaxSubSum([2, -1, 2, 3, -9]) = 6
+getMaxSubSum([-1, 2, 3, -9, 11]) = 11
+getMaxSubSum([-2, -1, 1, 2]) = 3
+getMaxSubSum([100, -9, 2, -3, 5]) = 100
+getMaxSubSum([1, 2, 3]) = 6 (неотрицательные - берем всех)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если все элементы отрицательные, то не берём ни одного элемента и считаем сумму равной нулю:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">getMaxSubSum([-1, -2, -3]) = 0</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Постарайтесь придумать решение, которое работает за O(n<sup>2</sup>), а лучше за O(n) операций.</p>
+<p><a href="http://plnkr.co/edit/uabYz8l097vGysS28r0O?p=preview" target="_blank" data-plunk-id="uabYz8l097vGysS28r0O">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Подсказка (медленное решение)</button><div class="task__answer-content"><h4 class="task__step-title">Подсказка (медленное решение)</h4><p>Можно просто посчитать для каждого элемента массива все суммы, которые с него начинаются.</p>
+<p>Например, для <code>[-1, 2, 3, -9, 11]</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Начиная с -1:
+-1
+-1 + 2
+-1 + 2 + 3
+-1 + 2 + 3 + (-9)
+-1 + 2 + 3 + (-9) + 11
+
+// Начиная с 2:
+2
+2 + 3
+2 + 3 + (-9)
+2 + 3 + (-9) + 11
+
+// Начиная с 3:
+3
+3 + (-9)
+3 + (-9) + 11
+
+// Начиная с -9
+-9
+-9 + 11
+
+// Начиная с 11
+11</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Сделайте вложенный цикл, который на внешнем уровне бегает по элементам массива, а на внутреннем – формирует все суммы элементов, которые начинаются с текущей позиции.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Медленное решение</button><div class="task__answer-content"><h4 class="task__step-title">Медленное решение</h4><p>Решение через вложенный цикл:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getMaxSubSum(arr) {
+  var maxSum = 0; // если совсем не брать элементов, то сумма 0
+
+  for (var i = 0; i &lt; arr.length; i++) {
+    var sumFixedStart = 0;
+    for (var j = i; j &lt; arr.length; j++) {
+      sumFixedStart += arr[j];
+      maxSum = Math.max(maxSum, sumFixedStart);
+    }
+  }
+
+  return maxSum;
+}
+
+alert( getMaxSubSum([-1, 2, 3, -9]) ); // 5
+alert( getMaxSubSum([-1, 2, 3, -9, 11]) ); // 11
+alert( getMaxSubSum([-2, -1, 1, 2]) ); // 3
+alert( getMaxSubSum([1, 2, 3]) ); // 6
+alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такое решение имеет <a href="http://ru.wikipedia.org/wiki/%C2%ABO%C2%BB_%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B5_%D0%B8_%C2%ABo%C2%BB_%D0%BC%D0%B0%D0%BB%D0%BE%D0%B5">оценку сложности</a> O(n<sup>2</sup>), то есть при увеличении массива в 2 раза алгоритм требует в 4 раза больше времени. На больших массивах (1000, 10000 и более элементов) такие алгоритмы могут приводить к серьёзным «тормозам».</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Подсказка (быстрое решение)</button><div class="task__answer-content"><h4 class="task__step-title">Подсказка (быстрое решение)</h4><p>Будем идти по массиву и накапливать в некоторой переменной <code>s</code> текущую частичную сумму. Если в какой-то момент s окажется отрицательной, то мы просто присвоим <code>s=0</code>. Утверждается, что максимум из всех значений переменной s, случившихся за время работы, и будет ответом на задачу.</p>
+<p><strong>Докажем этот алгоритм.</strong></p>
+<p>В самом деле, рассмотрим первый момент времени, когда сумма <code>s</code> стала отрицательной. Это означает, что, стартовав с нулевой частичной суммы, мы в итоге пришли к отрицательной частичной сумме – значит, и весь этот префикс массива, равно как и любой его суффикс имеют отрицательную сумму.</p>
+<p>Следовательно, от всего этого префикса массива в дальнейшем не может быть никакой пользы: он может дать только отрицательную прибавку к ответу.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Быстрое решение</button><div class="task__answer-content"><h4 class="task__step-title">Быстрое решение</h4><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getMaxSubSum(arr) {
+  var maxSum = 0,
+    partialSum = 0;
+  for (var i = 0; i &lt; arr.length; i++) {
+    partialSum += arr[i];
+    maxSum = Math.max(maxSum, partialSum);
+    if (partialSum &lt; 0) partialSum = 0;
+  }
+  return maxSum;
+}
+
+alert( getMaxSubSum([-1, 2, 3, -9]) ); // 5
+alert( getMaxSubSum([-1, 2, 3, -9, 11]) ); // 11
+alert( getMaxSubSum([-2, -1, 1, 2]) ); // 3
+alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
+alert( getMaxSubSum([1, 2, 3]) ); // 6
+alert( getMaxSubSum([-1, -2, -3]) ); // 0</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Информацию об алгоритме вы также можете прочитать здесь: <a href="http://e-maxx.ru/algo/maximum_average_segment">http://e-maxx.ru/algo/maximum_average_segment</a> и здесь: <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem">Maximum subarray problem</a>.</p>
+<p>Этот алгоритм требует ровно одного прохода по массиву, его сложность имеет оценку <code>O(n)</code>.</p>
+<p><a href="http://plnkr.co/edit/fO4OcFR3xHmQtI3yhSmK?p=preview" target="_blank" data-plunk-id="fO4OcFR3xHmQtI3yhSmK">Открыть решение с тестами в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

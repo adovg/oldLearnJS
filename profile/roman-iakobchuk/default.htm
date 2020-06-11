@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit-wide"><header class="main__header main__header_center"><div class="main__header-inner"><h1 class="main__header-title">Роман Якобчук</h1></div></header><div class="content"><div class="profile"><div class="profile-photo"><div style="background-image: url('https://i.imgur.com/ksJcyLAm.jpg')" class="profile-photo__upic"></div><div class="profile-photo__sign"><span class="profile-photo__sign-text">Преподаватель</span></div></div><div class="profile__content"><div class="profile__tabs"><div class="profile__tab profile__tab_current"><div class="profile__tab-content"><a href="../roman-iakobchuk" class="profile__tab-link">Публичный профиль</a></div></div><div class="profile__tab"><div class="profile__tab-content"><a href="quiz" class="profile__tab-link">Тесты</a></div></div></div><div class="profile__fields"><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Имя</div></div><div class="profile-field__rcell"><div class="profile-field__value">Роман Якобчук</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Страна</div></div><div class="profile-field__rcell"><div class="profile-field__value">Украина</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Город</div></div><div class="profile-field__rcell"><div class="profile-field__value">Киев</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Публичный email</div></div><div class="profile-field__rcell"><div class="profile-field__value">r.yakobchuk@javascript.info</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Интересы</div></div><div class="profile-field__rcell"><div class="profile-field__value">Machine Learning, функциональное программирование, разработка универсальных приложений. А также: жонглирование, пиротехника, музыка</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">О себе</div></div><div class="profile-field__rcell"><div class="profile-field__value"><p>Программирование люблю и практикую с детства, даже затрудняюсь сказать, какой именно в нём опыт)</p>
+<p>Знаю с десяток языков, но в последнее время активно пишу только на JavaScript.</p>
+<p>Выступаю на конференциях, провожу мастер-классы, курсы и консультации про фронтенд-разработке.</p>
+<p>За последние годы, неожиданно для себя, превратился в евангелиста React – я знаю и использую другие фреймворки, но так получается, что в 80% задач из моей жизни именно React является оптимальным решением.</p>
+</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Дата рождения</div></div><div class="profile-field__rcell"><div class="profile-field__value">09.01.1990</div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Ведёт курсы</div></div><div class="profile-field__rcell"><div class="profile-field__value"><a href="../../courses/react">Курс по React.JS</a>, <a href="../../courses/advreact">Продвинутый курс по React.JS</a></div></div></div><div class="profile-field"><div class="profile-field__lcell"><div class="profile-field__name">Зарегистрирован</div></div><div class="profile-field__rcell"><div class="profile-field__value"><date-local timestamp="2015-12-05T15:00:32.586Z" format="DD.MM.YYYY, LT"></date-local></div></div></div></div></div><div class="profile__feedbacks"><section class="course-feedbacks course-feedbacks_loading teacher-feedback"><div class="course-feedbacks__head"><h2 class="course-feedbacks__title">Отзывы учеников</h2></div><div data-feedback-container class="course-feedbacks__feedbacks-list"></div><div class="course-feedbacks__loader"><div class="page-loader"><span class="spinner spinner_active spinner_small"><span class="spinner__dot spinner__dot_1"></span><span class="spinner__dot spinner__dot_2"></span><span class="spinner__dot spinner__dot_3"></span></span></div></div></section></div><script>window.FEEDBACK_LIST_INIT = { elem: document.querySelector('.course-feedbacks'), filter: {teacherId: "5662fc10265d1dfa353244e2" } };</script></div></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

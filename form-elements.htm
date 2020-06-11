@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="forms-controls.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Формы, элементы управления</span></a></li></ol><h1 class="main__header-title">Навигация и свойства элементов формы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Навигация и свойства элементов формы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Элементы управления, такие как <code>&lt;form&gt;</code>, <code>&lt;input&gt;</code> и другие имеют большое количество своих важных свойств и ссылок.</p>
+<h2><a class="main__anchor" name="псевдомассив-form-elements" href="#псевдомассив-form-elements">Псевдомассив form.elements</a></h2><p>Элементы <code>FORM</code> можно получить по имени или номеру, используя свойство <code>document.forms[name/index]</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">document.forms.my -- форма с именем 'my'
+document.forms[0] -- первая форма в документе</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Любой <em>элемент</em> формы <code>form</code> можно получить аналогичным образом, используя свойство <code>form.elements</code>.</strong></p>
+<figure><div class="image" style="width:385px">
+      <div class="image__ratio" style="padding-top:38.961038961038966%"></div>
+      <img src="article/form-elements/form.png" alt="" width="385" height="150" class="image__image">
+      </div></figure><p>Например:</p>
+<div data-trusted="1" class="code-example" data-demo-height="40">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body&gt;
+  &lt;form name=&quot;my&quot;&gt;
+    &lt;input name=&quot;one&quot; value=&quot;1&quot;&gt;
+    &lt;input name=&quot;two&quot; value=&quot;2&quot;&gt;
+  &lt;/form&gt;
+
+  &lt;script&gt;
+    var form = document.forms.my; // можно document.forms[0]
+
+    var elem = form.elements.one; // можно form.elements[0]
+
+    alert( elem.value ); // 1
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Может быть несколько элементов с <em>одинаковым именем</em>. В таком случае <code>form.elements[name]</code> вернет коллекцию элементов</strong>, например:</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-highlight-inline="2:28-31,3:28-31">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body&gt;
+&lt;form&gt;
+  &lt;input type=&quot;radio&quot; name=&quot;age&quot; value=&quot;10&quot;&gt;
+  &lt;input type=&quot;radio&quot; name=&quot;age&quot; value=&quot;20&quot;&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+var form = document.forms[0];
+
+var elems = form.elements.age;
+
+alert(elems[0].value); // 10, первый input
+&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Эти ссылки не зависят от окружающих тегов. Элемент может быть «зарыт» где-то глубоко в форме, но он всё равно доступен через <code>form.elements</code>.</p>
+<p><strong>Свойство <code>elements</code> также есть у элементов <code>&lt;fieldset&gt;</code>.</strong>
+Вот пример:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-highlight-block="12-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body&gt;
+  &lt;form&gt;
+    &lt;fieldset name=&quot;set&quot;&gt;
+      &lt;legend&gt;fieldset&lt;/legend&gt;
+      &lt;input name=&quot;text&quot; type=&quot;text&quot;&gt;
+    &lt;/fieldset&gt;
+  &lt;/form&gt;
+
+  &lt;script&gt;
+    var form = document.forms[0];
+
+    alert( form.elements.text ); // INPUT
+    alert( form.elements.set.elements.text ); // INPUT
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Спецификация: <a href="https://html.spec.whatwg.org/multipage/forms.html">HTML5 Forms</a>.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Доступ <code>form.name</code> тоже работает, но с особенностями</span></div>
+            <div class="important__content"><p>Получить доступ к элементам формы можно не только через <code>form.elements[name/index]</code>, но и проще: <code>form[index/name]</code>.</p>
+<p>Этот способ короче, но обладает одной неприятной особенностью: если к элементу обратиться по его <code>name</code>, а потом свойство <code>name</code> изменить, то он по-прежнему будет доступен под старым именем.</p>
+<p>Звучит странно, поэтому посмотрим на примере.</p>
+<div data-trusted="1" class="code-example" data-demo-height="40">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;form name=&quot;myform&quot;&gt;
+  &lt;input name=&quot;text&quot;&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  var form = document.forms.myform;
+
+  alert( form.elements.text == form.text ); // true, это тот самый INPUT
+
+  form.text.name = &quot;new-name&quot;; // меняем name ему
+
+  // нет больше элемента с таким именем
+  alert( form.elements.text ); // undefined
+
+  alert( form.text ); //  INPUT (а должно быть undefined!)
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h2><a class="main__anchor" name="ссылка-на-форму-element-form" href="#ссылка-на-форму-element-form">Ссылка на форму element.form</a></h2><p>По элементу можно получить его форму, используя свойство <code>element.form</code>.</p>
+<p>Пример:</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-highlight-block="10-10" data-highlight-inline="2:27-34">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body&gt;
+&lt;form&gt;
+  &lt;input type=&quot;text&quot; name=&quot;surname&quot;&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+var form = document.forms[0];
+
+var elem = form.elements.surname;
+
+alert(elem.form == form); // true
+&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Познакомиться с другими свойствами элементов можно в спецификации <a href="https://html.spec.whatwg.org/multipage/forms.html">HTML5 Forms</a>.</p>
+<h2><a class="main__anchor" name="элемент-label" href="#элемент-label">Элемент label</a></h2><p>Элемент <code>label</code> – один из самых важных в формах.</p>
+<p><strong>Клик на <code>label</code> засчитывается как фокусировка или клик на элементе формы, к которому он относится.</strong></p>
+<p>Это позволяет посетителям кликать на большой красивой метке, а не на маленьком квадратике <code>input type=checkbox</code> (<code>radio</code>). Конечно, это очень удобно.</p>
+<p>Есть два способа показать, какой элемент относится к <code>label</code>:</p>
+<ol>
+<li>
+<p>Дать метке атрибут <code>for</code>, равный <code>id</code> соответствующего <code>input</code>:</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;label for=&quot;agree&quot;&gt;Согласен с правилами&lt;/label&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;input id=&quot;agree&quot; type=&quot;checkbox&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;label for=&quot;not-a-robot&quot;&gt;Я не робот&lt;/label&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;input id=&quot;not-a-robot&quot; type=&quot;checkbox&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-ar1kdb"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div></li>
+<li>
+<p>Завернуть элемент в <code>label</code>. В этом случае можно обойтись без дополнительных атрибутов:</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;label&gt;Кликни меня &lt;input type=&quot;checkbox&quot;&gt;&lt;/label&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-bma347"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div></li>
+</ol>
+<h2><a class="main__anchor" name="элементы-input-и-textarea" href="#элементы-input-и-textarea">Элементы input и textarea</a></h2><p>Для большинства типов <code>input</code> значение ставится/читается через свойство <code>value</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">input.value = &quot;Новое значение&quot;;
+textarea.value = &quot;Новый текст&quot;;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Не используйте <code>textarea.innerHTML</code></span></div>
+            <div class="important__content"><p>Для элементов <code>textarea</code> также доступно свойство <code>innerHTML</code>, но лучше им не пользоваться: оно хранит только HTML, изначально присутствовавший в элементе, и не меняется при изменении значения.</p>
+</div></div>
+<p>Исключения – <code>input type=&quot;checkbox&quot;</code> и <code>input type=&quot;radio&quot;</code></p>
+<p><strong>Текущее «отмеченное» состояние для <code>checkbox</code> и <code>radio</code> находится в свойстве <code>checked</code> (<code>true/false</code>).</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (input.checked) {
+  alert( &quot;Чекбокс выбран&quot; );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="элементы-select-и-option" href="#элементы-select-и-option">Элементы select и option</a></h2><p>Селект в JavaScript можно установить двумя путями: поставив значение  <code>select.value</code>, либо установив свойство <code>select.selectedIndex</code> в номер нужной опции.:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">select.selectedIndex = 0; // первая опция</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Установка <code>selectedIndex = -1</code> очистит выбор.</p>
+<p><strong>Список элементов-опций доступен через <code>select.options</code>.</strong></p>
+<p>Если <code>select</code> допускает множественный выбор (атрибут <code>multiple</code>), то значения можно получить/установить, сделав цикл по <code>select.options</code>. При этом выбранные опции будут иметь свойство <code>option.selected = true</code>.</p>
+<p>Пример:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="14-16" data-highlight-inline="1:23-31">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;form name=&quot;form&quot;&gt;
+  &lt;select name=&quot;genre&quot; multiple&gt;
+    &lt;option value=&quot;blues&quot; selected&gt;Мягкий блюз&lt;/option&gt;
+    &lt;option value=&quot;rock&quot; selected&gt;Жёсткий рок&lt;/option&gt;
+    &lt;option value=&quot;classic&quot;&gt;Классика&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+var form = document.forms[0];
+var select = form.elements.genre;
+
+for (var i = 0; i &lt; select.options.length; i++) {
+  var option = select.options[i];
+  if(option.selected) {
+    alert( option.value );
+  }
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Спецификация: <a href="https://html.spec.whatwg.org/multipage/forms.html#the-select-element">the select element</a>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>new Option</code></span></div>
+            <div class="important__content"><p>В стандарте <a href="https://html.spec.whatwg.org/multipage/forms.html#the-option-element">the option element</a> есть любопытный короткий синтаксис для создания элемента с тегом <code>option</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">option = new Option(text, value, defaultSelected, selected);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Параметры:</p>
+<ul>
+<li><code>text</code> – содержимое,</li>
+<li><code>value</code> – значение,</li>
+<li><code>defaultSelected</code> и <code>selected</code> поставьте в <code>true</code>, чтобы сделать элемент выбранным.</li>
+</ul>
+<p>Его можно использовать вместо <code>document.createElement('option')</code>, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var option = new Option(&quot;Текст&quot;, &quot;value&quot;);
+// создаст &lt;option value=&quot;value&quot;&gt;Текст&lt;/option&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такой же элемент, но выбранный:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var option = new Option(&quot;Текст&quot;, &quot;value&quot;, true, true);</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Дополнительные свойства <code>option</code></span></div>
+            <div class="important__content"><p>У элементов <code>option</code> также есть особые свойства, которые могут оказаться полезными (см. <a href="https://html.spec.whatwg.org/multipage/forms.html#the-option-element">the option element</a>):</p>
+<dl>
+<dt><code>selected</code></dt>
+<dd>выбрана ли опция</dd>
+<dt><code>index</code></dt>
+<dd>номер опции в списке селекта</dd>
+<dt><code>text</code></dt>
+<dd>Текстовое содержимое опции (то, что видит посетитель).</dd>
+</dl>
+</div></div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Свойства для навигации по формам:</p>
+<dl>
+<dt><code>document.forms</code></dt>
+<dd>Форму можно получить как <code>document.forms[name/index]</code>.</dd>
+<dt><code>form.elements</code></dt>
+<dd>Элементы в форме: <code>form.elements[name/index]</code>. Каждый элемент имеет ссылку на форму в свойстве <code>form</code>. Свойство <code>elements</code> также есть у <code>&lt;fieldset&gt;</code>.</dd>
+</dl>
+<p>Значение элементов читается/ставится через <code>value</code> или <code>checked</code>.</p>
+<p>Для элемента <code>select</code> можно задать опцию по номеру через <code>select.selectedIndex</code> и перебрать опции через <code>select.options</code>. При этом выбранные опции (в том числе при мультиселекте) будут иметь свойство <code>option.selected = true</code>.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#добавьте-опцию-к-селекту" name="добавьте-опцию-к-селекту" class="main__anchor">Добавьте опцию к селекту</a></h3><a href="task/add-select-option.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Есть селект:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;select&gt;
+  &lt;option value=&quot;Rock&quot;&gt;Рок&lt;/option&gt;
+  &lt;option value=&quot;Blues&quot; selected&gt;Блюз&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При помощи JavaScript:</p>
+<ol>
+<li>Выведите значение и текст текущей выбранной опции.</li>
+<li>Добавьте опцию: <code>&lt;option value=&quot;Classic&quot;&gt;Классика&lt;/option&gt;</code>.</li>
+<li>Сделайте её выбранной.</li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;select&gt;
+  &lt;option value=&quot;Rock&quot;&gt;Рок&lt;/option&gt;
+  &lt;option value=&quot;Blues&quot; selected&gt;Блюз&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+  var select = document.body.children[0];
+
+  // 1)
+  var selectedOption = select.options[select.selectedIndex];
+  alert( selectedOption.value  + &quot; - &quot; + selectedOption.text );
+
+  // 2)
+  var newOption = new Option(&quot;Classic&quot;, &quot;Классика&quot;);
+  select.appendChild(newOption);
+
+  // 3)
+  newOption.selected = true;
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

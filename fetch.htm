@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="ajax.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">AJAX и COMET</span></a></li></ol><h1 class="main__header-title">Метод fetch: замена XMLHttpRequest</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Метод fetch: замена XMLHttpRequest"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Метод <a href="https://fetch.spec.whatwg.org/">fetch</a> – это <code>XMLHttpRequest</code> нового поколения. Он предоставляет улучшенный интерфейс для осуществления запросов к серверу: как по части возможностей и контроля над происходящим, так и по синтаксису, так как построен на <a href="promise.htm">промисах</a>.</p>
+<p>Поддержка в браузерах пока не очень распространена, но есть <a href="https://github.com/github/fetch">полифилл</a> и не один.</p>
+<h2><a class="main__anchor" name="синтаксис" href="#синтаксис">Синтаксис</a></h2><p>Синтаксис метода <code>fetch</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">let promise = fetch(url[, options]);</code></pre>
+        </div>
+      </div>
+      
+      </div><ul>
+<li><code>url</code> – URL, на который сделать запрос,</li>
+<li><code>options</code> – необязательный объект с настройками запроса.</li>
+</ul>
+<p>Свойства <code>options</code>:</p>
+<ul>
+<li><code>method</code> – метод запроса,</li>
+<li><code>headers</code> – заголовки запроса (объект),</li>
+<li><code>body</code> – тело запроса: <code>FormData</code>, <code>Blob</code>, строка и т.п.</li>
+<li><code>mode</code> – одно из: «same-origin», «no-cors», «cors», указывает, в каком режиме кросс-доменности предполагается делать запрос.</li>
+<li><code>credentials</code> – одно из: «omit», «same-origin», «include», указывает, пересылать ли куки и заголовки авторизации вместе с запросом.</li>
+<li><code>cache</code> – одно из «default», «no-store», «reload», «no-cache», «force-cache», «only-if-cached», указывает, как кешировать запрос.</li>
+<li><code>redirect</code> – можно поставить «follow» для обычного поведения при коде 30x (следовать редиректу) или «error» для интерпретации редиректа как ошибки.</li>
+</ul>
+<p>Как видно, всевозможных настроек здесь больше, чем в <code>XMLHttpRequest</code>. Вместе с тем, надо понимать, что если мы используем полифилл, то ничего более гибкого, чем оригинальный <code>XMLHttpRequest</code> мы из этого не получим.</p>
+<p>Разве что, <code>fetch</code>, возможно, будет удобнее пользоваться.</p>
+<h2><a class="main__anchor" name="использование" href="#использование">Использование</a></h2><p>При вызове <code>fetch</code> возвращает промис, который, когда получен ответ, выполняет коллбэки с объектом <a href="https://fetch.spec.whatwg.org/#response">Response</a> или с ошибкой, если запрос не удался.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+fetch('/article/fetch/user.json')
+  .then(function(response) {
+    alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
+    alert(response.status); // 200
+
+    return response.json();
+   })
+  .then(function(user) {
+    alert(user.name); // iliakan
+  })
+  .catch( alert );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Объект <code>response</code> кроме доступа к заголовкам <code>headers</code>, статусу <code>status</code> и некоторым другим полям ответа, даёт возможность прочитать его тело, в желаемом формате.</p>
+<p>Варианты описаны в спецификации <a href="https://fetch.spec.whatwg.org/#body">Body</a>, они включают в себя:</p>
+<ul>
+<li><code>response.arrayBuffer()</code></li>
+<li><code>response.blob()</code></li>
+<li><code>response.formData()</code></li>
+<li><code>response.json()</code></li>
+<li><code>response.text()</code></li>
+</ul>
+<p>Соответствующий вызов возвращает промис, который, когда ответ будет получен, вызовет коллбэк с результатом.</p>
+<p>В примере выше мы можем в первом <code>.then</code> проанализировать ответ и, если он нас устроит – вернуть промис с нужным форматом. Следующий <code>.then</code> уже будет содержать полный ответ сервера.</p>
+<p>Больше примеров вы можете найти в описании <a href="https://github.com/github/fetch">полифилла для fetch</a>.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Метод <code>fetch</code> – уже сейчас удобная альтернатива <code>XMLHttpRequest</code> для тех, кто не хочет ждать и любит промисы.</p>
+<p>Детальное описание этого метода есть в стандарте <a href="https://fetch.spec.whatwg.org/">Fetch</a>, а простейшие примеры запросов – в описании к <a href="https://github.com/github/fetch">полифиллу</a>.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Размеры и прокрутка элементов</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Размеры и прокрутка элементов"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Для того, чтобы показывать элементы на произвольных местах страницы, необходимо во-первых, знать CSS-позиционирование, а во-вторых – уметь работать с «геометрией элементов» из JavaScript.</p>
+<p>В этой главе мы поговорим о размерах элементов DOM, способах их вычисления и <em>метриках</em> – различных свойствах, которые содержат эту информацию.</p>
+<h2><a class="main__anchor" name="образец-документа" href="#образец-документа">Образец документа</a></h2><p>Мы будем использовать для примера вот такой элемент, у которого есть рамка (border), поля (padding), и прокрутка:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div id=&quot;example&quot;&gt;
+  ...Текст...
+&lt;/div&gt;
+&lt;style&gt;
+  #example {
+    width: 300px;
+
+    height: 200px;
+
+    border: 25px solid #E8C48F; /* рамка 25px */
+
+    padding: 20px;              /* поля 20px */
+
+    overflow: auto;             /* прокрутка */
+  }
+&lt;/style&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>У него нет отступов <code>margin</code>, в этой главе они не важны, так как метрики касаются именно размеров самого элемента, отступы в них не учитываются.</p>
+<p>Результат выглядит так:</p>
+<figure><div class="image" style="width:566px">
+      <div class="image__ratio" style="padding-top:82.86219081272085%"></div>
+      <img src="article/metrics/metric-css.png" alt="" width="566" height="469" class="image__image">
+      </div></figure><p>Вы можете открыть <a href="http://plnkr.co/edit/iQIbur6EeZDAe015k65z?p=preview">этот документ в песочнице</a>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Внимание, полоса прокрутки!</span></div>
+            <div class="important__content"><p>В иллюстрации выше намеренно продемонстрирован самый сложный и полный случай, когда у элемента есть ещё и полоса прокрутки.</p>
+<p>В этом случае полоса прокрутки «отодвигает» содержимое вместе с <code>padding</code> влево, отбирая у него место.</p>
+<p>Именно поэтому ширина содержимого обозначена как <code>content width</code> и равна <code>284px</code>, а не <code>300px</code>, как в CSS.</p>
+<p>Точное значение получено в предположении, что ширина полосы прокрутки равна <code>16px</code>, то есть после её вычитания на содержимое остаётся <code>300 - 16 = 284px</code>. Конечно, она сильно зависит от браузера, устройства, ОС.</p>
+<p>Мы должны в точности понимать, что происходит с размерами элемента при наличии полосы прокрутки, поэтому на картинке выше это отражено.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Поля <code>padding</code> могут быть заполнены текстом</span></div>
+            <div class="important__content"><p>На рисунке выше поля <code>padding</code> изображены пустыми, но текст там вполне может быть, к примеру, при наличии вертикальной прокрутки.</p>
+</div></div>
+<h2><a class="main__anchor" name="метрики" href="#метрики">Метрики</a></h2><p>У элементов существует ряд свойств, содержащих их внешние и внутренние размеры. Мы будем называть их «метриками».</p>
+<p>Метрики, в отличие от свойств CSS, содержат числа, всегда в пикселях и без единиц измерения на конце.</p>
+<p>Вот общая картина:</p>
+<figure><div class="image" style="width:670px">
+      <div class="image__ratio" style="padding-top:89.8507462686567%"></div>
+      <img src="article/metrics/metric-all.png" alt="" width="670" height="602" class="image__image">
+      </div></figure><p>На картинке все они с трудом помещаются, но, как мы увидим далее, их значения просты и понятны.</p>
+<p>Будем исследовать их снаружи элемента и вовнутрь.</p>
+<h2><a class="main__anchor" name="offsetparent-offsetleft-top" href="#offsetparent-offsetleft-top">offsetParent, offsetLeft/Top</a></h2><p>Ситуации, когда эти свойства нужны, можно перечислить по пальцам. Они возникают действительно редко. Как правило, эти свойства используют, потому что не знают средств правильной работы с координатами, о которых мы поговорим позже.</p>
+<p>Несмотря на то, что эти свойства нужны реже всего, они – самые «внешние», поэтому начнём с них.</p>
+<p><strong>В <code>offsetParent</code> находится ссылка на родительский элемент в смысле отображения на странице.</strong></p>
+<p>Уточним, что имеется в виду.</p>
+<p>Когда браузер рисует страницу, то он высчитывает дерево расположения элементов, иначе говоря «дерево геометрии» или «дерево рендеринга», которое содержит всю информацию о размерах.</p>
+<p>При этом одни элементы естественным образом рисуются внутри других. Но, к примеру, если у элемента стоит <code>position:absolute</code>, то его расположение вычисляется уже не относительно непосредственного родителя <code>parentNode</code>, а относительно ближайшего <a href="http://www.w3.org/TR/CSS21/visuren.html#position-props">позиционированного элемента</a> (т.е. свойство <code>position</code> которого не равно <code>static</code>), или <code>BODY</code>, если такой отсутствует.</p>
+<p>Получается, что элемент имеет в дополнение к обычному родителю в DOM – ещё одного «родителя по позиционированию», то есть относительно которого он рисуется. Этот элемент и будет в свойстве <code>offsetParent</code>.</p>
+<p><strong>Свойства <code>offsetLeft/Top</code> задают смещение относительно <code>offsetParent</code>.</strong></p>
+<p>В примере ниже внутренний <code>&lt;div&gt;</code> имеет DOM-родителя <code>&lt;form&gt;</code>, но <code>offsetParent</code> у него <code>&lt;main&gt;</code>, и сдвиги относительно его верхнего-левого угла будут в <code>offsetLeft/Top</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;main style=&quot;position: relative&quot;&gt;
+  &lt;form&gt;
+    &lt;div id=&quot;example&quot; style=&quot;position: absolute; left: 180px; top: 180px&quot;&gt;...&lt;/div&gt;
+  &lt;/form&gt;
+&lt;/main&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><figure><div class="image" style="width:641px">
+      <div class="image__ratio" style="padding-top:87.6755070202808%"></div>
+      <img src="article/metrics/metric-offset-parent.png" alt="" width="641" height="562" class="image__image">
+      </div></figure><h2><a class="main__anchor" name="offsetwidth-height" href="#offsetwidth-height">offsetWidth/Height</a></h2><p>Теперь переходим к самому элементу.</p>
+<p>Эти два свойства – самые простые. Они содержат «внешнюю» ширину/высоту элемента, то есть его полный размер, включая рамки <code>border</code>.</p>
+<figure><div class="image" style="width:508px">
+      <div class="image__ratio" style="padding-top:100.19685039370079%"></div>
+      <img src="article/metrics/metric-offset-width-height.png" alt="" width="508" height="509" class="image__image">
+      </div></figure><p>Для нашего элемента:</p>
+<ul>
+<li><code>offsetWidth = 390</code> – внешняя ширина блока, её можно получить сложением CSS-ширины (<code>300px</code>, но её часть на рисунке выше отнимает прокрутка, поэтому <code>284 + 16</code>), полей(<code>2*20px</code>) и рамок (<code>2*25px</code>).</li>
+<li><code>offsetHeight = 290</code> – внешняя высота блока.</li>
+</ul>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Метрики для невидимых элементов равны нулю.</span></div>
+            <div class="important__content"><p>Координаты и размеры в JavaScript устанавливаются только для <em>видимых</em> элементов.</p>
+<p>Для элементов с <code>display:none</code> или находящихся вне документа дерево рендеринга не строится. Для них метрики равны нулю. Кстати, и <code>offsetParent</code> для таких элементов тоже <code>null</code>.</p>
+<p><strong>Это дает нам замечательный способ для проверки, виден ли элемент</strong>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function isHidden(elem) {
+  return !elem.offsetWidth &amp;&amp; !elem.offsetHeight;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><ul>
+<li>Работает, даже если родителю элемента установлено свойство <code>display:none</code>.</li>
+<li>Работает для всех элементов, кроме <code>TR</code>, с которым возникают некоторые проблемы в разных браузерах. Обычно, проверяются не <code>TR</code>, поэтому всё ок.</li>
+<li>Считает элемент видимым, даже если позиционирован за пределами экрана или  имеет свойство <code>visibility:hidden</code>.</li>
+<li>«Схлопнутый» элемент, например пустой <code>div</code> без высоты и ширины, будет считаться невидимым.</li>
+</ul>
+</div></div>
+<h2><a class="main__anchor" name="clienttop-left" href="#clienttop-left">clientTop/Left</a></h2><p>Далее внутри элемента у нас рамки <code>border</code>.</p>
+<p>Для них есть свойства-метрики <code>clientTop</code> и <code>clientLeft</code>.</p>
+<p>В нашем примере:</p>
+<ul>
+<li><code>clientLeft = 25</code> – ширина левой рамки</li>
+<li><code>clientTop = 25</code> – ширина верхней рамки</li>
+</ul>
+<figure><div class="image" style="width:353px">
+      <div class="image__ratio" style="padding-top:89.51841359773371%"></div>
+      <img src="article/metrics/metric-client-left-top.png" alt="" width="353" height="316" class="image__image">
+      </div></figure><p>…Но на самом деле они – вовсе не рамки, а отступ внутренней части элемента от внешней.</p>
+<p>В чём же разница?</p>
+<p>Она возникает тогда, когда документ располагается <em>справа налево</em> (операционная система на арабском языке или иврите). Полоса прокрутки в этом случае находится слева, и тогда свойство <code>clientLeft</code> включает в себя еще и ширину полосы прокрутки.</p>
+<p>Получится так:</p>
+<figure><div class="image" style="width:359px">
+      <div class="image__ratio" style="padding-top:88.02228412256268%"></div>
+      <img src="article/metrics/metric-client-left-top-rtl.png" alt="" width="359" height="316" class="image__image">
+      </div></figure><h2><a class="main__anchor" name="clientwidth-height" href="#clientwidth-height">clientWidth/Height</a></h2><p>Эти свойства – размер элемента внутри рамок <code>border</code>.</p>
+<p>Они включают в себя ширину содержимого <code>width</code> вместе с полями <code>padding</code>, но без прокрутки.</p>
+<figure><div class="image" style="width:500px">
+      <div class="image__ratio" style="padding-top:98.6%"></div>
+      <img src="article/metrics/metric-client-width-height.png" alt="" width="500" height="493" class="image__image">
+      </div></figure><p>На рисунке выше посмотрим вначале на <code>clientHeight</code>, её посчитать проще всего. Прокрутки нет, так что это в точности то, что внутри рамок: CSS-высота <code>200px</code> плюс верхнее и нижнее поля <code>padding</code> (по <code>20px</code>), итого <code>240px</code>.</p>
+<p>На рисунке  нижний <code>padding</code> заполнен текстом, но это неважно: по правилам он всегда входит в <code>clientHeight</code>.</p>
+<p>Теперь <code>clientWidth</code> – ширина содержимого здесь не равна CSS-ширине, её часть «съедает» полоса прокрутки.
+Поэтому в <code>clientWidth</code> входит не CSS-ширина, а реальная ширина содержимого <code>284px</code> плюс левое и правое поля <code>padding</code> (по <code>20px</code>), итого <code>324px</code>.</p>
+<p><strong>Если <code>padding</code> нет, то <code>clientWidth/Height</code> в точности равны размеру области содержимого, внутри рамок и полосы прокрутки.</strong></p>
+<figure><div class="image" style="width:409px">
+      <div class="image__ratio" style="padding-top:114.18092909535453%"></div>
+      <img src="article/metrics/metric-client-width-nopadding.png" alt="" width="409" height="467" class="image__image">
+      </div></figure><p>Поэтому в тех случаях, когда мы точно знаем, что <code>padding</code> нет, их используют для определения внутренних размеров элемента.</p>
+<h2><a class="main__anchor" name="scrollwidth-height" href="#scrollwidth-height">scrollWidth/Height</a></h2><p>Эти свойства – аналоги <code>clientWidth/clientHeight</code>, но с учетом прокрутки.</p>
+<p>Свойства <code>clientWidth/clientHeight</code> относятся только к видимой области элемента, а <code>scrollWidth/scrollHeight</code> добавляют к ней прокрученную (которую не видно) по горизонтали/вертикали.</p>
+<figure><div class="image" style="width:463px">
+      <div class="image__ratio" style="padding-top:115.76673866090712%"></div>
+      <img src="article/metrics/metric-scroll-width-height.png" alt="" width="463" height="536" class="image__image">
+      </div></figure><p>На рисунке выше:</p>
+<ul>
+<li><code>scrollHeight = 723</code> – полная внутренняя высота, включая прокрученную область.</li>
+<li><code>scrollWidth = 324</code> – полная внутренняя ширина, в данном случае прокрутки нет, поэтому она равна <code>clientWidth</code>.</li>
+</ul>
+<p>Эти свойства можно использовать, чтобы «распахнуть» элемент на всю ширину/высоту, таким кодом:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">element.style.height = element.scrollHeight + 'px';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Нажмите на кнопку, чтобы распахнуть элемент:</p>
+<div id="scrollOpen" style="width:300px;height:200px; padding: 0;overflow: auto; border:1px solid black;">текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст</div>
+<p><button style="padding:0" onclick="document.getElementById('scrollOpen').style.height = document.getElementById('scrollOpen').scrollHeight + 'px'">element.style.height = element.scrollHeight + „px“</button></p>
+<h2><a class="main__anchor" name="scrollleft-scrolltop" href="#scrollleft-scrolltop">scrollLeft/scrollTop</a></h2><p>Свойства <code>scrollLeft/scrollTop</code> – ширина/высота невидимой, прокрученной в данный момент, части элемента слева и сверху.</p>
+<p>Следующая иллюстрация показывает значения <code>scrollHeight</code> и <code>scrollTop</code> для блока с вертикальной прокруткой.</p>
+<figure><div class="image" style="width:489px">
+      <div class="image__ratio" style="padding-top:110.83844580777095%"></div>
+      <img src="article/metrics/metric-scroll-top.png" alt="" width="489" height="542" class="image__image">
+      </div></figure><div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>scrollLeft/scrollTop</code> можно изменять</span></div>
+            <div class="important__content"><p>В отличие от большинства свойств, которые доступны только для чтения, значения <code>scrollLeft/scrollTop</code> можно изменить, и браузер выполнит прокрутку элемента.</p>
+<p>При клике на следующий элемент будет выполняться код <code>elem.scrollTop += 10</code>. Поэтому он будет прокручиваться на <code>10px</code> вниз:</p>
+<div onclick="this.scrollTop+=10" style="cursor:pointer;border:1px solid black;width:100px;height:80px;overflow:auto">Кликни<br>Меня<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+</div></div>
+<h2><a class="main__anchor" name="не-стоит-брать-width-height-из-css" href="#не-стоит-брать-width-height-из-css">Не стоит брать width/height из CSS</a></h2><p>Мы рассмотрели метрики – свойства, которые есть у DOM-элементов. Их обычно используют для получения их различных высот, ширин и прочих расстояний.</p>
+<p>Теперь несколько слов о том, как <em>не</em> надо делать.</p>
+<p>Как мы знаем, CSS-высоту и ширину можно установить с помощью <code>elem.style</code> и извлечь, используя <code>getComputedStyle</code>, которые в подробностях обсуждаются в главе <a href="styles-and-classes.htm">Стили, getComputedStyle</a>.</p>
+<p>Получение ширины элемента может быть таким:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var elem = document.body;
+
+alert( getComputedStyle(elem).width ); // вывести CSS-ширину для elem</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Не лучше ли получать ширину так, вместо метрик? Вовсе нет!</p>
+<ol>
+<li>
+<p>Во-первых, CSS-свойства <code>width/height</code> зависят от другого свойства – <code>box-sizing</code>, которое определяет, что такое, собственно, эти ширина и высота. Получается, что изменение <code>box-sizing</code>, к примеру, для более удобной вёрстки, сломает такой JavaScript.</p>
+</li>
+<li>
+<p>Во-вторых, в CSS свойства <code>width/height</code> могут быть равны <code>auto</code>, например, для инлайн-элемента:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-3">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;span id=&quot;elem&quot;&gt;Привет!&lt;/span&gt;
+
+&lt;script&gt;
+  alert( getComputedStyle(elem).width ); // auto
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Конечно, с точки зрения CSS размер <code>auto</code>  – совершенно нормально, но нам-то в JavaScript нужен конкретный размер в пикселях, который мы могли бы использовать для вычислений. Получается, что в данном случае ширина <code>width</code> из CSS вообще бесполезна.</p>
+</li>
+</ol>
+<p>Есть и ещё одна причина.</p>
+<p>Полоса прокрутки – причина многих проблем и недопониманий. Как говорится, «дьявол кроется в деталях». Недопустимо, чтобы наш код работал на элементах без прокрутки и начинал «глючить» с ней.</p>
+<p>Как мы говорили ранее, при наличии вертикальной полосы прокрутки, в зависимости от браузера, устройства и операционной системы, она может сдвинуть содержимое.</p>
+<p>Получается, что реальная ширина содержимого меньше CSS-ширины. И это учитывают свойства <code>clientWidth/clientHeight</code>.</p>
+<p>…Но при этом некоторые браузеры также учитывают это в результате <code>getComputedStyle(elem).width</code>, то есть возвращают реальную внутреннюю ширину, а некоторые – именно CSS-свойство. Эти кросс-браузерные отличия – ещё один повод не использовать такой подход, а использовать свойства-метрики.</p>
+<p>Если ваш браузер показывает полосу прокрутки (например, под Windows почти все браузеры так делают), то вы можете протестировать это сами, нажав на кнопку в ифрейме ниже.</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/metrics/cssWidthScroll/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:300px" src="https://js.cx/article/metrics/cssWidthScroll/"></iframe>
+  </div><p>У элемента с текстом в стилях указано <code>width:300px</code>.</p>
+<p>На момент написания этой главы при тестировании в Chrome под Windows <code>alert</code> выводил <code>283px</code>, а в Firefox – <code>300px</code>. При этом оба браузера показывали прокрутку. Это из-за того, что Firefox возвращал именно CSS-ширину, а Chrome – реальную ширину, за вычетом прокрутки.</p>
+<p>Описанные разночтения касаются только чтения свойства <code>getComputedStyle(...).width</code> из JavaScript, визуальное отображение корректно в обоих случаях.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>У элементов есть следующие метрики:</p>
+<ul>
+<li><code>offsetParent</code> – «родитель по дереву рендеринга» – ближайшая ячейка таблицы, body для статического позиционирования или ближайший позиционированный элемент для других типов позиционирования.</li>
+<li><code>offsetLeft/offsetTop</code> – позиция в пикселях левого верхнего угла блока, относительно его <code>offsetParent</code>.</li>
+<li><code>offsetWidth/offsetHeight</code> – «внешняя» ширина/высота блока, включая рамки.</li>
+<li><code>clientLeft/clientTop</code> – отступ области содержимого от левого-верхнего угла элемента. Если операционная система располагает вертикальную прокрутку справа, то равны ширинам левой/верхней рамки, если же слева (ОС на иврите, арабском), то <code>clientLeft</code> включает в себя прокрутку.</li>
+<li><code>clientWidth/clientHeight</code> – ширина/высота содержимого вместе с полями <code>padding</code>, но без полосы прокрутки.</li>
+<li><code>scrollWidth/scrollHeight</code> – ширина/высота содержимого, включая прокручиваемую область. Включает в себя <code>padding</code> и не включает полосы прокрутки.</li>
+<li><code>scrollLeft/scrollTop</code> – ширина/высота прокрученной части документа, считается от верхнего левого угла.</li>
+</ul>
+<p>Все свойства, доступны только для чтения, кроме <code>scrollLeft/scrollTop</code>. Изменение этих свойств заставляет браузер прокручивать элемент.</p>
+<p>В этой главе мы считали, что страница находится в режиме соответствия стандартам. В режиме совместимости – некоторые старые браузеры требуют <code>document.body</code> вместо <code>documentElement</code>, в остальном всё так же. Конечно, по возможности, стоит использовать только режим соответствия стандарту.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найти-размер-прокрутки-снизу" name="найти-размер-прокрутки-снизу" class="main__anchor">Найти размер прокрутки снизу</a></h3><a href="task/get-scroll-height-bottom.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Свойство <code>elem.scrollTop</code> содержит размер прокрученной области при отсчете сверху. А как подсчитать размер прокрутки снизу?</p>
+<p>Напишите соответствующее выражение для произвольного элемента <code>elem</code>.</p>
+<p>Проверьте: если прокрутки нет вообще или элемент полностью прокручен – оно должно давать ноль.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение: <code>elem.scrollHeight - elem.scrollTop - elem.clientHeight</code>.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#узнать-ширину-полосы-прокрутки" name="узнать-ширину-полосы-прокрутки" class="main__anchor">Узнать ширину полосы прокрутки</a></h3><a href="task/scrollbar-width.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Напишите код, который возвращает ширину стандартной полосы прокрутки. Именно самой полосы, где ползунок. Обычно она равна <code>16px</code>, в редких и мобильных браузерах может колебаться от <code>14px</code> до <code>18px</code>, а кое-где даже равна <code>0px</code>.</p>
+<p>P.S. Ваш код должен работать на любом HTML-документе, независимо от его содержимого.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Создадим элемент с прокруткой, но без <code>border</code> и <code>padding</code>. Тогда разница между его полной шириной <code>offsetWidth</code> и внутренней <code>clientWidth</code> будет равна как раз прокрутке:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// создадим элемент с прокруткой
+var div = document.createElement('div');
+
+div.style.overflowY = 'scroll';
+div.style.width = '50px';
+div.style.height = '50px';
+
+// при display:none размеры нельзя узнать
+// нужно, чтобы элемент был видим,
+// visibility:hidden - можно, т.к. сохраняет геометрию
+div.style.visibility = 'hidden';
+
+document.body.appendChild(div);
+var scrollWidth = div.offsetWidth - div.clientWidth;
+document.body.removeChild(div);
+
+alert( scrollWidth );</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#подменить-div-на-другой-с-таким-же-размером" name="подменить-div-на-другой-с-таким-же-размером" class="main__anchor">Подменить div на другой с таким же размером</a></h3><a href="task/div-placeholder.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Посмотрим следующий случай из жизни. Был текст, который, в частности, содержал <code>div</code> с зелеными границами:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  #moving-div {
+    border: 5px groove green;
+    padding: 5px;
+    margin: 10px;
+    background-color: yellow;
+  }
+&lt;/style&gt;
+
+Before Before Before
+
+&lt;div id=&quot;moving-div&quot;&gt;
+Text Text Text&lt;br&gt;
+Text Text Text&lt;br&gt;
+&lt;/div&gt;
+
+After After After</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Программист Валера из вашей команды написал код, который позиционирует его абсолютно и смещает в правый верхний угол. Вот этот код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var div = document.getElementById('moving-div');
+div.style.position = 'absolute';
+div.style.right = div.style.top = 0;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Побочным результатом явилось смещение текста, который раньше шел после <code>DIV</code>. Теперь он поднялся вверх:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:90px" src="https://js.cx/task/div-placeholder/source/"></iframe>
+  </div><p><strong>Допишите код Валеры, сделав так, чтобы текст оставался на своем месте после того, как <code>DIV</code> будет смещен.</strong></p>
+<p>Сделайте это путем создания вспомогательного <code>DIV</code> с теми же <code>width</code>, <code>height</code>, <code>border</code>, <code>margin</code>, <code>padding</code>, что и у желтого <code>DIV</code>.</p>
+<p>Используйте только JavaScript, без CSS.</p>
+<p>Должно быть так (новому блоку задан фоновый цвет для демонстрации):</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:140px" src="https://js.cx/task/div-placeholder/solution/"></iframe>
+  </div><p><a href="http://plnkr.co/edit/CW9zVRzBUjsbrScjxRdN?p=preview" target="_blank" data-plunk-id="CW9zVRzBUjsbrScjxRdN">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Нам нужно создать <code>div</code> с такими же размерами и вставить его на место «переезжающего».</p>
+<p>Один из вариантов – это просто клонировать элемент.</p>
+<p>Если делать это при помощи <code>div.cloneNode(true)</code>, то склонируется все содержимое, которого может быть много. Обычно нам это не нужно, поэтому можно использовать <code>div.cloneNode(false)</code> для клонирования элемента со стилями, и потом поправить его <code>width/height</code>.</p>
+<p>Можно и просто создать новый <code>div</code> и поставить ему нужные размеры.</p>
+<p><strong>Всё, кроме <code>margin</code>, можно получить из свойств DOM-элемента, а <code>margin</code> – только через <code>getComputedStyle</code>.</strong></p>
+<p>Причём <code>margin</code> мы обязаны поставить, так как иначе наш элемент при вставке будет вести себя иначе, чем исходный.</p>
+<p>Код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var div = document.getElementById('moving-div');
+
+var placeHolder = document.createElement('div');
+placeHolder.style.height = div.offsetHeight + 'px';
+// можно и width, но в этом примере это не обязательно
+// из условия: Сделайте это путем создания вспомогательного DIV с теми же width...
+
+// IE || другой браузер
+var computedStyle = div.currentStyle || getComputedStyle(div, '');
+
+placeHolder.style.marginTop = computedStyle.marginTop; // (1)
+placeHolder.style.marginBottom = computedStyle.marginBottom;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В строке <code>(1)</code> использование полного название свойства <code>&quot;marginTop&quot;</code> гарантирует, что полученное значение будет корректным.</p>
+<p><a href="http://plnkr.co/edit/1iCJg9mKCKkn4qAvoylt?p=preview" target="_blank" data-plunk-id="1iCJg9mKCKkn4qAvoylt">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#поместите-мяч-в-центр-поля" name="поместите-мяч-в-центр-поля" class="main__anchor">Поместите мяч в центр поля</a></h3><a href="task/put-ball-in-center/default.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Поместите мяч в центр поля.</p>
+<p>Исходный документ выглядит так:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/task/put-ball-in-center/source/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      <div class="toolbar__tool">
+        <a href="http://plnkr.co/edit/x01bMLVUDcfSUezwuIuU?p=preview" target="_blank" title="открыть в песочнице"
+        data-plunk-id="x01bMLVUDcfSUezwuIuU" class="toolbar__button toolbar__button_edit"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/put-ball-in-center/source/"></iframe>
+  </div><p><strong>Используйте JavaScript, чтобы поместить мяч в центр:</strong></p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/put-ball-in-center/solution/"></iframe>
+  </div><ul>
+<li>Менять CSS нельзя, мяч должен переносить в центр ваш скрипт, через установку нужных стилей элемента.</li>
+<li>JavaScript-код должен работать при разных размерах мяча (<code>10</code>, <code>20</code>, <code>30</code> пикселей) без изменений.</li>
+<li>JavaScript-код должен работать при различных размерах и местоположениях поля на странице без изменений. Также он не должен зависеть от ширины рамки поля <code>border</code>.</li>
+</ul>
+<p>P.S. Да, центрирование можно сделать при помощи чистого CSS, но задача именно на JavaScript. Далее будут другие темы и более сложные ситуации, когда JavaScript будет уже точно необходим, это – своего рода «разминка».</p>
+<p><a href="http://plnkr.co/edit/x01bMLVUDcfSUezwuIuU?p=preview" target="_blank" data-plunk-id="x01bMLVUDcfSUezwuIuU">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>При абсолютном позиционировании мяча внутри поля его координаты <code>left/top</code> отсчитываются от <strong>внутреннего</strong> угла поля, например верхнего-левого:</p>
+<figure><div class="image" style="width:222px">
+      <div class="image__ratio" style="padding-top:72.97297297297297%"></div>
+      <img src="task/put-ball-in-center/field.png" alt="" width="222" height="162" class="image__image">
+      </div></figure><p>Метрики для внутренней зоны поля – это <code>clientWidth/Height</code>.</p>
+<p>Центр – это <code>(clientWidth/2, clientHeight/2)</code>.</p>
+<p>Но если мы установим мячу такие значения <code>ball.style.left/top</code>, то в центре будет не сам мяч, а его левый верхний угол:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ball = document.getElementById('ball');
+var field = document.getElementById('field');
+
+ball.style.left = Math.round(field.clientWidth / 2) + 'px';
+ball.style.top = Math.round(field.clientHeight / 2) + 'px';</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:180px" src="https://js.cx/task/put-ball-in-center/ball-half/"></iframe>
+  </div><p>Для того, чтобы центр мяча находился в центре поля, нам нужно сместить мяч на половину его ширины влево и на половину его высоты вверх.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ball = document.getElementById('ball');
+var field = document.getElementById('field');
+
+ball.style.left = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
+ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'px';</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Внимание, подводный камень!</strong></p>
+<p>Код выше стабильно работать не будет, потому что <code>IMG</code> идет без ширины/высоты:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;img src=&quot;ball.png&quot; id=&quot;ball&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Высота и ширина изображения неизвестны браузеру до тех пор, пока оно не загрузится, если размер не указан явно.</strong></p>
+<p>После первой загрузки изображение уже будет в кеше браузера, и его размеры будут известны. Но когда браузер впервые видит документ – он ничего не знает о картинке, поэтому значение <code>ball.offsetWidth</code> равно <code>0</code>. Вычислить координаты невозможно.</p>
+<p>Чтобы это исправить, добавим <code>width/height</code> к картинке:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:20-42">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;img src=&quot;ball.png&quot; width=&quot;40&quot; height=&quot;40&quot; id=&quot;ball&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь браузер всегда знает ширину и высоту, так что все работает. Тот же эффект дало бы указание размеров в CSS.</p>
+<p><a href="http://plnkr.co/edit/ZKCCk6VbNG1TXqDP5IjZ?p=preview" target="_blank" data-plunk-id="ZKCCk6VbNG1TXqDP5IjZ">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#расширить-элемент" name="расширить-элемент" class="main__anchor">Расширить элемент</a></h3><a href="task/expand-element.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>В <code>&lt;body&gt;</code> есть элемент <code>&lt;div&gt;</code> с заданной шириной <code>width</code>.</p>
+<p>Задача – написать код, который «распахнет» <code>&lt;div&gt;</code> по ширине на всю страницу.</p>
+<p>Исходный документ (<code>&lt;div&gt;</code> содержит текст и прокрутку):</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:220px" src="https://js.cx/task/expand-element/source/"></iframe>
+  </div><p>P.S. Пользоваться следует исключительно средствами JS, CSS в этой задаче менять нельзя. Также ваш код должен быть универсален и не ломаться, если цифры в CSS станут другими.</p>
+<p>P.P.S. При расширении элемент <code>&lt;div&gt;</code> не должен вылезти за границу <code>&lt;body&gt;</code>.</p>
+<p><a href="http://plnkr.co/edit/06CbsO05Qd9Tjt7j4zE4?p=preview" target="_blank" data-plunk-id="06CbsO05Qd9Tjt7j4zE4">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Решение через width: auto</button><div class="task__answer-content"><h4 class="task__step-title">Решение через width: auto</h4><p>Вначале рассмотрим решение через «умную» установку CSS-свойства.</p>
+<p>Они могут быть разными. Самое простое выглядит так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">elem.style.width = 'auto';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такой способ работает, так как <code>&lt;div&gt;</code> по умолчанию распахивается на всю ширину.</p>
+<p>Конечно, такое решение не будет работать для элементов, которые сами по себе не растягиваются, например в случае со <code>&lt;span&gt;</code> или при наличии <code>position: absolute</code>.</p>
+<p>Обратим внимание, такой вариант был бы неверен:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">elem.style.width = '100%';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>По умолчанию в CSS ширина <code>width</code> – это то, что <em>внутри <code>padding</code></em>, а проценты отсчитываются от ширины родителя. То есть, ставя ширину в <code>100%</code>, мы говорим: «внутренняя область должна занимать <code>100%</code> ширины родителя». А в элементе есть ещё <code>padding</code>, которые в итоге вылезут наружу.</p>
+<p>Можно бы поменять блочную модель, указав <code>box-sizing</code> через свойство <code>elem.style.boxSizing</code>, но такое изменение потенциально может затронуть много других свойств, поэтому нежелательно.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Точное вычисление</button><div class="task__answer-content"><h4 class="task__step-title">Точное вычисление</h4><p>Альтернатива – вычислить ширину родителя через <code>clientWidth</code>.</p>
+<p>Доступную внутреннюю ширину родителя можно получить, вычитая из <code>clientWidth</code> размеры <code>paddingLeft/paddingRight</code>, и затем присвоить её элементу:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var bodyClientWidth = document.body.clientWidth;
+
+var style = getComputedStyle(elem);
+
+var bodyInnerWidth = bodyClientWidth - parseInt(style.paddingLeft) - parseInt(style.paddingRight);
+
+elem.style.width = bodyInnerWidth + 'px';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такое решение будет работать всегда, вне зависимости от типа элемента. Конечно, при изменении размеров окна браузера ширина не адаптируется к новому размеру автоматически, как с <code>width:auto</code>. Это недостаток. Его, конечно, тоже можно обойти при помощи событий (изучим далее), но как общий рецепт – если CSS может решить задачу – лучше использовать CSS.</p>
+<p><a href="http://plnkr.co/edit/sjHMkfHDtubhwCFrf5o9?p=preview" target="_blank" data-plunk-id="sjHMkfHDtubhwCFrf5o9">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#в-чём-отличие-width-и-clientwidth" name="в-чём-отличие-width-и-clientwidth" class="main__anchor">В чём отличие &quot;width&quot; и &quot;clientWidth&quot; ?</a></h3><a href="task/width-vs-clientwidth.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>В чём отличия между <code>getComputedStyle(elem).width</code> и <code>elem.clientWidth</code>?</p>
+<p>Укажите хотя бы три отличия, лучше – больше.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Отличия:</p>
+<ol>
+<li>
+<p><code>getComputedStyle</code> не работает в IE8-.</p>
+</li>
+<li>
+<p><code>clientWidth</code> возвращает число, а <code>getComputedStyle(...).width</code> – строку, на конце <code>px</code>.</p>
+</li>
+<li>
+<p><code>getComputedStyle</code> не всегда даст ширину, он может вернуть, к примеру, <code>&quot;auto&quot;</code> для инлайнового элемента.</p>
+</li>
+<li>
+<p><code>clientWidth</code> соответствует внутренней видимой области элемента, *включая <code>padding</code>, а CSS-ширина <code>width</code> при стандартном значении <code>box-sizing</code> соответствует зоне <em>внутри <code>padding</code></em>.</p>
+</li>
+<li>
+<p>Если есть полоса прокрутки, то некоторые браузеры включают её ширину в <code>width</code>, а некоторые – нет.</p>
+<p>Свойство <code>clientWidth</code>, с другой стороны, полностью кросс-браузерно. Оно всегда обозначает размер <em>за вычетом прокрутки</em>, т.е. реально доступный для содержимого.</p>
+</li>
+</ol>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

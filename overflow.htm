@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Свойство &quot;overflow&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свойство &quot;overflow&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Свойство <code>overflow</code> управляет тем, как ведёт себя содержимое блочного элемента, если его размер превышает допустимую длину/ширину.</p>
+<p>Обычно блок увеличивается в размерах при добавлении в него элементов, заключая в себе всех потомков.</p>
+<p>Но что, если высота/ширина указаны явно? Тогда блок не может увеличиться, и содержимое «переполняет» блок. Его отображение в этом случае задаётся свойством <code>overflow</code>.</p>
+<p>Возможные значения</p>
+<ul>
+<li><code>visible</code> (по умолчанию)</li>
+<li><code>hidden</code></li>
+<li><code>scroll</code></li>
+<li><code>auto</code></li>
+</ul>
+<h2><a class="main__anchor" name="visible" href="#visible">visible</a></h2><p>Если не ставить <code>overflow</code> явно или поставить <code>visible</code>, то содержимое отображается за границами блока.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .overflow {
+    /* overflow не задан */
+    width: 200px;
+    height: 80px;
+    border: 1px solid black;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;overflow&quot;&gt;
+  visible ЭтотТекстВылезаетСправаЭтотТекстВылезаетСправа
+  Этот текст вылезает снизу Этот текст вылезает снизу
+  Этот текст вылезает снизу Этот текст вылезает снизу
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-9k8dnn"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Как правило, такое переполнение указывает на ошибку в вёрстке. Если содержимое может быть больше контейнера – используют другие значения.</p>
+<h2><a class="main__anchor" name="hidden" href="#hidden">hidden</a></h2><p>Переполняющее содержимое не отображается.</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .overflow {
+    overflow: hidden;
+    width: 200px;
+    height: 80px;
+    border: 1px solid black;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;overflow&quot;&gt;
+  hidden ЭтотТекстОбрезанСправаЭтотТекстОбрезанСправа
+  Этот текст будет обрезан снизу Этот текст будет обрезан снизу
+  Этот текст будет обрезан снизу Этот текст будет обрезан снизу
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-658wuy"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Вылезающее за границу содержимое становится недоступно.</p>
+<p>Это свойство иногда используют от лени, когда какой-то элемент дизайна немного вылезает за границу, и вместо исправления вёрстки его просто скрывают. Как правило, долго оно не живёт, вёрстку всё равно приходится исправлять.</p>
+<h2><a class="main__anchor" name="auto" href="#auto">auto</a></h2><p>При переполнении отображается полоса прокрутки.</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .overflow {
+    overflow: auto;
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;overflow&quot;&gt;
+  auto ЭтотТекстДастПрокруткуСправаЭтотТекстДастПрокруткуСправа
+  Этот текст даст прокрутку снизу Этот текст даст прокрутку снизу
+  Этот текст даст прокрутку снизу
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-2hi2pz"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h2><a class="main__anchor" name="scroll" href="#scroll">scroll</a></h2><p>Полоса прокрутки отображается всегда.</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .overflow {
+    overflow: scroll;
+    width: 200px;
+    height: 80px;
+    border: 1px solid black;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;overflow&quot;&gt;
+  scroll
+  Переполнения нет.
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-2374nv"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>То же самое, что <code>auto</code>, но полоса прокрутки видна всегда, даже если переполнения нет.</p>
+<h2><a class="main__anchor" name="overflow-x-overflow-y" href="#overflow-x-overflow-y">overflow-x, overflow-y</a></h2><p>Можно указать поведение блока при переполнении по ширине в <code>overflow-x</code> и высоте – в <code>overflow-y</code>:</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="2-3">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .overflow {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 200px;
+    height: 80px;
+    border: 1px solid black;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;overflow&quot;&gt;
+  ПоШиринеПолосаПрокруткиAutoПоШиринеПолосаПрокруткиAuto
+  Этот текст вылезает снизу Этот текст вылезает снизу
+  Этот текст вылезает снизу Этот текст вылезает снизу
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-dgt1w"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Свойства <code>overflow-x/overflow-y</code> (или оба одновременно: <code>overflow</code>) задают поведение контейнера при переполнении:</p>
+<dl>
+<dt><code>visible</code></dt>
+<dd>По умолчанию, содержимое вылезает за границы блока.</dd>
+<dt><code>hidden</code></dt>
+<dd>Переполняющее содержимое невидимо.</dd>
+<dt><code>auto</code></dt>
+<dd>Полоса прокрутки при переполнении.</dd>
+<dt><code>scroll</code></dt>
+<dd>Полоса прокрутки всегда.</dd>
+</dl>
+<p>Кроме того, значение <code>overflow: auto | hidden</code> изменяет поведение контейнера, содержащего <code>float'ы</code>. Так как элемент с <code>float</code> находится вне потока, то обычно контейнер не выделяет под него место. Но если стоит такой <code>overflow</code>, то место выделяется, т.е. контейнер растягивается. Более подробно этот вопрос рассмотрен в статье <a href="float.htm">Свойство &quot;float&quot;</a>.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="event-details.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">События в деталях</span></a></li></ol><h1 class="main__header-title">Клавиатура: keyup, keydown, keypress</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Клавиатура: keyup, keydown, keypress"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Здесь мы рассмотрим основные «клавиатурные» события и работу с ними.</p>
+<h2><a class="main__anchor" name="keyboard-test-stand" href="#keyboard-test-stand">Тестовый стенд</a></h2><p>Для того, чтобы лучше понять, как работают события клавиатуры, можно использовать тестовый стенд.</p>
+<p>Попробуйте различные варианты нажатия клавиш в текстовом поле.</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">script.js</div><div class="code-tabs__switch">style.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/keyboard-events/keyboard-dump/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/26J8JEZmU0OxN6mFj5hR?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:480px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/keyboard-events/keyboard-dump/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>var kinput = document.getElementById('kinput');
+var area = document.getElementById('area');
+kinput.onkeydown = kinput.onkeyup = kinput.onkeypress = handle;
+
+var lastTime = Date.now();
+
+function handle(e) {
+  if (form.elements[e.type + 'Ignore'].checked) return;
+
+  var text = e.type +
+    ' keyCode=' + e.keyCode +
+    ' which=' + e.which +
+    ' charCode=' + e.charCode +
+    ' char=' + String.fromCharCode(e.keyCode || e.charCode) +
+    (e.shiftKey ? ' +shift' : '') +
+    (e.ctrlKey ? ' +ctrl' : '') +
+    (e.altKey ? ' +alt' : '') +
+    (e.metaKey ? ' +meta' : '') + &quot;\n&quot;;
+
+  if (area.value &amp;&amp; Date.now() - lastTime &gt; 250) {
+    area.value += new Array(81).join('-') + '\n';
+  }
+  lastTime = Date.now();
+
+  area.value += text;
+
+  area.scrollTop = area.scrollHeight;
+
+  if (form.elements[e.type + 'Stop'].checked) {
+    e.preventDefault();
+  }
+}</code></pre></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>#kinput {
+  font-size: 150%;
+  box-sizing: border-box;
+  width: 95%;
+}
+
+#area {
+  width: 95%;
+  box-sizing: border-box;
+  height: 250px;
+  border: 1px solid black;
+  display: block;
+}
+
+form label {
+  display: inline;
+  white-space: nowrap;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;form id=&quot;form&quot; onsubmit=&quot;return false&quot;&gt;
+
+    Предотвратить действие по умолчанию для:
+    &lt;label&gt;
+      &lt;input type=&quot;checkbox&quot; name=&quot;keydownStop&quot; value=&quot;1&quot;&gt; keydown&lt;/label&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;label&gt;
+      &lt;input type=&quot;checkbox&quot; name=&quot;keypressStop&quot; value=&quot;1&quot;&gt; keypress&lt;/label&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;label&gt;
+      &lt;input type=&quot;checkbox&quot; name=&quot;keyupStop&quot; value=&quot;1&quot;&gt; keyup&lt;/label&gt;
+
+    &lt;p&gt;
+      Игнорировать:
+      &lt;label&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;keydownIgnore&quot; value=&quot;1&quot;&gt; keydown&lt;/label&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+      &lt;label&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;keypressIgnore&quot; value=&quot;1&quot;&gt; keypress&lt;/label&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+      &lt;label&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;keyupIgnore&quot; value=&quot;1&quot;&gt; keyup&lt;/label&gt;
+    &lt;/p&gt;
+
+    &lt;p&gt;Сфокусируйтесь на поле и нажмите какую-нибудь клавишу.&lt;/p&gt;
+
+    &lt;input type=&quot;text&quot; placeholder=&quot;Клавиши нажимать тут&quot; id=&quot;kinput&quot;&gt;
+
+    &lt;textarea id=&quot;area&quot;&gt;&lt;/textarea&gt;
+    &lt;input type=&quot;button&quot; value=&quot;Очистить&quot; onclick=&quot;area.value = ''&quot; /&gt;
+
+  &lt;/form&gt;
+
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>По мере чтения, если возникнут вопросы – возвращайтесь к этому стенду.</p>
+<h2><a class="main__anchor" name="события-keydown-и-keyup" href="#события-keydown-и-keyup">События keydown и keyup</a></h2><p>События <code>keydown/keyup</code> происходят при нажатии/отпускании клавиши и позволяют получить её <em>скан-код</em> в свойстве <code>keyCode</code>.</p>
+<p>Скан-код клавиши одинаков в любой раскладке и в любом регистре. Например, клавиша <kbd class="shortcut">z</kbd> может означать символ <code>&quot;z&quot;</code>, <code>&quot;Z&quot;</code> или <code>&quot;я&quot;</code>, <code>&quot;Я&quot;</code> в русской раскладке, но её <em>скан-код</em> будет всегда одинаков: <code>90</code>.</p>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;input onkeydown=&quot;this.nextSibling.innerHTML = event.keyCode&quot;&gt; &lt;b&gt;&lt;/b&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><input size="40" placeholder="Нажмите клавишу, скан-код будет справа" onkeydown="this.nextElementSibling.innerHTML = event.keyCode"> <b></b></p>
+<h3><a class="main__anchor" name="скан-коды" href="#скан-коды">Скан-коды</a></h3><p>Для буквенно-цифровых клавиш есть очень простое правило: скан-код будет равен коду соответствующей заглавной английской буквы/цифры.</p>
+<p>Например, при нажатии клавиши <kbd class="shortcut">S</kbd> (не важно, каков регистр и раскладка) её скан-код будет равен <code>&quot;S&quot;.charCodeAt(0)</code>.</p>
+<p>Для других символов, в частности, знаков пунктуации, есть  таблица кодов, которую можно взять, например, из статьи Джона Уолтера: <a href="http://unixpapa.com/js/key.html">JavaScript Madness: Keyboard Events</a>, или же можно нажать на нужную клавишу на <a href="#keyboard-test-stand">тестовом стенде</a> и получить код.</p>
+<p>Когда-то в этих кодах была масса кросс-браузерных несовместимостей. Сейчас всё проще – таблицы кодов в различных браузерах почти полностью совпадают. Но некоторые несовместимости, всё же, остались. Вы можете увидеть их в таблице ниже. Слева – клавиша с символом, а справа – скан-коды в различных браузерах.</p>
+<p>Таблица несовместимостей:</p>
+<table>
+<thead>
+<tr>
+<th>Клавиша</th>
+<th>Firefox</th>
+<th>Остальные браузеры</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd class="shortcut">;</kbd></td>
+<td>59</td>
+<td>186</td>
+</tr>
+<tr>
+<td><kbd class="shortcut">=</kbd></td>
+<td>107</td>
+<td>187</td>
+</tr>
+<tr>
+<td><kbd class="shortcut">-</kbd></td>
+<td>109</td>
+<td>189</td>
+</tr>
+</tbody>
+</table>
+<p>Остальные коды одинаковы, код для нужного символа будет в тестовом стенде.</p>
+<h2><a class="main__anchor" name="событие-keypress" href="#событие-keypress">Событие keypress</a></h2><p>Событие <code>keypress</code> возникает сразу после <code>keydown</code>, если нажата <em>символьная</em> клавиша, т.е. нажатие приводит к появлению символа.</p>
+<p>Любые буквы, цифры генерируют <code>keypress</code>. Управляющие клавиши, такие как <kbd class="shortcut">Ctrl</kbd>, <kbd class="shortcut">Shift</kbd>, <kbd class="shortcut">F1</kbd>, <kbd class="shortcut">F2</kbd>… – <code>keypress</code> не генерируют.</p>
+<p>Событие <code>keypress</code> позволяет получить <em>код символа</em>. В отличие от скан-кода, он специфичен именно для символа и различен для <code>&quot;z&quot;</code> и <code>&quot;я&quot;</code>.</p>
+<p>Код символа хранится в свойствах: <code>charCode</code> и <code>which</code>. Здесь скрывается целое «гнездо» кросс-браузерных несовместимостей, разбираться с которыми нет никакого смысла – запомнить сложно, а на практике нужна лишь одна «правильная» функция, позволяющая получить код везде.</p>
+<h3><a class="main__anchor" name="getChar" href="#getChar">Получение символа в keypress</a></h3><p>Кросс-браузерная функция для получения символа из события <code>keypress</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// event.type должен быть keypress
+function getChar(event) {
+  if (event.which == null) { // IE
+    if (event.keyCode &lt; 32) return null; // спец. символ
+    return String.fromCharCode(event.keyCode)
+  }
+
+  if (event.which != 0 &amp;&amp; event.charCode != 0) { // все кроме IE
+    if (event.which &lt; 32) return null; // спец. символ
+    return String.fromCharCode(event.which); // остальные
+  }
+
+  return null; // спец. символ
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для общей информации – вот основные браузерные особенности, учтённые в <code>getChar(event)</code>:</p>
+<ol>
+<li>Во всех браузерах, кроме IE, у события <code>keypress</code> есть свойство <code>charCode</code>, которое содержит код символа.</li>
+<li>Браузер IE для <code>keypress</code> не устанавливает <code>charCode</code>, а вместо этого он записывает код символа в <code>keyCode</code> (в <code>keydown/keyup</code> там хранится скан-код).</li>
+<li>Также в функции выше используется проверка <code>if(event.which!=0)</code>, а не более короткая <code>if(event.which)</code>. Это не случайно! При <code>event.which=null</code> первое сравнение даст <code>true</code>, а второе – <code>false</code>.</li>
+</ol>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;input onkeypress=&quot;this.nextSibling.innerHTML = getChar(event)+''&quot;&gt;&lt;b&gt;&lt;/b&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><input size="40" placeholder="Наберите символ, он будет справа" onkeypress="this.nextElementSibling.innerHTML = getChar(event)+''"> <b></b></p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Неправильный <code>getChar</code></span></div>
+            <div class="important__content"><p>В сети вы можете найти другую функцию того же назначения:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getChar(event) {
+  return String.fromCharCode(event.keyCode || event.charCode);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Она работает неверно для многих специальных клавиш, потому что не фильтрует их. Например, она возвращает символ амперсанда <code>&quot;&amp;&quot;</code>, когда нажата клавиша „Стрелка Вверх“. Лучше использовать ту, что приведена выше.</p>
+</div></div>
+<p>Как и у других событий, связанных с пользовательским вводом, поддерживаются свойства <code>shiftKey</code>, <code>ctrlKey</code>, <code>altKey</code> и <code>metaKey</code>.</p>
+<p>Они установлены в <code>true</code>, если нажаты клавиши-модификаторы – соответственно, <kbd class="shortcut">Shift</kbd>, <kbd class="shortcut">Ctrl</kbd>, <kbd class="shortcut">Alt</kbd> и <kbd class="shortcut">Cmd</kbd> для Mac.</p>
+<h2><a class="main__anchor" name="отмена-пользовательского-ввода" href="#отмена-пользовательского-ввода">Отмена пользовательского ввода</a></h2><p>Появление символа можно предотвратить, если отменить действие браузера на  <code>keydown/keypress</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="1:7-31,2:7-32">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">Попробуйте что-нибудь ввести в этих полях:
+&lt;input onkeydown=&quot;return false&quot; type=&quot;text&quot; size=&quot;30&quot;&gt;
+&lt;input onkeypress=&quot;return false&quot; type=&quot;text&quot; size=&quot;30&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Попробуйте что-нибудь ввести в этих полях (не получится):</p>
+<input onkeydown="return false" type="text" size="30">
+<input onkeypress="return false" type="text" size="30">
+<p>При тестировании на стенде вы можете заметить, что отмена действия браузера при <code>keydown</code> также предотвращает само событие <code>keypress</code>.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">При <code>keydown/keypress</code> значение ещё старое</span></div>
+            <div class="important__content"><p>На момент срабатывания <code>keydown/keypress</code> <em>клавиша ещё не обработана браузером</em>.</p>
+<p>Поэтому в обработчике значение <code>input.value</code> – старое, т.е. до ввода. Это можно увидеть в примере ниже. Вводите символы <code>abcd..</code>, а справа будет текущее <code>input.value</code>: <code>abc..</code></p>
+<p><input onkeydown="this.nextSibling.innerHTML=this.value" type="text" placeholder="Вводите символы"><b></b></p>
+<p>А что, если мы хотим обработать <code>input.value</code> именно после ввода? Самое простое решение – использовать событие <code>keyup</code>, либо запланировать обработчик через <code>setTimeout(..,0)</code>.</p>
+</div></div>
+<h3><a class="main__anchor" name="отмена-любых-действий" href="#отмена-любых-действий">Отмена любых действий</a></h3><p>Отменять можно не только символ, а любое действие клавиш.</p>
+<p>Например:</p>
+<ul>
+<li>При отмене <kbd class="shortcut">Backspace</kbd> – символ не удалится.</li>
+<li>При отмене <kbd class="shortcut">PageDown</kbd> – страница не прокрутится.</li>
+<li>При отмене <kbd class="shortcut">Tab</kbd> – курсор не перейдёт на следующее поле.</li>
+</ul>
+<p>Конечно же, есть действия, которые в принципе нельзя отменить, в первую очередь – те, которые происходят на уровне операционной системы. Комбинация Alt+F4 инициирует закрытие браузера в Windows, что бы мы ни делали в JavaScript.</p>
+<h3><a class="main__anchor" name="демо-перевод-символа-в-верхний-регистр" href="#демо-перевод-символа-в-верхний-регистр">Демо: перевод символа в верхний регистр</a></h3><p>В примере ниже действие браузера отменяется с помощью <code>return false</code>, а вместо него в <code>input</code> добавляется значение в верхнем регистре:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;input id=&quot;only-upper&quot; type=&quot;text&quot; size=&quot;2&quot;&gt;
+&lt;script&gt;
+  document.getElementById('only-upper').onkeypress = function(e) {
+    // спец. сочетание - не обрабатываем
+    if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+    var char = getChar(e);
+
+    if (!char) return; // спец. символ - не обрабатываем
+
+    this.value = char.toUpperCase();
+
+    return false;
+  };
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В действии: <input id="only-upper" type="text" size="2"></p>
+<script>
+document.getElementById('only-upper').onkeypress = function(e) {
+  var char = getChar(e);
+
+  // спец. сочетание - не обрабатываем
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+  if (!char) return; // спец. символ - не обрабатываем
+
+  this.value = char.toUpperCase();
+
+  return false;
+}
+</script>
+<h2><a class="main__anchor" name="keyboard-events-order" href="#keyboard-events-order">Несовместимости</a></h2><p>Некоторые несовместимости в порядке срабатывания клавиатурных событий (когда что) ещё существуют.</p>
+<p>Стоит иметь в виду три основных категории клавиш, работа с которыми отличается.</p>
+<table>
+<thead>
+<tr>
+  <th>Категория</th>
+  <th>События</th>
+  <th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Печатные клавиши <code>S</code> <code>1</code> <code>,</code></td>
+  <td><code>keydown</code><br>
+<code>keypress</code><br>
+<code>keyup</code></td>
+<td>Нажатие  вызывает <code>keydown</code> и <code>keypress</code>.
+Когда клавишу отпускают, срабатывает <code>keyup</code>.
+<p>Исключение – CapsLock под MacOS, с ним есть проблемы:</p>
+<ul>
+<li>В Safari/Chrome/Opera: при включении только <code>keydown</code>, при отключении только <code>keyup</code>.</li>
+<li>В Firefox: при включении и отключении только <code>keydown</code>.</li>
+</ul>
+</td>
+<tr>
+  <td>Специальные клавиши <code>Alt</code> <code>Esc</code> <code>⇧</code></td>
+  <td><code>keydown</code>
+<code>keyup</code></td>
+<td>Нажатие  вызывает <code>keydown</code>.
+Когда клавишу отпускают, срабатывает <code>keyup</code>.
+<p>Некоторые браузеры могут дополнительно генерировать и <code>keypress</code>, например IE для <code>Esc</code>.</p>
+<p>На практике это не доставляет проблем, так как для специальных клавиш мы всегда используем <code>keydown/keyup</code>.</p>
+ </td>
+</tr>
+<tr>
+  <td>Сочетания с печатной клавишей
+ <code>Alt+E</code><br>
+ <code>Ctrl+У</code><br>
+ <code>Cmd+1</code><br>
+</td>
+  <td><code>keydown</code><br>
+<code>keypress?</code><br>
+<code>keyup</code></td>
+<td>
+<p>Браузеры под Windows – не генерируют <code>keypress</code>, браузеры под MacOS – генерируют.</p>
+<p>Кроме того, если сочетание вызвало браузерное действие или диалог ("Сохранить файл", "Открыть" и т.п., ряд диалогов можно отменить при <code>keydown</code>), то может быть только <code>keydown</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Общий вывод можно сделать такой:</p>
+<ul>
+<li>Обычные символы работают везде корректно.</li>
+<li>CapsLock под MacOS ведёт себя плохо, не стоит ставить на него обработчики вообще.</li>
+<li>Для других специальных клавиш и сочетаний с ними следует использовать только <code>keydown</code>.</li>
+</ul>
+<h2><a class="main__anchor" name="автоповтор" href="#автоповтор">Автоповтор</a></h2><p>При долгом нажатии клавиши возникает <em>автоповтор</em>. По стандарту, должны генерироваться многократные события <code>keydown (+keypress)</code>, и вдобавок стоять свойство <a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-KeyboardEvent-repeat">repeat=true</a> у объекта события.</p>
+<p>То есть поток событий должен быть такой:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-none"><code class="language-none">keydown
+keypress
+keydown
+keypress
+..повторяется, пока клавиша не отжата...
+keyup</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Однако в реальности на это полагаться нельзя. На момент написания статьи, под Firefox(Linux) генерируется и <code>keyup</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-none"><code class="language-none">keydown
+keypress
+keyup
+keydown
+keypress
+keyup
+..повторяется, пока клавиша не отжата...
+keyup</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…А Chrome под MacOS не генерирует <code>keypress</code>. В общем, «зоопарк».</p>
+<p>Полагаться можно только на <code>keydown</code> при каждом автонажатии и <code>keyup</code> по отпусканию клавиши.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Ряд рецептов по итогу этой главы:</p>
+<ol>
+<li>Для реализации горячих клавиш, включая сочетания – используем <code>keydown</code>. Скан-код будет в <code>keyCode</code>, почти все скан-коды кросс-браузерны, кроме нескольких пунктуационных, перечисленных в таблице выше.</li>
+<li>Если нужен именно символ – используем <code>keypress</code>. При этом функция <code>getChar</code> позволит получить символ и отфильтровать лишние срабатывания. Гарантированно получать символ можно только при нажатии обычных клавиш, если речь о сочетаниях с модификаторами, то <code>keypress</code> не всегда генерируется.</li>
+<li>Ловля CapsLock глючит под MacOS. Её можно организовать при помощи проверки <code>navigator.userAgent</code> и <code>navigator.platform</code>, а лучше вообще не трогать эту клавишу.</li>
+</ol>
+<p>Распространённая ошибка – использовать события клавиатуры для работы с полями ввода в формах.</p>
+<p>Это нежелательно. События клавиатуры предназначены именно для работы с клавиатурой. Да, их можно использовать для проверки ввода в <code>&lt;input&gt;</code>, но будут недочёты. Например, текст может быть вставлен мышкой, при помощи правого клика и меню, без единого нажатия клавиши. И как нам помогут события клавиатуры?</p>
+<p>Некоторые мобильные устройства также не генерируют <code>keypress/keydown</code>, а сразу вставляют текст в поле. Обработать ввод на них при помощи клавиатурных событий нельзя.</p>
+<p>Далее мы разберём <a href="events-change.htm">события для элементов форм</a>, которые позволяют работать с вводом в формы правильно.</p>
+<p>Их можно использовать как отдельно от событий клавиатуры, так и вместе с ними.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#поле-только-для-цифр" name="поле-только-для-цифр" class="main__anchor">Поле только для цифр</a></h3><a href="task/numeric-input.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>При помощи событий клавиатуры сделайте так, чтобы в поле можно было вводить только цифры. Пример ниже.</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:300px" src="https://js.cx/task/numeric-input/solution/"></iframe>
+  </div><p>В поле должны нормально работать специальные клавиши <kbd class="shortcut">Delete</kbd>/<kbd class="shortcut">Backspace</kbd> и сочетания с <kbd class="shortcut">Ctrl</kbd>/<kbd class="shortcut">Alt</kbd>/<kbd class="shortcut">Cmd</kbd>.</p>
+<p>P.S. Конечно, при помощи альтернативных способов ввода (например, вставки мышью), посетитель всё же может ввести что угодно.</p>
+<p><a href="http://plnkr.co/edit/7ZYsWeBmakWjfD6fYRTu?p=preview" target="_blank" data-plunk-id="7ZYsWeBmakWjfD6fYRTu">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Подсказка: выбор события</button><div class="task__answer-content"><h4 class="task__step-title">Подсказка: выбор события</h4><p>Нам нужно событие <code>keypress</code>, так как по скан-коду мы не отличим, например, клавишу <code>'2'</code> обычную и в верхнем регистре (символ <code>'@'</code>).</p>
+<p>Нужно отменять действие по умолчанию (т.е. ввод), если введена не цифра.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p>Нам нужно проверять <em>символы</em> при вводе, поэтому, будем использовать событие <code>keypress</code>.</p>
+<p>Алгоритм такой: получаем символ и проверяем, является ли он цифрой. Если не является, то отменяем действие по умолчанию.</p>
+<p>Кроме того, игнорируем специальные символы и нажатия со включенным <kbd class="shortcut">Ctrl</kbd>/<kbd class="shortcut">Alt</kbd>/<kbd class="shortcut">Cmd</kbd>.</p>
+<p>Итак, вот решение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">input.onkeypress = function(e) {
+  e = e || event;
+
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+  var chr = getChar(e);
+
+  // с null надо осторожно в неравенствах,
+  // т.к. например null &gt;= '0' =&gt; true
+  // на всякий случай лучше вынести проверку chr == null отдельно
+  if (chr == null) return;
+
+  if (chr &lt; '0' || chr &gt; '9') {
+    return false;
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/HRIO4o05cotLavJJ1N2y?p=preview" target="_blank" data-plunk-id="HRIO4o05cotLavJJ1N2y">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#отследить-одновременное-нажатие" name="отследить-одновременное-нажатие" class="main__anchor">Отследить одновременное нажатие</a></h3><a href="task/check-sync-keydown.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Создайте функцию <code>runOnKeys(func, code1, code2, ... code_n)</code>, которая запускает <code>func</code> при одновременном нажатии клавиш со скан-кодами <code>code1</code>, <code>code2</code>, …, <code>code_n</code>.</p>
+<p>Например, код ниже выведет <code>alert</code> при одновременном нажатии клавиш <code>&quot;Q&quot;</code> и <code>&quot;W&quot;</code> (в любом регистре, в любой раскладке)</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">runOnKeys(
+  function() { alert(&quot;Привет!&quot;) },
+  &quot;Q&quot;.charCodeAt(0),
+  &quot;W&quot;.charCodeAt(0)
+);</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="https://js.cx/task/check-sync-keydown/solution/" target="blank">Демо в новом окне</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Ход решения</button><div class="task__answer-content"><h4 class="task__step-title">Ход решения</h4><ul>
+<li>Функция <code>runOnKeys</code> – с переменным числом аргументов. Для их получения используйте <code>arguments</code>.</li>
+<li>Используйте два обработчика: <code>document.onkeydown</code> и <code>document.onkeyup</code>. Первый отмечает нажатие клавиши в объекте <code>pressed = {}</code>, устанавливая <code>pressed[keyCode] = true</code>, а второй – удаляет это свойство. Если все клавиши с кодами из <code>arguments</code> нажаты – запускайте <code>func</code>.</li>
+<li>Возникнет проблема с повторным нажатием сочетания клавиш после <code>alert</code>, решите её.</li>
+</ul>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p><a href="http://plnkr.co/edit/6w6hqP42nY8aLgtOtGu9?p=preview" target="_blank" data-plunk-id="6w6hqP42nY8aLgtOtGu9">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="regular-expressions-javascript.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Регулярные выражения</span></a></li></ol><h1 class="main__header-title">Начало строки ^ и конец $</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Начало строки ^ и конец $"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Знак каретки <code class="pattern">'^'</code> и доллара <code class="pattern">'$'</code> имеют в регулярном выражении особый смысл. Их называют «якорями» (anchor – англ.).</p>
+<p>Каретка <code class="pattern">^</code> совпадает в начале текста, а доллар <code class="pattern">$</code> – в конце.</p>
+<p><strong>Якоря являются не символами, а проверками.</strong></p>
+<p>До этого мы говорили о регулярных выражениях, которые ищут один или несколько символов. Если совпадение есть – эти символы включаются в результат.</p>
+<p>А якоря – не такие. Когда поиск ходит до якоря – он проверяет, есть ли соответствие, если есть – продолжает идти по шаблону, не прибавляя ничего к результату.</p>
+<p>Каретку <code class="pattern">^</code> обычно используют, чтобы указать, что регулярное выражение необходимо проверить именно с начала текста.</p>
+<p>Например, без каретки найдёт все числа:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '100500 попугаев съели 500100 бананов!';
+alert( str.match(/\d+/ig) ); // 100500, 500100 (нашло все числа)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>А с кареткой – только первое:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '100500 попугаев съели 500100 бананов!';
+alert( str.match(/^\d+/ig) ); // 100500 (только в начале строки)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Знак доллара <code class="pattern">$</code> используют, чтобы указать, что паттерн должен заканчиваться в конце текста.</p>
+<p>Аналогичный пример с долларом для поиска числа в конце:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '100500 попугаев съели 500100';
+alert( str.match(/\d+$/ig) ); // 500100</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Оба якоря используют одновременно, если требуется, чтобы шаблон охватывал текст с начала и до конца. Обычно это требуется при валидации.</p>
+<p>Например, мы хотим проверить, что в переменной <code>num</code> хранится именно десятичная дробь.</p>
+<p>Ей соответствует регэксп <code class="pattern">\d+\.\d+</code>. Но простой поиск найдёт дробь в любом тексте:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var num = &quot;ля-ля 12.34&quot;;
+alert( num.match(/\d+\.\d+/ig) ); // 12.34</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Наша же задача – проверить, что <code>num</code> <em>целиком</em> соответствует паттерну <code class="pattern">\d+\.\d+</code>.</p>
+<p>Для этого обернём шаблон в якоря <code class="pattern">^...$</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var num = &quot;ля-ля 12.34&quot;;
+alert( num.match(/^\d+\.\d+$/ig) ); // null, не дробь
+
+var num = &quot;12.34&quot;;
+alert( num.match(/^\d+\.\d+$/ig) ); // 12.34, дробь!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь поиск ищет начало текста, за которым идёт число, затем точка, ещё число и конец текста. Это как раз то, что нужно.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#регэксп" name="регэксп" class="main__anchor">Регэксп ^$</a></h3><a href="task/start-end.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Предложите строку, которая подойдёт под регулярное выражение <code class="pattern">^$</code>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Нам нужна строка, которая начинается – и тут же кончается. То есть, пустая.</p>
+<p>Или, если быть ближе к механике регэкспов, то движок сначала будет искать в тексте начальную позицию <code class="pattern">^</code>, а как только найдёт её – будет ожидать конечной <code class="pattern">$</code>.</p>
+<p>Заметим, что и <code class="pattern">^</code> и <code class="pattern">$</code> не требуют наличия символов. Это – проверки. В пустой строке движок сначала проверит первую, а потом – вторую – и зафиксирует совпадение.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#проверьте-mac-адрес" name="проверьте-mac-адрес" class="main__anchor">Проверьте MAC-адрес</a></h3><a href="task/test-mac.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>MAC-адрес сетевого интерфейса состоит из шести двузначных шестнадцатеричных чисел, разделённых двоеточием.</p>
+<p>Например: <code class="subject">'01:32:54:67:89:AB'</code>.</p>
+<p>Напишите регулярное выражение, которое по строке проверяет, является ли она корректным MAC-адресом.</p>
+<p>Использование:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = ваш регэксп
+
+alert( re.test('01:32:54:67:89:AB') ); // true
+
+alert( re.test('0132546789AB') ); // false (нет двоеточий)
+
+alert( re.test('01:32:54:67:89') ); // false (5 чисел, а не 6)
+
+alert( re.test('01:32:54:67:89:ZZ') ) // false (ZZ в конце)</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Двузначное шестнадцатиричное число – это <code class="pattern">[0-9a-f]{2}</code> (с учётом флага <code class="pattern">/i</code>).</p>
+<p>Нам нужно одно такое число, и за ним ещё 5 с двоеточиями перед ними: <code class="pattern">[0-9a-f]{2}(:[0-9a-f]{2}){5}</code></p>
+<p>И, наконец, совпадение должно начинаться в начале строки и заканчиваться – в конце. То есть, строка целиком должна подходить под шаблон. Для этого обернём шаблон в <code class="pattern">^...$</code>.</p>
+<p>Итого, в действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /^[0-9a-f]{2}(:[0-9a-f]{2}){5}$/i;
+
+alert( re.test('01:32:54:67:89:AB') ); // true
+
+alert( re.test('0132546789AB') ); // false (нет двоеточий)
+
+alert( re.test('01:32:54:67:89') ); // false (5 чисел, а не 6)
+
+alert( re.test('01:32:54:67:89:ZZ') ) // false (ZZ в конце)</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

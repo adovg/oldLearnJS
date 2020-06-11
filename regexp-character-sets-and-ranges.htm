@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="regular-expressions-javascript.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Регулярные выражения</span></a></li></ol><h1 class="main__header-title">Наборы и диапазоны [...]</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Наборы и диапазоны [...]"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Если в регулярном выражении несколько символов или символьных классов заключены в квадратные скобки <code>[…]</code>, то это означает &quot;искать любой символ из указанных в <code>[…]</code>&quot;.</p>
+<h2><a class="main__anchor" name="набор" href="#набор">Набор</a></h2><p>Например, <code class="pattern">[еао]</code> означает любой символ из этих трёх: <code>'а'</code>, <code>'е'</code>, или <code>'о'</code>.</p>
+<p>Такое обозначение называют <em>набором</em>. Наборы используются в регулярном выражении наравне с обычными символами:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// найти [г или т], а затем &quot;оп&quot;
+alert( &quot;Гоп-стоп&quot;.match(/[гт]оп/gi) ); // &quot;Гоп&quot;, &quot;топ&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание: несмотря на то, что в наборе указано несколько символов, в совпадении должен присутствовать <em>ровно один</em> из них.</p>
+<p>Поэтому в примере ниже нет результатов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// найти &quot;В&quot;, затем [у или а], затем &quot;ля&quot;
+alert( &quot;Вуаля&quot;.match(/В[уа]ля/) ); // совпадений нет</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Поиск подразумевает:</p>
+<ul>
+<li><code class="pattern">В</code>,</li>
+<li>затем <em>одну</em> из букв набора <code class="pattern">[уа]</code>,</li>
+<li>а затем <code class="pattern">ля</code></li>
+</ul>
+<p>Таким образом, совпадение было бы для строки <code class="match">Вуля</code> или <code class="match">Валя</code>.</p>
+<h2><a class="main__anchor" name="диапазоны" href="#диапазоны">Диапазоны</a></h2><p>Квадратные скобки могут также содержать <em>диапазоны символов</em>.</p>
+<p>Например,  <code class="pattern">[a-z]</code> – произвольный символ от <code>a</code> до <code>z</code>, <code class="pattern">[0-5]</code> – цифра от <code>0</code> до <code>5</code>.</p>
+<p>В примере ниже мы будем искать <code>&quot;x&quot;</code>, после которого идёт два раза любая цифра или буква от A до F:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// найдёт &quot;xAF&quot;
+alert( &quot;Exception 0xAF&quot;.match(/x[0-9A-F][0-9A-F]/g) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание, в слове <code class="subject">Exception</code> есть сочетание <code class="subject">xce</code>, но оно не подошло, потому что буквы в нём маленькие, а в диапазоне <code class="pattern">[0-9A-F]</code> – большие.</p>
+<p>Если хочется искать и его тоже, можно добавить в скобки диапазон <code>a-f</code>: <code class="pattern">[0-9A-Fa-f]</code>. Или же просто указать у всего регулярного выражения флаг <code>i</code>.</p>
+<p><strong>Символьные классы – всего лишь более короткие записи для диапазонов, в частности:</strong></p>
+<ul>
+<li><strong>\d</strong> – то же самое, что <code class="pattern">[0-9]</code>,</li>
+<li><strong>\w</strong> – то же самое, что <code class="pattern">[a-zA-Z0-9_]</code>,</li>
+<li><strong>\s</strong> – то же самое, что <code class="pattern">[\t\n\v\f\r ]</code> плюс несколько юникодных пробельных символов.</li>
+</ul>
+<p>В квадратных скобках можно использовать и диапазоны и символьные классы – вместе.</p>
+<p>Например, нам нужно найти все слова в тексте. Если они на английском – это достаточно просто:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;The sun is rising!&quot;;
+
+alert( str.match(/\w+/g) ); // The, sun, is, rising</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом примере мы забежали немного вперёд и использовали <code class="pattern">\w+</code>, что означает один или более символов, подходящих под класс <code class="pattern">\w</code>. Позже мы рассмотрим <code>+</code> детальнее, а пока – давайте посмотрим, найдутся ли слова на русском?</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Солнце встаёт!&quot;;
+
+alert( str.match(/\w+/g) ); // null</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ничего не найдено! Это можно понять, ведь <code class="pattern">\w</code> – это именно английская букво-цифра, как можно видеть из аналога <code class="pattern">[a-zA-Z0-9_]</code>.</p>
+<p>Чтобы находило слово на русском – нужно использовать диапазон, например <code class="pattern">/[а-я]/</code>.</p>
+<p>А чтобы на обоих языках – и то и другое вместе:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Солнце (the sun) встаёт!&quot;;
+
+alert( str.match(/[\wа-я]+/gi) ); // Солнце, the, sun, вста, т</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Присмотритесь внимательно к предыдущему примеру! Вы видите странность? Оно не находит букву <code class="match">ё</code>, более того – считает её разрывом в слове. Причина  – в кодировке юникод, она подробно раскрыта в главе <a href="string.htm">Строки</a>.</p>
+<p>Буква <code>ё</code> лежит в стороне от основной кириллицы и её следует добавить в диапазон дополнительно, вот так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Солнце (the sun) встаёт!&quot;;
+
+alert( str.match(/[\wа-яё]+/gi) ); // Солнце, the, sun, встаёт</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь всё в порядке.</p>
+<h2><a class="main__anchor" name="диапазоны-кроме" href="#диапазоны-кроме">Диапазоны «кроме»</a></h2><p><strong>Кроме обычных, существуют также <em>исключающие</em> диапазоны: <code class="pattern">[^…]</code>.</strong></p>
+<p>Квадратные скобки, начинающиеся со знака каретки: <code class="pattern">[^…]</code> находят любой символ, <em>кроме указанных</em>.</p>
+<p>Например:</p>
+<ul>
+<li><code class="pattern">[^аеуо]</code> – любой символ, кроме  <code>'a'</code>, <code>'e'</code>, <code>'y'</code>, <code>'o'</code>.</li>
+<li><code class="pattern">[^0-9]</code> – любой символ, кроме цифры, то же что <code>\D</code>.</li>
+<li><code class="pattern">[^\s]</code> – любой не-пробельный символ, то же что <code>\S</code>.</li>
+</ul>
+<p>Пример ниже ищет любые символы, кроме букв, цифр и пробелов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;alice15@gmail.com&quot;.match(/[^\d\sA-Z]/gi) ); // &quot;@&quot;, &quot;.&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="не-нужно-экранирование" href="#не-нужно-экранирование">Не нужно экранирование</a></h2><p>Обычно, если мы хотим искать именно точку, а не любой символ, или именно символ <code>\</code>, то мы используем экранирование: указываем <code>\.</code> или <code>\\</code>.</p>
+<p>В квадратных скобках большинство специальных символов можно использовать без экранирования, если конечно они не имеют какой-то особый смысл именно внутри квадратных скобок.</p>
+<p>То есть, «как есть», без экранирования можно использовать символы:</p>
+<ul>
+<li>Точка <code class="pattern">'.'</code>.</li>
+<li>Плюс <code class="pattern">'+'</code>.</li>
+<li>Круглые скобки <code class="pattern">'( )'</code>.</li>
+<li>Дефис <code class="pattern">'-'</code>, если он находится в начале или конце квадратных скобок, то есть не выделяет диапазон.</li>
+<li>Символ каретки <code class="pattern">'^'</code>, если не находится в начале квадратных скобок.</li>
+<li>А также открывающая квадратная скобка <code class="pattern">'['</code>.</li>
+</ul>
+<p>То есть, точка <code>&quot;.&quot;</code> в квадратных скобках означает не «любой символ», а обычную точку.</p>
+<p>Регэксп <code class="pattern">[.,]</code> ищет один из символов «точка» или «запятая».</p>
+<p>В примере ниже регэксп <code class="pattern">[-().^+]</code> ищет один из символов <code>-().^</code>. Они не экранированы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Без экранирования
+var re = /[-().^+]/g;
+
+alert( &quot;1 + 2 - 3&quot;.match(re) ); // найдёт +, -</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Впрочем, даже если вы решите «на всякий случай» заэкранировать эти символы, поставив перед ними обратный слэш <code>\</code> – вреда не будет:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Всё заэкранировали
+var re = /[\-\(\)\.\^\+]/g;
+
+alert( &quot;1 + 2 - 3&quot;.match(re) ); // тоже работает: +, -</code></pre>
+        </div>
+      </div>
+      
+      </div></div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#java-script" name="java-script" class="main__anchor">Java[^script]</a></h3><a href="task/find-range-1.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Найдет ли регэксп <code class="pattern">/Java[^script]/</code> что-нибудь в строке <code class="subject">Java</code>?</p>
+<p>А в строке <code class="subject">JavaScript</code>?</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответы: <strong>нет, да</strong>.</p>
+<ul>
+<li>
+<p>В строке  <code class="subject">Java</code> он ничего не найдёт, так как исключающие квадратные скобки в <code>Java[^...]</code> означают «один символ, кроме указанных». А после <code>«Java»</code> – конец строки, символов больше нет.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Java&quot;.match(/Java[^script]/) ); // нет совпадений</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Да, найдёт. Поскольку регэксп регистрозависим, то под <code>[^script]</code> вполне подходит символ <code>&quot;S&quot;</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;JavaScript&quot;.match(/Java[^script]/) ); // &quot;JavaS&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ul>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-время-в-одном-из-форматов" name="найдите-время-в-одном-из-форматов" class="main__anchor">Найдите время в одном из форматов</a></h3><a href="task/find-time-2-formats.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Время может быть в формате <code>часы:минуты</code> или <code>часы-минуты</code>. И часы и минуты состоят из двух цифр, например <code>09:00</code>, <code>21-30</code>.</p>
+<p>Напишите регулярное выражение для поиска времени:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /ваше выражение/;
+alert( &quot;Завтрак в 09:00. Обед - в 21-30&quot;.match(re) ); // 09:00, 21-30</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответ: <code class="pattern">\d\d[-:]\d\d</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /\d\d[-:]\d\d/g;
+alert( &quot;Завтрак в 09:00. Обед - в 21-30&quot;.match(re) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание, что дефис <code class="pattern">'-'</code> не экранирован, поскольку в начале скобок он не может иметь специального смысла.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

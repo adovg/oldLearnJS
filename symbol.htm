@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="es-modern.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Современные возможности ES-2015</span></a></li></ol><h1 class="main__header-title">Тип данных Symbol</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Тип данных Symbol"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Новый примитивный тип данных Symbol служит для создания уникальных идентификаторов.</p>
+<p>Мы вначале рассмотрим объявление и особенности символов, а затем – их использование.</p>
+<h2><a class="main__anchor" name="объявление" href="#объявление">Объявление</a></h2><p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">let sym = Symbol();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание, не <code>new Symbol</code>, а просто <code>Symbol</code>, так как это – примитив.</p>
+<p>У символов есть и соответствующий <code>typeof</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let sym = Symbol();
+alert( typeof sym ); // symbol</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Каждый символ – уникален. У функции <code>Symbol</code> есть необязательный аргумент «имя символа». Его можно использовать для описания символа, в целях отладки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let sym = Symbol(&quot;name&quot;);
+alert( sym.toString() ); // Symbol(name)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Но при этом, если у двух символов одинаковое имя, то это не значит, что они равны:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( Symbol(&quot;name&quot;) == Symbol(&quot;name&quot;) ); // false</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если хочется из разных частей программы использовать именно одинаковый символ, то можно передавать между ними объект символа или же – использовать «глобальные символы» и «реестр глобальных символов», которые мы рассмотрим далее.</p>
+<h2><a class="main__anchor" name="глобальные-символы" href="#глобальные-символы">Глобальные символы</a></h2><p>Существует «глобальный реестр» символов, который позволяет, при необходимости, иметь общие «глобальные» символы, которые можно получить из реестра по имени.</p>
+<p>Для чтения (или создания, при отсутствии) «глобального» символа служит вызов <code>Symbol.for(имя)</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+// создание символа в реестре
+let name = Symbol.for(&quot;name&quot;);
+
+// символ уже есть, чтение из реестра
+alert( Symbol.for(&quot;name&quot;) == name ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Таким образом, можно из разных частей программы, обратившись к реестру, получить единый глобальный символ с именем <code>&quot;name&quot;</code>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">На заметку:</span></div>
+            <div class="important__content"><p>В некоторых языках программирования, например Ruby, имя однозначно идентифицирует символ. В JavaScript, как мы видим, это верно для глобальных символов.</p>
+</div></div>
+<p>У вызова <code>Symbol.for</code>, который возвращает символ по имени, есть обратный вызов – <code>Symbol.keyFor(sym)</code>. Он позволяет получить по глобальному символу его имя:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+// создание символа в реестре
+let test = Symbol.for(&quot;name&quot;);
+
+// получение имени символа
+alert( Symbol.keyFor(test) ); // name</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type"><code>Symbol.keyFor</code> возвращает <code>undefined</code>, если символ не глобальный</span></div>
+            <div class="important__content"><p>Заметим, что <code>Symbol.keyFor</code> работает <em>только для глобальных символов</em>, для остальных будет возвращено <code>undefined</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+alert( Symbol.keyFor(Symbol.for(&quot;name&quot;)) ); // name, глобальный
+alert( Symbol.keyFor(Symbol(&quot;name2&quot;)) ); // undefined, обычный символ</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Таким образом, имя символа, если этот символ не глобальный, не имеет особого применения, оно полезно лишь в целях вывода и отладки.</p>
+</div></div>
+<h2><a class="main__anchor" name="использование-символов" href="#использование-символов">Использование символов</a></h2><p>Символы можно использовать в качестве имён для свойств объекта следующим образом:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let isAdmin = Symbol(&quot;isAdmin&quot;);
+
+let user = {
+  name: &quot;Вася&quot;,
+  [isAdmin]: true
+};
+
+alert(user[isAdmin]); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Особенность символов в том, что если в объект записать свойство-символ, то оно не участвует в итерации:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let user = {
+  name: &quot;Вася&quot;,
+  age: 30,
+  [Symbol.for(&quot;isAdmin&quot;)]: true
+};
+
+// в цикле for..in также не будет символа
+alert( Object.keys(user) ); // name, age
+
+// доступ к свойству через глобальный символ — работает
+alert( user[Symbol.for(&quot;isAdmin&quot;)] );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кроме того, свойство-символ недоступно, если обратиться к его названию: <code>user.isAdmin</code> не существует.</p>
+<p>Зачем всё это, почему просто не использовать строки?</p>
+<p>Резонный вопрос. На ум могут прийти соображения производительности, так как символы – это по сути специальные идентификаторы, они компактнее, чем строка. Но при современных оптимизациях объектов это редко имеет значение.</p>
+<p>Самое широкое применение символов предусмотрено внутри самого стандарта JavaScript. В современном стандарте есть много системных символов. Их список есть в спецификации, в таблице <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#table-1">Well-known Symbols</a>. В спецификации для краткости символы принято обозначать как „@@имя“, например <code>@@iterator</code>, но доступны они как свойства <code>Symbol</code>.</p>
+<p>Например:</p>
+<ul>
+<li><code>Symbol.toPrimitive</code> – идентификатор для свойства, задающего функцию преобразования объекта в примитив.</li>
+<li><code>Symbol.iterator</code> – идентификатор для свойства, задающего функцию итерации по объекту.</li>
+<li>…и т.п.</li>
+</ul>
+<p><strong>Мы легко поймём смысл введения нового типа «символ», если поставим себя на место создателей языка JavaScript.</strong></p>
+<p>Допустим, в новом стандарте нам надо добавить к объекту «особый» функционал, например, функцию, которая задаёт преобразование объекта к примитиву. Как <code>obj.toString</code>, но для преобразования в примитивы.</p>
+<p>Мы ведь не можем просто сказать, что «свойство obj.toPrimitive теперь будет задавать преобразование к примитиву и автоматически вызываться в таких-то ситуациях». Это опасно. Мы не можем так просто взять и придать особый смысл свойству. Мало ли, вполне возможно, что свойство с таким именем уже используется в существующем коде, и если сделать его особым, то он сломается.</p>
+<p>Нельзя просто взять и зарезервировать какие-то свойства существующих объектов для нового функционала.</p>
+<p>Поэтому ввели целый тип «символы». Их можно использовать для задания таких свойств, так как они:</p>
+<ul>
+<li>а) уникальны,</li>
+<li>б) не участвуют в циклах,</li>
+<li>в) заведомо не сломают старый код, который о них слыхом не слыхивал.</li>
+</ul>
+<p>Продемонстрируем отсутствие конфликта для нового системного свойства <code>Symbol.iterator</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let obj = {
+  iterator: 1,
+  [Symbol.iterator]() {}
+}
+
+alert(obj.iterator); // 1
+alert(obj[Symbol.iterator]) // function, символ не конфликтует</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Выше мы использовали системный символ <code>Symbol.iterator</code>, поскольку он один из самых широко используемых. Мы подробно разберём его смысл в главе про <a href="iterator.htm">итераторы</a>, пока же – это просто пример символа.</p>
+<p>Чтобы получить все символы объекта, есть особый вызов <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols">Object.getOwnPropertySymbols</a>.</p>
+<p>Эта функция возвращает все символы в объекте (и только их). Заметим, что старая функция <code>getOwnPropertyNames</code> символы не возвращает, что опять же гарантирует отсутствие конфликтов со старым кодом.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">'use strict';
+
+let obj = {
+  iterator: 1,
+  [Symbol.iterator]: function() {}
+}
+
+// один символ в объекте
+alert( Object.getOwnPropertySymbols(obj)[0].toString() ); // Symbol(Symbol.iterator)
+
+// и одно обычное свойство
+alert( Object.getOwnPropertyNames(obj) ); // iterator</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Символы – новый примитивный тип, предназначенный для уникальных идентификаторов.</li>
+<li>Все символы уникальны. Символы с одинаковым именем не равны друг другу.</li>
+<li>Существует глобальный реестр символов, доступных через метод <code>Symbol.for(&quot;name&quot;)</code>. Для глобального символа можно получить имя вызовом <code>Symbol.keyFor(sym)</code>.</li>
+</ul>
+<p>Основная область использования символов – это системные свойства объектов, которые задают разные аспекты их поведения. Поддержка у них пока небольшая, но она растёт. Системные символы позволяют разработчикам стандарта добавлять новые «особые» свойства объектов, при этом не резервируя соответствующие строковые значения.</p>
+<p>Системные символы доступны как свойства функции <code>Symbol</code>, например <code>Symbol.iterator</code>.</p>
+<p>Мы можем создавать и свои символы, использовать их в объектах. Записывать их как свойства <code>Symbol</code>, разумеется, нельзя. Если нужен глобально доступный символ, то используется <code>Symbol.for(имя)</code>.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

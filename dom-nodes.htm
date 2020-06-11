@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Дерево DOM</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Дерево DOM"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Основным инструментом работы и динамических изменений на странице является DOM (Document Object Model) – объектная модель, используемая для XML/HTML-документов.</p>
+<p>Согласно DOM-модели, документ является иерархией, деревом. Каждый HTML-тег образует узел дерева с типом «элемент». Вложенные в него теги становятся дочерними узлами. Для представления текста создаются узлы с типом «текст».</p>
+<p>DOM – это представление документа в виде дерева объектов, доступное для изменения через JavaScript.</p>
+<h2><a class="main__anchor" name="пример-dom" href="#пример-dom">Пример DOM</a></h2><p>Построим, для начала, дерево DOM для следующего документа.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;О лосях&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  Правда о лосях
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Его вид:</p>
+<div class="domtree"></div>
+<script>
+var node = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  "},{"name":"TITLE","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"О лосях"}]},{"name":"#text","nodeType":3,"content":"\n"}]},{"name":"#text","nodeType":3,"content":"\n"},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  Правда о лосях\n"}]}]}
+
+drawHtmlTree(node, 'div.domtree', 690, 350);
+</script>
+<p>В этом дереве выделено два типа узлов.</p>
+<ol>
+<li>Теги образуют <em>узлы-элементы</em> (element node). Естественным образом одни узлы вложены в другие. Структура дерева образована исключительно за счет них.</li>
+<li>Текст внутри элементов образует <em>текстовые узлы</em> (text node), обозначенные как <code>#text</code>. Текстовый узел содержит исключительно строку текста и не может иметь потомков, то есть он всегда на самом нижнем уровне.</li>
+</ol>
+<p><strong>На рисунке выше синие узлы-элементы можно кликать, при этом их дети будут скрываться-раскрываться.</strong></p>
+<p>Обратите внимание на специальные символы в текстовых узлах:</p>
+<ul>
+<li>перевод строки: <code>↵</code></li>
+<li>пробел: <code>␣</code></li>
+</ul>
+<p><strong>Пробелы и переводы строки – это тоже текст, полноправные символы, которые учитываются в DOM.</strong></p>
+<p>В частности, в примере выше тег <code>&lt;html&gt;</code> содержит не только узлы-элементы <code>&lt;head&gt;</code> и <code>&lt;body&gt;</code>, но и <code>#text</code> (пробелы, переводы строки) между ними.</p>
+<p>Впрочем, как раз на самом верхнем уровне из этого правила есть исключения: пробелы до <code>&lt;head&gt;</code> по стандарту игнорируются, а любое содержимое после <code>&lt;/body&gt;</code> не создаёт узла, браузер переносит его внутрь, в конец <code>body</code>.</p>
+<p>В остальных случаях всё честно – если пробелы есть в документе, то они есть и в DOM, а если их убрать, то и в DOM их не будет, получится так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;О лосях&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Правда о лосях&lt;/body&gt;&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="domtree"></div>
+<script>
+var node = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[{"name":"TITLE","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"О лосях"}]}]},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"Правда о лосях\n"}]}]}
+
+drawHtmlTree(node, 'div.domtree', 690, 300);
+</script>
+<h2><a class="main__anchor" name="автоисправление" href="#автоисправление">Автоисправление</a></h2><p>При чтении неверного HTML браузер автоматически корректирует его для показа и при построении DOM.</p>
+<p>В частности, всегда будет верхний тег <code>&lt;html&gt;</code>. Даже если в тексте нет – в DOM он будет, браузер создаст его самостоятельно.</p>
+<p>То же самое касается и тега <code>&lt;body&gt;</code>.</p>
+<p>Например, если файл состоит из одного слова <code>&quot;Привет&quot;</code>, то браузер автоматически обернёт его в <code>&lt;html&gt;</code> и <code>&lt;body&gt;</code>.</p>
+<p><strong>При генерации DOM браузер самостоятельно обрабатывает ошибки в документе, закрывает теги и так далее.</strong></p>
+<p>Такой документ:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;p&gt;Привет
+&lt;li&gt;Мама
+&lt;li&gt;и
+&lt;li&gt;Папа</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Превратится вот во вполне респектабельный DOM, браузер сам закроет теги:</p>
+<div class="domtree"></div>
+<script>
+var node = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[]},{"name":"BODY","nodeType":1,"children":[{"name":"P","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"Привет\n"}]},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"Мама\n"}]},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"и\n"}]},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"Папа\n"}]}]}]}
+
+drawHtmlTree(node, 'div.domtree', 690, 400);
+</script>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Таблицы всегда содержат <code>&lt;tbody&gt;</code></span></div>
+            <div class="important__content"><p>Важный «особый случай» при работе с DOM – таблицы. По стандарту DOM они обязаны иметь <code>&lt;tbody&gt;</code>, однако в HTML их можно написать без него. В этом случае браузер добавляет <code>&lt;tbody&gt;</code> самостоятельно.</p>
+<p>Например, для такого HTML:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;table id=&quot;table&quot;&gt;
+  &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>DOM-структура будет такой:</p>
+<div class="domtree"></div>
+<script>
+var node = {"name":"TABLE","nodeType":1,"children":[{"name":"TBODY","nodeType":1,"children":[{"name":"TR","nodeType":1,"children":[{"name":"TD","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"1"}]},{"name":"#text","nodeType":3,"content":"\n"}]}]}]};
+
+drawHtmlTree(node,  'div.domtree', 600, 200);
+</script>
+<p>Вы видите? Появился <code>&lt;tbody&gt;</code>, как будто документ был таким:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1,3-3">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Важно знать об этом, иначе при работе с таблицами возможны сюрпризы.</p>
+</div></div>
+<h2><a class="main__anchor" name="другие-типы-узлов" href="#другие-типы-узлов">Другие типы узлов</a></h2><p>Дополним страницу новыми тегами и комментарием:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="7-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;body&gt;
+  Правда о лосях
+  &lt;ol&gt;
+    &lt;li&gt;Лось — животное хитрое&lt;/li&gt;
+    &lt;!-- комментарий --&gt;
+    &lt;li&gt;...и коварное!&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="domtree"></div>
+<script>
+var node = {"name":"HTML","nodeType":1,"children":[{"name":"HEAD","nodeType":1,"children":[]},{"name":"BODY","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n  Правда о лосях\n  "},{"name":"OL","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"\n    "},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"Лось — животное хитрое"}]},{"name":"#text","nodeType":3,"content":"\n    "},{"name":"#comment","nodeType":8,"content":" комментарий "},{"name":"#text","nodeType":3,"content":"\n    "},{"name":"LI","nodeType":1,"children":[{"name":"#text","nodeType":3,"content":"...и коварное!"}]},{"name":"#text","nodeType":3,"content":"\n  "}]},{"name":"#text","nodeType":3,"content":"\n\n"}]}]};
+
+drawHtmlTree(node, 'div.domtree', 690, 550);
+</script>
+<p><strong>В этом примере тегов уже больше, и даже появился узел нового типа – <em>комментарий</em>.</strong></p>
+<p>Казалось бы, зачем комментарий в DOM? На отображение-то он всё равно не влияет. Но так как он есть в HTML – обязан присутствовать в DOM-дереве.</p>
+<p><strong>Всё, что есть в HTML, находится и в DOM.</strong></p>
+<p>Даже директива <code>&lt;!DOCTYPE...&gt;</code>, которую мы ставим в начале HTML, тоже является DOM-узлом, и находится в дереве DOM непосредственно перед <code>&lt;html&gt;</code>. На иллюстрациях выше этот факт скрыт, поскольку мы с этим узлом работать не будем, он никогда не нужен.</p>
+<p>Даже сам объект <code>document</code>, формально, является DOM-узлом, самым-самым корневым.</p>
+<p>Всего различают 12 типов узлов, но на практике мы работаем с четырьмя из них:</p>
+<ol>
+<li>Документ – точка входа в DOM.</li>
+<li>Элементы – основные строительные блоки.</li>
+<li>Текстовые узлы – содержат, собственно, текст.</li>
+<li>Комментарии – иногда в них можно включить информацию, которая не будет показана, но доступна из JS.</li>
+</ol>
+<h2><a class="main__anchor" name="возможности-которые-дает-dom" href="#возможности-которые-дает-dom">Возможности, которые дает DOM</a></h2><p>Зачем, кроме красивых рисунков, нужна иерархическая модель DOM?</p>
+<p><strong>DOM нужен для того, чтобы манипулировать страницей – читать информацию из HTML, создавать и изменять элементы.</strong></p>
+<p>Узел <code>HTML</code>  можно получить как <code>document.documentElement</code>, а <code>BODY</code> – как <code>document.body</code>.</p>
+<p>Получив узел, мы можем что-то сделать с ним.</p>
+<p>Например, можно поменять цвет <code>BODY</code> и вернуть обратно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">document.body.style.backgroundColor = 'red';
+alert( 'Поменяли цвет BODY' );
+
+document.body.style.backgroundColor = '';
+alert( 'Сбросили цвет BODY' );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>DOM предоставляет возможность делать со страницей всё, что угодно.</p>
+<p>Позже мы более подробно рассмотрим различные свойства и методы DOM-узлов.</p>
+<h2><a class="main__anchor" name="особенности-ie8" href="#особенности-ie8">Особенности IE8-</a></h2><p>IE8- не генерирует текстовые узлы, если они состоят только из пробелов.</p>
+<p>То есть, такие два документа дадут идентичный DOM:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;О лосях&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Правда о лосях&lt;/body&gt;&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>И такой:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;title&gt;О лосях&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  Правда о лосях
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Эта, с позволения сказать, «оптимизация» не соответствует стандарту и IE9+ уже работает как нужно, то есть как описано ранее.</p>
+<p>Но, по большому счёту, для нас это отличие должно быть без разницы, ведь при работе с DOM/HTML мы в любом случае не должны быть завязаны на то, есть пробел между тегами или его нет. Мало ли, сегодня он есть, а завтра решили переформатировать HTML и его не стало.</p>
+<p>К счастью, свойства и методы DOM, которые мы пройдём далее, вполне позволяют писать код, который будет работать корректно во всех версиях браузеров. Так что знать об этом отличии надо, если вы хотите поддерживать старые IE, но проблем оно нам создавать не будет.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>DOM-модель – это внутреннее представление HTML-страницы в виде дерева.</li>
+<li>Все элементы страницы, включая теги, текст, комментарии, являются узлами DOM.</li>
+<li>У элементов DOM есть свойства и методы, которые позволяют изменять их.</li>
+<li>IE8- не генерирует пробельные узлы.</li>
+</ul>
+<p>Кстати, DOM-модель используется не только в JavaScript, это известный способ представления XML-документов.</p>
+<p>В следующих главах мы познакомимся с DOM более плотно.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#что-выведет-этот-alert" name="что-выведет-этот-alert" class="main__anchor">Что выведет этот alert?</a></h3><a href="task/body-from-head.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Что выведет <code>alert</code>?</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;html&gt;
+
+&lt;head&gt;
+  &lt;script&gt;
+    alert( document.body ); // ?
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  Привет, мир!
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Выведет <code>null</code>, так как на момент выполнения скрипта тег <code>&lt;body&gt;</code> ещё не обработан браузером.</p>
+<p>Попробуйте в действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;html&gt;
+
+&lt;head&gt;
+  &lt;script&gt;
+    alert( document.body ); // null
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  Привет, мир!
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

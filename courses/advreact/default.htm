@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main "><div class="course-header main__header main__header_courses"><div class="course-header__inner"><a href="../../courses" class="course-header__back">Все курсы</a><h1 class="course-header__title">Продвинутый курс по React.JS</h1><p class="course-header__text main__header-text_wide_medium">Курс для тех, кто уверенно чувсвтвует себя с React/Redux, и готов попробовать более продвинутые практики, современную экосистему и альтернативные подходы к решению задач.</p><div class="course-header__image-container"><div style="background-image: url(&quot;../list/advreact.svg&quot;)" class="course-header__image main__header-image"></div></div></div></div><div class="course-page"><div data-sticky='{"minWidth":840}' class="courses-signup"><h3 class="courses-signup__title">Запись на курс</h3><div class="courses-signup__subscribe-empty"><div class="courses-signup__empty-message"><p>Следующий набор на обновленный курс планируется через 2 недели.</p></div><div class="price price_signup"><div class="price__main"><div class="price__main-amount">17000</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">257</div></div></div><p>Вы можете запросить уведомление:</p><form data-newsletter-subscribe-form="advreact" onsubmit="return false" action="/newsletter/subscribe" method="POST" class="text-input-button"><input type="hidden" value="advreact" name="slug"/><div class="text-input-button__input"><div class="text-input"><input type="email" placeholder="me@mail.com" name="email" required class="text-input__control"></div></div><div class="text-input-button__button"><button type="submit" class="button button_action"><span class="button__text">Подписаться</span></button></div></form></div></div><div class="courses-mix"><h2 class="courses-mix__title">Программа</h2><p>Этот курс рассчитан на людей с опытом работы на React.
+Здесь мы будем учиться использовать экосистему React для решения стандартных задач: testing, drag-n-drop, lazy-loading, grids, forms и т.д.
+Разберем продвинутые варианты композиции редюсеров и работы с сайд-эффектами в Redux, будем работать с redux-saga.
+Изучим альтернативные подходы к слою бизнес-логики, детально разберем MobX.
+Научимся строить приложения на React Native и поработаем с real-time на примере MobX и Redux-Saga.
+</p><p>В этом курсе мы будем строить мобильное приложение на React Native и админку для него, используя облачную real-time базу данных Firebase.
+Начнем с веб-интерфейса админки, научимся работать с авторизацией, будем использовать популярные UI библиотеки
+(react-dnd, react-virtualized), разберем redux-saga.
+Затем построим простое мобильное приложение на React Native, для которого будем использовать MobX.
+</p><p>Курс состоит из 4-х блоков:</p><ol><li><div class="courses-mix__text">Продвинутый Redux.</div></li><li><div class="courses-mix__text">Экосистема React.</div></li><li><div class="courses-mix__text">React-Native.</div></li><li><div class="courses-mix__text">Основы MobX.</div></li></ol><p>Детали программы смотрите далее.</p></div><div class="courses-mix courses-parts"><h2 class="courses-parts__title">Основные темы программы</h2><div class="tabbed-pane tabbed-pane_01"><ul class="tabbed-pane__tabs"><li class="tabbed-pane__tab tabbed-pane__tab_01">Блок 1</li><li class="tabbed-pane__tab tabbed-pane__tab_02">Блок 2</li><li class="tabbed-pane__tab tabbed-pane__tab_03">Блок 3</li><li class="tabbed-pane__tab tabbed-pane__tab_04">Блок 4</li></ul><div class="tabbed-pane__body tabbed-pane__body_01"><h2 class="phone-only tabbed-pane__title">Блок 1</h2><p><b>Продвинутый Redux:</b></p><p>В современном мире существует достаточно большое количество подходов к построению архитектуры Redux.
+Некоторые из них очень мощные, но достаточно сложные, поэтому в этом блоке мы изучим их подробно.
+</p><ul><li>Redux-Form.</li><li>Авторизация в React приложениях (backend в Firebase, можно любой другой).</li><li>Разные подходы к композиции редюсеров, плюсы и минусы.</li><li>Redux Ducks.</li><li>Варианты работы с сайд-эфектами: redux-thunk, redux-promise, redux-loop, redux-saga.</li><li>Работа с сагами, их тестирование.</li></ul></div><div class="tabbed-pane__body tabbed-pane__body_02"><h2 class="phone-only tabbed-pane__title">Блок 2</h2><p><b>Экосистема React:</b></p><ul><li>Тестирование React-компонент.</li><li>Большие таблицы и списки с react-virtualized.</li><li>Lazy-loading с redux и react-virtualized.</li><li>Анимации с react-motion.</li><li>Drag-N-Drop с react-dnd.</li></ul></div><div class="tabbed-pane__body tabbed-pane__body_03"><h2 class="phone-only tabbed-pane__title">Блок 3</h2><p><b>React Native:</b></p><ul><li>Настройка окружения React Native.</li><li>Разбор основных принципов и отличий от работы в браузере.</li><li>Базовые компоненты React Native.</li><li>Стили для React Native, Flexbox.</li><li>Некоторые неочевидные проблемы верстки для React Native.</li><li>Роутинг с React Native Router Flux.</li></ul></div><div class="tabbed-pane__body tabbed-pane__body_04"><h2 class="phone-only tabbed-pane__title">Блок 4</h2><p><b>MobX:</b></p><ul><li>Основы MobX.</li><li>Построение архитектуры приложения.</li><li>Работа с данными.</li><li>Подводные камни.</li><li>Работа с сетью.</li><li>Пример real-time в MobX и Redux-Saga.</li></ul></div></div></div><script>var className = 'tabbed-pane', block = document.querySelector('.' + className);
+
+block.querySelector('.' + className + '__tabs').addEventListener('click', function(e) {
+   block.className = className + ' ' + className + '_' +  e.target.className.split('_').pop();
+});</script><div class="courses-how courses-mix"><h2 class="courses-how__title">Как проходит обучение?</h2><div class="courses-how__body"><p>Курс будет проходить по схеме 1 + 5 + 4, т.е. организационое собрание перед первой встречей. Затем мы с вами пройдем 2 блока (5 занятий), на которых разберем продвинутый Redux и экосистему React, построим админку для нашего приложения. Сделаем каникулы, во время которых вы сможете освоиться с пройденным материалом. На следующих 3-х уроках мы будем создавать мобильное приложение на React Native, с исползованием MobX, настроим коммуникацию с сервером и авторизацию, посмотрим на пример работы с real-time в MobX и Redux-Saga. А последние занятие мы посвятим вашим вопросам и увидим куда развиваться дальше.
+</p><p>На каждом занятии мы изучаем что-то новое. После встречи даётся домашнее задание.</p><p>На следующем занятии мы смотрим, что и как получилось решить и как сделать лучше. Чтобы получить от курса максимум результата, нужно не только слушать, но и делать что-то дома, а затем – показывать преподавателю. Так, постепенно, с обратной связью от преподавателя, вы действительно хорошо разберётесь c этими технологиями.
+</p><p>Обратите внимание: это наш первый набор на данный курс. Это значит, что людей будет меньше и мы с вами будем активно общаться по всем материалам. Также мы планируем повысить стоимость этого курса в будущем и сейчас вы можете пройти его дешевле. Однако программа еще не обкатана и после каждого урока я буду просить у вас заполнять форму обратной связи для улучшения программы и ее подачи.</p></div></div><div class="courses-mix courses-result"><h2 class="courses-result__title">Результат обучения</h2><div class="courses-result__body"><ol><li>Вы можете строить архитектуру приложения выбирая лучший из многих доступных вариантов, не ограничиваясь стандартным путем.</li><li>Вы не ограничены Redux-ом: уже умеете использовать MobX, знаете какие еще есть системы, их плюсы и минусы, можете легко в них разобраться.</li><li>Вы знаете не только сам React, но и множество вспомогательных библиотек, умеете решать стандартные задачи не изобретая велосипедов.</li><li>Вы знакомы с React Native, можете строить не только Web, но и Mobile приложения.</li></ol></div></div><div id="guarantee" class="courses-mix courses-result"><h2 class="courses-result__title">Гарантия</h2><ul>
+  <li>Если объяснения будут вам непонятны</li>
+  <li>Если курсы не дадут вам новых знаний и умений</li>
+  <li>Если вы не сможете подключиться к системе онлайн-обучения</li>
+</ul> <p>…то вы сможете получить деньги назад.</p>
+<p>Для этого достаточно не позже окончания первой недели курса <a href="mailto:help@javascript.ru">написать</a>, указав причину из этого списка и что именно вас не устраивает, и тогда ваше участие будет прекращено, а вы получите деньги обратно, удобным для вас способом.</p>
+</div><div class="courses-mix"><h2>Преподаватель</h2><div class="course-master"><a href="../../profile/roman-iakobchuk" class="course-master__photo"><img src="https://i.imgur.com/ksJcyLA.jpg" alt="Photo" class="course-master__img" title=""></a><a href="../../profile/roman-iakobchuk" class="course-master__name">Роман Якобчук</a><div class="course-master__text"><p>Программирование люблю и практикую с детства, даже затрудняюсь сказать, какой именно в нём опыт)</p>
+<p>Знаю с десяток языков, но в последнее время активно пишу только на JavaScript.</p>
+<p>Выступаю на конференциях, провожу мастер-классы, курсы и консультации про фронтенд-разработке.</p>
+<p>За последние годы, неожиданно для себя, превратился в евангелиста React – я знаю и использую другие фреймворки, но так получается, что в 80% задач из моей жизни именно React является оптимальным решением.</p>
+</div></div></div><div class="courses-faq courses-mix"><h2 class="courses-faq__title">Дополнительная информация</h2><div class="courses-faq__body"><ul class="courses-faq__questions"><li class="courses-faq__question"><input type="checkbox" id="q0" class="courses-faq__input"><label for="q0" class="courses-faq__question-title">Предварительные требования</label><div class="courses-faq__answer">
+    <ul>
+        <li>Знание JavaScript (ES2017) и знакомство с CSS/HTML.</li>
+        <li>Знание основ программирования (ООП, паттерны JS, знание нескольких архитектурных паттернов).</li>
+        <li>Знание основ React и экосистемы: redux, immutable, react-router@4, reselect, react-router-redux. Если вы прошли наш основной курс по React, то этого достаточно.</li>
+    </ul>
+    <p>Желательно понимание английского языка.
+        По ходу курса будут предлагаться для дополнительного ознакомления материалы на английском,
+        всё самое важное мы пройдём на занятиях, но желательно, чтобы вы могли их понять.</p>
+    </div></li><li class="courses-faq__question"><input type="checkbox" id="q1" class="courses-faq__input"><label for="q1" class="courses-faq__question-title">Системные требования</label><div class="courses-faq__answer"><p>Windows или Mac поддерживаются полностью.</p><p>Под Linux доступно участие онлайн и просмотр видеолекций, но для просмотра записей занятий нужен Dual Boot в Win/MacOS.</p><p>Для онлайн-общения желателен интернет от 256kb/s.</p></div></li></ul></div></div><div id="comments" class="comments"><div class="comments__header"><h2 class="comments__header-title"><a href="#comments" name="comments">Комментарии</a></h2><div class="comments__read-before"><span class="comments__read-before-link">перед тем как писать…</span><div class="comments__read-before-popup"><div class="comments__read-before-popup-i"><ul><li>Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.</li><li>Для одной строки кода используйте тег <code>&lt;code&gt;</code>, для нескольких строк кода&nbsp;&mdash; тег <code>&lt;pre&gt;</code>, если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href='http://plnkr.co/edit/?p=preview'>plnkr</a>, <a href='http://jsbin.com/'>JSBin</a>, <a href='http://codepen.io/'>codepen</a>…)</li><li>Если что-то непонятно в статье&nbsp;&mdash; пишите, что именно и с какого места.</li></ul></div></div></div></div></div><div id="disqus_thread"></div><script>var disqus_config = function() { if (!this.page) this.page = {}; Object.assign(this.page, {"url":"../../../https@learn.javascript.ru/courses/advreact","identifier":"\/courses\/advreact","title":"../../u041f/u0440/u043e/u0434/u0432/u0438/u043d/u0443/u0442/u044b/u0439 /u043a/u0443/u0440/u0441 /u043f/u043e React.JS"}); };</script><script>var disqus_shortname = "learnjavascriptru";</script><script>var disqus_enabled = true;</script></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

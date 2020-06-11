@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="functions-closures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Замыкания, область видимости</span></a></li></ol><h1 class="main__header-title">Локальные переменные для объекта</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Локальные переменные для объекта"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Замыкания можно использовать сотнями способов. Иногда люди сами не замечают, что использовали замыкания – настолько это просто и естественно.</p>
+<p>В этой главе мы рассмотрим дополнительные примеры использования замыканий и задачи на эту тему.</p>
+<h2><a class="main__anchor" name="счётчик-объект" href="#счётчик-объект">Счётчик-объект</a></h2><p>Ранее мы сделали счётчик.</p>
+<p>Напомню, как он выглядел:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeCounter() {
+  var currentCount = 1;
+
+  return function() {
+    return currentCount++;
+  };
+}
+
+var counter = makeCounter();
+
+// каждый вызов возвращает результат, увеличивая счётчик
+alert( counter() ); // 1
+alert( counter() ); // 2
+alert( counter() ); // 3</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Счётчик получился вполне рабочий, но вот только возможностей ему не хватает. Хорошо бы, чтобы можно было сбрасывать значение счётчика или начинать отсчёт с другого значения вместо <code>1</code> или… Да много чего можно захотеть от простого счётчика и, тем более, в более сложных проектах.</p>
+<p><strong>Чтобы добавить счётчику возможностей – перейдём с функции на полноценный объект:</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeCounter() {
+  var currentCount = 1;
+
+  return { // возвратим объект вместо функции
+    getNext: function() {
+      return currentCount++;
+    },
+
+    set: function(value) {
+      currentCount = value;
+    },
+
+    reset: function() {
+      currentCount = 1;
+    }
+  };
+}
+
+var counter = makeCounter();
+
+alert( counter.getNext() ); // 1
+alert( counter.getNext() ); // 2
+
+counter.set(5);
+alert( counter.getNext() ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь функция <code>makeCounter</code> возвращает не одну функцию, а объект с несколькими методами:</p>
+<ul>
+<li><code>getNext()</code> – получить следующее значение, то, что раньше делал вызов <code>counter()</code>.</li>
+<li><code>set(value)</code> – поставить значение.</li>
+<li><code>reset()</code> – обнулить счётчик.</li>
+</ul>
+<p>Все они получают ссылку <code>[[Scope]]</code> на текущий (внешний) объект переменных. Поэтому вызов любого из этих методов будет получать или модифицировать одно и то же внешнее значение <code>currentCount</code>.</p>
+<h2><a class="main__anchor" name="объект-счётчика-функция" href="#объект-счётчика-функция">Объект счётчика + функция</a></h2><p>Изначально, счётчик делался функцией во многом ради красивого вызова: <code>counter()</code>, который увеличивал значение и возвращал результат.</p>
+<p>К сожалению, при переходе на объект короткий вызов пропал, вместо него теперь <code>counter.getNext()</code>. Но он ведь был таким простым и удобным…</p>
+<p>Поэтому давайте вернём его!</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-6,22-26">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeCounter() {
+  var currentCount = 1;
+
+  // возвращаемся к функции
+  function counter() {
+    return currentCount++;
+  }
+
+  // ...и добавляем ей методы!
+  counter.set = function(value) {
+    currentCount = value;
+  };
+
+  counter.reset = function() {
+    currentCount = 1;
+  };
+
+  return counter;
+}
+
+var counter = makeCounter();
+
+alert( counter() ); // 1
+alert( counter() ); // 2
+
+counter.set(5);
+alert( counter() ); // 5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Красиво, не правда ли? Получился полноценный объект, который можно вдобавок ещё и вызывать.</p>
+<p>Этот трюк часто используется при разработке JavaScript-библиотек. Например, популярная библиотека <a href="http://jquery.com/">jQuery</a> предоставляет глобальную переменную с именем <a href="http://api.jquery.com/jQuery/">jQuery</a> (доступна также под коротким именем <code>$</code>), которая с одной стороны является функцией и может вызываться как <code>jQuery(...)</code>, а с другой – у неё есть различные методы, например <code>jQuery.type(123)</code> возвращает тип аргумента.</p>
+<p>Далее вы найдёте различные задачи на понимание замыканий. Рекомендуется их сделать самостоятельно.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#сумма-через-замыкание" name="сумма-через-замыкание" class="main__anchor">Сумма через замыкание</a></h3><a href="task/closure-sum.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Напишите функцию <code>sum</code>, которая работает так: <code>sum(a)(b) = a+b</code>.</p>
+<p>Да, именно так, через двойные скобки (это не опечатка). Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">sum(1)(2) = 3
+sum(5)(-1) = 4</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Чтобы вторые скобки в вызове работали – первые должны возвращать функцию.</p>
+<p>Эта функция должна знать про <code>a</code> и уметь прибавлять <code>a</code> к <code>b</code>. Вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sum(a) {
+
+  return function(b) {
+    return a + b; // возьмет a из внешнего LexicalEnvironment
+  };
+
+}
+
+alert( sum(1)(2) );
+alert( sum(5)(-1) );</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#функция-строковый-буфер" name="функция-строковый-буфер" class="main__anchor">Функция - строковый буфер</a></h3><a href="task/stringbuffer.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>В некоторых языках программирования существует объект «строковый буфер», который аккумулирует внутри себя значения. Его функционал состоит из двух возможностей:</p>
+<ol>
+<li>Добавить значение в буфер.</li>
+<li>Получить текущее содержимое.</li>
+</ol>
+<p><strong>Задача – реализовать строковый буфер на функциях в JavaScript, со следующим синтаксисом:</strong></p>
+<ul>
+<li>Создание объекта: <code>var buffer = makeBuffer();</code>.</li>
+<li>Вызов <code>makeBuffer</code> должен возвращать такую функцию <code>buffer</code>, которая при вызове <code>buffer(value)</code> добавляет значение в некоторое внутреннее хранилище, а при вызове без аргументов <code>buffer()</code> – возвращает его.</li>
+</ul>
+<p>Вот пример работы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeBuffer() { /* ваш код */ }
+
+var buffer = makeBuffer();
+
+// добавить значения к буферу
+buffer('Замыкания');
+buffer(' Использовать');
+buffer(' Нужно!');
+
+// получить текущее значение
+alert( buffer() ); // Замыкания Использовать Нужно!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Буфер должен преобразовывать все данные к строковому типу:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var buffer = makeBuffer();
+buffer(0);
+buffer(1);
+buffer(0);
+
+alert( buffer() ); // '010'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Решение не должно использовать глобальные переменные.</p>
+<p><a href="http://plnkr.co/edit/UnTFv6ehcT5a5U5O02ke?p=preview" target="_blank" data-plunk-id="UnTFv6ehcT5a5U5O02ke">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Текущее значение текста удобно хранить в замыкании, в локальной переменной <code>makeBuffer</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeBuffer() {
+  var text = '';
+
+  return function(piece) {
+    if (arguments.length == 0) { // вызов без аргументов
+      return text;
+    }
+    text += piece;
+  };
+};
+
+var buffer = makeBuffer();
+
+// добавить значения к буферу
+buffer('Замыкания');
+buffer(' Использовать');
+buffer(' Нужно!');
+alert( buffer() ); // 'Замыкания Использовать Нужно!'
+
+var buffer2 = makeBuffer();
+buffer2(0);
+buffer2(1);
+buffer2(0);
+
+alert( buffer2() ); // '010'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Начальное значение <code>text = ''</code> – пустая строка. Поэтому операция <code>text += piece</code> прибавляет <code>piece</code> к строке, автоматически преобразуя его к строковому типу, как и требовалось в условии.</p>
+<p><a href="http://plnkr.co/edit/yvsuYWx5OzHNinTNEv0I?p=preview" target="_blank" data-plunk-id="yvsuYWx5OzHNinTNEv0I">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#строковый-буфер-с-очисткой" name="строковый-буфер-с-очисткой" class="main__anchor">Строковый буфер с очисткой</a></h3><a href="task/stringbuffer-with-clear.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Добавьте буферу из решения задачи <a href="task/stringbuffer.htm">Функция - строковый буфер</a> метод <code>buffer.clear()</code>, который будет очищать текущее содержимое буфера:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-10">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeBuffer() {
+  ...ваш код...
+}
+
+var buffer = makeBuffer();
+
+buffer(&quot;Тест&quot;);
+buffer(&quot; тебя не съест &quot;);
+alert( buffer() ); // Тест тебя не съест
+
+buffer.clear();
+
+alert( buffer() ); // &quot;&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/aOwEwSKX2fpwURBVmOqN?p=preview" target="_blank" data-plunk-id="aOwEwSKX2fpwURBVmOqN">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-highlight-block="23-23">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeBuffer() {
+  var text = '';
+
+  function buffer(piece) {
+    if (arguments.length == 0) { // вызов без аргументов
+      return text;
+    }
+    text += piece;
+  };
+
+  buffer.clear = function() {
+    text = &quot;&quot;;
+  }
+
+  return buffer;
+};
+
+var buffer = makeBuffer();
+
+buffer(&quot;Тест&quot;);
+buffer(&quot; тебя не съест &quot;);
+alert( buffer() ); // Тест тебя не съест
+
+buffer.clear();
+
+alert( buffer() ); // &quot;&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/PnX9iMxKLtLHhy0m7UQW?p=preview" target="_blank" data-plunk-id="PnX9iMxKLtLHhy0m7UQW">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#сортировка" name="сортировка" class="main__anchor">Сортировка</a></h3><a href="task/sort-by-field.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>У нас есть массив объектов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var users = [{
+  name: &quot;Вася&quot;,
+  surname: 'Иванов',
+  age: 20
+}, {
+  name: &quot;Петя&quot;,
+  surname: 'Чапаев',
+  age: 25
+}, {
+  name: &quot;Маша&quot;,
+  surname: 'Медведева',
+  age: 18
+}];</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обычно сортировка по нужному полю происходит так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// по полю name (Вася, Маша, Петя)
+users.sort(function(a, b) {
+  return a.name &gt; b.name ? 1 : -1;
+});
+
+// по полю age  (Маша, Вася, Петя)
+users.sort(function(a, b) {
+  return a.age &gt; b.age ? 1 : -1;
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Мы хотели бы упростить синтаксис до одной строки, вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">users.sort(byField('name'));
+users.forEach(function(user) {
+  alert( user.name );
+}); // Вася, Маша, Петя
+
+users.sort(byField('age'));
+users.forEach(function(user) {
+  alert( user.name );
+}); // Маша, Вася, Петя</code></pre>
+        </div>
+      </div>
+      
+      </div><p>То есть, вместо того, чтобы каждый раз писать в <code>sort</code> <code>function...</code> – будем использовать <code>byField(...)</code></p>
+<p>Напишите функцию <code>byField(field)</code>, которую можно использовать в <code>sort</code> для сравнения объектов по полю <code>field</code>, чтобы пример выше заработал.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-highlight-block="14-18">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var users = [{
+  name: &quot;Вася&quot;,
+  surname: 'Иванов',
+  age: 20
+}, {
+  name: &quot;Петя&quot;,
+  surname: 'Чапаев',
+  age: 25
+}, {
+  name: &quot;Маша&quot;,
+  surname: 'Медведева',
+  age: 18
+}];
+
+function byField(field) {
+    return function(a, b) {
+      return a[field] &gt; b[field] ? 1 : -1;
+    }
+  }
+
+users.sort(byField('name'));
+users.forEach(function(user) {
+  alert( user.name );
+});
+
+users.sort(byField('age'));
+users.forEach(function(user) {
+  alert( user.name );
+});</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#фильтрация-через-функцию" name="фильтрация-через-функцию" class="main__anchor">Фильтрация через функцию</a></h3><a href="task/filter-through-function.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><ol>
+<li>Создайте функцию <code>filter(arr, func)</code>, которая получает массив <code>arr</code> и возвращает новый, в который входят только те элементы <code>arr</code>, для которых <code>func</code> возвращает <code>true</code>.</li>
+<li>Создайте набор «готовых фильтров»: <code>inBetween(a,b)</code> – «между a,b», <code>inArray([...])</code> – &quot;в массиве <code>[...]</code>&quot;.
+Использование должно быть таким:</li>
+</ol>
+<ul>
+<li><code>filter(arr, inBetween(3,6))</code> – выберет только числа от 3 до 6,</li>
+<li><code>filter(arr, inArray([1,2,3]))</code> – выберет только элементы, совпадающие с одним из значений массива.</li>
+</ul>
+<p>Пример, как это должно работать:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">/* .. ваш код для filter, inBetween, inArray */
+var arr = [1, 2, 3, 4, 5, 6, 7];
+
+alert(filter(arr, function(a) {
+  return a % 2 == 0
+})); // 2,4,6
+
+alert( filter(arr, inBetween(3, 6)) ); // 3,4,5,6
+
+alert( filter(arr, inArray([1, 2, 10])) ); // 1,2</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/cTemn57f9pPXrvEJtMI6?p=preview" target="_blank" data-plunk-id="cTemn57f9pPXrvEJtMI6">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Функция фильтрации</button><div class="task__answer-content"><h4 class="task__step-title">Функция фильтрации</h4><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function filter(arr, func) {
+  var result = [];
+
+  for (var i = 0; i &lt; arr.length; i++) {
+    var val = arr[i];
+    if (func(val)) {
+      result.push(val);
+    }
+  }
+
+  return result;
+}
+
+var arr = [1, 2, 3, 4, 5, 6, 7];
+
+alert(filter(arr, function(a) {
+  return a % 2 == 0;
+})); // 2, 4, 6</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div><div class="task__step"><button type="button" class="task__step-show">Фильтр inBetween</button><div class="task__answer-content"><h4 class="task__step-title">Фильтр inBetween</h4><div data-trusted="1" class="code-example" data-highlight-block="13-17">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function filter(arr, func) {
+  var result = [];
+
+  for (var i = 0; i &lt; arr.length; i++) {
+    var val = arr[i];
+    if (func(val)) {
+      result.push(val);
+    }
+  }
+
+  return result;
+}
+
+function inBetween(a, b) {
+    return function(x) {
+      return x &gt;= a &amp;&amp; x &lt;= b;
+    };
+  }
+
+var arr = [1, 2, 3, 4, 5, 6, 7];
+alert( filter(arr, inBetween(3, 6)) ); // 3,4,5,6</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div><div class="task__step"><button type="button" class="task__step-show">Фильтр inArray</button><div class="task__answer-content"><h4 class="task__step-title">Фильтр inArray</h4><div data-trusted="1" class="code-example" data-highlight-block="13-17">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function filter(arr, func) {
+  var result = [];
+
+  for (var i = 0; i &lt; arr.length; i++) {
+    var val = arr[i];
+    if (func(val)) {
+      result.push(val);
+    }
+  }
+
+  return result;
+}
+
+function inArray(arr) {
+    return function(x) {
+      return arr.indexOf(x) != -1;
+    };
+  }
+
+var arr = [1, 2, 3, 4, 5, 6, 7];
+alert( filter(arr, inArray([1, 2, 10])) ); // 1,2</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/ZNNLpzrcw8ZH816RyFNq?p=preview" target="_blank" data-plunk-id="ZNNLpzrcw8ZH816RyFNq">Открыть решение с тестами в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#армия-функций" name="армия-функций" class="main__anchor">Армия функций</a></h3><a href="task/make-army.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Следующий код создает массив функций-стрелков <code>shooters</code>. По замыслу, каждый стрелок должен выводить свой номер:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeArmy() {
+
+  var shooters = [];
+
+  for (var i = 0; i &lt; 10; i++) {
+    var shooter = function() { // функция-стрелок
+      alert( i ); // выводит свой номер
+    };
+    shooters.push(shooter);
+  }
+
+  return shooters;
+}
+
+var army = makeArmy();
+
+army[0](); // стрелок выводит 10, а должен 0
+army[5](); // стрелок выводит 10...
+// .. все стрелки выводят 10 вместо 0,1,2...9</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Почему все стрелки́ выводят одно и то же? Поправьте код, чтобы стрелки работали как задумано. Предложите несколько вариантов исправления.</p>
+<p><a href="http://plnkr.co/edit/fsQbPO42ysweeUOtTuoQ?p=preview" target="_blank" data-plunk-id="fsQbPO42ysweeUOtTuoQ">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Что происходит в этом коде</button><div class="task__answer-content"><h4 class="task__step-title">Что происходит в этом коде</h4><p>Функция <code>makeArmy</code> делает следующее:</p>
+<ol>
+<li>
+<p>Создаёт пустой массив <code>shooters</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var shooters = [];</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>В цикле заполняет массив элементами через <code>shooters.push</code>.
+При этом каждый элемент массива – это функция, так что в итоге после цикла массив будет таким:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">shooters = [
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); },
+  function () { alert(i); }
+];</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Этот массив возвращается из функции.</p>
+</li>
+<li>
+<p>Вызов <code>army[5]()</code> – это получение элемента массива (им будет функция), и тут же – её запуск.</p>
+</li>
+</ol>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Почему ошибка</button><div class="task__answer-content"><h4 class="task__step-title">Почему ошибка</h4><p>Вначале разберемся, почему все стрелки выводят одно и то же значение.</p>
+<p>В функциях-стрелках <code>shooter</code> отсутствует переменная <code>i</code>. Когда такая функция вызывается, то <code>i</code> она берет из внешнего <code>LexicalEnvironment</code>.</p>
+<p>Чему же будет равно это значение <code>i</code>?</p>
+<p>К моменту вызова <code>army[0]()</code>, функция <code>makeArmy</code> уже закончила работу. Цикл  завершился, последнее значение было <code>i=10</code>.</p>
+<p>В результате все функции <code>shooter</code> получают из внешнего лексического окружения это, одно и то же, последнее, значение <code>i=10</code>.</p>
+<p>Попробуйте исправить проблему самостоятельно.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Исправление (3 варианта)</button><div class="task__answer-content"><h4 class="task__step-title">Исправление (3 варианта)</h4><p>Есть несколько способов исправить ситуацию.</p>
+<ol>
+<li>
+<p><strong>Первый способ исправить код – это привязать значение непосредственно к функции-стрелку:</strong></p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-9">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeArmy() {
+
+  var shooters = [];
+
+  for (var i = 0; i &lt; 10; i++) {
+
+    var shooter = function me() {
+      alert( me.i );
+    };
+    shooter.i = i;
+
+    shooters.push(shooter);
+  }
+
+  return shooters;
+}
+
+var army = makeArmy();
+
+army[0](); // 0
+army[1](); // 1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом случае каждая функция хранит в себе свой собственный номер.</p>
+<p>Кстати, обратите внимание на использование Named Function Expression, вот в этом участке:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">...
+var shooter = function me() {
+  alert( me.i );
+};
+...</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если убрать имя <code>me</code> и оставить обращение через <code>shooter</code>, то работать не будет:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 10; i++) {
+  var shooter = function() {
+    alert( shooter.i ); // вывести свой номер (не работает!)
+    // потому что откуда функция возьмёт переменную shooter?
+    // ..правильно, из внешнего объекта, а там она одна на всех
+  };
+  shooter.i = i;
+  shooters.push(shooter);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вызов <code>alert(shooter.i)</code> при вызове будет искать переменную <code>shooter</code>, а эта переменная меняет значение по ходу цикла, и к моменту вызова она равна последней функции, созданной в цикле.</p>
+<p>Если использовать Named Function Expression, то имя жёстко привязывается к конкретной функции, и поэтому в коде выше <code>me.i</code> возвращает правильный <code>i</code>.</p>
+</li>
+<li>
+<p><strong>Другое, более продвинутое решение – использовать дополнительную функцию для того, чтобы «поймать» текущее значение <code>i</code></strong>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeArmy() {
+
+  var shooters = [];
+
+  for (var i = 0; i &lt; 10; i++) {
+
+    var shooter = (function(x) {
+
+      return function() {
+        alert( x );
+      };
+
+    })(i);
+
+    shooters.push(shooter);
+  }
+
+  return shooters;
+}
+
+var army = makeArmy();
+
+army[0](); // 0
+army[1](); // 1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Посмотрим выделенный фрагмент более внимательно, чтобы понять, что происходит:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var shooter = (function(x) {
+  return function() {
+    alert( x );
+  };
+})(i);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Функция <code>shooter</code> создана как результат вызова промежуточного функционального выражения <code>function(x)</code>, которое объявляется – и тут же выполняется, получая <code>x = i</code>.</p>
+<p>Так как <code>function(x)</code> тут же завершается, то значение <code>x</code> больше не меняется. Оно и будет использовано в возвращаемой функции-стрелке.</p>
+<p>Для красоты можно изменить название переменной <code>x</code> на <code>i</code>, суть происходящего при этом не изменится:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var shooter = (function(i) {
+  return function() {
+    alert( i );
+  };
+})(i);</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Кстати, обратите внимание – скобки вокруг <code>function(i)</code> не нужны</strong>, можно и так:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:31-60">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var shooter = function(i) { // без скобок вокруг function(i)
+  return function() {
+    alert( i );
+  };
+}(i);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Скобки добавлены в код для лучшей читаемости, чтобы человек, который просматривает его, не подумал, что <code>var shooter = function</code>, а понял что это вызов «на месте», и присваивается его результат.</p>
+</li>
+<li>
+<p><strong>Еще один забавный способ – обернуть весь цикл во временную функцию</strong>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeArmy() {
+
+  var shooters = [];
+
+  for (var i = 0; i &lt; 10; i++)(function(i) {
+
+    var shooter = function() {
+      alert( i );
+    };
+
+    shooters.push(shooter);
+
+  })(i);
+
+  return shooters;
+}
+
+var army = makeArmy();
+
+army[0](); // 0
+army[1](); // 1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вызов <code>(function(i) { ... })</code> обернут в скобки, чтобы интерпретатор понял, что это <code>Function Expression</code>.</p>
+<p>Плюс этого способа – в большей читаемости. Фактически, мы не меняем создание <code>shooter</code>, а просто обертываем итерацию в функцию.</p>
+</li>
+</ol>
+<p><a href="http://plnkr.co/edit/VwQ5RBinvhH6aPhIzKNH?p=preview" target="_blank" data-plunk-id="VwQ5RBinvhH6aPhIzKNH">Открыть решение с тестами в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

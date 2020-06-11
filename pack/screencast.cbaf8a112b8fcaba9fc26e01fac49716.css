@@ -1,0 +1,841 @@
+
+/* line 12 : /js/build/handlers/screencast/client/styles/index.styl */
+
+/* line 1 : /js/build/node_modules/stylus/lib/functions/index.styl */
+
+/* line 297 : /js/build/node_modules/stylus/lib/functions/index.styl */
+
+/* line 1 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 260 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 1 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 260 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 1 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 260 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 147 : /js/build/modules/styles/blocks/variables/variables.styl */
+
+/* line 147 : /js/build/modules/styles/blocks/variables/variables.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/border.styl */
+
+/* line 10 : /js/build/node_modules/nib/lib/nib/border.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/clearfix.styl */
+
+/* line 28 : /js/build/node_modules/nib/lib/nib/clearfix.styl */
+
+/* line 24 : /js/build/node_modules/nib/lib/nib/color-image.styl */
+
+/* line 4 : /js/build/node_modules/nib/lib/nib/color-image.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/image.styl */
+
+/* line 25 : /js/build/node_modules/nib/lib/nib/image.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/overflow.styl */
+
+/* line 20 : /js/build/node_modules/nib/lib/nib/overflow.styl */
+
+/* line 24 : /js/build/node_modules/nib/lib/nib/positions.styl */
+
+/* line 66 : /js/build/node_modules/nib/lib/nib/positions.styl */
+
+/* line 5 : /js/build/node_modules/nib/lib/nib/text/index.styl */
+
+/* line 5 : /js/build/node_modules/nib/lib/nib/text/index.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/aliases.styl */
+
+/* line 12 : /js/build/node_modules/nib/lib/nib/text/aliases.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/ellipsis.styl */
+
+/* line 9 : /js/build/node_modules/nib/lib/nib/text/ellipsis.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/hide-text.styl */
+
+/* line 8 : /js/build/node_modules/nib/lib/nib/text/hide-text.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/replace-text.styl */
+
+/* line 9 : /js/build/node_modules/nib/lib/nib/text/replace-text.styl */
+
+/* line 24 : /js/build/node_modules/nib/lib/nib/text/shadow-stroke.styl */
+
+/* line 2 : /js/build/node_modules/nib/lib/nib/text/shadow-stroke.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/size.styl */
+
+/* line 28 : /js/build/node_modules/nib/lib/nib/size.styl */
+
+/* line 5 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 7 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 8 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 13 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 16 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 20 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 24 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 28 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 32 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 36 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 40 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 44 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 48 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 52 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 56 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 60 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 64 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 68 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 72 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 76 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 80 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 84 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 88 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 92 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 96 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 100 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 104 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 108 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 112 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 116 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 120 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 124 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 128 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 132 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 136 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 140 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 144 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 148 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 152 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 156 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 160 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 164 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 168 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 172 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 177 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 181 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 185 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 189 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 193 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 197 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 201 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 205 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 209 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 213 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 217 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 221 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 225 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 229 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 233 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 237 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 241 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 245 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 249 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 253 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 257 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 261 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 265 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 269 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 273 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 277 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 281 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 285 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 289 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 293 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 297 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 301 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 305 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 309 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 313 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 317 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 321 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 325 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 329 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 333 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 337 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 143 : /js/build/modules/styles/blocks/variables/variables.styl */
+
+/* line 339 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 24 : /js/build/modules/styles/blocks/mixins/hover.styl */
+
+/* line 24 : /js/build/modules/styles/blocks/mixins/imagesize.styl */
+
+/* line 9 : /js/build/modules/styles/blocks/mixins/imagesize.styl */
+
+/* line 9 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header {
+  position: relative;
+  overflow: hidden;
+  padding: 50px;
+  margin-bottom: 32px;
+  text-align: center;
+  line-height: initial;
+  color: #fff;
+}
+
+/* line 14 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__title {
+  font-size: 60px;
+  font-weight: normal;
+}
+
+/* line 18 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__title-accent {
+  font-weight: bold;
+}
+
+/* line 21 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__description {
+  font-size: 20px;
+}
+
+/* line 24 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__buttons {
+  margin-top: 10px;
+}
+
+/* line 27 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__button {
+  display: inline-block;
+  margin: 20px 10px 0 10px;
+}
+
+/* line 32 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__button .simple-button {
+  min-width: 220px;
+}
+
+/* line 35 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__info,
+.screencast-header .share-icons__title,
+.screencast-header .donate-links__title {
+  font-size: 12px;
+}
+
+/* line 40 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__info {
+  margin-top: 20px;
+}
+
+/* line 43 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header .share-icons__title {
+  vertical-align: middle;
+  margin-right: 20px;
+}
+
+/* line 47 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header .share-icons .share {
+  transition: color 0.2s;
+}
+
+/* line 50 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header .share-icons,
+.screencast-header .donate-links {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* line 56 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header__foot {
+  font-size: 17px;
+  margin-top: 30px;
+}
+
+/* line 61 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+.screencast-header:after {
+  position: absolute;
+  width: 31px;
+  height: 31px;
+  margin-left: -15px;
+  opacity: 0.5;
+  content: "";
+}
+
+/* line 70 : /js/build/handlers/screencast/client/styles/screencast-header/screencast-header.styl */
+
+/* line 70 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-subscribe-top.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-subscribe-top.styl */
+.screencast-subscribe-top {
+  background: #e6f4ff;
+  padding: 12px 20px;
+}
+
+/* line 5 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-subscribe-top.styl */
+.screencast-subscribe-top__header {
+  margin: 6px 0;
+}
+
+/* line 8 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-subscribe-top.styl */
+.screencast-subscribe-top__other {
+  margin: 6px 0;
+}
+
+/* line 11 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-subscribe-top.styl */
+.screencast-subscribe-top .text-input-button {
+  max-width: 400px;
+}
+
+/* line 12 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-subscribe-top.styl */
+
+/* line 12 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-content.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-content.styl */
+.screencast-content {
+  padding: 0 20px;
+}
+
+/* line 2 : /js/build/handlers/screencast/client/styles/screencast-content/screencast-content.styl */
+
+/* line 2 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+
+/* line 3 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs {
+  background: #020806 url(handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.a522fa41baf463e114b55b121c482b2c.jpg) 50% 50% no-repeat;
+  background-size: cover;
+}
+
+/* line 7 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs .screencast-header__title-accent {
+  color: #dfc374;
+}
+
+/* line 10 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs .screencast-header__info,
+.screencast-header_style_nodejs .screencast-header .share-icons__title {
+  color: rgba(255,255,255,0.7);
+}
+
+/* line 14 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs .share-icons .share {
+  color: #dfc374;
+}
+
+/* line 17 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.working-hover .screencast-header_style_nodejs .share-icons .share:hover {
+  color: #cfa530;
+}
+
+/* line 20 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs .screencast-header__foot {
+  color: #b1d490;
+}
+
+/* line 23 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs .screencast-header__tag {
+  position: absolute;
+  top: 27px;
+  right: -60px;
+  margin: 0;
+  padding: 10px 60px;
+  color: #1e2937 !important;
+  background: #b1d490;
+  text-decoration: none !important;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+/* line 37 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+.screencast-header_style_nodejs:after {
+  background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPlNsaWNlIDE8L3RpdGxlPjxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPjx0aXRsZT5MYXllciAxPC90aXRsZT48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxnPjxwYXRoIGZpbGw9IiNCMUQ0OTAiIGQ9Ik0xNC42MzcgMjMuOThjLjAyOC4wMi4wNTcuMDM3LjA4Ni4wNTQuMDMzLjAxOC4wNjUuMDM0LjEuMDUuMDE3LjAwOC4wMzMuMDIuMDUyLjAyN2wuMDMuMDFjLjAzNS4wMTUuMDcuMDI2LjEwNy4wMzcuMDMuMDA4LjA1OC4wMTcuMDg4LjAyNC4wMzUuMDEuMDcuMDE0LjEwNi4wMi4wMzIuMDAzLjA2LjAxLjA5Mi4wMS4wMzcuMDAzLjA3My4wMDMuMTEuMDAzLjAzIDAgLjA2IDAgLjA4OC0uMDAyLjAzOCAwIC4wNzYtLjAwNy4xMTQtLjAxMy4wMjgtLjAwNC4wNTYtLjAwOC4wODQtLjAxNS4wMzctLjAwNi4wNzQtLjAxOC4xMS0uMDMuMDMtLjAwNy4wNTctLjAxNi4wODQtLjAyNmwuMDQtLjAxM2MuMDItLjAwOC4wNDItLjAyLjA2NC0uMDMyLjAyNy0uMDEyLjA1NC0uMDI2LjA4LS4wNGwuMDk3LS4wNmMuMDIyLS4wMTcuMDQ3LS4wMzMuMDctLjA1bC4wOS0uMDhjLjAxMy0uMDEuMDMtLjAyMi4wNC0uMDM1bDYuNDM4LTYuNDM2Yy41MzYtLjU0LjUzNi0xLjQxIDAtMS45NDYtLjUzNy0uNTM1LTEuNDEtLjUzNS0xLjk0NSAwbC00LjA5IDQuMDkyVjYuNzg4YzAtLjQ3NS0uMjQtLjg5NC0uNjA2LTEuMTQtLjIyLS4xNS0uNDg1LS4yMzYtLjc3LS4yMzYtLjM4IDAtLjcyMy4xNTQtLjk3Mi40MDMtLjI1LjI1LS40MDMuNTkzLS40MDMuOTczVjE5LjUybC00LjA5LTQuMDljLS41MzYtLjUzNS0xLjQwNi0uNTM2LTEuOTQ0IDAtLjI2Ny4yNy0uNDAyLjYyMi0uNDAyLjk3NCAwIC4zNS4xMzQuNzAzLjQwMi45NzJsNi40NCA2LjQzNmMuMDEyLjAxNC4wMjguMDI1LjA0Mi4wMzguMDI3LjAyNS4wNTYuMDUuMDg2LjA3NC4wMjUuMDIuMDUyLjAzOC4wOC4wNTYiLz48Y2lyY2xlIHI9IjE0LjUiIGN5PSIxNS41IiBjeD0iMTUuNSIgc3Ryb2tlPSIjQjFENDkwIi8+PC9nPjwvZz48L3N2Zz4=");
+}
+
+/* line 38 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_nodejs.styl */
+
+/* line 38 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+
+/* line 3 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react {
+  background: #1f2127 url(handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.0b4dec0b94f9936df3bb238b26584251.png) 50% 50% no-repeat;
+  background-size: cover;
+  padding: 50px 50px 20px 50px;
+}
+
+/* line 8 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__top {
+  font-size: 24px;
+  opacity: 0.6;
+  color: #fff;
+}
+
+/* line 13 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__title {
+  margin-bottom: 50px;
+}
+
+/* line 16 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__title-accent {
+  color: #52d3fa;
+  padding-left: 60px;
+  background: url(handlers/screencast/client/styles/screencast-header/_style/react-small.bedd5aab8cca02deacf7718c206cfd84.svg) 10px center no-repeat;
+}
+
+/* line 21 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__info,
+.screencast-header_style_react .screencast-header .share-icons__title {
+  color: rgba(255,255,255,0.7);
+}
+
+/* line 25 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__button .simple-button__text {
+  color: #52d3fa;
+}
+
+/* line 28 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .share-icons .share {
+  color: #52d3fa;
+}
+
+/* line 31 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.working-hover .screencast-header_style_react .share-icons .share:hover {
+  color: #07bbf2;
+}
+
+/* line 34 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__foot {
+  color: #fff;
+}
+
+/* line 37 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react .screencast-header__tag {
+  position: absolute;
+  top: 27px;
+  right: -60px;
+  margin: 0;
+  padding: 10px 60px;
+  color: #1e2937 !important;
+  background: #f9ab34;
+  text-decoration: none !important;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+/* line 51 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+.screencast-header_style_react:after {
+  background: url(handlers/screencast/client/styles/screencast-header/_style/arrow-react.4d95db8824fe1a9eb353e0786698bf56.svg);
+  position: static;
+  display: block;
+  width: 31px;
+  height: 31px;
+  margin: 30px auto 0 auto;
+  opacity: 0.5;
+  content: "";
+}
+
+/* line 59 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_react.styl */
+
+/* line 59 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+
+/* line 3 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular {
+  background: linear-gradient(125.41deg, #1545a2 -29.99%, #3288e8 100%);
+  padding-top: 80px;
+  padding-bottom: 20px;
+}
+
+/* line 8 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__bottom {
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+/* line 13 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__title {
+  margin-bottom: 8px;
+}
+
+/* line 16 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__note {
+  color: #fff;
+  opacity: 0.7;
+  margin: 24px auto 0;
+  max-width: 800px;
+}
+
+/* line 22 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__title-accent {
+  color: #52d3fa;
+  padding-left: 222px;
+  background: url(handlers/screencast/client/styles/screencast-header/_style/angular.0e560ffa82d5bc9014b5786d35dd9498.svg) 10px center no-repeat;
+}
+
+/* line 27 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .share-icons {
+  margin-top: 45px;
+}
+
+/* line 30 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .share-icons__title {
+  color: #fff;
+}
+
+/* line 33 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__button .simple-button__text {
+  color: #52d3fa;
+}
+
+/* line 36 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .share-icons .share {
+  color: #f2b8b7;
+}
+
+/* line 39 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.working-hover .screencast-header_style_angular .share-icons .share:hover {
+  color: #e25f5d;
+}
+
+/* line 42 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__foot {
+  color: #fff;
+}
+
+/* line 45 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular .screencast-header__tag {
+  position: absolute;
+  top: 27px;
+  right: -60px;
+  margin: 0;
+  padding: 10px 60px;
+  color: #1e2937 !important;
+  background: #f9ab34;
+  text-decoration: none !important;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+/* line 59 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+.screencast-header_style_angular:after {
+  background: url(handlers/screencast/client/styles/screencast-header/_style/arrow-react.4d95db8824fe1a9eb353e0786698bf56.svg);
+  position: static;
+  display: block;
+  width: 31px;
+  height: 31px;
+  margin: 30px auto 0 auto;
+  opacity: 0.5;
+  content: "";
+}
+
+/* line 67 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_angular.styl */
+
+/* line 67 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+
+/* line 3 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.screencast-header_style_webpack {
+  background: #67a2d2 url(handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.66a844922057d8d196d25828cec538b4.jpg) 50% 50% no-repeat;
+}
+
+/* line 6 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.screencast-header_style_webpack .screencast-header__title-accent {
+  text-transform: uppercase;
+  color: #fffb9d;
+}
+
+/* line 11 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.screencast-header_style_webpack .screencast-header__button .simple-button__text {
+  color: #fffb9d;
+}
+
+/* line 14 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.screencast-header_style_webpack .screencast-header__info,
+.screencast-header_style_webpack .share-icons__title,
+.screencast-header_style_webpack .donate-links__title {
+  color: rgba(255,255,255,0.7);
+}
+
+/* line 19 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.screencast-header_style_webpack .share-icons .share {
+  color: #fffb9d;
+}
+
+/* line 22 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.working-hover .screencast-header_style_webpack .share-icons .share:hover,
+.screencast-header_style_webpack .screencast-header__foot {
+  color: #fff;
+}
+
+/* line 26 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+.screencast-header_style_webpack:after {
+  background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+ICA8ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPiAgICA8Zz4gICAgICA8cGF0aCBmaWxsPSIjRkZGRkZGIiAgICAgICAgICAgIGQ9Ik0xNC42MzcgMjMuOThjLjAyOC4wMi4wNTcuMDM3LjA4Ni4wNTQuMDMzLjAxOC4wNjUuMDM0LjEuMDUuMDE3LjAwOC4wMzMuMDIuMDUyLjAyN2wuMDMuMDFjLjAzNS4wMTUuMDcuMDI2LjEwNy4wMzcuMDMuMDA4LjA1OC4wMTcuMDg4LjAyNC4wMzUuMDEuMDcuMDE0LjEwNi4wMi4wMzIuMDAzLjA2LjAxLjA5Mi4wMS4wMzcuMDAzLjA3My4wMDMuMTEuMDAzLjAzIDAgLjA2IDAgLjA4OC0uMDAyLjAzOCAwIC4wNzYtLjAwNy4xMTQtLjAxMy4wMjgtLjAwNC4wNTYtLjAwOC4wODQtLjAxNS4wMzctLjAwNi4wNzQtLjAxOC4xMS0uMDMuMDMtLjAwNy4wNTctLjAxNi4wODQtLjAyNmwuMDQtLjAxM2MuMDItLjAwOC4wNDItLjAyLjA2NC0uMDMyLjAyNy0uMDEyLjA1NC0uMDI2LjA4LS4wNGwuMDk3LS4wNmMuMDIyLS4wMTcuMDQ3LS4wMzMuMDctLjA1bC4wOS0uMDhjLjAxMy0uMDEuMDMtLjAyMi4wNC0uMDM1bDYuNDM4LTYuNDM2Yy41MzYtLjU0LjUzNi0xLjQxIDAtMS45NDYtLjUzNy0uNTM1LTEuNDEtLjUzNS0xLjk0NSAwbC00LjA5IDQuMDkyVjYuNzg4YzAtLjQ3NS0uMjQtLjg5NC0uNjA2LTEuMTQtLjIyLS4xNS0uNDg1LS4yMzYtLjc3LS4yMzYtLjM4IDAtLjcyMy4xNTQtLjk3Mi40MDMtLjI1LjI1LS40MDMuNTkzLS40MDMuOTczVjE5LjUybC00LjA5LTQuMDljLS41MzYtLjUzNS0xLjQwNi0uNTM2LTEuOTQ0IDAtLjI2Ny4yNy0uNDAyLjYyMi0uNDAyLjk3NCAwIC4zNS4xMzQuNzAzLjQwMi45NzJsNi40NCA2LjQzNmMuMDEyLjAxNC4wMjguMDI1LjA0Mi4wMzguMDI3LjAyNS4wNTYuMDUuMDg2LjA3NC4wMjUuMDIuMDUyLjAzOC4wOC4wNTYiLz4gICAgICA8Y2lyY2xlIHI9IjE0LjUiIGN5PSIxNS41IiBjeD0iMTUuNSIgc3Ryb2tlPSIjRkZGRkZGIi8+ICAgIDwvZz4gIDwvZz48L3N2Zz4=");
+}
+
+/* line 27 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_webpack.styl */
+
+/* line 27 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+
+/* line 3 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp {
+  background: #020806 url(handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.77ce898e858a4aad3b26da54f36a17b8.jpg) 50% 50% no-repeat;
+  background-size: cover;
+}
+
+/* line 7 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__title {
+  margin-top: -40px;
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* line 11 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__description {
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* line 14 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__title-accent {
+  width: 167px;
+  height: 107px;
+  background: url(handlers/screencast/client/styles/screencast-header/_style/gulp.0f2b2f20e10630469347d05d261ffd76.svg);
+  display: inline-block;
+  position: relative;
+  top: 30px;
+  left: 16px;
+}
+
+/* line 23 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__info {
+  opacity: 0.6;
+  color: #fff;
+  text-shadow: 0px 2px 2px #000;
+}
+
+/* line 28 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .share-icons .share,
+.screencast-header_style_gulp .donate-links__link {
+  color: #8dd792;
+}
+
+/* line 32 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .share-icons__title,
+.screencast-header_style_gulp .donate-links__title {
+  color: #fff;
+}
+
+/* line 36 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.working-hover .screencast-header_style_gulp .share-icons .share:hover,
+.working-hover .screencast-header_style_gulp .donate-links__link:hover {
+  color: #4bc053;
+}
+
+/* line 40 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__button .simple-button__text {
+  color: #8dd792;
+}
+
+/* line 43 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__button .simple-button__description {
+  color: #fff;
+}
+
+/* line 46 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__foot {
+  color: #fff;
+  text-shadow: 0px 2px 2px rgba(0,0,0,0.5);
+}
+
+/* line 50 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp .screencast-header__tag {
+  position: absolute;
+  top: 27px;
+  right: -60px;
+  margin: 0;
+  padding: 10px 60px;
+  color: #1e2937 !important;
+  background: #b1d490;
+  text-decoration: none !important;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+/* line 64 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+.screencast-header_style_gulp:after {
+  background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzEiIHZpZXdCb3g9IjAgMCAzMCAzMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+RmlsbCA0OCArIE92YWwgMjwvdGl0bGU+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLjUgMSkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTEzLjYzNyAyMi45OGMuMDI4LjAyLjA1Ny4wMzguMDg3LjA1NWwuMDk4LjA1Yy4wMTguMDA3LjAzNC4wMTguMDUzLjAyNmwuMDMuMDFjLjAzNS4wMTQuMDcuMDI1LjEwNy4wMzYuMDMuMDEuMDU4LjAxNy4wODguMDI0LjAzNS4wMDguMDcuMDEzLjEwNy4wMTguMDMuMDA0LjA2LjAxLjA5LjAxMi4wMzguMDAzLjA3NC4wMDIuMTEuMDAyLjAzIDAgLjA2IDAgLjA5LS4wMDIuMDM3LS4wMDIuMDc1LS4wMDguMTEzLS4wMTQuMDI4LS4wMDQuMDU2LS4wMDguMDg0LS4wMTVhMS4yNzYgMS4yNzYgMCAwIDAgLjE5NC0uMDU2bC4wNC0uMDEzYy4wMjItLjAwOC4wNDItLjAyLjA2NC0uMDMyYTEuMjg4IDEuMjg4IDAgMCAwIC4xNzctLjFjLjAyMy0uMDE4LjA0OC0uMDM0LjA3LS4wNTMuMDMzLS4wMjQuMDYyLS4wNS4wOS0uMDc3LjAxNC0uMDEyLjAzLS4wMjIuMDQyLS4wMzZsNi40MzctNi40MzZhMS4zNzUgMS4zNzUgMCAxIDAtMS45NDQtMS45NDRsLTQuMDkgNC4wOVY1Ljc5QTEuMzcyIDEuMzcyIDAgMCAwIDE0LjQgNC40MTJjLS4zOCAwLS43MjMuMTU0LS45NzIuNDAzYTEuMzcgMS4zNyAwIDAgMC0uNDAzLjk3M1YxOC41MmwtNC4wOS00LjA5YTEuMzc2IDEuMzc2IDAgMCAwLTEuOTQ1IDEuOTQ2bDYuNDQgNi40MzZjLjAxMi4wMTQuMDI4LjAyNS4wNDIuMDM4YTEuMzg0IDEuMzg0IDAgMCAwIC4xNjUuMTMiIGZpbGw9IiNGRkYiLz48Y2lyY2xlIHN0cm9rZT0iI0ZGRiIgY3g9IjE0LjUiIGN5PSIxNC41IiByPSIxNC41Ii8+PC9nPjwvc3ZnPg==");
+}
+
+/* line 65 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_gulp.styl */
+
+/* line 65 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+
+/* line 1 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+
+/* line 3 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git {
+  background: #f0f0e8 url(handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.e926c2f3a1690e4759f7990143c3f57a.svg) 50% 50% no-repeat;
+  background-size: cover;
+  padding: 50px 50px 20px 50px;
+  color: #2f2606;
+}
+
+/* line 9 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__bottom {
+  font-size: 20px;
+  margin: 30px 0;
+  text-align: center;
+}
+
+/* line 14 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__title {
+  margin-bottom: 8px;
+}
+
+/* line 17 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__note {
+  opacity: 0.7;
+  margin: 24px auto 0;
+  max-width: 800px;
+}
+
+/* line 22 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__title-accent {
+  color: #52d3fa;
+  padding-left: 222px;
+  background: url(handlers/screencast/client/styles/screencast-header/_style/git.ced729841dcc2370f418b33f15329237.svg) 10px center no-repeat;
+}
+
+/* line 27 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .share-icons {
+  margin: 20px;
+}
+
+/* line 30 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .share-icons__title {
+  color: #2f2606;
+}
+
+/* line 33 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__button .simple-button__text {
+  color: #52d3fa;
+}
+
+/* line 36 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .share-icons .share {
+  color: #a7742e;
+}
+
+/* line 39 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.working-hover .screencast-header_style_git .share-icons .share:hover {
+  color: #cf9a50;
+}
+
+/* line 42 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__foot {
+  color: #fff;
+}
+
+/* line 45 : /js/build/handlers/screencast/client/styles/screencast-header/_style/screencast-header_style_git.styl */
+.screencast-header_style_git .screencast-header__tag {
+  position: absolute;
+  top: 27px;
+  right: -60px;
+  margin: 0;
+  padding: 10px 60px;
+  color: #1e2937 !important;
+  background: #f9ab34;
+  text-decoration: none !important;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+/*# sourceMappingURL=screencast.cbaf8a112b8fcaba9fc26e01fac49716.css.map*/

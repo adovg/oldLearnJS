@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main "><header class="main__header main__header_center"><div class="main__header-inner"><h1 class="main__header-title">Покупка учебника JavaScript</h1></div></header><div class="content"><script>var status = "";</script><form data-order-form class="complex-form"><div class="complex-form__step complex-form__step_current"><h2 class="complex-form__alternate-title">Выберите курс</h2><div class="complex-form__extract extract extract_small"><div class="extract__item"><input type="radio" name="orderTemplate" value="js" data-price='450' data-title="Электронная книга &quot;Язык JavaScript&quot;" checked id="book-0" class="extract__input"><div class="extract__wrap"><div class="extract__input-wrap"></div><div class="extract__content"><h3 class="extract__title"><label for="book-0">Язык JavaScript</label></h3><div class="extract__info">600+ стр, PDF + EPUB</div></div><div class="extract__aside extract__aside_center extract__aside_price"><div class="extract__price price"><div class="price__main"><div class="price__main-amount">450</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">7</div></div></div></div></div></div><div class="extract__item"><input type="radio" name="orderTemplate" value="ui" data-price='450' data-title="Электронная книга &quot;Документ, события, интерфейсы&quot;" id="book-1" class="extract__input"><div class="extract__wrap"><div class="extract__input-wrap"></div><div class="extract__content"><h3 class="extract__title"><label for="book-1">Документ, события, интерфейсы</label></h3><div class="extract__info">380+ стр, PDF + EPUB</div></div><div class="extract__aside extract__aside_center extract__aside_price"><div class="extract__price price"><div class="price__main"><div class="price__main-amount">450</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">7</div></div></div></div></div></div><div class="extract__item"><input type="radio" name="orderTemplate" value="more" data-price='450' data-title="Электронная книга &quot;Разные темы JavaScript&quot;" id="book-2" class="extract__input"><div class="extract__wrap"><div class="extract__input-wrap"></div><div class="extract__content"><h3 class="extract__title"><label for="book-2">Разные темы (Web Components, AJAX и др)</label></h3><div class="extract__info">430+ стр, PDF + EPUB</div></div><div class="extract__aside extract__aside_center extract__aside_price"><div class="extract__price price"><div class="price__main"><div class="price__main-amount">450</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">7</div></div></div></div></div></div><div class="extract__item"><input type="radio" name="orderTemplate" value="js-ui" data-price='600' data-title="Пакет электронных книг &quot;Язык JavaScript&quot; и &quot;Документ, события, интерфейсы&quot;" id="book-3" class="extract__input"><div class="extract__wrap"><div class="extract__input-wrap"></div><div class="extract__content"><h3 class="extract__title"><label for="book-3">Две первых части вместе</label></h3><div class="extract__info">2xPDF + 2xEPUB, (1000+ стр)</div></div><div class="extract__aside extract__aside_center extract__aside_price"><div class="extract__price price"><div class="price__main"><div class="price__main-amount">600</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">9</div></div></div></div></div></div><div class="extract__item"><input type="radio" name="orderTemplate" value="tutorial" data-price='900' data-title="Пакет электронных книг &quot;Учебник JavaScript&quot;" id="book-4" class="extract__input"><div class="extract__wrap"><div class="extract__input-wrap"></div><div class="extract__content"><h3 class="extract__title"><label for="book-4">Весь учебник целиком</label></h3><div class="extract__info">3xEPUB + 3xPDF, (1450+ стр)</div></div><div class="extract__aside extract__aside_center extract__aside_price"><div class="extract__price price"><div class="price__main"><div class="price__main-amount">900</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">14</div></div></div></div></div></div></div><h2 class="complex-form__alternate-title">Укажите свой email</h2><div class="complex-form__email text-input"><input placeholder="my@email.com" name="email" required type="email" class="text-input__control"></div><div class="complex-form__email-note">После оплаты ссылка на скачивание учебника придет на этот адрес.</div><h2 class="complex-form__alternate-title">Выберите метод оплаты</h2><div class="complex-form__body"><div class="complex-form__extract extract extract_small"><div class="pay-method"><ul class="pay-method__methods"><li class="pay-method__method"><input type="radio" name="paymentMethod" value="yakassa" id="yakassa" class="pay-method__method-radio"><label for="yakassa" class="pay-method__method-label pay-method__method-label_yakassa"><header class="pay-method__header"><h3 class="pay-method__method-title">Visa/MasterCard</h3><span class="pay-method__cards"><img src="pay-methods/visa-mastercard.svg.xml" alt="visa-mastercard" class="pay-method__card" title=""></span><h4 class="pay-method__method-subtitle">самый предпочтительный метод</h4></header></label></li><li class="pay-method__method"><input type="radio" name="paymentMethod" value="interkassa" id="interkassa" class="pay-method__method-radio"><label for="interkassa" class="pay-method__method-label pay-method__method-label_interkassa"><header class="pay-method__header"><h3 class="pay-method__method-title">Интеркасса</h3><h4 class="pay-method__method-subtitle">для банк. карт Украины</h4></header></label><div class="payment-setting"><div class="payment-setting__item payment-setting__item_currency"><label for="interkassa-currency" class="payment-setting__label">Выберите валюту:</label><select name="interkassaCurrency" id="interkassa-currency" class="input-select input-select_small payment-setting__control"><option value="RUB" class="input-select__option">RUB</option><option value="UAH" class="input-select__option">UAH</option></select></div></div></li><li class="pay-method__method"><input type="radio" name="paymentMethod" value="webmoney" id="webmoney" class="pay-method__method-radio"><label for="webmoney" class="pay-method__method-label pay-method__method-label_webmoney"><header class="pay-method__header"><img src="pay-methods/pay-webmoney.svg.xml" alt="Webmoney" class="pay-method__logo" title=""></header></label></li><li class="pay-method__method"><input type="radio" name="paymentMethod" value="yandexmoney" id="yandexmoney" class="pay-method__method-radio"><label for="yandexmoney" class="pay-method__method-label pay-method__method-label_yandexmoney"><header class="pay-method__header"><img src="pay-methods/pay-yandexmoney.svg.xml" alt="Yandexmoney" class="pay-method__logo" title=""></header></label></li><li class="pay-method__method"><input type="radio" name="paymentMethod" value="payanyway" id="payanyway" class="pay-method__method-radio"><label for="payanyway" class="pay-method__method-label pay-method__method-label_payanyway"><header class="pay-method__header"><h3 class="pay-method__method-title">Payanyway</h3><span class="pay-method__cards"><img src="pay-methods/visa-mastercard.svg.xml" alt="visa-mastercard" class="pay-method__card" title=""></span><h4 class="pay-method__method-subtitle">банковские карты, резервный метод</h4></header></label></li><li class="pay-method__method"><input type="radio" name="paymentMethod" value="paypal" id="paypal" class="pay-method__method-radio"><label for="paypal" class="pay-method__method-label pay-method__method-label_paypal"><header class="pay-method__header"><img src="pay-methods/pay-paypal.svg.xml" alt="Paypal" class="pay-method__logo" title=""></header></label><input type="hidden" name="paypalCurrency" value="RUB"></li><li class="pay-method__method"><input type="radio" name="paymentMethod" value="stripe" id="stripe" class="pay-method__method-radio"><label for="stripe" class="pay-method__method-label pay-method__method-label_stripe"><header class="pay-method__header"><h3 class="pay-method__method-title">Stripe</h3><span class="pay-method__cards"><img src="pay-methods/visa-mastercard.svg.xml" alt="visa-mastercard" class="pay-method__card" title=""></span><h4 class="pay-method__method-subtitle">оплата в долларах США</h4></header></label></li></ul></div></div></div><div class="complex-form__submit-line"><button type="submit" class="button button_action"><span class="button__text">Продолжить</span></button></div></div></form><ul class="grayed-list"><li class="grayed-list__item">Подтверждение</li></ul></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

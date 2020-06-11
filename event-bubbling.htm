@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="events-and-interfaces.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы работы с событиями</span></a></li></ol><h1 class="main__header-title">Всплытие и перехват</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Всплытие и перехват"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Давайте сразу начнём с примера.</p>
+<p>Этот обработчик для <code>&lt;div&gt;</code> сработает, если вы кликните по вложенному тегу <code>&lt;em&gt;</code> или <code>&lt;code&gt;</code>:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div onclick=&quot;alert('Обработчик для Div сработал!')&quot;&gt;
+  &lt;em&gt;Кликните на &lt;code&gt;EM&lt;/code&gt;, сработает обработчик на &lt;code&gt;DIV&lt;/code&gt;&lt;/em&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-akj3i5"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Вам не кажется это странным? Почему же сработал обработчик на <code>&lt;div&gt;</code>, если клик произошёл на <code>&lt;em&gt;</code>?</p>
+<h2><a class="main__anchor" name="всплытие" href="#всплытие">Всплытие</a></h2><p>Основной принцип всплытия:</p>
+<p><strong>При наступлении события обработчики сначала срабатывают на самом вложенном элементе, затем на его родителе, затем выше и так далее, вверх по цепочке вложенности.</strong></p>
+<p>Например, есть 3 вложенных элемента <code>FORM &gt; DIV &gt; P</code>, с обработчиком на каждом:</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  body * {
+    margin: 10px;
+    border: 1px solid blue;
+  }
+&lt;/style&gt;
+
+&lt;form onclick=&quot;alert('form')&quot;&gt;FORM
+  &lt;div onclick=&quot;alert('div')&quot;&gt;DIV
+    &lt;p onclick=&quot;alert('p')&quot;&gt;P&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-39oqp1"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Всплытие гарантирует, что клик по внутреннему <code>&lt;p&gt;</code> вызовет обработчик <code>onclick</code> (если есть) сначала на самом <code>&lt;p&gt;</code>, затем на элементе <code>&lt;div&gt;</code> далее на элементе <code>&lt;form&gt;</code>, и так далее вверх по цепочке родителей до самого <code>document</code>.</p>
+<figure><div class="image" style="width:353px">
+      <div class="image__ratio" style="padding-top:61.18980169971672%"></div>
+      <img src="article/event-bubbling/event-order-bubbling.png" alt="Порядок всплытия событий" width="353" height="216" class="image__image">
+      </div></figure><p>Поэтому если в примере выше кликнуть на <code>P</code>, то последовательно выведутся <code>alert</code>: <code>p</code> → <code>div</code> → <code>form</code>.</p>
+<p>Этот процесс называется <em>всплытием</em>, потому что события «всплывают» от внутреннего элемента вверх через родителей, подобно тому, как всплывает пузырек воздуха в воде.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Всплывают <em>почти</em> все события.</span></div>
+            <div class="important__content"><p>Ключевое слово в этой фразе – «почти».</p>
+<p>Например, событие <code>focus</code> не всплывает. В дальнейших главах мы будем детально знакомиться с различными событиями и увидим ещё примеры.</p>
+</div></div>
+<h2><a class="main__anchor" name="целевой-элемент-event-target" href="#целевой-элемент-event-target">Целевой элемент event.target</a></h2><p>На каком бы элементе мы ни поймали событие, всегда можно узнать, где конкретно оно произошло.</p>
+<p><strong>Самый глубокий элемент, который вызывает событие, называется <em>«целевым»</em> или <em>«исходным»</em> элементом и доступен как <code>event.target</code>.</strong></p>
+<p>Отличия от <code>this</code> (=<code>event.currentTarget</code>):</p>
+<ul>
+<li><code>event.target</code> – это <strong>исходный элемент</strong>, на котором произошло событие, в процессе всплытия он неизменен.</li>
+<li><code>this</code> – это <strong>текущий элемент</strong>, до которого дошло всплытие, на нём сейчас выполняется обработчик.</li>
+</ul>
+<p>Например, если стоит только один обработчик <code>form.onclick</code>, то он «поймает» все клики внутри формы. Где бы ни был клик внутри – он всплывёт до элемента <code>&lt;form&gt;</code>, на котором сработает обработчик.</p>
+<p>При этом:</p>
+<ul>
+<li><code>this</code> (<code>=event.currentTarget</code>) всегда будет сама форма, так как обработчик сработал на ней.</li>
+<li><code>event.target</code> будет содержать ссылку на конкретный элемент внутри формы, самый вложенный, на котором произошёл клик.</li>
+</ul>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">script.js</div><div class="code-tabs__switch">example.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/event-bubbling/bubble-target/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/i7dmLKNVcIzcbqRb6h9o?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:220px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/event-bubbling/bubble-target/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>var form = document.querySelector('form');
+
+form.onclick = function(event) {
+  event.target.style.backgroundColor = 'yellow';
+
+  alert(&quot;target = &quot; + event.target.tagName + &quot;, this=&quot; + this.tagName);
+
+  event.target.style.backgroundColor = '';
+};</code></pre></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>form {
+  background-color: green;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  cursor: pointer;
+}
+
+div {
+  background-color: blue;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100px;
+  height: 100px;
+}
+
+p {
+  background-color: red;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+}
+
+body {
+  line-height: 25px;
+  font-size: 16px;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;example.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  Клик выведет &lt;code&gt;event.target&lt;/code&gt; и &lt;code&gt;this&lt;/code&gt;:
+
+  &lt;form id=&quot;form&quot;&gt;FORM
+    &lt;div&gt;DIV
+      &lt;p&gt;P&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>Возможна и ситуация, когда <code>event.target</code> и <code>this</code> – один и тот же элемент, например если в форме нет других тегов и клик был на самом элементе <code>&lt;form&gt;</code>.</p>
+<h2><a class="main__anchor" name="прекращение-всплытия" href="#прекращение-всплытия">Прекращение всплытия</a></h2><p>Всплытие идёт прямо наверх. Обычно событие будет всплывать наверх и наверх, до элемента <code>&lt;html&gt;</code>, а затем до <code>document</code>, а иногда даже до <code>window</code>, вызывая все обработчики на своем пути.</p>
+<p><strong>Но любой промежуточный обработчик может решить, что событие полностью обработано, и остановить всплытие.</strong></p>
+<p>Для остановки всплытия нужно вызвать метод <code>event.stopPropagation()</code>.</p>
+<p>Например, здесь при клике на кнопку обработчик <code>body.onclick</code> не сработает:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body onclick=&quot;alert('сюда обработка не дойдёт')&quot;&gt;
+  &lt;button onclick=&quot;event.stopPropagation()&quot;&gt;Кликни меня&lt;/button&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-8ooyse"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">event.stopImmediatePropagation()</span></div>
+            <div class="important__content"><p>Если у элемента есть несколько обработчиков на одно событие, то даже при прекращении всплытия все они будут выполнены.</p>
+<p>То есть, <code>stopPropagation</code> препятствует продвижению события дальше, но на текущем элементе все обработчики отработают.</p>
+<p>Для того, чтобы полностью остановить обработку, современные браузеры поддерживают метод <code>event.stopImmediatePropagation()</code>. Он не только предотвращает всплытие, но и останавливает обработку событий на текущем элементе.</p>
+</div></div>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Не прекращайте всплытие без необходимости!</span></div>
+            <div class="important__content"><p>Всплытие – это удобно. Не прекращайте его без явной нужды, очевидной и архитектурно прозрачной.</p>
+<p>Зачастую прекращение всплытия создаёт свои подводные камни, которые потом приходится обходить.</p>
+<p>Например:</p>
+<ol>
+<li>Мы делаем меню. Оно обрабатывает клики на своих элементах и делает для них <code>stopPropagation</code>. Вроде бы, всё работает.</li>
+<li>Позже мы решили отслеживать все клики в окне, для какой-то своей функциональности, к примеру, для статистики – где вообще у нас кликают люди. Например, Яндекс.Метрика так делает, если включить соответствующую опцию.</li>
+<li>Над областью, где клики убиваются <code>stopPropagation</code>, статистика работать не будет! Получилась «мёртвая зона».</li>
+</ol>
+<p>Проблема в том, что <code>stopPropagation</code> убивает всякую возможность отследить событие сверху, а это бывает нужно для реализации чего-нибудь «эдакого», что к меню отношения совсем не имеет.</p>
+</div></div>
+<h2><a class="main__anchor" name="погружение" href="#погружение">Погружение</a></h2><p>В современном стандарте, кроме «всплытия» событий, предусмотрено ещё и «погружение».</p>
+<p>Оно гораздо менее востребовано, но иногда, очень редко, знание о нём может быть полезным.</p>
+<p>Строго говоря, стандарт выделяет целых три стадии прохода события:</p>
+<ol>
+<li>Событие сначала идет сверху вниз. Эта стадия называется <em>«стадия перехвата»</em> (capturing stage).</li>
+<li>Событие достигло целевого элемента. Это – <em>«стадия цели»</em> (target stage).</li>
+<li>После этого событие начинает всплывать. Это – <em>«стадия всплытия»</em> (bubbling stage).</li>
+</ol>
+<p>В <a href="http://www.w3.org/TR/DOM-Level-3-Events/">стандарте DOM Events 3</a> это продемонстрировано так:</p>
+<figure><div class="image" style="width:641px">
+      <div class="image__ratio" style="padding-top:98.75195007800312%"></div>
+      <img src="article/event-bubbling/eventflow.png" alt="" width="641" height="633" class="image__image">
+      </div></figure><p>То есть, при клике на <code>TD</code> событие путешествует по цепочке родителей сначала вниз к элементу («погружается»), а потом наверх («всплывает»), по пути задействуя обработчики.</p>
+<p><strong>Ранее мы говорили только о всплытии, потому что другие стадии, как правило, не используются и проходят незаметно для нас.</strong></p>
+<p>Обработчики, добавленные через <code>on...</code>-свойство, ничего не знают о стадии перехвата, а начинают работать со всплытия.</p>
+<p>Чтобы поймать событие на стадии перехвата, нужно использовать третий аргумент <code>addEventListener</code>:</p>
+<ul>
+<li>Если аргумент <code>true</code>, то событие будет перехвачено по дороге вниз.</li>
+<li>Если аргумент <code>false</code>, то событие будет поймано при всплытии.</li>
+</ul>
+<p>Стадия цели, обозначенная на рисунке цифрой <code>(2)</code>, особо не обрабатывается, так как обработчики, назначаемые обоими этими способами, срабатывают также на целевом элементе.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Есть события, которые не всплывают, но которые можно перехватить</span></div>
+            <div class="important__content"><p>Бывают события, которые можно поймать только на стадии перехвата, а на стадии всплытия – нельзя…</p>
+<p>Например, таково событие фокусировки на элементе <a href="focus-blur.htm">onfocus</a>. Конечно, это большая редкость, такое исключение существует по историческим причинам.</p>
+</div></div>
+<h2><a class="main__anchor" name="примеры" href="#примеры">Примеры</a></h2><p>В примере ниже на <code>&lt;form&gt;</code>, <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code> стоят те же обработчики, что и раньше, но на этот раз – на стадии погружения. Чтобы увидеть перехват в действии, кликните в нём на элементе <code>&lt;p&gt;</code>:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">script.js</div><div class="code-tabs__switch">example.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/event-bubbling/capture/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/sQq9vbfnU497lY4kQ9hA?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:220px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/event-bubbling/capture/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>var elems = document.querySelectorAll('form,div,p');
+
+for (var i = 0; i &lt; elems.length; i++) {
+  elems[i].addEventListener(&quot;click&quot;, highlightThis, true);
+}
+
+function highlightThis() {
+  this.style.backgroundColor = 'yellow';
+  alert(this.tagName);
+  this.style.backgroundColor = '';
+}</code></pre></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>form {
+  background-color: green;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  cursor: pointer;
+}
+
+div {
+  background-color: blue;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100px;
+  height: 100px;
+}
+
+p {
+  background-color: red;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+}
+
+body {
+  line-height: 25px;
+  font-size: 16px;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;body&gt;
+  &lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;example.css&quot;&gt;
+
+  &lt;form&gt;FORM
+    &lt;div&gt;DIV
+      &lt;p&gt;P&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>Обработчики сработают в порядке «сверху-вниз»: <code>FORM</code> → <code>DIV</code> → <code>P</code>.</p>
+<p>JS-код здесь такой:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var elems = document.querySelectorAll('form,div,p');
+
+// на каждый элемент повесить обработчик на стадии перехвата
+for (var i = 0; i &lt; elems.length; i++) {
+  elems[i].addEventListener(&quot;click&quot;, highlightThis, true);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Никто не мешает назначить обработчики для обеих стадий, вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var elems = document.querySelectorAll('form,div,p');
+
+for (var i = 0; i &lt; elems.length; i++) {
+  elems[i].addEventListener(&quot;click&quot;, highlightThis, true);
+  elems[i].addEventListener(&quot;click&quot;, highlightThis, false);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кликните по внутреннему элементу <code>&lt;p&gt;</code>, чтобы увидеть порядок прохода события:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">script.js</div><div class="code-tabs__switch">example.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/event-bubbling/both/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/PCgDQbLvSZsFkbTPvyWd?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:220px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/event-bubbling/both/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>var elems = document.querySelectorAll('form,div,p');
+
+for (var i = 0; i &lt; elems.length; i++) {
+  elems[i].addEventListener(&quot;click&quot;, highlightThis, true);
+  elems[i].addEventListener(&quot;click&quot;, highlightThis, false);
+}
+
+function highlightThis() {
+  this.style.backgroundColor = 'yellow';
+  alert(this.tagName);
+  this.style.backgroundColor = '';
+}</code></pre></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>form {
+  background-color: green;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  cursor: pointer;
+}
+
+div {
+  background-color: blue;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100px;
+  height: 100px;
+}
+
+p {
+  background-color: red;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+}
+
+body {
+  line-height: 25px;
+  font-size: 16px;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;example.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;form&gt;FORM
+    &lt;div&gt;DIV
+      &lt;p&gt;P&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>Должно быть <code>FORM</code> → <code>DIV</code> → <code>P</code> → <code>P</code> → <code>DIV</code> → <code>FORM</code>. Заметим, что элемент <code>&lt;p&gt;</code> участвует в обоих стадиях.</p>
+<p>Как видно из примера, один и тот же обработчик можно назначить на разные стадии. При этом номер текущей стадии он, при необходимости, может получить из свойства <code>event.eventPhase</code> (=1, если погружение, =3, если всплытие).</p>
+<h2><a class="main__anchor" name="отличия-ie8" href="#отличия-ie8">Отличия IE8-</a></h2><p>Чтобы было проще ориентироваться, я собрал отличия IE8-, которые имеют отношение ко всплытию, в одну секцию.</p>
+<p>Их знание понадобится, если вы решите писать на чистом JS, без фреймворков и вам понадобится поддержка IE8-.</p>
+<dl>
+<dt>Нет свойства <code>event.currentTarget</code></dt>
+<dd>
+<p>Обратим внимание, что при назначении обработчика через <code>onсвойство</code> у нас есть <code>this</code>, поэтому <code>event.currentTarget</code>, как правило, не нужно, а вот при назначении через <code>attachEvent</code> обработчик не получает <code>this</code>, так что текущий элемент, если нужен, можно будет взять лишь из замыкания.</p>
+</dd>
+<dt>Вместо <code>event.target</code> в IE8- используется <code>event.srcElement</code></dt>
+<dd>
+<p>Если мы пишем обработчик, который будет поддерживать и IE8- и современные браузеры, то можно начать его так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">elem.onclick = function(event) {
+  event = event || window.event;
+  var target = event.target || event.srcElement;
+
+  // ... теперь у нас есть объект события и target
+  ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+<dt>Для остановки всплытия используется код <code>event.cancelBubble=true</code>.</dt>
+<dd>
+<p>Кросс-браузерно остановить всплытие можно так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);</code></pre>
+        </div>
+      </div>
+      
+      </div></dd>
+</dl>
+<p>Далее в учебнике мы будем использовать стандартные свойства и вызовы, поскольку добавление этих строк, обеспечивающих совместимость – достаточно простая и очевидная задача. Кроме того, никто не мешает подключить полифилл.</p>
+<p>Ещё раз хотелось бы заметить – эти отличия нужно знать при написании JS-кода с поддержкой IE8- без фреймворков. Почти все JS-фреймворки обеспечивают кросс-браузерную поддержку <code>target</code>, <code>currentTarget</code> и <code>stopPropagation()</code>.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Алгоритм:</p>
+<ul>
+<li>При наступлении события – элемент, на котором оно произошло, помечается как «целевой» (<code>event.target</code>).</li>
+<li>Далее событие сначала двигается вниз от корня документа к <code>event.target</code>, по пути вызывая обработчики, поставленные через <code>addEventListener(...., true)</code>.</li>
+<li>Далее событие двигается от <code>event.target</code> вверх к корню документа, по пути вызывая обработчики, поставленные через <code>on*</code> и <code>addEventListener(...., false)</code>.</li>
+</ul>
+<p>Каждый обработчик имеет доступ к свойствам события:</p>
+<ul>
+<li><code>event.target</code> – самый глубокий элемент, на котором произошло событие.</li>
+<li><code>event.currentTarget</code> (=<code>this</code>) – элемент, на котором в данный момент сработал обработчик (до которого «доплыло» событие).</li>
+<li><code>event.eventPhase</code> – на какой фазе он сработал (погружение =1, всплытие = 3).</li>
+</ul>
+<p>Любой обработчик может остановить событие вызовом <code>event.stopPropagation()</code>, но делать это не рекомендуется, так как в дальнейшем это событие может понадобиться, иногда для самых неожиданных вещей.</p>
+<p>В современной разработке стадия погружения используется очень редко.</p>
+<p>Этому есть две причины:</p>
+<ol>
+<li>
+<p>Историческая – так как IE лишь с версии 9 в полной мере поддерживает современный стандарт.</p>
+</li>
+<li>
+<p>Разумная – когда происходит событие, то разумно дать возможность первому сработать обработчику на самом элементе, поскольку он наиболее конкретен. Код, который поставил обработчик именно на этот элемент, знает максимум деталей о том, что это за элемент, чем он занимается.</p>
+<p>Далее имеет смысл передать обработку события родителю – он тоже понимает, что происходит, но уже менее детально, далее – выше, и так далее, до самого объекта <code>document</code>, обработчик на котором реализовывает самую общую функциональность уровня документа.</p>
+</li>
+</ol>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

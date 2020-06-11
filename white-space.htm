@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Свойство white-space</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свойство white-space"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Свойство <code>white-space</code> позволяет сохранять пробелы и переносы строк.</p>
+<p>У него есть два известных значения:</p>
+<ul>
+<li><code>white-space: normal</code> – обычное поведение</li>
+<li><code>white-space: pre</code> – текст ведёт себя, как будто оформлен в тег <code>pre</code>.</li>
+</ul>
+<p>Но браузеры поддерживают и другие, которые также бывают очень полезны.</p>
+<h2><a class="main__anchor" name="pre-nowrap" href="#pre-nowrap">pre / nowrap</a></h2><p>Встречаем первую «сладкую парочку» – <code>pre</code> и <code>nowrap</code>.</p>
+<p>Оба этих значения меняют стандартное поведение HTML при работе с текстом:</p>
+<p><strong><code>pre</code></strong>:</p>
+<ul>
+<li>Сохраняет пробелы.</li>
+<li>Переносит текст при явном разрыве строки.</li>
+</ul>
+<p><strong><code>nowrap</code></strong></p>
+<ul>
+<li>Не сохраняет пробелы.</li>
+<li>Игнорирует явные разрывы строки (не переносит текст).</li>
+</ul>
+<p>Оба этих значения поддерживаются кросс-браузерно.</p>
+<p><strong>Их основной недостаток – текст может вылезти из контейнера.</strong></p>
+<p>Для примера, рассмотрим следующий фрагмент кода:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (hours &gt; 18) {
+      // Пойти поиграть в теннис
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong><code>white-space: pre</code>:</strong></p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  div { font-family: monospace; width: 200px; border: 1px solid black; }
+&lt;/style&gt;
+
+&lt;div style=&quot;white-space:pre&quot;&gt;if (hours &gt; 18) {
+      // Пойти поиграть в теннис
+}
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-f7wntc"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Здесь пробелы и переводы строк сохранены. В HTML этому значению <code>white-space</code> соответствует тег <code>PRE</code>.</p>
+<p><strong><code>white-space: nowrap</code>:</strong></p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  div { font-family: monospace; width: 200px; border: 1px solid black; }
+&lt;/style&gt;
+
+&lt;div style=&quot;white-space:nowrap&quot;&gt;if (hours &gt; 18) {
+      // Пойти поиграть в теннис
+}
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-5516s9"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Здесь переводы строки проигнорированы, а подряд идущие пробелы, если присмотреться – сжаты в один (например, перед комментарием <code>//</code>).</p>
+<p>Допустим, мы хотим разрешить посетителям публиковать код на сайте, с сохранением разметки. Но тег <code>PRE</code> и описанные выше значения <code>white-space</code> для этого не подойдут!</p>
+<p>Злой посетитель Василий Пупкин может написать такой текст, который вылезет из контейнера и поломает вёрстку страницы.</p>
+<p>Можно скрыть вылезшее значение при помощи <code>overflow-x: hidden</code> или сделать так, чтобы была горизонтальная прокрутка, но, к счастью, есть другие значения <code>white-space</code>, специально для таких случаев.</p>
+<h2><a class="main__anchor" name="pre-wrap-pre-line" href="#pre-wrap-pre-line">pre-wrap/pre-line</a></h2><dl>
+<dt><code>pre-wrap</code></dt>
+<dd>То же самое, что <code>pre</code>, но переводит строку, если текст вылезает из контейнера.</dd>
+<dt><code>pre-line</code></dt>
+<dd>То же самое, что <code>pre</code>, но переводит строку, если текст вылезает из контейнера и не сохраняет пробелы.</dd>
+</dl>
+<p>Оба поведения отлично прослеживаются на примерах:</p>
+<p><strong><code>white-space: pre-wrap</code>:</strong></p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  div { font-family: monospace; width: 200px; border: 1px solid black; }
+&lt;/style&gt;
+
+&lt;div style=&quot;white-space:pre-wrap&quot;&gt;if (hours &gt; 18) {
+      // Пойти поиграть в теннис
+}
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-esdnd0"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Отличный выбор для безопасной вставки кода посетителями.</p>
+<p><strong><code>white-space: pre-line</code>:</strong></p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  div { font-family: monospace; width: 200px; border: 1px solid black; }
+&lt;/style&gt;
+
+&lt;div style=&quot;white-space:pre-line&quot;&gt;if (hours &gt; 18) {
+      // Пойти поиграть в теннис
+}
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-3ba502"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Сохранены переводы строк, ничего не вылезает, но пробелы интерпретированы в режиме обычного HTML.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

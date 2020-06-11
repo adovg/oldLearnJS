@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="frames-and-windows.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Окна и Фреймы</span></a></li></ol><h1 class="main__header-title">Кросс-доменные ограничения и их обход</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Кросс-доменные ограничения и их обход"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Ограничение «Same Origin» («тот же источник») ограничивает доступ окон и фреймов друг к другу, а также влияет на AJAX-запросы к серверу.</p>
+<p>Причина, по которой оно существует – безопасность. Если есть два окна, в одном из которых <code>vasya-pupkin.com</code>, а в другом <code>gmail.com</code>, то мы бы не хотели, чтобы скрипт из первого мог читать нашу почту.</p>
+<p>Сама концепция проста, но есть много важных исключений и особенностей, которые нужно знать для полного понимания этого правила.</p>
+<h2><a class="main__anchor" name="same-origin" href="#same-origin">Концепция Same Origin</a></h2><p>Два URL считаются имеющим один источник («same origin»), если у них одинаковый протокол, домен и порт.</p>
+<p>Эти URL имеют один источник:</p>
+<ul>
+<li><code>http://site.com</code></li>
+<li><code>http://site.com</code>/</li>
+<li><code>http://site.com/my/page.html</code></li>
+</ul>
+<p>А вот эти – все из других источников:</p>
+<ul>
+<li>http://<span style="color:red;font-weight:bold">www.</span>site.com (другой домен)</li>
+<li>http://site.<span style="color:red;font-weight:bold">org</span>  (другой домен)</li>
+<li>http<span style="color:red; font-weight:bold">s</span>://site.com  (другой протокол)</li>
+<li>http://site.com<span style="color:red; font-weight:bold">:8080</span>  (другой порт)</li>
+</ul>
+<p>Существует ряд исключений, позволяющих-таки окнам с разных доменов обмениваться информацией, но прямой вызов методов друг друга и чтение свойств запрещены.</p>
+<h2><a class="main__anchor" name="в-действии" href="#в-действии">В действии</a></h2><p>Если одно окно попытается обратиться к другому, то браузер проверит, из одного ли они источника. Если нет – доступ будет запрещён.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;iframe src=&quot;https://example.com&quot;&gt;&lt;/iframe&gt;
+
+&lt;script&gt;
+  var iframe = document.body.children[0];
+
+  iframe.onload = function() {
+    try {
+      alert( iframe.contentWindow.document );
+    } catch (e) {
+      alert( &quot;Ошибка: &quot; + e.message );
+    }
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример выше выведет ошибку.</p>
+<h2><a class="main__anchor" name="исключение-запись-в-location" href="#исключение-запись-в-location">Исключение: запись в location</a></h2><p>Окна могут менять <code>location</code> друг друга, даже если они из разных источников.</p>
+<p>Причём <em>читать</em> свойства <code>location</code> нельзя, одно окно не имеет право знать, на каком URL пользователь в другом. А вот <em>запись</em> браузеры считают безопасной.</p>
+<p>Например, открыв на <code>javascript.ru</code> iframe с <code>http://example.com</code>, из этого ифрейма нельзя будет прочитать URL, а вот поменять его – запросто:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;iframe src=&quot;https://example.com&quot;&gt;&lt;/iframe&gt;
+
+&lt;script&gt;
+  var iframe = document.body.children[0];
+
+  iframe.onload = function() {
+    try {
+      // не сработает (чтение)
+      alert( iframe.contentWindow.location.href );
+    } catch (e) {
+      alert( &quot;Ошибка при чтении: &quot; + e.message );
+    }
+
+    // сработает (запись)
+    iframe.contentWindow.location.href = 'https://wikipedia.org';
+
+    iframe.onload = null;
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если запустить код выше, то окно сначала загрузит <code>example.com</code>, а потом будет перенаправлено на <code>wikipedia.org</code>.</p>
+<h2><a class="main__anchor" name="исключение-поддомен-3-го-уровня" href="#исключение-поддомен-3-го-уровня">Исключение: поддомен 3-го уровня</a></h2><p>Ещё одно важное исключение касается доменов третьего уровня.</p>
+<p>Если несколько окон имеют общий домен второго уровня, к примеру <code>john.site.com</code>, <code>peter.site.com</code>, <code>site.com</code>, и присваивают в <code>document.domain</code> свой общий поддомен 2-го уровня <code>site.com</code>, то все ограничения снимаются.</p>
+<p>То есть, на всех этих сайтах должен быть код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">document.domain = 'site.com';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Тогда между ними не будет кросс-доменных ограничений.</p>
+<p>Обратим внимание: свойство <code>document.domain</code> должно быть присвоено на всех окнах, участвующих в коммуникации. Выглядит абсурдно, но даже на документе с <code>site.com</code> нужно вызвать: <code>document.domain=&quot;site.com&quot;</code>. Иначе не  будет работать.</p>
+<p>Таким образом разные подсайты в рамках одного общего проекта могут взаимодействовать без ограничений.</p>
+<h2><a class="main__anchor" name="исключения-в-ie" href="#исключения-в-ie">Исключения в IE</a></h2><p>В браузере Internet Explorer есть два своих, дополнительных исключения из Same Origin Policy.</p>
+<ol>
+<li>
+<p>Порт не входит в понятие «источник» (origin).</p>
+<p>Это означает, что окно с <code>http://site.com</code> может свободно общаться с <code>http://site.com:8080</code>.</p>
+<p>Это иногда используют для общения серверов, использующих один IP-адрес. Но допустимо такое только в IE.</p>
+</li>
+<li>
+<p>Если сайт находится в зоне «Надёжные узлы», то в Internet Explorer ограничения к нему не применяются.</p>
+<p>При этом подразумевается, что для этой зоны в параметрах «Безопасность» включена опция «Доступ к источникам данных за пределами домена».</p>
+</li>
+</ol>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Ограничение «одного источника» запрещает окнам и фреймам с разных источников вызывать методы друг друга и читать данные друг из друга.</p>
+<p>При этом «из одного источника» означает «совпадают протокол, домен и порт».</p>
+<p>У этого подхода ряд существенных исключений:</p>
+<ul>
+<li>Свойства <code>window.location.*</code> нельзя читать, но можно менять.</li>
+<li>Домены третьего уровня с общим наддоменом могут поменять <code>document.domain</code> на их общий домен второго уровня, и тогда они смогут взаимодействовать без ограничений.</li>
+<li>IE не включает порт в понятие источника. Кроме того, он позволяет снять ограничения для конкретного сайта включением в доверенную зону.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="data-structures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Структуры данных</span></a></li></ol><h1 class="main__header-title">Массив: перебирающие методы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Массив: перебирающие методы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Современный стандарт JavaScript предоставляет много методов для «умного» перебора массивов, которые есть в современных браузерах…</p>
+<p>…Ну а для их поддержки в IE8- просто подключите библиотеку <a href="https://github.com/kriskowal/es5-shim">ES5-shim</a>.</p>
+<h2><a class="main__anchor" name="foreach" href="#foreach">forEach</a></h2><p>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach">«arr.forEach(callback[, thisArg])»</a> используется для перебора массива.</p>
+<p>Он для каждого элемента массива вызывает функцию <code>callback</code>.</p>
+<p>Этой функции он передаёт три параметра <code>callback(item, i, arr)</code>:</p>
+<ul>
+<li><code>item</code> – очередной элемент массива.</li>
+<li><code>i</code> – его номер.</li>
+<li><code>arr</code> – массив, который перебирается.</li>
+</ul>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Яблоко&quot;, &quot;Апельсин&quot;, &quot;Груша&quot;];
+
+arr.forEach(function(item, i, arr) {
+  alert( i + &quot;: &quot; + item + &quot; (массив:&quot; + arr + &quot;)&quot; );
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Второй, необязательный аргумент <code>forEach</code> позволяет указать контекст <code>this</code> для <code>callback</code>. Мы обсудим его в деталях чуть позже, сейчас он нам не важен.</p>
+<p>Метод <code>forEach</code> ничего не возвращает, его используют только для перебора, как более «элегантный» вариант, чем обычный цикл <code>for</code>.</p>
+<h2><a class="main__anchor" name="filter" href="#filter">filter</a></h2><p>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/filter">«arr.filter(callback[, thisArg])»</a> используется для <em>фильтрации</em> массива через функцию.</p>
+<p>Он создаёт новый массив, в который войдут только те элементы <code>arr</code>, для которых вызов <code>callback(item, i, arr)</code> возвратит <code>true</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, -1, 2, -2, 3];
+
+var positiveArr = arr.filter(function(number) {
+  return number &gt; 0;
+});
+
+alert( positiveArr ); // 1,2,3</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="map" href="#map">map</a></h2><p>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map">«arr.map(callback[, thisArg])»</a> используется для <em>трансформации</em> массива.</p>
+<p>Он создаёт новый массив, который будет состоять из результатов вызова <code>callback(item, i, arr)</code> для каждого элемента <code>arr</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var names = ['HTML', 'CSS', 'JavaScript'];
+
+var nameLengths = names.map(function(name) {
+  return name.length;
+});
+
+// получили массив с длинами
+alert( nameLengths ); // 4,3,10</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="every-some" href="#every-some">every/some</a></h2><p>Эти методы используются для проверки массива.</p>
+<ul>
+<li>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every">«arr.every(callback[, thisArg])»</a> возвращает <code>true</code>, если вызов <code>callback</code> вернёт <code>true</code> для <em>каждого</em> элемента <code>arr</code>.</li>
+<li>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some">«arr.some(callback[, thisArg])»</a> возвращает <code>true</code>, если вызов <code>callback</code> вернёт <code>true</code> для <em>какого-нибудь</em> элемента <code>arr</code>.</li>
+</ul>
+<div data-trusted="1" class="code-example" data-highlight-block="6-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, -1, 2, -2, 3];
+
+function isPositive(number) {
+  return number &gt; 0;
+}
+
+alert( arr.every(isPositive) ); // false, не все положительные
+alert( arr.some(isPositive) ); // true, есть хоть одно положительное</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="reduce-reduceright" href="#reduce-reduceright">reduce/reduceRight</a></h2><p>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/reduce">«arr.reduce(callback[, initialValue])»</a> используется для последовательной обработки каждого элемента массива с сохранением промежуточного результата.</p>
+<p>Это один из самых сложных методов для работы с массивами. Но его стоит освоить, потому что временами с его помощью можно в несколько строк решить задачу, которая иначе потребовала бы в разы больше места и времени.</p>
+<p>Метод <code>reduce</code> используется для вычисления на основе массива какого-либо единого значения, иначе говорят «для свёртки массива». Чуть далее мы разберём пример для вычисления суммы.</p>
+<p>Он применяет функцию <code>callback</code> по очереди к каждому элементу массива слева направо, сохраняя при этом промежуточный результат.</p>
+<p>Аргументы функции <code>callback(previousValue, currentItem, index, arr)</code>:</p>
+<ul>
+<li><code>previousValue</code> – последний результат вызова функции, он же «промежуточный результат».</li>
+<li><code>currentItem</code> – текущий элемент массива, элементы перебираются по очереди слева-направо.</li>
+<li><code>index</code> – номер текущего элемента.</li>
+<li><code>arr</code> – обрабатываемый массив.</li>
+</ul>
+<p>Кроме <code>callback</code>, методу можно передать «начальное значение» – аргумент <code>initialValue</code>. Если он есть, то на первом вызове значение <code>previousValue</code> будет равно <code>initialValue</code>, а если у <code>reduce</code> нет второго аргумента, то оно равно первому элементу массива, а перебор начинается со второго.</p>
+<p>Проще всего понять работу метода <code>reduce</code> на примере.</p>
+<p>Например, в качестве «свёртки» мы хотим получить сумму всех элементов массива.</p>
+<p>Вот решение в одну строку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, 2, 3, 4, 5]
+
+// для каждого элемента массива запустить функцию,
+// промежуточный результат передавать первым аргументом далее
+var result = arr.reduce(function(sum, current) {
+  return sum + current;
+}, 0);
+
+alert( result ); // 15</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Разберём, что в нём происходит.</p>
+<p>При первом запуске <code>sum</code> – исходное значение, с которого начинаются вычисления, равно нулю (второй аргумент <code>reduce</code>).</p>
+<p>Сначала анонимная функция вызывается с этим начальным значением и первым элементом массива, результат запоминается и передаётся в следующий вызов, уже со вторым аргументом массива, затем новое значение участвует в вычислениях с третьим аргументом и так далее.</p>
+<p>Поток вычислений получается такой</p>
+<figure><div class="image" style="width:613px">
+      <div class="image__ratio" style="padding-top:21.04404567699837%"></div>
+      <img src="article/array-iteration/reduce.png" alt="" width="613" height="129" class="image__image">
+      </div></figure><p>В виде таблицы  где каждая строка – вызов функции на очередном элементе массива:</p>
+<table>
+ <thead>
+  <tr>
+   <th></th>
+   <th><code>sum</code></th>
+   <th><code>current</code></th>
+   <th>результат</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <th>первый вызов</th>
+   <td><code>0</code></td>
+   <td><code>1</code></td>
+   <td><code>1</code></td>
+  </tr>
+  <tr>
+   <th>второй вызов</th>
+   <td><code>1</code></td>
+   <td><code>2</code></td>
+   <td><code>3</code></td>
+  </tr>
+  <tr>
+   <th>третий вызов</th>
+   <td><code>3</code></td>
+   <td><code>3</code></td>
+   <td><code>6</code></td>
+  </tr>
+  <tr>
+   <th>четвёртый вызов</th>
+   <td><code>6</code></td>
+   <td><code>4</code></td>
+   <td><code>10</code></td>
+  </tr>
+  <tr>
+   <th>пятый вызов</th>
+   <td><code>10</code></td>
+   <td><code>5</code></td>
+   <td><code>15</code></td>
+  </tr>
+ </tbody>
+</table>
+<p>Как видно, результат предыдущего вызова передаётся в первый аргумент следующего.</p>
+<p>Кстати, полный набор аргументов функции для <code>reduce</code> включает в себя <code>function(sum, current, i, array)</code>, то есть номер текущего вызова <code>i</code> и весь массив <code>arr</code>, но здесь в них нет нужды.</p>
+<p>Посмотрим, что будет, если не указать <code>initialValue</code> в вызове <code>arr.reduce</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [1, 2, 3, 4, 5]
+
+// убрали 0 в конце
+var result = arr.reduce(function(sum, current) {
+  return sum + current
+});
+
+alert( result ); // 15</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Результат – точно такой же! Это потому, что при отсутствии <code>initialValue</code> в качестве первого значения берётся первый элемент массива, а перебор стартует со второго.</p>
+<p>Таблица вычислений будет такая же, за вычетом первой строки.</p>
+<p><strong>Метод <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/reduceRight">arr.reduceRight</a> работает аналогично, но идёт по массиву справа-налево.</strong></p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Мы рассмотрели методы:</p>
+<ul>
+<li><code>forEach</code> – для <em>перебора</em> массива.</li>
+<li><code>filter</code> – для <em>фильтрации</em> массива.</li>
+<li><code>every/some</code> – для <em>проверки</em> массива.</li>
+<li><code>map</code> – для <em>трансформации</em> массива в массив.</li>
+<li><code>reduce/reduceRight</code> – для <em>прохода по массиву с вычислением значения</em>.</li>
+</ul>
+<p>Во многих ситуациях их использование позволяет написать код короче и понятнее, чем обычный перебор через <code>for</code>.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#перепишите-цикл-через-map" name="перепишите-цикл-через-map" class="main__anchor">Перепишите цикл через map</a></h3><a href="task/rewrite-for-map.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Код ниже получает из массива строк новый массив, содержащий их длины:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Есть&quot;, &quot;жизнь&quot;, &quot;на&quot;, &quot;Марсе&quot;];
+
+var arrLength = [];
+for (var i = 0; i &lt; arr.length; i++) {
+  arrLength[i] = arr[i].length;
+}
+
+alert( arrLength ); // 4,5,2,5</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Перепишите выделенный участок: уберите цикл, используйте вместо него метод <code>map</code>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-highlight-block="2-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var arr = [&quot;Есть&quot;, &quot;жизнь&quot;, &quot;на&quot;, &quot;Марсе&quot;];
+
+var arrLength = arr.map(function(item) {
+  return item.length;
+});
+
+alert( arrLength ); // 4,5,2,5</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#массив-частичных-сумм" name="массив-частичных-сумм" class="main__anchor">Массив частичных сумм</a></h3><a href="task/partial-sums-array.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 2</span></div><div class="task__content"><p>На входе массив чисел, например: <code>arr = [1,2,3,4,5]</code>.</p>
+<p>Напишите функцию <code>getSums(arr)</code>, которая возвращает массив его частичных сумм.</p>
+<p>Иначе говоря, вызов <code>getSums(arr)</code> должен возвращать новый массив из такого же числа элементов, в котором на каждой позиции должна быть сумма элементов <code>arr</code> до этой позиции включительно.</p>
+<p>То есть:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">для arr = [ 1, 2, 3, 4, 5 ]
+getSums( arr ) = [ 1, 1+2, 1+2+3, 1+2+3+4, 1+2+3+4+5 ] = [ 1, 3, 6, 10, 15 ]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Еще пример: <code>getSums([-2,-1,0,1]) = [-2,-3,-3,-2]</code>.</p>
+<ul>
+<li>Функция не должна модифицировать входной массив.</li>
+<li>В решении используйте метод <code>arr.reduce</code>.</li>
+</ul>
+<p><a href="http://plnkr.co/edit/p6rhCPvFWxUAhkL2poBv?p=preview" target="_blank" data-plunk-id="p6rhCPvFWxUAhkL2poBv">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Метод <code>arr.reduce</code> подходит здесь идеально. Достаточно пройтись по массиву слева-направо, накапливая текущую сумму в переменной и, кроме того, добавляя её в результирующий массив.</p>
+<p>Неправильный вариант может выглядеть так:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="12:43-51">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getSums(arr) {
+  var result = [];
+  if (!arr.length) return result;
+
+  arr.reduce(function(sum, item) {
+    result.push(sum);
+    return sum + item;
+  });
+
+  return result;
+}
+
+alert(getSums([1,2,3,4,5])); // результат: 1,3,6,10</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Перед тем, как читать дальше, посмотрите на него внимательно. Заметили, в чём ошибка?</p>
+<p>Если вы его запустите, то обнаружите, что результат не совсем тот. В получившемся массиве всего четыре элемента, отсутствует последняя сумма.</p>
+<p>Это из-за того, что последняя сумма является результатом метода <code>reduce</code>, он на ней заканчивает проход и далее функцию не вызывает, поэтому она оказывается не добавленной в <code>result</code>.</p>
+<p>Исправим это:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="4:2-14,8:2-24,13:32-43,14:32-43">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getSums(arr) {
+  var result = [];
+  if (!arr.length) return result;
+
+  var totalSum = arr.reduce(function(sum, item) {
+    result.push(sum);
+    return sum + item;
+  });
+  result.push(totalSum);
+
+  return result;
+}
+
+alert(getSums([1,2,3,4,5])); // 1,3,6,10,15
+alert(getSums([-2,-1,0,1])); // -2,-3,-3,-2</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/rIwaPqQcYYStHi8ATBIO?p=preview" target="_blank" data-plunk-id="rIwaPqQcYYStHi8ATBIO">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

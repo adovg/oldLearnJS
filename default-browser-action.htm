@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="events-and-interfaces.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы работы с событиями</span></a></li></ol><h1 class="main__header-title">Действия браузера по умолчанию</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Действия браузера по умолчанию"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Многие события автоматически влекут за собой действие браузера.</p>
+<p>Например:</p>
+<ul>
+<li>Клик по ссылке инициирует переход на новый URL.</li>
+<li>Нажатие на кнопку «отправить» в форме – отсылку ее на сервер.</li>
+<li>Двойной клик на тексте – инициирует его выделение.</li>
+</ul>
+<p>Если мы обрабатываем событие в JavaScript, то зачастую такое действие браузера нам не нужно. К счастью, его можно отменить.</p>
+<h2><a class="main__anchor" name="отмена-действия-браузера" href="#отмена-действия-браузера">Отмена действия браузера</a></h2><p>Есть два способа отменить действие браузера:</p>
+<ul>
+<li><strong>Основной способ – это воспользоваться объектом события. Для отмены действия браузера существует стандартный метод <code>event.preventDefault()</code>.</strong></li>
+<li>Если же обработчик назначен через <code>onсобытие</code> (не через <code>addEventListener</code>), то можно просто вернуть <code>false</code> из обработчика.</li>
+</ul>
+<p>В следующем примере при клике по ссылке переход не произойдет:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;a href=&quot;/&quot; onclick=&quot;return false&quot;&gt;Нажми здесь&lt;/a&gt;
+или
+&lt;a href=&quot;/&quot; onclick=&quot;event.preventDefault()&quot;&gt;здесь&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-1epurz"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Возвращать <code>true</code> не нужно</span></div>
+            <div class="important__content"><p>Обычно значение, которое возвращает обработчик события, игнорируется.</p>
+<p>Единственное исключение – это <code>return false</code> из обработчика, назначенного через <code>onсобытие</code>.</p>
+<p>Иногда в коде начинающих разработчиков можно увидеть <code>return</code> других значений. Но они не нужны и никак не обрабатываются.</p>
+</div></div>
+<h3><a class="main__anchor" name="пример-меню" href="#пример-меню">Пример: меню</a></h3><p>Рассмотрим задачу, когда нужно создать меню для сайта, например такое:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul id=&quot;menu&quot; class=&quot;menu&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;/php&quot;&gt;PHP&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/html&quot;&gt;HTML&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/javascript&quot;&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/flash&quot;&gt;Flash&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Данный пример при помощи CSS может выводиться так:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/default-browser-action/menu/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      <div class="toolbar__tool">
+        <a href="http://plnkr.co/edit/JcPnEGfaRdtzqaPlTL27?p=preview" target="_blank" title="открыть в песочнице"
+        data-plunk-id="JcPnEGfaRdtzqaPlTL27" class="toolbar__button toolbar__button_edit"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:70px" src="https://js.cx/article/default-browser-action/menu/"></iframe>
+  </div><p>HTML-разметка сделана так, что все элементы меню являются не кнопками, а ссылками, то есть тегами <code>&lt;a&gt;</code>.</p>
+<p>Это потому, что некоторые посетители очень любят сочетание «правый клик – открыть в новом окне».  Да, мы можем использовать и <code>&lt;button&gt;</code> и <code>&lt;span&gt;</code>, но если правый клик не работает – это их огорчает. Кроме того, если на сайт зайдёт поисковик, то по ссылке из <code>&lt;a href=&quot;...&quot;&gt;</code> он перейдёт, а выполнить сложный JavaScript и получить результат – вряд ли захочет.</p>
+<p>Поэтому в разметке мы используем именно <code>&lt;a&gt;</code>, но обычно клик будет обрабатываться полностью в JavaScript, а стандартное действие браузера (переход по ссылке) – отменяться.</p>
+<p>Например, вот так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">menu.onclick = function(event) {
+  if (event.target.nodeName != 'A') return;
+
+  var href = event.target.getAttribute('href');
+  alert( href ); // может быть подгрузка с сервера, генерация интерфейса и т.п.
+
+  return false; // отменить переход по url
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В конце <code>return false</code>, иначе браузер перейдёт по адресу из <code>href</code>.</p>
+<p>Так как мы применили делегирование, то меню может увеличиваться, можно добавить вложенные списки <code>ul/li</code>, стилизовать их при помощи CSS – обработчик не потребует изменений.</p>
+<h2><a class="main__anchor" name="другие-действия-браузера" href="#другие-действия-браузера">Другие действия браузера</a></h2><p>Действий браузера по умолчанию достаточно много.</p>
+<p>Вот некоторые примеры событий, которые вызывают действие браузера:</p>
+<ul>
+<li><code>mousedown</code> – нажатие кнопкой мыши в то время как курсор находится на тексте начинает его выделение.</li>
+<li><code>click</code> на <code>&lt;input type=&quot;checkbox&quot;&gt;</code> – ставит или убирает галочку.</li>
+<li><code>submit</code> – при нажатии на <code>&lt;input type=&quot;submit&quot;&gt;</code>  в форме данные отправляются на сервер.</li>
+<li><code>wheel</code> – движение колёсика мыши инициирует прокрутку.</li>
+<li><code>keydown</code> – при нажатии клавиши в поле ввода появляется символ.</li>
+<li><code>contextmenu</code> – при правом клике показывается контекстное меню браузера.</li>
+<li>…</li>
+</ul>
+<p>Все эти действия можно отменить, если мы хотим обработать событие исключительно при помощи JavaScript.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">События могут быть связаны между собой</span></div>
+            <div class="important__content"><p>Некоторые события естественным образом вытекают друг из друга.</p>
+<p>Например, нажатие мышкой <code>mousedown</code> на поле ввода <code>&lt;input&gt;</code> приводит к фокусировке внутри него. Если отменить действие <code>mousedown</code>, то и фокуса не будет.</p>
+<p>Попробуйте нажать мышкой на первый <code>&lt;input&gt;</code> – произойдёт событие <code>onfocus</code>. Это обычная ситуация.</p>
+<p>Но если нажать на второй, то фокусировки не произойдёт.</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-inline="1:7-33">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;input value=&quot;Фокус работает&quot; onfocus=&quot;this.value=''&quot;&gt;
+&lt;input onmousedown=&quot;return false&quot; onfocus=&quot;this.value=''&quot; value=&quot;Кликни меня&quot;&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-785bvp"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Это потому, что отменено стандартное действие при <code>onmousedown</code>.</p>
+<p>…С другой стороны, во второй <code>&lt;input&gt;</code> можно перейти с первого нажатием клавиши <kbd class="shortcut">Tab</kbd>, и тогда фокусировка сработает. То есть, дело здесь именно в <code>onmousedown=&quot;return false&quot;</code>.</p>
+</div></div>
+<h2><a class="main__anchor" name="особенности-ie8" href="#особенности-ie8">Особенности IE8-</a></h2><p>В IE8- для отмены действия по умолчанию нужно назначить свойство <code>event.returnValue = false</code>.</p>
+<p>Кроссбраузерный код для отмены действия по умолчанию:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">element.onclick = function(event) {
+  event = event || window.event;
+
+  if (event.preventDefault) { // если метод существует
+    event.preventDefault(); // то вызвать его
+  } else { // иначе вариант IE8-:
+    event.returnValue = false;
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Можно записать в одну строку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">...
+event.preventDefault ? event.preventDefault() : (event.returnValue=false);
+...</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Браузер имеет встроенные действия при ряде событий – переход по ссылке, отправка формы и т.п. Как правило, их можно отменить.</li>
+<li>Есть два способа отменить действие по умолчанию: первый – использовать <code>event.preventDefault()</code> (IE8-: <code>event.returnValue=false</code>), второй – <code>return false</code> из обработчика. Второй способ работает только если обработчик назначен через <code>onсобытие</code>.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#почему-не-работает-return-false" name="почему-не-работает-return-false" class="main__anchor">Почему не работает return false?</a></h3><a href="task/why-return-false-fails.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Почему в этом документе <code>return false</code> не работает?</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  function handler() {
+    alert( &quot;...&quot; );
+    return false;
+  }
+&lt;/script&gt;
+
+&lt;a href=&quot;http://w3.org&quot; onclick=&quot;handler()&quot;&gt;w3.org&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-fdifeb"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>По замыслу, переход на <code>w3.org</code> при клике должен отменяться. Однако, на самом деле он происходит.</p>
+<p>В чём дело и как поправить?</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Дело в том, что обработчик из атрибута <code>onclick</code> делается браузером как функция с заданным телом.</p>
+<p>То есть, в данном случае он будет таким:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function(event) {
+  handler() // тело взято из атрибута onclick
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом возвращаемое <code>handler</code> значение никак не используется и не влияет на результат.</p>
+<p>Рабочий вариант:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="7:33-49">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  function handler() {
+    alert(&quot;...&quot;);
+    return false;
+  }
+&lt;/script&gt;
+
+&lt;a href=&quot;http://w3.org&quot; onclick=&quot;return handler()&quot;&gt;w3.org&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Также можно использовать объект события для вызова <code>event.preventDefault()</code>, например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-4" data-highlight-inline="7:33-47">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  function handler(event) {
+    alert(&quot;...&quot;);
+    event.preventDefault();
+  }
+&lt;/script&gt;
+
+&lt;a href=&quot;http://w3.org&quot; onclick=&quot;handler(event)&quot;&gt;w3.org&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#поймайте-переход-по-ссылке" name="поймайте-переход-по-ссылке" class="main__anchor">Поймайте переход по ссылке</a></h3><a href="task/catch-link-navigation.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Сделайте так, чтобы при клике на ссылки внутри элемента <code>#contents</code> пользователю выводился вопрос о том, действительно ли он хочет покинуть страницу и если он не хочет, то прерывать переход по ссылке.</p>
+<p>Так это должно работать:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:100px" src="https://js.cx/task/catch-link-navigation/solution/"></iframe>
+  </div><p>Детали:</p>
+<ul>
+<li>Содержимое <code>#contents</code> может быть загружено динамически и присвоено при помощи  <code>innerHTML</code>. Так что найти все ссылки и поставить на них обработчики нельзя. Используйте делегирование.</li>
+<li>Содержимое может содержать вложенные теги, <em>в том числе внутри ссылок</em>, например, <code>&lt;a href=&quot;..&quot;&gt;&lt;i&gt;...&lt;/i&gt;&lt;/a&gt;</code>.</li>
+</ul>
+<p><a href="http://plnkr.co/edit/7gHnXb8z5i42bEogf49Q?p=preview" target="_blank" data-plunk-id="7gHnXb8z5i42bEogf49Q">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Это – классическая задача на тему делегирования.</p>
+<p>В реальной жизни, мы можем перехватить событие и создать AJAX-запрос к серверу, который сохранит информацию о том, по какой ссылке ушел посетитель.</p>
+<p>Мы перехватываем событие на <code>contents</code> и поднимаемся до <code>parentNode</code> пока не получим <code>A</code> или не упремся в контейнер.</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-10">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">contents.onclick = function(evt) {
+  var target = evt.target;
+
+  function handleLink(href) {
+    var isLeaving = confirm('Уйти на ' + href + '?');
+    if (!isLeaving) return false;
+  }
+
+  while (target != this) {
+    if (target.nodeName == 'A') {
+      return handleLink(target.getAttribute('href')); // (*)
+    }
+    target = target.parentNode;
+  }
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В строке <code>(*)</code> используется атрибут, а не свойство <code>href</code>, чтобы показать в <code>confirm</code> именно то, что написано в HTML-атрибуте, так как свойство может отличаться, оно обязано содержать полный валидный адрес.</p>
+<p><a href="http://plnkr.co/edit/S0iSzY8dRrpw4DgwH3ax?p=preview" target="_blank" data-plunk-id="S0iSzY8dRrpw4DgwH3ax">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#галерея-изображений" name="галерея-изображений" class="main__anchor">Галерея изображений</a></h3><a href="task/image-gallery.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Создайте галерею изображений, в которой основное изображение изменяется при клике на уменьшенный вариант.</p>
+<p>Результат должен выглядеть так:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:600px" src="https://js.cx/task/image-gallery/solution/"></iframe>
+  </div><p>Для обработки событий используйте делегирование, т.е. не более одного обработчика.</p>
+<p>P.S. Обратите внимание – клик может быть как на маленьком изображении <code>IMG</code>, так и на <code>A</code> вне него. При этом <code>event.target</code> будет, соответственно, либо <code>IMG</code>, либо <code>A</code>.</p>
+<p>Дополнительно:</p>
+<ul>
+<li>Если получится – сделайте предзагрузку больших изображений, чтобы при клике они появлялись сразу.</li>
+<li>Всё ли в порядке с семантической вёрсткой в HTML исходного документа? Если нет – поправьте, чтобы было, как нужно.</li>
+</ul>
+<p><a href="http://plnkr.co/edit/y2m7FvOQOej9cYvDH1kH?p=preview" target="_blank" data-plunk-id="y2m7FvOQOej9cYvDH1kH">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение состоит в том, чтобы добавить обработчик на контейнер <code>#thumbs</code> и отслеживать клики на ссылках.</p>
+<p>Когда происходит событие, обработчик должен изменять <code>src</code> <code>#largeImg</code> на <code>href</code> ссылки и заменять <code>alt</code> на ее <code>title</code>.</p>
+<p>Код решения:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var largeImg = document.getElementById('largeImg');
+
+document.getElementById('thumbs').onclick = function(e) {
+  var target = e.target;
+
+  while (target != this) {
+
+    if (target.nodeName == 'A') {
+      showThumbnail(target.href, target.title);
+      return false;
+    }
+
+    target = target.parentNode;
+  }
+
+}
+
+function showThumbnail(href, title) {
+  largeImg.src = href;
+  largeImg.alt = title;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Предзагрузка картинок</strong></p>
+<p>Для того, чтобы картинка загрузилась, достаточно создать новый элемент <code>IMG</code> и указать ему <code>src</code>, вот так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var imgs = thumbs.getElementsByTagName('img');
+for (var i = 0; i &lt; imgs.length; i++) {
+  var url = imgs[i].parentNode.href;
+
+  var img = document.createElement('img');
+  img.src = url;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как только элемент создан и ему назначен <code>src</code>, браузер сам начинает скачивать файл картинки.</p>
+<p>При правильных настройках сервера как-то использовать этот элемент не обязательно – картинка уже закеширована.</p>
+<p><strong>Семантичная верстка</strong></p>
+<p>Для списка картинок используется <code>DIV</code>. С точки зрения семантики более верный вариант – список <code>UL/LI</code>.</p>
+<p><a href="http://plnkr.co/edit/5t7oDEbrx8G3UjUqtM2q?p=preview" target="_blank" data-plunk-id="5t7oDEbrx8G3UjUqtM2q">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

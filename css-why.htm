@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">О чём пойдёт речь</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="О чём пойдёт речь"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Неужели мы сейчас будем учить CSS? Ничего подобного. Предполагается, что вы <em>уже</em> знаете CSS, во всяком случае понимаете его на таком уровне, который позволяет делать Web-страницы.</p>
+<p>Особенность квалификации JavaScript-разработчика заключается в том, что он не обязан выбирать цвета, рисовать иконки, «делать красиво». Он также не обязан верстать макет в HTML, разве что если является по совместительству специалистом-верстальщиком.</p>
+<p><strong>Вот что он должен уметь абсолютно точно – так это и разработать такую структуру HTML/CSS для элементов управления, которая не сломается, и с которой ему же потом удобно будет взаимодействовать</strong>.</p>
+<p>Это требует отличного знания CSS в области позиционирования элементов, включая тонкости работы <code>display</code>, <code>margin</code>, <code>border</code>, <code>outline</code>, <code>position</code>, <code>float</code>, <code>border-box</code> и остальных свойств, а также подходы к построению структуры компонент (CSS layouts).</p>
+<p>Многое можно сделать при помощи JavaScript. И зачастую, не зная CSS, так и делают. Но мы на это ловиться не будем.</p>
+<div class="summary"><div class="summary__content"><p>Если что-то можно сделать через CSS – лучше делать это через CSS.</p>
+</div></div>
+<p>Причина проста – обычно, даже если CSS на вид сложнее – поддерживать и развивать его проще, чем JS. Поэтому овчинка стоит выделки.</p>
+<p>Кроме того, есть ещё одно наблюдение.</p>
+<div class="summary"><div class="summary__content"><p>Знание JavaScript не может заменить знание CSS.</p>
+</div></div>
+<p>Жить становится приятнее и проще, если есть хорошее знание и CSS, и JavaScript.</p>
+<h2><a class="main__anchor" name="чек-лист" href="#чек-лист">Чек-лист</a></h2><p>Ниже находится «чек-лист». Если хоть одно свойство незнакомо – это стоп-сигнал для дальнейшего чтения этого раздела.</p>
+<ul>
+<li>
+<p>Блочная модель, включая:</p>
+<ul>
+<li><code>margin</code>, <code>padding</code>, <code>border</code>, <code>overflow</code></li>
+<li>а также <code>height/width</code> и <code>min-height/min-width</code>.</li>
+</ul>
+</li>
+<li>
+<p>Текст:</p>
+<ul>
+<li><code>font</code></li>
+<li><code>line-height</code>.</li>
+</ul>
+</li>
+<li>
+<p>Различные курсоры <code>cursor</code>.</p>
+</li>
+<li>
+<p>Позиционирование:</p>
+<ul>
+<li><code>position</code>, <code>float</code>, <code>clear</code>, <code>display</code>, <code>visibility</code></li>
+<li>Центрирование при помощи CSS</li>
+<li>Перекрытие <code>z-index</code> и прозрачность <code>opacity</code></li>
+</ul>
+</li>
+<li>
+<p>Селекторы:</p>
+<ul>
+<li>Приоритет селекторов</li>
+<li>Селекторы <code>#id</code>, <code>.class</code>, <code>a &gt; b</code></li>
+</ul>
+</li>
+<li>
+<p>Сброс браузерных стилей, <a href="http://meyerweb.com/eric/tools/css/reset/">reset.css</a></p>
+</li>
+</ul>
+<h2><a class="main__anchor" name="почитать" href="#почитать">Почитать</a></h2><p>Книжек много, но хороших – как всегда, мало.</p>
+<p>С уверенностью могу рекомендовать следующие:</p>
+<ul>
+<li><a href="http://www.ozon.ru/context/detail/id/24493075/?partner=iliakan">Большая книга CSS3.</a>
+<i>Дэвид Макфарланд.</i></li>
+<li><a href="http://www.ozon.ru/context/detail/id/3881079/?partner=iliakan">CSS. Каскадные таблицы стилей. Подробное руководство.</a>
+<i>Эрик Мейер</i></li>
+</ul>
+<p>Дальнейшие статьи раздела не являются <em>учебником</em> CSS, поэтому пожалуйста, изучите эту технологию до них.</p>
+<p>Это очерки для лучшей систематизации и дополнения уже существующих знаний.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

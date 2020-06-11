@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Правила форматирования CSS</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Правила форматирования CSS"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Для того, чтобы CSS легко читался, полезно соблюдать пять правил форматирования.</p>
+<h2><a class="main__anchor" name="каждое-свойство-на-отдельной-строке" href="#каждое-свойство-на-отдельной-строке">Каждое свойство – на отдельной строке</a></h2><p>Так – неверно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+#snapshot-box h2 { padding: 0 0 6px 0; font-weight: bold; position: absolute; left: 0; top: 0; }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Так – правильно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+#snapshot-box h2 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0 0 6px 0;
+  font-weight: bold;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Цель – лучшая читаемость, проще найти и поправить свойство.</p>
+<h2><a class="main__anchor" name="каждый-селектор-на-отдельной-строке" href="#каждый-селектор-на-отдельной-строке">Каждый селектор – на отдельной строке</a></h2><p>Неправильно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+#snapshot-box h2, #profile-box h2, #order-box h2 {
+  padding: 0 0 6px 0;
+  font-weight: bold;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Правильно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+#snapshot-box h2,
+#profile-box h2,
+#order-box h2 {
+  padding: 0 0 6px 0;
+  font-weight: bold;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Цель – лучшая читаемость, проще найти селектор.</p>
+<h2><a class="main__anchor" name="свойства-сильнее-влияющие-на-документ-идут-первыми" href="#свойства-сильнее-влияющие-на-документ-идут-первыми">Свойства, сильнее влияющие на документ, идут первыми</a></h2><p>Рекомендуется располагать свойства в следующем порядке:</p>
+<ol>
+<li>Сначала положение элемента относительно других: <code>position</code>, <code>left/right/top/bottom</code>, <code>float</code>, <code>clear</code>, <code>z-index</code>.</li>
+<li>Затем размеры и отступы: <code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code>…</li>
+<li>Рамка <code>border</code>, она частично относится к размерам.</li>
+<li>Общее оформление содержимого: <code>list-style-type</code>, <code>overflow</code>…</li>
+<li>Цветовое и стилевое оформление: <code>background</code>, <code>color</code>, <code>font</code>…</li>
+</ol>
+<p><strong>Общая логика сортировки: «от общего – к локальному и менее важному».</strong></p>
+<p>При таком порядке свойства, определяющие структуру документа, будут видны наиболее отчётливо, в начале, а самые незначительно влияющие (например цвет) – в конце.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+#snapshot-box h2 {
+  position: absolute; /* позиционирование */
+  left: 0;
+  top: 0;
+
+  padding: 0 0 6px 0; /* размеры и отступы */
+
+  color: red;         /* стилевое оформление */
+  font-weight: bold;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Свойство без префикса пишется последним.</strong></p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">-webkit-box-shadow:0 0 100px 20px #000;
+box-shadow:0 0 100px 20px #000;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это нужно, чтобы стандартная (окончательная) реализация всегда была важнее, чем временные браузерные.</p>
+<h2><a class="main__anchor" name="организация-css-файлов-проекта" href="#организация-css-файлов-проекта">Организация CSS-файлов проекта</a></h2><p>Стили можно разделить на две основные группы:</p>
+<ol>
+<li>
+<p><strong>Блоки-компоненты имеют свой CSS.</strong> Например, CSS для диалогового окна, CSS для профиля посетителя, CSS для меню.</p>
+<p>Такой CSS идёт «в комплекте» с модулем, его удобно выделять в отдельные файлы и подключать через <code>@import</code>.</p>
+<p>Конечно, при разработке будет много CSS-файлов, но при выкладке проекта система сборки и сжатия CSS заменит директивы <code>@import</code> на их содержимое, объединяя все CSS в один файл.</p>
+</li>
+<li>
+<p><strong>Страничный и интегрирующий CSS</strong>.</p>
+<p>Этот CSS описывает общий вид страницы, расположение компонент и их дополнительную стилизацию, зависящую от места на странице и т.п.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+.tab .profile { /* профиль внутри вкладки */
+  float: left;
+  width: 300px;
+  height: 200px;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Важные страничные блоки можно выделять особыми комментариями:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/** ===========================
+ *  Профиль посетителя
+ *  ===========================
+*/
+
+.profile {
+  border: 1px solid gray;
+}
+
+.profile h2 {
+  color: blue;
+  font-size: 1.8em;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<p>CSS-препроцессоры, такие как <a href="http://sass-lang.com/">SASS</a>, <a href="http://lesscss.org/">LESS</a>, <a href="http://learnboost.github.com/stylus/">Stylus</a>, <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a> делают написание CSS сильно удобнее…</p>
+<p>Выберите один из них и используйте. Единственно, они добавляют дополнительную предобработку CSS, которую нужно учесть, и желательно, на сервере.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

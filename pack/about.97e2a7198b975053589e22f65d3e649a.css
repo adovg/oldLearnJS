@@ -1,0 +1,565 @@
+
+/* line 9 : /js/build/handlers/about/blocks/styles.styl */
+
+/* line 1 : /js/build/node_modules/stylus/lib/functions/index.styl */
+
+/* line 297 : /js/build/node_modules/stylus/lib/functions/index.styl */
+
+/* line 1 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 260 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 1 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 260 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 1 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 260 : /js/build/node_modules/rupture/rupture/index.styl */
+
+/* line 147 : /js/build/modules/styles/blocks/variables/variables.styl */
+
+/* line 147 : /js/build/modules/styles/blocks/variables/variables.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/border.styl */
+
+/* line 10 : /js/build/node_modules/nib/lib/nib/border.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/clearfix.styl */
+
+/* line 28 : /js/build/node_modules/nib/lib/nib/clearfix.styl */
+
+/* line 24 : /js/build/node_modules/nib/lib/nib/color-image.styl */
+
+/* line 4 : /js/build/node_modules/nib/lib/nib/color-image.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/image.styl */
+
+/* line 25 : /js/build/node_modules/nib/lib/nib/image.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/overflow.styl */
+
+/* line 20 : /js/build/node_modules/nib/lib/nib/overflow.styl */
+
+/* line 24 : /js/build/node_modules/nib/lib/nib/positions.styl */
+
+/* line 66 : /js/build/node_modules/nib/lib/nib/positions.styl */
+
+/* line 5 : /js/build/node_modules/nib/lib/nib/text/index.styl */
+
+/* line 5 : /js/build/node_modules/nib/lib/nib/text/index.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/aliases.styl */
+
+/* line 12 : /js/build/node_modules/nib/lib/nib/text/aliases.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/ellipsis.styl */
+
+/* line 9 : /js/build/node_modules/nib/lib/nib/text/ellipsis.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/hide-text.styl */
+
+/* line 8 : /js/build/node_modules/nib/lib/nib/text/hide-text.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/text/replace-text.styl */
+
+/* line 9 : /js/build/node_modules/nib/lib/nib/text/replace-text.styl */
+
+/* line 24 : /js/build/node_modules/nib/lib/nib/text/shadow-stroke.styl */
+
+/* line 2 : /js/build/node_modules/nib/lib/nib/text/shadow-stroke.styl */
+
+/* line 1 : /js/build/node_modules/nib/lib/nib/size.styl */
+
+/* line 28 : /js/build/node_modules/nib/lib/nib/size.styl */
+
+/* line 5 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 7 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 8 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 13 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 16 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 20 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 24 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 28 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 32 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 36 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 40 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 44 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 48 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 52 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 56 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 60 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 64 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 68 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 72 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 76 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 80 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 84 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 88 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 92 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 96 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 100 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 104 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 108 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 112 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 116 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 120 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 124 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 128 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 132 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 136 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 140 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 144 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 148 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 152 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 156 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 160 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 164 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 168 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 172 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 177 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 181 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 185 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 189 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 193 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 197 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 201 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 205 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 209 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 213 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 217 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 221 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 225 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 229 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 233 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 237 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 241 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 245 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 249 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 253 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 257 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 261 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 265 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 269 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 273 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 277 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 281 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 285 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 289 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 293 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 297 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 301 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 305 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 309 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 313 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 317 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 321 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 325 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 329 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 333 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 337 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 143 : /js/build/modules/styles/blocks/variables/variables.styl */
+
+/* line 339 : /js/build/modules/styles/blocks/variables/icons.styl */
+
+/* line 24 : /js/build/modules/styles/blocks/mixins/hover.styl */
+
+/* line 24 : /js/build/modules/styles/blocks/mixins/imagesize.styl */
+
+/* line 9 : /js/build/modules/styles/blocks/mixins/imagesize.styl */
+
+/* line 9 : /js/build/handlers/about/blocks/about-banner/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-banner/index.styl */
+.about-banner {
+  position: relative;
+  min-height: 380px;
+  color: #fff;
+  background: url(handlers/about/blocks/about-banner/header.c414e72a87b700d27efbcfe6f6358f59.jpg) no-repeat;
+  background-size: cover;
+}
+
+/* line 8 : /js/build/handlers/about/blocks/about-banner/index.styl */
+.about-banner__header {
+  position: absolute;
+  top: 75px;
+  width: 100%;
+  text-align: center;
+}
+@media only screen and (max-width: 690px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-banner__header {
+    top: 35px;
+  }
+}
+
+/* line 17 : /js/build/handlers/about/blocks/about-banner/index.styl */
+.about-banner__title {
+  font-size: 24px;
+  font-weight: normal;
+  line-height: initial;
+}
+@media only screen and (max-width: 690px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-banner__title {
+    font-size: 18px;
+  }
+}
+
+/* line 25 : /js/build/handlers/about/blocks/about-banner/index.styl */
+.about-banner__name {
+  font-size: 51px;
+  font-weight: bold;
+  line-height: 51px;
+}
+@media only screen and (max-width: 690px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-banner__name {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+/* line 34 : /js/build/handlers/about/blocks/about-banner/index.styl */
+.about-banner__line {
+  width: 110px;
+  height: 2px;
+  margin-top: 42px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+}
+@media only screen and (max-width: 568px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-banner__line {
+    display: none;
+  }
+}
+
+/* line 1 : /js/build/handlers/about/blocks/about-banner/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+.about-benefits {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+/* line 7 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+.about-benefits__list {
+  display: inline-table;
+  width: 100%;
+  max-width: 1200px;
+}
+@media only screen and (max-width: 690px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-benefits__list {
+    display: block;
+    text-align: center;
+  }
+}
+
+/* line 16 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+.about-benefits__item {
+  display: table-cell;
+  padding: 0 10px;
+  text-align: center;
+}
+@media only screen and (max-width: 690px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-benefits__item {
+    display: inline-block;
+    margin-top: 20px;
+  }
+}
+
+/* line 25 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+.about-benefits__num {
+  font-size: 2.8vw;
+  line-height: 2.8vw;
+  font-weight: bold;
+}
+@media only screen and (max-width: 840px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-benefits__num {
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 1420px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-benefits__num {
+    font-size: 42px;
+    line-height: 42px;
+  }
+}
+
+/* line 37 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+.about-benefits__description {
+  margin: 10px 0 0 0;
+  opacity: 0.6;
+}
+@media only screen and (max-width: 840px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-benefits__description {
+    font-size: 12px;
+  }
+}
+
+/* line 1 : /js/build/handlers/about/blocks/about-benefits/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-humans/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-humans/index.styl */
+
+/* line 2 : /js/build/handlers/about/blocks/about-humans/index.styl */
+.about-humans__human {
+  min-height: 66px;
+  margin-top: 20px;
+  padding-left: 78px;
+}
+
+/* line 7 : /js/build/handlers/about/blocks/about-humans/index.styl */
+
+/* line 8 : /js/build/handlers/about/blocks/about-humans/index.styl */
+.about-humans__link:visited {
+  color: #0059b2;
+}
+
+/* line 11 : /js/build/handlers/about/blocks/about-humans/index.styl */
+.about-humans__human-userpic {
+  position: absolute;
+  overflow: hidden;
+  width: 65px;
+  height: 65px;
+  margin: -10px 0 0 -78px;
+  border-radius: 50%;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
+/* line 20 : /js/build/handlers/about/blocks/about-humans/index.styl */
+.about-humans__human-role {
+  margin: 10px 0 0 0;
+  color: #999;
+}
+
+/* line 22 : /js/build/handlers/about/blocks/about-humans/index.styl */
+
+/* line 22 : /js/build/handlers/about/blocks/about-layout/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-layout/index.styl */
+.about-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* line 6 : /js/build/handlers/about/blocks/about-layout/index.styl */
+.about-layout::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  background: #eee;
+}
+@media only screen and (max-width: 840px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-layout::after {
+    display: none;
+  }
+}
+
+/* line 18 : /js/build/handlers/about/blocks/about-layout/index.styl */
+.about-layout .columns__col {
+  padding: 40px 30px;
+}
+@media only screen and (max-width: 840px) {
+
+/* line 144 : /js/build/node_modules/rupture/rupture/index.styl */
+  .about-layout .columns__col {
+    display: block;
+    width: auto;
+    margin-top: 20px;
+    border: none;
+  }
+}
+
+/* line 1 : /js/build/handlers/about/blocks/about-layout/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-list/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-list/index.styl */
+.about-list {
+  list-style: none;
+  counter-reset: items;
+}
+
+/* line 5 : /js/build/handlers/about/blocks/about-list/index.styl */
+.about-list__item {
+  margin-top: 15px;
+  padding-left: 1.6em;
+}
+
+/* line 9 : /js/build/handlers/about/blocks/about-list/index.styl */
+.about-list__item::before {
+  position: absolute;
+  margin-left: -1.6em;
+  color: #999;
+  text-align: right;
+  counter-increment: items;
+  content: counter(items) '.';
+}
+
+/* line 15 : /js/build/handlers/about/blocks/about-list/index.styl */
+
+/* line 15 : /js/build/handlers/about/blocks/about-map/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-map/index.styl */
+.about-map {
+  background: #fbfafa;
+}
+
+/* line 4 : /js/build/handlers/about/blocks/about-map/index.styl */
+.about-map__title {
+  line-height: initial;
+  padding: 25px;
+  text-align: center;
+}
+
+/* line 9 : /js/build/handlers/about/blocks/about-map/index.styl */
+.about-map__map-container {
+  height: 500px;
+}
+
+/* line 12 : /js/build/handlers/about/blocks/about-map/index.styl */
+.about-map .leaflet-map-pane {
+  z-index: 2;
+}
+
+/* line 15 : /js/build/handlers/about/blocks/about-map/index.styl */
+.about-map .leaflet-google-layer {
+  z-index: 1;
+}
+
+/* line 16 : /js/build/handlers/about/blocks/about-map/index.styl */
+
+/* line 16 : /js/build/handlers/about/blocks/about-text/index.styl */
+
+/* line 1 : /js/build/handlers/about/blocks/about-text/index.styl */
+.about-text {
+  font-size: 16px;
+  line-height: initial;
+}
+
+/* line 5 : /js/build/handlers/about/blocks/about-text/index.styl */
+.about-text__title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* line 9 : /js/build/handlers/about/blocks/about-text/index.styl */
+
+/* line 10 : /js/build/handlers/about/blocks/about-text/index.styl */
+.about-text__body_center {
+  text-align: center;
+}
+
+/*# sourceMappingURL=about.97e2a7198b975053589e22f65d3e649a.css.map*/

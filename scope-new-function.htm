@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="functions-closures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Замыкания, область видимости</span></a></li></ol><h1 class="main__header-title">[[Scope]] для new Function</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="[[Scope]] для new Function"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><h2><a class="main__anchor" name="scope-Function" href="#scope-Function">Присвоение [[Scope]] для new Function</a></h2><p>Есть одно исключение из общего правила присвоения <code>[[Scope]]</code>, которое мы рассматривали в предыдущей главе.</p>
+<p>При создании функции с использованием  <code>new Function</code>, её свойство <code>[[Scope]]</code> ссылается не на текущий <code>LexicalEnvironment</code>, а на <code>window</code>.</p>
+<h2><a class="main__anchor" name="пример" href="#пример">Пример</a></h2><p>Следующий пример демонстрирует как функция, созданная <code>new Function</code>, игнорирует внешнюю переменную <code>a</code> и выводит глобальную вместо неё:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="5-5" data-highlight-inline="10:16-17">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 1;
+
+function getFunc() {
+  var a = 2;
+
+  var func = new Function('', 'alert(a)');
+
+  return func;
+}
+
+getFunc()(); // 1, из window</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Сравним с обычным поведением:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="5-5" data-highlight-inline="10:16-17">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 1;
+
+function getFunc() {
+  var a = 2;
+
+  var func = function() { alert(a); };
+
+  return func;
+}
+
+getFunc()(); // 2, из LexicalEnvironment функции getFunc</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="почему-так-сделано" href="#почему-так-сделано">Почему так сделано?</a></h2><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Продвинутые знания</span></div>
+            <div class="important__content"><p>Содержимое этой секции содержит продвинутую информацию теоретического характера, которая прямо сейчас не обязательна для дальнейшего изучения JavaScript.</p>
+</div></div>
+<p>Эта особенность <code>new Function</code>, хоть и выглядит странно, на самом деле весьма полезна.</p>
+<p>Представьте себе, что нам действительно нужно создать функцию из строки кода. Текст кода этой функции неизвестен на момент написания скрипта (иначе зачем <code>new Function</code>), но станет известен позже, например получен с сервера или из других источников данных.</p>
+<p>Предположим, что этому коду надо будет взаимодействовать с внешними переменными основного скрипта.</p>
+<p>Но проблема в том, что JavaScript при выкладывании на «боевой сервер» предварительно сжимается минификатором – специальной программой, которая уменьшает размер кода, убирая из него лишние комментарии, пробелы, что очень важно – переименовывает локальные переменные на более короткие.</p>
+<p>То есть, если внутри функции есть <code>var userName</code>, то минификатор заменит её на <code>var a</code> (или другую букву, чтобы не было конфликта), предполагая, что так как переменная видна только внутри функции, то этого всё равно никто не заметит, а код станет короче. И обычно проблем нет.</p>
+<p>…Но если бы <code>new Function</code> могла обращаться к внешним переменным, то при попытке доступа к <code>userName</code> в сжатом коде была бы ошибка, так как минификатор переименовал её.</p>
+<p><strong>Получается, что даже если бы мы захотели использовать локальные переменные в <code>new Function</code>, то после сжатия были бы проблемы, так как минификатор переименовывает локальные переменные.</strong></p>
+<p>Описанная особенность <code>new Function</code> просто-таки спасает нас от ошибок.</p>
+<p>Ну а если внутри функции, создаваемой через <code>new Function</code>, всё же нужно использовать какие-то данные – без проблем, нужно всего лишь предусмотреть соответствующие параметры и передавать их явным образом, например так:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="0-0,4-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var sum = new Function('a, b', ' return a + b; ');
+
+var a = 1, b = 2;
+
+alert( sum(a, b) ); // 3</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Функции, создаваемые через <code>new Function</code>, имеют значением <code>[[Scope]]</code> не внешний объект переменных, а <code>window</code>.</li>
+<li>Следствие – такие функции не могут использовать замыкание. Но это хорошо, так как бережёт от ошибок проектирования, да и при сжатии JavaScript проблем не будет. Если же внешние переменные реально нужны – их можно передать в качестве параметров.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

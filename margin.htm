@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Свойство &quot;margin&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свойство &quot;margin&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Свойство <code>margin</code> задаёт отступы вокруг элемента. У него есть несколько особенностей, которые мы здесь рассмотрим.</p>
+<h2><a class="main__anchor" name="объединение-отступов" href="#объединение-отступов">Объединение отступов</a></h2><p>Вертикальные отступы поглощают друг друга, горизонтальные – нет.</p>
+<p>Например, вот документ с вертикальными и горизонтальными отступами:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true" data-highlight-inline="1:12-24,3:17-29,5:17-29,8:12-24">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body style=&quot;background: #aef&quot;&gt;
+  &lt;p style=&quot;margin:20px; background:white&quot;&gt;
+
+    &lt;span style=&quot;margin:20px; background:orange&quot;&gt;Горизонтальный 20px&lt;/span&gt;
+    ← 40px →
+    &lt;span style=&quot;margin:20px; background:orange&quot;&gt;20px Отступ &lt;/span&gt;
+
+  &lt;/p&gt;
+  &lt;p style=&quot;margin:15px; background:white&quot;&gt;Вертикальный 20px&lt;/p&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-azo9oo"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Расстояние по горизонтали между элементами <code>SPAN</code> равно <code>40px</code>, так как горизонтальные отступы по <code>20px</code> сложились.</p>
+<p>А вот по вертикали расстояние от <code>SPAN</code> до <code>P</code> равно <code>20px</code>: из двух вертикальных отступов выбирается больший <code>max(20px, 15px) = 20px</code> и применяется.</p>
+<h2><a class="main__anchor" name="отрицательные-margin-top-left" href="#отрицательные-margin-top-left">Отрицательные margin-top/left</a></h2><p>Отрицательные значения <code>margin-top/margin-left</code> смещают элемент со своего обычного места.</p>
+<p>В CSS есть другой способ добиться похожего эффекта – а именно, <code>position:relative</code>. Но между ними есть одно принципиальное различие.</p>
+<p><strong>При сдвиге через <code>margin</code> соседние элементы занимают освободившееся пространство, в отличие от <code>position: relative</code>, при котором элемент визуально сдвигается, но место, где он был, остается «занятым».</strong></p>
+<p>То есть, элемент продолжает полноценно участвовать в потоке.</p>
+<h2><a class="main__anchor" name="пример-вынос-заголовка" href="#пример-вынос-заголовка">Пример: вынос заголовка</a></h2><p>Например, есть документ с информационными блоками:</p>
+<div data-trusted="1" class="code-example" data-demo-height="400" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  div {
+    border: 1px solid blue;
+    margin: 2em;
+    font: .8em/1.25 Arial, sans-serif;
+  }
+
+  h2 {
+    background: #aef;
+    margin: 0 0 0.8em 0;
+  }
+&lt;/style&gt;
+
+&lt;div&gt;
+  &lt;h2&gt;Общие положения&lt;/h2&gt;
+
+  &lt;p&gt;Настоящие Правила дорожного движения устанавливают единый порядок дорожного движения на всей территории Российской Федерации. Другие нормативные акты, касающиеся дорожного движения, должны основываться на требованиях Правил и не противоречить им.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;h2&gt;Общие обязанности водителей&lt;/h2&gt;
+
+  &lt;p&gt;Водитель механического транспортного средства обязан иметь при себе и по требованию сотрудников милиции передавать им для проверки:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;водительское удостоверение на право управления транспортным средством соответствующей категории;&lt;/li&gt;
+    &lt;li&gt;...и так далее...&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-9zctfv"
+          style="height:400px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p><strong>Использование отрицательного <code>margin-top</code> позволяет вынести заголовки над блоком</strong>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/* вверх чуть больше, чем на высоту строки (1.25em) */
+
+h2 {
+  margin-top: -1.3em;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Результат:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/margin/h2-margin-top/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:330px" src="https://js.cx/article/margin/h2-margin-top/"></iframe>
+  </div><p>А вот, что бы было при использовании <code>position</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">h2 {
+  position: relative;
+  top: -1.3em;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Результат:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/margin/h2-margin-top-position/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:330px" src="https://js.cx/article/margin/h2-margin-top-position/"></iframe>
+  </div><p><strong>При использовании <code>position</code>, в отличие от <code>margin</code>, на месте заголовков, внутри блоков, осталось пустое пространство.</strong></p>
+<h2><a class="main__anchor" name="пример-вынос-отчерка" href="#пример-вынос-отчерка">Пример: вынос отчерка</a></h2><p>Организуем информацию чуть по-другому. Пусть после каждого заголовка будет отчерк:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div&gt;
+  &lt;h2&gt;Заголовок&lt;/h2&gt;
+  &lt;hr&gt;
+
+  &lt;p&gt;Текст Текст Текст.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример документа с такими отчерками:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/margin/hr-margin-left-src/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:320px" src="https://js.cx/article/margin/hr-margin-left-src/"></iframe>
+  </div><p>Для красоты мы хотим, чтобы отчерк <code>HR</code> начинался левее, чем основной текст. Отрицательный <code>margin-left</code> нам поможет:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+hr.margin { margin-left: -2em; }
+
+/* для сравнения */
+hr.position { position: relative; left: -2em; }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Результат:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/margin/hr-margin-left/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:320px" src="https://js.cx/article/margin/hr-margin-left/"></iframe>
+  </div><p>Обратите внимание на разницу между методами сдвига!</p>
+<ul>
+<li><code>hr.margin</code> сначала сдвинулся, а потом нарисовался до конца блока.</li>
+<li><code>hr.position</code> сначала нарисовался, а потом сдвинулся – в результате справа осталось пустое пространство.</li>
+</ul>
+<p>Уже отсюда видно, что отрицательные <code>margin</code> – исключительно полезное средство позиционирования!</p>
+<h2><a class="main__anchor" name="отрицательные-margin-right-bottom" href="#отрицательные-margin-right-bottom">Отрицательные margin-right/bottom</a></h2><p>Отрицательные <code>margin-right/bottom</code> ведут себя по-другому, чем <code>margin-left/top</code>. Они не сдвигают элемент, а «укорачивают» его.</p>
+<p>То есть, хотя сам размер блока не уменьшается, но следующий элемент будет думать, что он меньше на указанное в <code>margin-right/bottom</code> значение.</p>
+<p>Например, в примере ниже вторая строка налезает на первую:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true" data-highlight-inline="0:36-57">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;border: 1px solid blue; margin-bottom: -0.5em&quot;&gt;
+  Первый
+&lt;/div&gt;
+
+&lt;div style=&quot;border: 1px solid red&quot;&gt;
+  Второй div думает, что высота первого на 0.5em меньше
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-7lj1pi"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Это используют, в частности для красивых вносок, с приданием иллюзии глубины.</p>
+<p>Например:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/margin/negative-margin-bottom/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      <div class="toolbar__tool">
+        <a href="http://plnkr.co/edit/D6SUWmt3K68DVr9htxIR?p=preview" target="_blank" title="открыть в песочнице"
+        data-plunk-id="D6SUWmt3K68DVr9htxIR" class="toolbar__button toolbar__button_edit"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:200px" src="https://js.cx/article/margin/negative-margin-bottom/"></iframe>
+  </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Отрицательные <code>margin-left/top</code> сдвигают элемент влево-вверх. Остальные элементы это учитывают, в отличие от сдвига через <code>position</code>.</li>
+<li>Отрицательные <code>margin-right/bottom</code> заставляют другие элементы думать, что блок меньше по размеру справа-внизу, чем он на самом деле.</li>
+</ul>
+<p>Отличная статья на тему отрицательных <code>margin</code>: <a href="http://coding.smashingmagazine.com/2009/07/27/the-definitive-guide-to-using-negative-margins/">The Definitive Guide to Using Negative Margins</a></p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#нерабочие-margin" name="нерабочие-margin" class="main__anchor">Нерабочие margin?</a></h3><a href="task/failing-margins.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>В примере ниже находится блок <code>.block</code> фиксированной высоты, а в нём – прямоугольник <code>.spacer</code>.</p>
+<p>При помощи <code>margin-left: 20%</code> и <code>margin-right: 20%</code>, прямоугольник центрирован в родителе по горизонтали. Это работает.</p>
+<p>Далее делается попытка при помощи свойств <code>height: 80%</code>, <code>margin-top: 10%</code> и  <code>margin-bottom: 10%</code> расположить прямоугольник в центре по вертикали, чтобы сам элемент занимал <code>80%</code> высоты родителя, а сверху и снизу был одинаковый отступ.</p>
+<p>Однако, как видите, это не получается. Почему? Как поправить?</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="12-14">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .block {
+    height: 150px;
+
+    border: 1px solid #CCC;
+    background: #eee;
+  }
+
+  .spacer {
+    margin-left: 20%;
+    margin-right: 20%;
+
+    height: 80%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+
+    border: 1px solid black;
+    background: #FFF;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;block&quot;&gt;
+  &lt;div class=&quot;spacer&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-14otx8"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ошибка заключается в том, что <code>margin</code> при задании в процентах высчитывается <em>относительно ширины</em>. Так написано <a href="http://www.w3.org/TR/CSS2/box.html#margin-properties">в стандарте</a>.</p>
+<p>При этом не важно, какой отступ: левый, правый. верхний или нижний. Все они в процентах отсчитываются от ширины. Из-за этого и ошибка.</p>
+<p>Ситуацию можно исправить, например, заданием <code>margin-top/margin-bottom</code> в пикселях, если это возможно или, в качестве альтернативы, использовать другие средства, в частности, <code>position</code> или <code>padding-top/padding-bottom</code> на родителе.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#расположить-текст-внутри-input" name="расположить-текст-внутри-input" class="main__anchor">Расположить текст внутри INPUT</a></h3><a href="task/position-text-into-input.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Создайте <code>&lt;input type=&quot;password&quot;&gt;</code> с цветной подсказкой внутри (должен правильно выглядеть, не обязан работать):</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:90px" src="https://js.cx/task/position-text-into-input/solution/"></iframe>
+  </div><p>В дальнейшем мы сможем при помощи JavaScript сделать, чтобы текст при клике пропадал. Получится красивая подсказка.</p>
+<p>P.S. Обратите внимание: <code>type=&quot;password&quot;</code>! То есть, просто <code>value</code> использовать нельзя, будут звёздочки. Кроме того, подсказка, которую вы реализуете, может быть как угодно стилизована.</p>
+<p>P.P.S. Вокруг <code>INPUT</code> с подсказкой не должно быть лишних отступов, блоки до и после продолжают идти в обычном потоке.</p>
+<p><a href="http://plnkr.co/edit/NVv4hJ1zmtqTlSBy7EZz?p=preview" target="_blank" data-plunk-id="NVv4hJ1zmtqTlSBy7EZz">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Подсказка</button><div class="task__answer-content"><h4 class="task__step-title">Подсказка</h4><p>Надвиньте элемент с текстом на <code>INPUT</code> при помощи отрицательного <code>margin</code>.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p>Надвинем текст на <code>INPUT</code> при помощи отрицательного <code>margin-top</code>. Поднять следует на одну строку, т.е. на <code>1.25em</code>, можно для красоты чуть больше – <code>1.3em</code>:</p>
+<p>Также нам понадобится обнулить «родной» <code>margin</code> у <code>INPUT</code>, чтобы не сбивал вычисления.</p>
+<div data-trusted="1" class="code-example" data-highlight-block="8-8" data-highlight-inline="2:4-14">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  input {
+    margin: 0;
+    width: 12em;
+  }
+
+  #placeholder {
+    color: red;
+    margin: -1.3em 0 0 0.2em;
+  }
+&lt;/style&gt;
+
+&lt;input type=&quot;password&quot; id=&quot;input&quot;&gt;
+&lt;div id=&quot;placeholder&quot;&gt;Скажи пароль, друг&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/hT9WVWOOUyuBSaDBzAFg?p=preview" target="_blank" data-plunk-id="hT9WVWOOUyuBSaDBzAFg">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

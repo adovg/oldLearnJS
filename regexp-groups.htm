@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="regular-expressions-javascript.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Регулярные выражения</span></a></li></ol><h1 class="main__header-title">Скобочные группы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Скобочные группы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Часть шаблона может быть заключена в скобки <code class="pattern">(...)</code>. Такие выделенные части шаблона называют «скобочными выражениями» или «скобочными группами».</p>
+<p>У такого выделения есть два эффекта:</p>
+<ol>
+<li>Он позволяет выделить часть совпадения в отдельный элемент массива при поиске через <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/match">String#match</a> или <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec">RegExp#exec</a>.</li>
+<li>Если поставить квантификатор после скобки, то он применится <em>ко всей скобке</em>, а не всего лишь к одному символу.</li>
+</ol>
+<h2><a class="main__anchor" name="пример" href="#пример">Пример</a></h2><p>В примере ниже, шаблон <code class="pattern">(go)+</code> находит один или более повторяющихся <code class="pattern">'go'</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 'Gogogo now!'.match(/(go)+/i) ); // &quot;Gogogo&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Без скобок, шаблон <code class="pattern">/go+/</code> означал бы <code class="subject">g</code>, после которого идёт одна или более <code class="subject">o</code>, например: <code class="match">goooo</code>. А скобки «группируют» <code class="pattern">(go)</code> вместе.</p>
+<h2><a class="main__anchor" name="содержимое-группы" href="#содержимое-группы">Содержимое группы</a></h2><p>Скобки нумеруются слева направо. Поисковой движок запоминает содержимое каждой скобки и позволяет обращаться к нему – в шаблоне и строке замены и, конечно же, в результатах.</p>
+<p>Например, найти HTML-тег можно шаблоном <code class="pattern">&lt;.*?&gt;</code>.</p>
+<p>После поиска мы захотим что-то сделать с результатом. Для удобства заключим содержимое <code>&lt;...&gt;</code> в скобки: <code class="pattern">&lt;(.*?)&gt;</code>. Тогда оно будет доступно отдельно.</p>
+<p>При поиске методом <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/match">String#match</a> в результирующем массиве будет сначала всё совпадение, а далее – скобочные группы. В шаблоне <code class="pattern">&lt;(.*?)&gt;</code> скобочная группа только одна:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '&lt;h1&gt;Привет, мир!&lt;/h1&gt;';
+var reg = /&lt;(.*?)&gt;/;
+
+alert( str.match(reg) ); // массив: &lt;h1&gt;, h1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Заметим, что метод <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/match">String#match</a> выдаёт скобочные группы только при поиске без флага <code>/.../g</code>. В примере выше он нашёл только первое совпадение <code class="match">&lt;h1&gt;</code>, а закрывающий <code class="match">&lt;/h1&gt;</code> не нашёл, поскольку без флага <code>/.../g</code> ищется только первое совпадение.</p>
+<p>Для того, чтобы искать и с флагом <code>/.../g</code> и со скобочными группами, используется метод <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec">RegExp#exec</a>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '&lt;h1&gt;Привет, мир!&lt;/h1&gt;';
+var reg = /&lt;(.*?)&gt;/g;
+
+var match;
+
+while ((match = reg.exec(str)) !== null) {
+  // сначала выведет первое совпадение: &lt;h1&gt;,h1
+  // затем выведет второе совпадение: &lt;/h1&gt;,/h1
+  alert(match);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь найдено оба совпадения <code class="pattern">&lt;(.*?)&gt;</code>, каждое – массив из полного совпадения и скобочных групп (одна в данном случае).</p>
+<h2><a class="main__anchor" name="вложенные-группы" href="#вложенные-группы">Вложенные группы</a></h2><p>Скобки могут быть и вложенными. В этом случае нумерация также идёт слева направо.</p>
+<p>Например, при поиске тега в <code class="subject">&lt;span class=&quot;my&quot;&gt;</code> нас может интересовать:</p>
+<ol>
+<li>Содержимое тега целиком: <code>span class=&quot;my&quot;</code>.</li>
+<li>В отдельную переменную для удобства хотелось бы поместить тег: <code>span</code>.</li>
+<li>Также может быть удобно отдельно выделить атрибуты <code>class=&quot;my&quot;</code>.</li>
+</ol>
+<p>Добавим скобки в регулярное выражение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '&lt;span class=&quot;my&quot;&gt;';
+
+var reg = /&lt;(([a-z]+)\s*([^&gt;]*))&gt;/;
+
+alert( str.match(reg) ); // &lt;span class=&quot;my&quot;&gt;, span class=&quot;my&quot;, span, class=&quot;my&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вот так выглядят скобочные группы:</p>
+<figure><div class="image" style="width:320px">
+      <div class="image__ratio" style="padding-top:40.625%"></div>
+      <img src="article/regexp-groups/regexp-nested-groups.png" alt="" width="320" height="130" class="image__image">
+      </div></figure><p>На нулевом месте – всегда совпадение полностью, далее – группы. Нумерация всегда идёт слева направо, по открывающей скобке.</p>
+<p>В данном случае получилось, что группа 1 включает в себя содержимое групп 2 и 3. Это совершенно нормальная ситуация, которая возникает, когда нужно выделить что-то отдельное внутри большей группы.</p>
+<p><strong>Даже если скобочная группа необязательна и не входит в совпадение, соответствующий элемент массива существует (и равен <code>undefined</code>).</strong></p>
+<p>Например, рассмотрим регэксп <code class="pattern">a(z)?(c)?</code>. Он ищет <code>&quot;a&quot;</code>, за которой не обязательно идёт буква <code>&quot;z&quot;</code>, за которой необязательно идёт буква <code>&quot;c&quot;</code>.</p>
+<p>Если напустить его на строку из одной буквы <code>&quot;a&quot;</code>, то результат будет таков:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var match = 'a'.match(/a(z)?(c)?/)
+
+alert( match.length ); // 3
+alert( match[0] ); // a
+alert( match[1] ); // undefined
+alert( match[2] ); // undefined</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Массив получился длины <code>3</code>, но все скобочные группы – <code>undefined</code>.</p>
+<p>А теперь более сложная ситуация, строка <code class="subject">ack</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var match = 'ack'.match(/a(z)?(c)?/)
+
+alert( match.length ); // 3
+alert( match[0] ); // ac, всё совпадение
+alert( match[1] ); // undefined, для (z)? ничего нет
+alert( match[2] ); // c</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Длина массива результатов по-прежнему <code>3</code>. Она постоянна. А вот для скобочной группы <code class="pattern">(z)?</code> в ней ничего нет, поэтому результат: <code>[&quot;ac&quot;, undefined, &quot;c&quot;]</code>.</p>
+<h2><a class="main__anchor" name="исключение-из-запоминания-через" href="#исключение-из-запоминания-через">Исключение из запоминания через ?:</a></h2><p>Бывает так, что скобки нужны, чтобы квантификатор правильно применился, а вот запоминать их содержимое в массиве не нужно.</p>
+<p>Скобочную группу можно исключить из запоминаемых и нумеруемых, добавив в её начало <code class="pattern">?:</code>.</p>
+<p>Например, мы хотим найти <code class="pattern">(go)+</code>, но содержимое скобок (<code>go</code>) в отдельный элемент массива выделять не хотим.</p>
+<p>Для этого нужно сразу после открывающей скобки поставить <code>?:</code>, то есть: <code class="pattern">(?:go)+</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Gogo John!&quot;;
+var reg = /(?:go)+ (\w+)/i;
+
+var result = str.match(reg);
+
+alert( result.length ); // 2
+alert( result[1] ); // John</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере выше массив результатов имеет длину <code>2</code> и содержит только полное совпадение и результат <code class="pattern">(\w+)</code>. Это удобно в тех случаях, когда содержимое скобок нас не интересует.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-цвет-в-формате-abc-или-abcdef" name="найдите-цвет-в-формате-abc-или-abcdef" class="main__anchor">Найдите цвет в формате #abc или #abcdef</a></h3><a href="task/find-webcolor-3-or-6.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Напишите регулярное выражение, которое находит цвет в формате <code>#abc</code> или <code>#abcdef</code>. То есть, символ <code>#</code>, после которого идут 3 или 6 шестнадцатиричных символа.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /* ваш регэксп */
+
+var str = &quot;color: #3f3; background-color: #AA00ef; and: #abcd&quot;;
+
+alert( str.match(re) ); // #3f3 #AA0ef</code></pre>
+        </div>
+      </div>
+      
+      </div><p>P.S. Значения из любого другого количества букв, кроме 3 и 6, такие как <code>#abcd</code>, не должны подходить под регэксп.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Регулярное выражение для поиска 3-значного цвета вида <code>#abc</code>: <code class="pattern">/#[a-f0-9]{3}/i</code>.</p>
+<p>Нужно добавить ещё три символа, причём нужны именно три, четыре или семь символов не нужны. Эти три символа либо есть, либо нет.</p>
+<p>Самый простой способ добавить – просто дописать в конец регэкспа: <code class="pattern">/#[a-f0-9]{3}([a-f0-9]{3})?/i</code></p>
+<p>Можно поступить и хитрее: <code class="pattern">/#([a-f0-9]{3}){1,2}/i</code>.</p>
+<p>Здесь регэксп <code class="pattern">[a-f0-9]{3}</code> заключён в скобки, чтобы квантификатор <code class="pattern">{1,2}</code> применялся целиком ко всей этой структуре.</p>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /#([a-f0-9]{3}){1,2}/gi;
+
+var str = &quot;color: #3f3; background-color: #AA00ef; and: #abcd&quot;;
+
+alert( str.match(re) ); // #3f3 #AA0ef #abc</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В последнем выражении <code class="subject">#abcd</code> было найдено совпадение <code class="match">#abc</code>. Чтобы этого не происходило, добавим в конец <code class="pattern">\b</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /#([a-f0-9]{3}){1,2}\b/gi;
+
+var str = &quot;color: #3f3; background-color: #AA00ef; and: #abcd&quot;;
+
+alert( str.match(re) ); // #3f3 #AA0ef</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#разобрать-выражение" name="разобрать-выражение" class="main__anchor">Разобрать выражение</a></h3><a href="task/parse-expression.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Арифметическое выражение состоит из двух чисел и операции между ними, например:</p>
+<ul>
+<li><code>1 + 2</code></li>
+<li><code>1.2 * 3.4</code></li>
+<li><code>-3 / -6</code></li>
+<li><code>-2 - 2</code></li>
+</ul>
+<p>Список операций: <code>&quot;+&quot;</code>, <code>&quot;-&quot;</code>, <code>&quot;*&quot;</code> и <code>&quot;/&quot;</code>.</p>
+<p>Также могут присутствовать пробелы вокруг оператора и чисел.</p>
+<p>Напишите функцию, которая будет получать выражение и возвращать массив из трёх аргументов:</p>
+<ol>
+<li>Первое число.</li>
+<li>Оператор.</li>
+<li>Второе число.</li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Регулярное выражение для числа, возможно, дробного и отрицательного: <code class="pattern">-?\d+(\.\d+)?</code>. Мы уже разбирали его в предыдущих задачах.</p>
+<p>Оператор – это <code class="pattern">[-+*/]</code>. Заметим, что дефис <code class="pattern">-</code> идёт в списке первым, так как на любой позиции, кроме первой и последней, он имеет специальный смысл внутри <code class="pattern">[...]</code>, и его понадобилось бы экранировать.</p>
+<p>Кроме того, когда мы оформим это в JavaScript-синтаксис <code class="pattern">/.../</code> – понадобится заэкранировать слэш <code class="pattern">/</code>.</p>
+<p>Нам нужно число, затем оператор, затем число, и необязательные пробелы между ними.</p>
+<p>Полное регулярное выражение будет таким: <code class="pattern">-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?</code>.</p>
+<p>Чтобы получить результат в виде массива, добавим скобки вокруг тех данных, которые нам интересны, то есть – вокруг чисел и оператора: <code class="pattern">(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)</code>.</p>
+<p>Посмотрим в действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
+
+alert( &quot;1.2 + 12&quot;.match(re) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Итоговый массив будет включать в себя компоненты:</p>
+<ul>
+<li><code>result[0] == &quot;1.2 + 12&quot;</code> (вначале всегда полное совпадение)</li>
+<li><code>result[1] == &quot;1&quot;</code> (первая скобка)</li>
+<li><code>result[2] == &quot;2&quot;</code> (вторая скобка – дробная часть <code>(\.\d+)?</code>)</li>
+<li><code>result[3] == &quot;+&quot;</code> (…)</li>
+<li><code>result[4] == &quot;12&quot;</code> (…)</li>
+<li><code>result[5] == undefined</code> (последняя скобка, но у второго числа дробная часть отсутствует)</li>
+</ul>
+<p>Нам из этого массива нужны только числа и оператор. А, скажем, дробная часть сама по себе – не нужна.</p>
+<p>Уберём её из запоминания, добавив в начало скобки <code class="pattern">?:</code>, то есть: <code class="pattern">(?:\.\d+)?</code>.</p>
+<p>Итого, решение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function parse(expr) {
+  var re = /(-?\d+(?:\.\d+)?)\s*([-+*\/])\s*(-?\d+(?:\.\d+)?)/;
+
+  var result = expr.match(re);
+
+  if (!result) return;
+  result.shift();
+
+  return result;
+}
+
+alert( parse(&quot;-1.23 * 3.45&quot;) );  // -1.23, *, 3.45</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

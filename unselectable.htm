@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="event-details.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">События в деталях</span></a></li></ol><h1 class="main__header-title">Мышь: отмена выделения, невыделяемые элементы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Мышь: отмена выделения, невыделяемые элементы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>У кликов мыши есть неприятная особенность.</p>
+<p>Двойной клик или нажатие с движением курсора как правило инициируют выделение текста.</p>
+<p>Если мы хотим обрабатывать эти события сами, то такое выделение – некрасиво и неудобно. В этой главе мы рассмотрим основные способы, как делать элемент невыделяемым.</p>
+<p>Для полноты картины, среди них будут и такие, которые применимы не только к событиям мыши.</p>
+<h2><a class="main__anchor" name="способ-1-отмена-mousedown-selectstart" href="#способ-1-отмена-mousedown-selectstart">Способ 1: отмена mousedown/selectstart</a></h2><p>Проблема: браузер выделяет текст при движении мышью с зажатой левой кнопкой , а также при двойном клике на элемент. Даже там, где это не нужно.</p>
+<p>Если сделать двойной клик на таком элементе, то обработчик сработает. Но побочным эффектом является <em>выделение текста браузером</em>.</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;span ondblclick=&quot;alert('двойной клик!')&quot;&gt;Текст&lt;/span&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-9ubyvs"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Чтобы избежать выделения, мы должны предотвратить действие браузера по умолчанию для события <a href="http://msdn.microsoft.com/en-us/library/ms536969%28VS.85%29.aspx">selectstart</a> в IE и <code>mousedown</code> в других браузерах.</p>
+<p>Полный код элемента, который обрабатывает двойной клик без выделения:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true" data-highlight-inline="0:32-87">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div ondblclick=&quot;alert('Тест')&quot; onselectstart=&quot;return false&quot; onmousedown=&quot;return false&quot;&gt;
+  Двойной клик сюда выведет &quot;Тест&quot;, без выделения
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-7ueqf3"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>При установке на родителя – все его потомки станут невыделяемыми:</p>
+<div data-trusted="1" class="code-example" data-demo-height="140" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">Элементы списка не выделяются при клике:
+&lt;ul onmousedown=&quot;return false&quot; onselectstart=&quot;return false&quot;&gt;
+  &lt;li&gt;Винни-Пух&lt;/li&gt;
+  &lt;li&gt;Ослик Иа&lt;/li&gt;
+  &lt;li&gt;Мудрая Сова&lt;/li&gt;
+  &lt;li&gt;Кролик. Просто кролик.&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-5mw37y"
+          style="height:140px"
+          src="about:blank"></iframe>
+      </div>
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Выделение, всё же, возможно</span></div>
+            <div class="important__content"><p>Отмена действия браузера при <code>mousedown/selectstart</code> отменяет выделение при клике, но не запрещает его полностью.</p>
+<p>Если пользователь всё же хочет выделить текстовое содержимое элемента, то он может сделать это.</p>
+<p>Достаточно начать выделение (зажать кнопку мыши) не на самом элементе, а рядом с ним. Ведь там отмены не произойдёт, выделение начнётся, и дальше можно передвинуть мышь уже на элемент.</p>
+</div></div>
+<h2><a class="main__anchor" name="способ-2-снятие-выделения-пост-фактум" href="#способ-2-снятие-выделения-пост-фактум">Способ 2: снятие выделения пост-фактум</a></h2><p>Вместо <em>предотвращения</em> выделения, можно его снять в обработчике события, <em>после</em> того, как оно уже произошло.</p>
+<p>Для этого мы используем методы работы с выделением, которые описаны в отдельной главе <a href="range-textrange-selection.htm">Выделение: Range, TextRange и Selection</a>. Здесь нам понадобится всего лишь одна функция <code>clearSelection</code>, которая будет снимать выделение.</p>
+<p>Пример со снятием выделения при двойном клике на элемент списка:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li ondblclick=&quot;clearSelection()&quot;&gt;Выделение отменяется при двойном клике.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  function clearSelection() {
+    if (window.getSelection) {
+      window.getSelection().removeAllRanges();
+    } else { // старый IE
+      document.selection.empty();
+    }
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-27g7x6"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>У этого подхода есть две особенности, на которые стоит обратить внимание:</p>
+<ul>
+<li>Выделение всё же производится, но тут же снимается. Это выглядит как мигание и не очень красиво.</li>
+<li>Выделение при помощи передвижения зажатой мыши всё еще работает, так что посетитель имеет возможность выделить содержимое элемента.</li>
+</ul>
+<h2><a class="main__anchor" name="способ-3-свойство-user-select" href="#способ-3-свойство-user-select">Способ 3: свойство user-select</a></h2><p>Существует нестандартное CSS-свойство <code>user-select</code>, которое делает элемент невыделяемым.</p>
+<p>Оно когда-то планировалось в стандарте CSS3, потом от него отказались, но поддержка в браузерах уже была сделана и потому осталась.</p>
+<p>Это свойство работает (с префиксом) везде, кроме IE9-:</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  b {
+    -webkit-user-select: none;
+    /* user-select -- это нестандартное свойство */
+
+    -moz-user-select: none;
+    /* поэтому нужны префиксы */
+
+    -ms-user-select: none;
+  }
+&lt;/style&gt;
+
+Строка до..
+&lt;div ondblclick=&quot;alert('Тест')&quot;&gt;
+  &lt;b&gt;Этот текст нельзя выделить (кроме IE9-)&lt;/b&gt;
+&lt;/div&gt;
+.. Строка после</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-1ok11v"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Читайте на эту тему также <a href="http://blogs.msdn.com/b/ie/archive/2012/01/11/controlling-selection-with-css-user-select.aspx">Controlling Selection with CSS user-select</a>.</p>
+<h3><a class="main__anchor" name="ie9-атрибут-unselectable-on" href="#ie9-атрибут-unselectable-on">IE9-: атрибут unselectable=«on»</a></h3><p>В IE9- нет <code>user-select</code>, но есть атрибут <a href="http://msdn.microsoft.com/en-us/library/ms534706%28v=vs.85%29.aspx">unselectable</a>.</p>
+<p>Он отменяет выделение, но у него есть особенности:</p>
+<ol>
+<li>Во-первых, невыделяемость не наследуется. То есть, невыделяемость родителя не делает невыделяемыми детей.</li>
+<li>Во-вторых, текст, в отличие от <code>user-select</code>, всё равно можно выделить, если начать выделение не на самом элементе, а рядом с ним.</li>
+</ol>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:32-49">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div ondblclick=&quot;alert('Тест')&quot; unselectable=&quot;on&quot; style=&quot;border:1px solid black&quot;&gt;
+  Этот текст невыделяем в IE, &lt;em&gt;кроме дочерних элементов&lt;/em&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Левая часть текста в IE не выделяется при двойном клике. Правую часть (<code>em</code>) можно выделить, т.к. на ней нет атрибута <code>unselectable</code>.</p>
+<p>В действии:</p>
+<div ondblclick="alert('Тест')" unselectable="on" style="border:1px solid black">
+  Этот текст невыделяем в IE, <em>кроме дочерних элементов</em>
+</div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Для отмены выделения есть несколько способов:</p>
+<ol>
+<li>
+<p>CSS-свойство <code>user-select</code> – везде кроме IE9- (нужен префикс, нестандарт).</p>
+</li>
+<li>
+<p>Атрибут <code>unselectable=&quot;on&quot;</code> – работает для любых IE (должен быть у всех потомков)</p>
+</li>
+<li>
+<p>Отмена действий на <code>mousedown</code> и <code>selectstart</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">elem.onmousedown = elem.onselectstart = function() {
+  return false;
+};</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Отмена выделения пост-фактум через функцию <code>clearSelection()</code>, описанную выше.</p>
+</li>
+</ol>
+<p>Какой же способ выбирать?</p>
+<p>Это зависит от задач и вашего удобства, а также конкретного случая. Все описанные способы работают.</p>
+<p>Недостаток <code>user-select</code> – в том, что посетитель теряет возможность скопировать текст. А что, если он захочет именно это сделать?</p>
+<p>В любом случае эти способы не предназначены для защиты от выделения-и-копирования.</p>
+<p>Если уж хочется запретить копирование – можно использовать событие <code>oncopy</code>:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div oncopy=&quot;alert('Копирование запрещено');return false&quot;&gt;
+  Уважаемый копирователь,
+  почему-то автор хочет заставить вас покопаться в исходном коде этой страницы.
+  Если вы знаете JS или HTML, то скопировать текст не составит для вас проблемы,
+  ну а если нет, то увы...
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-3mpcnh"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div></div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

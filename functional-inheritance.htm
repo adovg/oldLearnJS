@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="oop.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">ООП в функциональном стиле</span></a></li></ol><h1 class="main__header-title">Функциональное наследование</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Функциональное наследование"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Наследование – это создание новых «классов» на основе существующих.</p>
+<p>В JavaScript его можно реализовать несколькими путями, один из которых – с использованием наложения конструкторов, мы рассмотрим в этой главе.</p>
+<h2><a class="main__anchor" name="зачем-наследование" href="#зачем-наследование">Зачем наследование?</a></h2><p>Ранее мы обсуждали различные реализации кофеварки. Продолжим эту тему далее.</p>
+<p>Хватит ли нам только кофеварки для удобной жизни? Вряд ли… Скорее всего, ещё понадобятся как минимум холодильник, микроволновка, а возможно и другие <em>машины</em>.</p>
+<p>В реальной жизни у этих <em>машин</em> есть базовые правила пользования. Например, большая кнопка <i class="fa fa-power-off"></i> – включение, шнур с розеткой нужно воткнуть в питание и т.п.</p>
+<p>Можно сказать, что «у всех машин есть общие свойства, а конкретные машины могут их дополнять».</p>
+<p>Именно поэтому, увидев новую технику, мы уже можем что-то с ней сделать, даже не читая инструкцию.</p>
+<p>Механизм наследования позволяет определить базовый класс <code>Машина</code>, в нём описать то, что свойственно всем машинам, а затем на его основе построить другие, более конкретные: <code>Кофеварка</code>, <code>Холодильник</code> и т.п.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">В веб-разработке всё так же</span></div>
+            <div class="important__content"><p>В веб-разработке нам могут понадобиться классы <code>Меню</code>, <code>Табы</code>, <code>Диалог</code> и другие компоненты интерфейса. В них всех обычно есть что-то общее.</p>
+<p>Можно выделить такой общий функционал в класс <code>Компонент</code> и наследовать их от него, чтобы не дублировать код.</p>
+</div></div>
+<h2><a class="main__anchor" name="наследование-от-machine" href="#наследование-от-machine">Наследование от Machine</a></h2><p>Базовый класс «машина» <code>Machine</code> будет реализовывать общего вида методы «включить» <code>enable()</code> и «выключить» <code>disable()</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine() {
+  var enabled = false;
+
+  this.enable = function() {
+    enabled = true;
+  };
+
+  this.disable = function() {
+    enabled = false;
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Унаследуем от него кофеварку. При этом она получит эти методы автоматически:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1,13-15">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(power) {
+  Machine.call(this); // отнаследовать
+
+  var waterAmount = 0;
+
+  this.setWaterAmount = function(amount) {
+    waterAmount = amount;
+  };
+
+}
+
+var coffeeMachine = new CoffeeMachine(10000);
+
+coffeeMachine.enable();
+coffeeMachine.setWaterAmount(100);
+coffeeMachine.disable();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Наследование реализовано вызовом <code>Machine.call(this)</code> в начале конструктора <code>CoffeeMachine</code>.</p>
+<p>Он вызывает функцию <code>Machine</code>, передавая ей в качестве контекста <code>this</code> текущий объект. <code>Machine</code>, в процессе выполнения, записывает в <code>this</code> различные полезные свойства и методы, в нашем случае <code>this.enable</code> и <code>this.disable</code>.</p>
+<p>Далее конструктор <code>CoffeeMachine</code> продолжает выполнение и может добавить свои свойства и методы.</p>
+<p>В результате мы получаем объект <code>coffeeMachine</code>, который включает в себя методы из <code>Machine</code> и <code>CoffeeMachine</code>.</p>
+<h2><a class="main__anchor" name="защищённые-свойства" href="#защищённые-свойства">Защищённые свойства</a></h2><p>В коде выше есть одна проблема.</p>
+<p><strong>Наследник не имеет доступа к приватным свойствам родителя.</strong></p>
+<p>Иначе говоря, если кофеварка захочет обратиться к <code>enabled</code>, то её ждёт разочарование:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="17-18">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine() {
+  var enabled = false;
+
+  this.enable = function() {
+    enabled = true;
+  };
+
+  this.disable = function() {
+    enabled = false;
+  };
+}
+
+function CoffeeMachine(power) {
+  Machine.call(this);
+
+  this.enable();
+
+  // ошибка, переменная не определена!
+  alert( enabled );
+}
+
+var coffeeMachine = new CoffeeMachine(10000);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это естественно, ведь <code>enabled</code> – локальная переменная функции <code>Machine</code>. Она находится в другой области видимости.</p>
+<p><strong>Чтобы наследник имел доступ к свойству, оно должно быть записано в <code>this</code>.</strong></p>
+<p>При этом, чтобы обозначить, что свойство является внутренним, его имя начинают с подчёркивания <code>_</code>.</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1,17-17">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine() {
+  this._enabled = false; // вместо var enabled
+
+  this.enable = function() {
+    this._enabled = true;
+  };
+
+  this.disable = function() {
+    this._enabled = false;
+  };
+}
+
+function CoffeeMachine(power) {
+  Machine.call(this);
+
+  this.enable();
+
+  alert( this._enabled ); // true
+}
+
+var coffeeMachine = new CoffeeMachine(10000);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Подчёркивание в начале свойства – общепринятый знак, что свойство является внутренним, предназначенным лишь для доступа из самого объекта и его наследников. Такие свойства называют <em>защищёнными</em>.</p>
+<p>Технически, залезть в него из внешнего кода, конечно, возможно, но приличный программист так делать не будет.</p>
+<h2><a class="main__anchor" name="перенос-свойства-в-защищённые" href="#перенос-свойства-в-защищённые">Перенос свойства в защищённые</a></h2><p>У <code>CoffeeMachine</code> есть приватное свойство <code>power</code>. Сейчас мы его тоже сделаем защищённым и перенесём в <code>Machine</code>, поскольку «мощность» свойственна всем машинам, а не только кофеварке.</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1,15-15">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(power) {
+  this._power = power; // (1)
+
+  this._enabled = false;
+
+  this.enable = function() {
+    this._enabled = true;
+  };
+
+  this.disable = function() {
+    this._enabled = false;
+  };
+}
+
+function CoffeeMachine(power) {
+  Machine.apply(this, arguments); // (2)
+
+  alert( this._enabled ); // false
+  alert( this._power ); // 10000
+}
+
+var coffeeMachine = new CoffeeMachine(10000);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь все машины <code>Machine</code> имеют мощность <code>power</code>. Обратим внимание, что мы из параметра конструктора сразу скопировали её в объект в строке <code>(1)</code>. Иначе она была бы недоступна из наследников.</p>
+<p>В строке <code>(2)</code> мы теперь вызываем не просто <code>Machine.call(this)</code>, а расширенный вариант: <code>Machine.apply(this, arguments)</code>, который вызывает <code>Machine</code> в текущем контексте вместе с передачей текущих аргументов.</p>
+<p>Можно было бы использовать и более простой вызов <code>Machine.call(this, power)</code>, но использование <code>apply</code> гарантирует передачу всех аргументов, вдруг их количество увеличится – не надо будет переписывать.</p>
+<h2><a class="main__anchor" name="переопределение-методов" href="#переопределение-методов">Переопределение методов</a></h2><p>Итак, мы получили класс <code>CoffeeMachine</code>, который наследует от <code>Machine</code>.</p>
+<p>Аналогичным образом мы можем унаследовать от <code>Machine</code> холодильник <code>Fridge</code>, микроволновку <code>MicroOven</code> и другие классы, которые разделяют общий «машинный» функционал, то есть имеют мощность и их можно включать/выключать.</p>
+<p>Для этого достаточно вызвать <code>Machine</code> в текущем контексте, а затем добавить свои методы.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Fridge может добавить и свои аргументы,
+// которые в Machine не будут использованы
+function Fridge(power, temperature) {
+  Machine.apply(this, arguments);
+
+  // ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Бывает так, что реализация конкретного метода машины в наследнике имеет свои особенности.</p>
+<p>Можно, конечно, объявить в <code>CoffeeMachine</code> свой <code>enable</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(power, capacity) {
+  Machine.apply(this, arguments);
+
+  // переопределить this.enable
+  this.enable = function() {
+    /* enable для кофеварки */
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Однако, как правило, мы хотим не заменить, а <em>расширить</em> метод родителя, добавить к нему что-то. Например, сделать так, чтобы при включении кофеварка тут же запускалась.</p>
+<p>Для этого метод родителя предварительно копируют в переменную, и затем вызывают внутри нового <code>enable</code> – там, где считают нужным:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(power) {
+  Machine.apply(this, arguments);
+
+  var parentEnable = this.enable; // (1)
+  this.enable = function() { // (2)
+      parentEnable.call(this); // (3)
+      this.run(); // (4)
+    }
+
+  ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Общая схема переопределения метода (по строкам выделенного фрагмента кода):</strong></p>
+<ol>
+<li>Копируем доставшийся от родителя метод <code>this.enable</code> в переменную, например <code>parentEnable</code>.</li>
+<li>Заменяем <code>this.enable</code> на свою функцию…</li>
+<li>…Которая по-прежнему реализует старый функционал через вызов <code>parentEnable</code>.</li>
+<li>…И в дополнение к нему делает что-то своё, например запускает приготовление кофе.</li>
+</ol>
+<p>Обратим внимание на строку <code>(3)</code>.</p>
+<p>В ней родительский метод вызывается так: <code>parentEnable.call(this)</code>. Если бы вызов был таким: <code>parentEnable()</code>, то ему бы не передался текущий <code>this</code> и возникла бы ошибка.</p>
+<p>Технически, можно сделать возможность вызывать его и как <code>parentEnable()</code>, но тогда надо гарантировать, что контекст будет правильным, например привязать его при помощи <code>bind</code> или при объявлении, в родителе, вообще не использовать <code>this</code>, а получать контекст через замыкание, вот так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-3,6-7,25-29">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(power) {
+  this._enabled = false;
+
+  var self = this;
+
+  this.enable = function() {
+    // используем внешнюю переменную вместо this
+    self._enabled = true;
+  };
+
+  this.disable = function() {
+    self._enabled = false;
+  };
+
+}
+
+function CoffeeMachine(power) {
+  Machine.apply(this, arguments);
+
+  var waterAmount = 0;
+
+  this.setWaterAmount = function(amount) {
+    waterAmount = amount;
+  };
+
+  var parentEnable = this.enable;
+  this.enable = function() {
+      parentEnable(); // теперь можно вызывать как угодно, this не важен
+      this.run();
+    }
+
+  function onReady() {
+    alert( 'Кофе готово!' );
+  }
+
+  this.run = function() {
+    setTimeout(onReady, 1000);
+  };
+
+}
+
+var coffeeMachine = new CoffeeMachine(10000);
+coffeeMachine.setWaterAmount(50);
+coffeeMachine.enable();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В коде выше родительский метод <code>parentEnable = this.enable</code> успешно продолжает работать даже при вызове без контекста. А всё потому, что использует <code>self</code> внутри.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Организация наследования, которая описана в этой главе, называется «функциональным паттерном наследования».</p>
+<p>Её общая схема (кратко):</p>
+<ol>
+<li>
+<p>Объявляется конструктор родителя <code>Machine</code>. В нём могут быть приватные (private), публичные (public) и защищённые (protected) свойства:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(params) {
+  // локальные переменные и функции доступны только внутри Machine
+  var privateProperty;
+
+  // публичные доступны снаружи
+  this.publicProperty = ...;
+
+  // защищённые доступны внутри Machine и для потомков
+  // мы договариваемся не трогать их снаружи
+  this._protectedProperty = ...
+}
+
+var machine = new Machine(...)
+machine.public();</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Для наследования конструктор потомка вызывает родителя в своём контексте через <code>apply</code>. После чего может добавить свои переменные и методы:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(params) {
+  // универсальный вызов с передачей любых аргументов
+  Machine.apply(this, arguments);
+
+  this.coffeePublicProperty = ...
+}
+
+var coffeeMachine = new CoffeeMachine(...);
+coffeeMachine.publicProperty();
+coffeeMachine.coffeePublicProperty();</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>В <code>CoffeeMachine</code> свойства, полученные от родителя, можно перезаписать своими. Но обычно требуется не заменить, а расширить метод родителя. Для этого он предварительно копируется в переменную:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(params) {
+  Machine.apply(this, arguments);
+
+  var parentProtected = this._protectedProperty;
+  this._protectedProperty = function(args) {
+    parentProtected.apply(this, args); // (*)
+    // ...
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Строку <code>(*)</code> можно упростить до <code>parentProtected(args)</code>, если метод родителя не использует <code>this</code>, а, например, привязан к <code>var self = this</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(params) {
+  var self = this;
+
+  this._protected = function() {
+    self.property = &quot;value&quot;;
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<p>Надо сказать, что способ наследования, описанный в этой главе, используется нечасто.</p>
+<p>В следующих главах мы будем изучать прототипный подход, который обладает рядом преимуществ.</p>
+<p>Но знать и понимать его необходимо, поскольку во многих существующих библиотеках классы написаны в функциональном стиле, и расширять/наследовать от них можно только так.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#запускать-только-при-включённой-кофеварке" name="запускать-только-при-включённой-кофеварке" class="main__anchor">Запускать только при включённой кофеварке</a></h3><a href="task/coffeemachine-fix-run.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>В коде <code>CoffeeMachine</code> сделайте так, чтобы метод <code>run</code> выводил ошибку, если кофеварка выключена.</p>
+<p>В итоге должен работать такой код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var coffeeMachine = new CoffeeMachine(10000);
+coffeeMachine.run(); // ошибка, кофеварка выключена!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>А вот так – всё в порядке:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var coffeeMachine = new CoffeeMachine(10000);
+coffeeMachine.enable();
+coffeeMachine.run(); // ...Кофе готов!</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/I3ppEzOa301kBZlEoVIy?p=preview" target="_blank" data-plunk-id="I3ppEzOa301kBZlEoVIy">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Изменения в методе <code>run</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-3">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">this.run = function() {
+  if (!this._enabled) {
+    throw new Error(&quot;Кофеварка выключена&quot;);
+  }
+
+  setTimeout(onReady, 1000);
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/qzY9waq3Vf5q8z4lZwKV?p=preview" target="_blank" data-plunk-id="qzY9waq3Vf5q8z4lZwKV">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#останавливать-кофеварку-при-выключении" name="останавливать-кофеварку-при-выключении" class="main__anchor">Останавливать кофеварку при выключении</a></h3><a href="task/coffeemachine-disable-stop.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Когда кофеварку выключают – текущая варка кофе должна останавливаться.</p>
+<p>Например, следующий код кофе не сварит:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var coffeeMachine = new CoffeeMachine(10000);
+coffeeMachine.enable();
+coffeeMachine.run();
+coffeeMachine.disable(); // остановит работу, ничего не выведет</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Реализуйте это на основе решения <a href="task/coffeemachine-fix-run.htm">предыдущей задачи</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/UZvvsiseprV7LWOv0GXM?p=preview" target="_blank" data-plunk-id="UZvvsiseprV7LWOv0GXM">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#унаследуйте-холодильник" name="унаследуйте-холодильник" class="main__anchor">Унаследуйте холодильник</a></h3><a href="task/inherit-fridge.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Создайте класс для холодильника <code>Fridge(power)</code>, наследующий от <code>Machine</code>, с приватным свойством <code>food</code> и методами <code>addFood(...)</code>, <code>getFood()</code>:</p>
+<ul>
+<li>Приватное свойство <code>food</code> хранит массив еды.</li>
+<li>Публичный метод <code>addFood(item)</code> добавляет в массив <code>food</code> новую еду, доступен вызов с несколькими аргументами <code>addFood(item1, item2...)</code> для добавления нескольких элементов сразу.</li>
+<li>Если холодильник выключен, то добавить еду нельзя, будет ошибка.</li>
+<li>Максимальное количество еды ограничено <code>power/100</code>, где <code>power</code> – мощность холодильника, указывается в конструкторе. При попытке добавить больше – будет ошибка</li>
+<li>Публичный метод <code>getFood()</code> возвращает еду в виде массива, добавление или удаление элементов из которого не должно влиять на свойство <code>food</code> холодильника.</li>
+</ul>
+<p>Код для проверки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fridge = new Fridge(200);
+fridge.addFood(&quot;котлета&quot;); // ошибка, холодильник выключен</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ещё код для проверки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// создать холодильник мощностью 500 (не более 5 еды)
+var fridge = new Fridge(500);
+fridge.enable();
+fridge.addFood(&quot;котлета&quot;);
+fridge.addFood(&quot;сок&quot;, &quot;зелень&quot;);
+fridge.addFood(&quot;варенье&quot;, &quot;пирог&quot;, &quot;торт&quot;); // ошибка, слишком много еды</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Код использования холодильника без ошибок:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fridge = new Fridge(500);
+fridge.enable();
+fridge.addFood(&quot;котлета&quot;);
+fridge.addFood(&quot;сок&quot;, &quot;варенье&quot;);
+
+var fridgeFood = fridge.getFood();
+alert( fridgeFood ); // котлета, сок, варенье
+
+// добавление элементов не влияет на еду в холодильнике
+fridgeFood.push(&quot;вилка&quot;, &quot;ложка&quot;);
+
+alert( fridge.getFood() ); // внутри по-прежнему: котлета, сок, варенье</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Исходный код класса <code>Machine</code>, от которого нужно наследовать:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(power) {
+  this._power = power;
+  this._enabled = false;
+
+  var self = this;
+
+  this.enable = function() {
+    self._enabled = true;
+  };
+
+  this.disable = function() {
+    self._enabled = false;
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Fridge(power) {
+  // унаследовать
+  Machine.apply(this, arguments);
+
+  var food = []; // приватное свойство food
+
+  this.addFood = function() {
+    if (!this._enabled) {
+      throw new Error(&quot;Холодильник выключен&quot;);
+    }
+    if (food.length + arguments.length &gt; this._power / 100) {
+      throw new Error(&quot;Нельзя добавить, не хватает мощности&quot;);
+    }
+    for (var i = 0; i &lt; arguments.length; i++) {
+      food.push(arguments[i]); // добавить всё из arguments
+    }
+  };
+
+  this.getFood = function() {
+    // копируем еду в новый массив, чтобы манипуляции с ним не меняли food
+    return food.slice();
+  };
+
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#добавьте-методы-в-холодильник" name="добавьте-методы-в-холодильник" class="main__anchor">Добавьте методы в холодильник</a></h3><a href="task/add-methods-fridge.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Добавьте в холодильник методы:</p>
+<ul>
+<li>Публичный метод <code>filterFood(func)</code>, который возвращает всю еду, для которой <code>func(item) == true</code></li>
+<li>Публичный метод <code>removeFood(item)</code>, который удаляет еду <code>item</code> из холодильника.</li>
+</ul>
+<p>Код для проверки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fridge = new Fridge(500);
+fridge.enable();
+fridge.addFood({
+  title: &quot;котлета&quot;,
+  calories: 100
+});
+fridge.addFood({
+  title: &quot;сок&quot;,
+  calories: 30
+});
+fridge.addFood({
+  title: &quot;зелень&quot;,
+  calories: 10
+});
+fridge.addFood({
+  title: &quot;варенье&quot;,
+  calories: 150
+});
+
+fridge.removeFood(&quot;нет такой еды&quot;); // без эффекта
+alert( fridge.getFood().length ); // 4
+
+var dietItems = fridge.filterFood(function(item) {
+  return item.calories &lt; 50;
+});
+
+dietItems.forEach(function(item) {
+  alert( item.title ); // сок, зелень
+  fridge.removeFood(item);
+});
+
+alert( fridge.getFood().length ); // 2</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В качестве исходного кода используйте решение <a href="task/inherit-fridge.htm">предыдущей задачи</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-highlight-block="39-46">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(power) {
+  this._power = power;
+  this._enabled = false;
+
+  var self = this;
+
+  this.enable = function() {
+    self._enabled = true;
+  };
+
+  this.disable = function() {
+    self._enabled = false;
+  };
+}
+
+function Fridge(power) {
+  // унаследовать
+  Machine.apply(this, arguments);
+
+  var food = []; // приватное свойство food
+
+  this.addFood = function() {
+    if (!this._enabled) {
+      throw new Error(&quot;Холодильник выключен&quot;);
+    }
+    if (food.length + arguments.length &gt;= this._power / 100) {
+      throw new Error(&quot;Нельзя добавить, не хватает мощности&quot;);
+    }
+    for (var i = 0; i &lt; arguments.length; i++) {
+      food.push(arguments[i]); // добавить всё из arguments
+    }
+
+  };
+
+  this.getFood = function() {
+    // копируем еду в новый массив, чтобы манипуляции с ним не меняли food
+    return food.slice();
+  };
+
+  this.filterFood = function(filter) {
+    return food.filter(filter);
+  };
+
+  this.removeFood = function(item) {
+    var idx = food.indexOf(item);
+    if (idx != -1) food.splice(idx, 1);
+  };
+}
+
+var fridge = new Fridge(500);
+fridge.enable();
+fridge.addFood({
+  title: &quot;котлета&quot;,
+  calories: 100
+});
+fridge.addFood({
+  title: &quot;сок&quot;,
+  calories: 30
+});
+fridge.addFood({
+  title: &quot;зелень&quot;,
+  calories: 10
+});
+fridge.addFood({
+  title: &quot;варенье&quot;,
+  calories: 150
+});
+
+var dietItems = fridge.filterFood(function(item) {
+  return item.calories &lt; 50;
+});
+
+fridge.removeFood(&quot;нет такой еды&quot;); // без эффекта
+alert( fridge.getFood().length ); // 4
+
+dietItems.forEach(function(item) {
+  alert( item.title ); // сок, зелень
+  fridge.removeFood(item);
+});
+
+alert( fridge.getFood().length ); // 2</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#переопределите-disable" name="переопределите-disable" class="main__anchor">Переопределите disable</a></h3><a href="task/override-disable.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Переопределите метод <code>disable</code> холодильника, чтобы при наличии в нём еды он выдавал ошибку.</p>
+<p>Код для проверки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fridge = new Fridge(500);
+fridge.enable();
+fridge.addFood(&quot;кус-кус&quot;);
+fridge.disable(); // ошибка, в холодильнике есть еда</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В качестве исходного кода используйте решение <a href="task/add-methods-fridge.htm">предыдущей задачи</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-highlight-block="47-53">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Machine(power) {
+  this._power = power;
+  this._enabled = false;
+
+  var self = this;
+
+  this.enable = function() {
+    self._enabled = true;
+  };
+
+  this.disable = function() {
+    self._enabled = false;
+  };
+}
+
+function Fridge(power) {
+  Machine.apply(this, arguments);
+
+  var food = []; // приватное свойство food
+
+  this.addFood = function() {
+    if (!this._enabled) {
+      throw new Error(&quot;Холодильник выключен&quot;);
+    }
+    if (food.length + arguments.length &gt;= this._power / 100) {
+      throw new Error(&quot;Нельзя добавить, не хватает мощности&quot;);
+    }
+    for (var i = 0; i &lt; arguments.length; i++) {
+      food.push(arguments[i]); // добавить всё из arguments
+    }
+
+  };
+
+  this.getFood = function() {
+    // копируем еду в новый массив, чтобы манипуляции с ним не меняли food
+    return food.slice();
+  };
+
+  this.filterFood = function(filter) {
+    return food.filter(filter);
+  };
+
+  this.removeFood = function(item) {
+    var idx = food.indexOf(item);
+    if (idx != -1) food.splice(idx, 1);
+  };
+
+  var parentDisable = this.disable;
+  this.disable = function() {
+    if (food.length) {
+      throw new Error(&quot;Нельзя выключить: внутри еда&quot;);
+    }
+    parentDisable();
+  };
+}
+
+var fridge = new Fridge(500);
+fridge.enable();
+fridge.addFood(&quot;кус-кус&quot;);
+fridge.disable(); // ошибка, в холодильнике есть еда</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

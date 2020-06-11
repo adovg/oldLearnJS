@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="first-steps.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы JavaScript</span></a></li></ol><h1 class="main__header-title">Шесть типов данных, typeof</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Шесть типов данных, typeof"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В JavaScript существует несколько основных типов данных.</p>
+<p>В этой главе мы получим о них общее представление, а позже, в соответствующих главах подробно познакомимся с использованием каждого типа в отдельности.</p>
+<h2><a class="main__anchor" name="число-number" href="#число-number">Число «number»</a></h2><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var n = 123;
+n = 12.345;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Единый тип <em>число</em> используется как для целых, так и для дробных чисел.</p>
+<p>Существуют специальные числовые значения <code>Infinity</code> (бесконечность) и <code>NaN</code> (ошибка вычислений).</p>
+<p>Например, бесконечность <code>Infinity</code> получается при делении на ноль:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 1 / 0 ); // Infinity</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ошибка вычислений <code>NaN</code> будет результатом некорректной математической операции, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;нечисло&quot; * 2 ); // NaN, ошибка</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Эти значения формально принадлежат типу «число», хотя, конечно, числами в их обычном понимании не являются.</p>
+<p>Особенности работы с числами в JavaScript разобраны в главе <a href="number.htm">Числа</a>.</p>
+<h2><a class="main__anchor" name="строка-string" href="#строка-string">Строка «string»</a></h2><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Мама мыла раму&quot;;
+str = 'Одинарные кавычки тоже подойдут';</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>В JavaScript одинарные и двойные кавычки равноправны.</strong> Можно использовать или те или другие.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Тип <em>символ</em> не существует, есть только <em>строка</em>.</span></div>
+            <div class="important__content"><p>В некоторых языках программирования есть специальный тип данных для одного символа. Например, в языке С это <code>char</code>. В JavaScript есть только тип «строка» <code>string</code>. Что, надо сказать, вполне удобно.</p>
+</div></div>
+<p>Более подробно со строками мы познакомимся в главе <a href="string.htm">Строки</a>.</p>
+<h2><a class="main__anchor" name="булевый-логический-тип-boolean" href="#булевый-логический-тип-boolean">Булевый (логический) тип «boolean»</a></h2><p>У него всего два значения: <code>true</code> (истина) и <code>false</code> (ложь).</p>
+<p>Как правило, такой тип используется для хранения значения типа да/нет, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var checked = true; // поле формы помечено галочкой
+checked = false;    // поле формы не содержит галочки</code></pre>
+        </div>
+      </div>
+      
+      </div><p>О нём мы поговорим более подробно, когда будем обсуждать логические вычисления и условные операторы.</p>
+<h2><a class="main__anchor" name="специальное-значение-null" href="#специальное-значение-null">Специальное значение «null»</a></h2><p>Значение <code>null</code> не относится ни к одному из типов выше, а образует свой отдельный тип, состоящий из единственного значения <code>null</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var age = null;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В JavaScript <code>null</code> не является «ссылкой на несуществующий объект» или «нулевым указателем», как в некоторых других языках. Это просто специальное значение, которое имеет смысл «ничего» или «значение неизвестно».</p>
+<p>В частности, код выше говорит о том, что возраст <code>age</code> неизвестен.</p>
+<h2><a class="main__anchor" name="специальное-значение-undefined" href="#специальное-значение-undefined">Специальное значение «undefined»</a></h2><p>Значение <code>undefined</code>, как и <code>null</code>, образует свой собственный тип, состоящий из одного этого значения. Оно имеет смысл «значение не присвоено».</p>
+<p>Если переменная объявлена, но в неё ничего не записано, то её значение как раз и есть <code>undefined</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var x;
+alert( x ); // выведет &quot;undefined&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Можно присвоить <code>undefined</code> и в явном виде, хотя это делается редко:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var x = 123;
+x = undefined;
+
+alert( x ); // &quot;undefined&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В явном виде <code>undefined</code> обычно не присваивают, так как это противоречит его смыслу. Для записи в переменную «пустого» или «неизвестного» значения используется <code>null</code>.</p>
+<h2><a class="main__anchor" name="объекты-object" href="#объекты-object">Объекты «object»</a></h2><p>Первые 5 типов называют <em>«примитивными»</em>.</p>
+<p>Особняком стоит шестой тип: <em>«объекты»</em>.</p>
+<p>Он используется для коллекций данных и для объявления более сложных сущностей.</p>
+<p>Объявляются объекты при помощи фигурных скобок <code>{...}</code>, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = { name: &quot;Вася&quot; };</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Мы подробно разберём способы объявления объектов и, вообще, работу с объектами, позже, в главе <a href="object.htm">Объекты как ассоциативные массивы</a>.</p>
+<h2><a class="main__anchor" name="type-typeof" href="#type-typeof">Оператор typeof</a></h2><p>Оператор <code>typeof</code> возвращает тип аргумента.</p>
+<p>У него есть два синтаксиса: со скобками и без:</p>
+<ol>
+<li>Синтаксис оператора: <code>typeof x</code>.</li>
+<li>Синтаксис функции: <code>typeof(x)</code>.</li>
+</ol>
+<p>Работают они одинаково, но первый синтаксис короче.</p>
+<p><strong>Результатом <code>typeof</code> является строка, содержащая тип:</strong></p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-10,12-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">typeof undefined // &quot;undefined&quot;
+
+typeof 0 // &quot;number&quot;
+
+typeof true // &quot;boolean&quot;
+
+typeof &quot;foo&quot; // &quot;string&quot;
+
+typeof {} // &quot;object&quot;
+
+typeof null // &quot;object&quot;  (1)
+
+typeof function(){} // &quot;function&quot;  (2)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Последние две строки помечены, потому что <code>typeof</code> ведет себя в них по-особому.</p>
+<ol>
+<li>Результат <code>typeof null == &quot;object&quot;</code> – это официально признанная ошибка в языке, которая сохраняется для совместимости. На самом деле <code>null</code> – это не объект, а отдельный тип данных.</li>
+<li>Функции мы пройдём чуть позже. Пока лишь заметим, что функции не являются отдельным базовым типом в JavaScript, а подвидом объектов. Но <code>typeof</code> выделяет функции отдельно, возвращая для них <code>&quot;function&quot;</code>. На практике это весьма удобно, так как позволяет легко определить функцию.</li>
+</ol>
+<p>К работе с типами мы также вернёмся более подробно в будущем, после изучения основных структур данных.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Есть 5 «примитивных» типов: <code>number</code>, <code>string</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code> и 6-й тип – объекты <code>object</code>.</p>
+<p>Очень скоро мы изучим их во всех деталях.</p>
+<p>Оператор <code>typeof x</code> позволяет выяснить, какой тип находится в <code>x</code>, возвращая его в виде строки.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

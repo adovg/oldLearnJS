@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner">
+    <main class="main main_width-limit-wide">
+        <header class="main__header main__header_center">
+            <div class="main__header-inner">
+                <h1 class="main__header-title">Современный учебник Javascript</h1>
+                <h2>От себя, как добавившего, уточняю, что это устаревшая версия учебника, посвященноая ES-5. Если вы попали на эту версию случайно, не стоит начинать по ней учиться. Она была собрана из Android-приложения и служит для сравнения с тем, как было раньше и повторения некоторых моментов.
+                </h2>
+                <p>Актуальная версия учебника находится по адресу
+                	<a href="https://learn.javascript.ru/" target="_blank" >learn.javascript.ru</a>
+                </p>
+            </div>
+        </header>
+        <div class="content">
+            <div class="intro">Перед вами учебник по JavaScript, начиная с основ, включающий в себя много тонкостей и фишек JavaScript/DOM.</div>
+        
+            <div class="course-info">
+                <div class="course-info__header">
+                    <h2 class="course-info__header-title">Основной курс</h2></div>
+                <div class="columns columns_2 course-info__body">
+                    <div class="columns__col course-info__col">
+                        <div class="course-info__content">
+                            <div class="course-info__title-note">Часть первая</div>
+                            <h3 class="course-info__title">Язык JavaScript</h3>
+                            <p>Эта часть позволит вам изучить JavaScript с нуля или упорядочить и дополнить существующие знания.</p>
+                            <p>Мы будем использовать браузер в качестве окружения, но основное внимание будет уделяться именно самому языку JavaScript.</p>
+                            <ul class="special-links-list">
+                                <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+                                <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+                                <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+                                <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+                                <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+                                <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+                                <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+                                <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+                                <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+                                <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="columns__col course-info__col">
+                        <div class="course-info__content">
+                            <div class="course-info__title-note">Часть вторая</div>
+                            <h3 class="course-info__title">Документ, события, интерфейсы</h3>
+                            <p>Изучаем работу со страницей – как получать элементы, манипулировать их размерами, динамически создавать интерфейсы и взаимодействовать с посетителем.</p>
+                            <ul class="special-links-list">
+                                <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+                                <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+                                <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+                                <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+                                <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="course-bricks">
+                <h2 class="course-bricks__title">Дополнительно</h2>
+                <p>Тематические разделы</p>
+                <div class="course-bricks__container">
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></h3>
+                        <div class="course-bricks__brick-content">
+                            <p>Веб-компоненты – «платформа будущего»: совокупность стандартов, которые позволяют описывать новые типы DOM-элементов, со своими свойствами и методами, инкапсулировать их DOM и стили.</p>
+                        </div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="webcomponents-intro.htm" class="course-bricks__link">С высоты орбитального полёта</a></li>
+                            <li class="course-bricks__item"><a href="webcomponent-core.htm" class="course-bricks__link">Пользовательские элементы: Custom Elements</a></li>
+                            <li class="course-bricks__item"><a href="shadow-dom.htm" class="course-bricks__link">Shadow DOM</a></li>
+                            <li class="course-bricks__item"><a href="template-tag.htm" class="course-bricks__link">Шаблоны &lt;template&gt;</a></li>
+                            <li class="course-bricks__item"><a href="css-scoping.htm" class="course-bricks__link">Стили и селекторы</a></li>
+                            <li class="course-bricks__item"><a href="link-import.htm" class="course-bricks__link">Импорты</a></li>
+                            <li class="course-bricks__item"><a href="webcomponent-build.htm" class="course-bricks__link">Веб-компонент в сборе</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></h3>
+                        <div class="course-bricks__brick-content">
+                            <p>Современные средства для обмена данными с сервером и смежные аспекты.</p>
+                        </div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="ajax-intro.htm" class="course-bricks__link">Введение в AJAX и COMET</a></li>
+                            <li class="course-bricks__item"><a href="ajax-nodejs.htm" class="course-bricks__link">Node.JS для решения задач</a></li>
+                            <li class="course-bricks__item"><a href="ajax-xmlhttprequest.htm" class="course-bricks__link">Основы XMLHttpRequest</a></li>
+                            <li class="course-bricks__item"><a href="xhr-forms.htm" class="course-bricks__link">XMLHttpRequest POST, формы и кодировка</a></li>
+                            <li class="course-bricks__item"><a href="xhr-crossdomain.htm" class="course-bricks__link">XMLHttpRequest: кросс-доменные запросы</a></li>
+                            <li class="course-bricks__item"><a href="xhr-onprogress.htm" class="course-bricks__link">XMLHttpRequest: индикация прогресса</a></li>
+                            <li class="course-bricks__item"><a href="xhr-resume.htm" class="course-bricks__link">XMLHttpRequest: возобновляемая закачка</a></li>
+                            <li class="course-bricks__item"><a href="xhr-longpoll.htm" class="course-bricks__link">COMET с XMLHttpRequest: длинные опросы</a></li>
+                            <li class="course-bricks__item"><a href="websockets.htm" class="course-bricks__link">WebSocket</a></li>
+                            <li class="course-bricks__item"><a href="ajax-jsonp.htm" class="course-bricks__link">Протокол JSONP</a></li>
+                            <li class="course-bricks__item"><a href="server-sent-events.htm" class="course-bricks__link">Server Side Events -- события с сервера</a></li>
+                            <li class="course-bricks__item"><a href="ajax-iframe.htm" class="course-bricks__link">IFRAME для AJAX и COMET</a></li>
+                            <li class="course-bricks__item"><a href="csrf.htm" class="course-bricks__link">Атака CSRF</a></li>
+                            <li class="course-bricks__item"><a href="fetch.htm" class="course-bricks__link">Метод fetch: замена XMLHttpRequest</a></li>
+                            <li class="course-bricks__item"><a href="ajax-summary.htm" class="course-bricks__link">Таблица транспортов и их возможностей</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></h3>
+                        <div class="course-bricks__brick-content">
+                            <p>CSS анимации. Контроль над ними из JavaScript. Анимации на чистом JavaScript.</p>
+                        </div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="bezier.htm" class="course-bricks__link">Кривые Безье</a></li>
+                            <li class="course-bricks__item"><a href="css-transitions.htm" class="course-bricks__link">CSS-анимации</a></li>
+                            <li class="course-bricks__item"><a href="js-animation.htm" class="course-bricks__link">JS-Анимация</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="optimize.htm" class="course-bricks__brick-title-link main__anchor">Оптимизация</a></h3>
+                        <div class="course-bricks__brick-content">
+                            <p>Утечки памяти, увеличение скорости выполнения и загрузки скриптов.</p>
+                        </div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="optimize-intro.htm" class="course-bricks__link">Введение</a></li>
+                            <li class="course-bricks__item"><a href="minification.htm" class="course-bricks__link">Как работают сжиматели JavaScript</a></li>
+                            <li class="course-bricks__item"><a href="better-minification.htm" class="course-bricks__link">Улучшаем сжатие кода</a></li>
+                            <li class="course-bricks__item"><a href="memory-leaks.htm" class="course-bricks__link">Утечки памяти</a></li>
+                            <li class="course-bricks__item"><a href="memory-leaks-jquery.htm" class="course-bricks__link">Утечки памяти при использовании jQuery</a></li>
+                            <li class="course-bricks__item"><a href="memory-removechild-innerhtml.htm" class="course-bricks__link">Очистка памяти при removeChild/innerHTML</a></li>
+                            <li class="course-bricks__item"><a href="gcc-advanced-optimization.htm" class="course-bricks__link">GCC: продвинутые оптимизации</a></li>
+                            <li class="course-bricks__item"><a href="gcc-check-types.htm" class="course-bricks__link">GCC: статическая проверка типов</a></li>
+                            <li class="course-bricks__item"><a href="gcc-closure-library.htm" class="course-bricks__link">GCC: интеграция с Google Closure Library</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></h3>
+                        <div class="course-bricks__brick-content"></div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="window-methods.htm" class="course-bricks__link">Открытие окон и методы window</a></li>
+                            <li class="course-bricks__item"><a href="iframes.htm" class="course-bricks__link">Общение между окнами и фреймами</a></li>
+                            <li class="course-bricks__item"><a href="same-origin-policy.htm" class="course-bricks__link">Кросс-доменные ограничения и их обход</a></li>
+                            <li class="course-bricks__item"><a href="cross-window-messaging-with-postmessage.htm" class="course-bricks__link">Общение окон с разных доменов: postMessage</a></li>
+                            <li class="course-bricks__item"><a href="window-focus.htm" class="course-bricks__link">Привлечение внимания к окну</a></li>
+                            <li class="course-bricks__item"><a href="clickjacking.htm" class="course-bricks__link">Атака Clickjacking и защита от неё</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></h3>
+                        <div class="course-bricks__brick-content"></div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="css-why.htm" class="course-bricks__link">О чём пойдёт речь</a></li>
+                            <li class="course-bricks__item"><a href="css-units.htm" class="course-bricks__link">Единицы измерения: &quot;px&quot;, &quot;em&quot;, &quot;rem&quot; и другие</a></li>
+                            <li class="course-bricks__item"><a href="display.htm" class="course-bricks__link">Все значения свойства &quot;display&quot;</a></li>
+                            <li class="course-bricks__item"><a href="float.htm" class="course-bricks__link">Свойство &quot;float&quot;</a></li>
+                            <li class="course-bricks__item"><a href="position.htm" class="course-bricks__link">Свойство &quot;position&quot;</a></li>
+                            <li class="course-bricks__item"><a href="css-center.htm" class="course-bricks__link">Центрирование горизонтальное и вертикальное</a></li>
+                            <li class="course-bricks__item"><a href="font-size-line-height.htm" class="course-bricks__link">Свойства &quot;font-size&quot; и &quot;line-height&quot;</a></li>
+                            <li class="course-bricks__item"><a href="white-space.htm" class="course-bricks__link">Свойство white-space</a></li>
+                            <li class="course-bricks__item"><a href="outline.htm" class="course-bricks__link">Свойство &quot;outline&quot;</a></li>
+                            <li class="course-bricks__item"><a href="box-sizing.htm" class="course-bricks__link">Свойство &quot;box-sizing&quot;</a></li>
+                            <li class="course-bricks__item"><a href="margin.htm" class="course-bricks__link">Свойство &quot;margin&quot;</a></li>
+                            <li class="course-bricks__item"><a href="space-under-img.htm" class="course-bricks__link">Лишнее место под IMG</a></li>
+                            <li class="course-bricks__item"><a href="overflow.htm" class="course-bricks__link">Свойство &quot;overflow&quot;</a></li>
+                            <li class="course-bricks__item"><a href="height-percent.htm" class="course-bricks__link">Особенности свойства &quot;height&quot; в %</a></li>
+                            <li class="course-bricks__item"><a href="css-selectors.htm" class="course-bricks__link">Знаете ли вы селекторы?</a></li>
+                            <li class="course-bricks__item"><a href="css-sprite.htm" class="course-bricks__link">CSS-спрайты</a></li>
+                            <li class="course-bricks__item"><a href="css-format.htm" class="course-bricks__link">Правила форматирования CSS</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></h3>
+                        <div class="course-bricks__brick-content"></div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="tools-browser-extensions.htm" class="course-bricks__link">Полезные расширения Firefox и Chrome</a></li>
+                            <li class="course-bricks__item"><a href="fiddler.htm" class="course-bricks__link">Скриптуемый отладочный прокси Fiddler</a></li>
+                            <li class="course-bricks__item"><a href="ie-http-analyzer.htm" class="course-bricks__link">IE HTTP Analyzer</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></h3>
+                        <div class="course-bricks__brick-content">
+                            <p>Регулярные выражения – мощный способ поиска и замены для строк.</p>
+                        </div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="regexp-introduction.htm" class="course-bricks__link">Паттерны и флаги</a></li>
+                            <li class="course-bricks__item"><a href="regexp-methods.htm" class="course-bricks__link">Методы RegExp и String</a></li>
+                            <li class="course-bricks__item"><a href="regexp-character-classes.htm" class="course-bricks__link">Классы и спецсимволы</a></li>
+                            <li class="course-bricks__item"><a href="regexp-character-sets-and-ranges.htm" class="course-bricks__link">Наборы и диапазоны [...]</a></li>
+                            <li class="course-bricks__item"><a href="regexp-quantifiers.htm" class="course-bricks__link">Квантификаторы +, *, ? и {n}</a></li>
+                            <li class="course-bricks__item"><a href="regexp-greedy-and-lazy.htm" class="course-bricks__link">Жадные и ленивые квантификаторы</a></li>
+                            <li class="course-bricks__item"><a href="regexp-groups.htm" class="course-bricks__link">Скобочные группы</a></li>
+                            <li class="course-bricks__item"><a href="regexp-backreferences.htm" class="course-bricks__link">Обратные ссылки: \n и $n</a></li>
+                            <li class="course-bricks__item"><a href="regexp-alternation.htm" class="course-bricks__link">Альтернация (или) |</a></li>
+                            <li class="course-bricks__item"><a href="regexp-ahchors.htm" class="course-bricks__link">Начало строки ^ и конец $</a></li>
+                            <li class="course-bricks__item"><a href="regexp-multiline-mode.htm" class="course-bricks__link">Многострочный режим, флаг &quot;m&quot;</a></li>
+                            <li class="course-bricks__item"><a href="regexp-lookahead.htm" class="course-bricks__link">Предпросмотр (неготово)</a></li>
+                            <li class="course-bricks__item"><a href="regexp-infinite-backtracking-problem.htm" class="course-bricks__link">Чёрная дыра бэктрекинга</a></li>
+                        </ul>
+                    </div>
+                    <div class="course-bricks__brick">
+                        <h3 class="course-bricks__brick-title"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></h3>
+                        <div class="course-bricks__brick-content">
+                            <p>Статьи на разные темы, которые не вошли в другие разделы.</p>
+                        </div>
+                        <ul class="course-bricks__chapters-list">
+                            <li class="course-bricks__item"><a href="templates.htm" class="course-bricks__link">Эволюция шаблонных систем для JavaScript</a></li>
+                            <li class="course-bricks__item"><a href="books.htm" class="course-bricks__link">Книги по JS, HTML/CSS и не только</a></li>
+                            <li class="course-bricks__item"><a href="setimmediate.htm" class="course-bricks__link">Асинхронное выполнение: setImmediate</a></li>
+                            <li class="course-bricks__item"><a href="bind-late.htm" class="course-bricks__link">Позднее связывание &quot;bindLate&quot;</a></li>
+                            <li class="course-bricks__item"><a href="sublime.htm" class="course-bricks__link">Sublime Text: шпаргалка</a></li>
+                            <li class="course-bricks__item"><a href="range-textrange-selection.htm" class="course-bricks__link">Выделение: Range, TextRange и Selection</a></li>
+                            <li class="course-bricks__item"><a href="drag-and-drop-plus.htm" class="course-bricks__link">Применяем ООП: Drag'n'Drop++</a></li>
+                            <li class="course-bricks__item"><a href="cookie.htm" class="course-bricks__link">Куки, document.cookie</a></li>
+                            <li class="course-bricks__item"><a href="intl.htm" class="course-bricks__link">Intl: интернационализация в JavaScript</a></li>
+                            <li class="course-bricks__item"><a href="regexp-specials.htm" class="course-bricks__link">Особенности регулярных выражений в Javascript</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+    </main>
+    </div>
+    </div>
+</div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+    
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

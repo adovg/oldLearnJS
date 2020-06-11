@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="prototypes.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">ООП в прототипном стиле</span></a></li></ol><h1 class="main__header-title">Свои ошибки, наследование от Error</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свои ошибки, наследование от Error"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Когда мы работаем с внешними данными, возможны самые разные ошибки.</p>
+<p>Если приложение сложное, то ошибки естественным образом укладываются в иерархию, разобраться в которой помогает <code>instanceof</code>.</p>
+<h2><a class="main__anchor" name="свой-объект-ошибки" href="#свой-объект-ошибки">Свой объект ошибки</a></h2><p>Для примера создадим функцию <code>readUser(json)</code>, которая будет разбирать JSON с данными посетителя. Мы его получаем с сервера – может, нашего, а может – чужого, в общем – желательно проверить на ошибки. А может, это даже и не JSON, а какие-то другие данные – не важно, для наглядности поработаем с JSON.</p>
+<p>Пример <code>json</code> на входе в функцию: <code>{ &quot;name&quot;: &quot;Вася&quot;, &quot;age&quot;: 30 }</code>.</p>
+<p>В процессе работы <code>readUser</code> возможны различные ошибки. Одна – очевидно, <code>SyntaxError</code> – если передан некорректный JSON.</p>
+<p>Но могут быть и другие, например <code>PropertyError</code> – эта ошибка будет возникать, если в прочитанном объекте нет свойства <code>name</code> или <code>age</code>.</p>
+<p>Реализуем класс <code>PropertyError</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function PropertyError(property) {
+  Error.call(this, property) ;
+  this.name = &quot;PropertyError&quot;;
+
+  this.property = property;
+  this.message = &quot;Ошибка в свойстве &quot; + property;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, PropertyError);
+  } else {
+    this.stack = (new Error()).stack;
+  }
+
+}
+
+PropertyError.prototype = Object.create(Error.prototype);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом коде вы можете видеть ряд важных деталей, важных именно для ошибок:</p>
+<dl>
+<dt><code>name</code> – имя ошибки.</dt>
+<dd>
+<p>Должно совпадать с именем функции.</p>
+</dd>
+<dt><code>message</code> – сообщение об ошибке.</dt>
+<dd>
+<p>Несмотря на то, что <code>PropertyError</code> наследует от <code>Error</code> (последняя строка), конструктор у неё немного другой. Он принимает не сообщение об ошибке, а название свойства <code>property</code>, ну а сообщение генерируется из него.</p>
+<p>В результате в объекте ошибки есть как стандартное свойство <code>message</code>, так и более точное <code>property</code>.</p>
+<p>Это частая практика – добавлять в объект ошибки свойства, которых нет в базовых объектах <code>Error</code>, более подробно описывающие ситуацию для данного класса ошибок.</p>
+</dd>
+<dt><code>stack</code> – стек вызовов, которые в итоге привели к ошибке.</dt>
+<dd>
+<p>У встроенных объектов <code>Error</code> это свойство есть автоматически, вот к примеру:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function f() {
+  alert( new Error().stack );
+}
+
+f(); // выведет список вложенных вызовов, с номерами строк, где они были сделаны</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если же объект ошибки делаем мы, то «по умолчанию» такого свойства у него не будет. Нам нужно как-то самим узнавать последовательность вложенных вызовов на текущий момент. Однако удобного способа сделать это в JavaScript нет, поэтому мы поступаем хитро и копируем его из нового объекта <code>new Error</code>, который генерируем тут же.</p>
+<p>В V8 (Chrome, Opera, Node.JS) есть нестандартное расширение <a href="https://github.com/v8/v8/wiki/Stack-Trace-API#stack-trace-collection-for-custom-exceptions">Error.captureStackTrace</a>, которое позволяет получить стек.</p>
+<p>Это делает строка из кода выше:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Error.captureStackTrace(this, PropertyError);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такой вызов записывает в объект <code>this</code> (текущий объект ошибки) стек вызовов, ну а второй аргумент – вообще не обязателен, но если есть, то говорит, что при генерации стека нужно на этой функции остановиться. В результате в стеке будет информация о цепочке вложенных вызовов вплоть до вызова <code>PropertyError</code>.</p>
+<p>То есть, будет последовательность вызовов до генерации ошибки, но не включая код самого конструктора ошибки, который, как правило, не интересен. Такое поведение максимально соответствует встроенным ошибкам JavaScript.</p>
+</dd>
+</dl>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Конструктор родителя здесь не обязателен</span></div>
+            <div class="important__content"><p>Обычно, когда мы наследуем, то вызываем конструктор родителя. В данном случае вызов выглядит как <code>Error.call(this, message)</code>.</p>
+<p>Строго говоря, этот вызов здесь не обязателен. Встроенный конструктор <code>Error</code> ничего полезного не делает, даже свойство <code>this.message</code> (не говоря уже о <code>name</code> и <code>stack</code>) не назначает. Единственный возможный смысл его вызова – он ставит специальное внутреннее свойство <code>[[ErrorData]]</code>, которое выводится в <code>toString</code> и позволяет увидеть, что это ошибка. Поэтому по стандарту вызывать конструктор <code>Error</code> при наследовании в таких случаях рекомендовано.</p>
+</div></div>
+<h2><a class="main__anchor" name="instanceof-try-catch" href="#instanceof-try-catch">instanceof + try…catch = ♡</a></h2><p>Давайте теперь используем наш новый класс для <code>readUser</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="0-0,17-17,33-33,41-41">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Объявление
+function PropertyError(property) {
+  this.name = &quot;PropertyError&quot;;
+
+  this.property = property;
+  this.message = &quot;Ошибка в свойстве &quot; + property;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, PropertyError);
+  } else {
+    this.stack = (new Error()).stack;
+  }
+
+}
+
+PropertyError.prototype = Object.create(Error.prototype);
+
+// Генерация ошибки
+function readUser(data) {
+
+  var user = JSON.parse(data);
+
+  if (!user.age) {
+    throw new PropertyError(&quot;age&quot;);
+  }
+
+  if (!user.name) {
+    throw new PropertyError(&quot;name&quot;);
+  }
+
+  return user;
+}
+
+// Запуск и try..catch
+
+try {
+  var user = readUser('{ &quot;age&quot;: 25 }');
+} catch (err) {
+  if (err instanceof PropertyError) {
+    if (err.property == 'name') {
+      // если в данном месте кода возможны анонимы, то всё нормально
+      alert( &quot;Здравствуйте, Аноним!&quot; );
+    } else {
+      alert( err.message ); // Ошибка в свойстве ...
+    }
+  } else if (err instanceof SyntaxError) {
+    alert( &quot;Ошибка в синтаксисе данных: &quot; + err.message );
+  } else {
+    throw err; // неизвестная ошибка, не знаю что с ней делать
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Всё работает – и наша ошибка <code>PropertyError</code> и встроенная <code>SyntaxError</code> корректно генерируются, перехватываются, обрабатываются.</p>
+<p>Обратим внимание на проверку типа ошибки в <code>try..catch</code>. Оператор <code>instanceof</code> проверяет класс с учётом наследования. Это значит, что если мы в дальнейшем решим создать новый тип ошибки, наследующий от  <code>PropertyError</code>, то проверка <code>err instanceof PropertyError</code> для класса-наследника тоже будет работать. Код получился расширяемым, это очень важно.</p>
+<h2><a class="main__anchor" name="дальнейшее-наследование" href="#дальнейшее-наследование">Дальнейшее наследование</a></h2><p><code>PropertyError</code> – это просто общего вида ошибка в свойстве. Создадим ошибку <code>PropertyRequiredError</code>, которая означает, что свойства нет.</p>
+<p>Это подвид <code>PropertyError</code>, так что унаследуем от неё. Общий вид конструктора-наследника – стандартный:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function PropertyRequiredError(property) {
+  // вызываем конструктор родителя и передаём текущие аргументы
+  PropertyError.apply(this, arguments);
+  ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Достаточно ли в наследнике просто вызвать конструктор родителя? Увы, нет.</p>
+<p>Если так поступить, то свойство <code>this.name</code> будет некорректным, да и <code>Error.captureStackTrace</code> тоже получит неправильную функцию вторым параметром.</p>
+<p>Можно ли как-то поправить конструктор родителя, чтобы от него было проще наследовать?</p>
+<p>Для этого нужно убрать из него упоминания о конкретном классе <code>PropertyError</code>, чтобы сделать код универсальным. Частично – это возможно. Как мы помним, существует свойство <code>constructor</code>, которое есть в <code>prototype</code> по умолчанию, и которое мы можем намеренно сохранить при наследовании.</p>
+<p>Исправим родителя <code>PropertyError</code> для более удобного наследования от него:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="15-15" data-highlight-inline="7:34-50">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function PropertyError(property) {
+  this.name = &quot;PropertyError&quot;;
+
+  this.property = property;
+  this.message = &quot;Ошибка в свойстве &quot; + property;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, this.constructor); // (*)
+  } else {
+    this.stack = (new Error()).stack;
+  }
+
+}
+
+PropertyError.prototype = Object.create(Error.prototype);
+PropertyError.prototype.constructor = PropertyError;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В строке <code>(*)</code> вместо ссылки на <code>PropertyError</code> используем <code>constructor</code> чтобы получить именно конструктор для текущего объекта. В наследнике там будет <code>PropertyRequiredError</code>, как и задумано.</p>
+<p>Мы убрали одну жёсткую привязку к <code>PropertyError</code>, но со второй (<code>this.name</code>), увы, сложности. Оно должно содержать имя ошибки, то есть, имя её функции-конструктора. Его можно получить через <code>this.name = this.constructor.name</code>, но в IE11- это работать не будет.</p>
+<p>Если поддерживать IE11-, то тут уж придётся в наследнике его записывать вручную.</p>
+<p>Полный код для наследника:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function PropertyRequiredError(property) {
+  PropertyError.apply(this, arguments);
+  this.name = 'PropertyRequiredError';
+  this.message = 'Отсутствует свойство ' + property;
+}
+
+PropertyRequiredError.prototype = Object.create(PropertyError.prototype);
+PropertyRequiredError.prototype.constructor = PropertyRequiredError;
+
+var err = new PropertyRequiredError(&quot;age&quot;);
+// пройдёт проверку
+alert( err instanceof PropertyError ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь заодно и <code>message</code> в наследнике было перезаписано на более точное. Если хочется избежать записи и перезаписи, то можно оформить его в виде геттера через <code>Object.defineProperty</code>.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Чтобы наследовать от ошибок <code>Error</code>, нужно самостоятельно позаботиться о <code>name</code>, <code>message</code> и <code>stack</code>.</li>
+<li>Благодаря тому, что <code>instanceof</code> поддерживает наследование, удобно организуются проверки на нужный тип. В иерархию ошибок можно в любой момент добавить новые классы, с понятным кодом и предсказуемым поведением.</li>
+</ul>
+<p>Чтобы создавать наследники от <code>Error</code> было проще, можно создать класс <code>CustomError</code>, записать в него универсальный код, наподобие <code>PropertyError</code> и далее наследовать уже от него:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="0-0,16-16,27-27,37-37">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// общего вида &quot;наша&quot; ошибка
+function CustomError(message) {
+  this.name = &quot;CustomError&quot;;
+  this.message = message;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, this.constructor);
+  } else {
+    this.stack = (new Error()).stack;
+  }
+
+}
+
+CustomError.prototype = Object.create(Error.prototype);
+CustomError.prototype.constructor = CustomError;
+
+// наследник
+function PropertyError(property) {
+  CustomError.call(this, &quot;Ошибка в свойстве &quot; + property)
+  this.name = &quot;PropertyError&quot;;
+
+  this.property = property;
+}
+
+PropertyError.prototype = Object.create(CustomError.prototype);
+PropertyError.prototype.constructor = PropertyError;
+
+// и ещё уровень
+function PropertyRequiredError(property) {
+  PropertyError.call(this, property);
+  this.name = 'PropertyRequiredError';
+  this.message = 'Отсутствует свойство ' + property;
+}
+
+PropertyRequiredError.prototype = Object.create(PropertyError.prototype);
+PropertyRequiredError.prototype.constructor = PropertyRequiredError;
+
+// использование
+var err = new PropertyRequiredError(&quot;age&quot;);
+// пройдёт проверку
+alert( err instanceof PropertyRequiredError ); // true
+alert( err instanceof PropertyError ); // true
+alert( err instanceof CustomError ); // true
+alert( err instanceof Error ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div></div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#унаследуйте-от-syntaxerror" name="унаследуйте-от-syntaxerror" class="main__anchor">Унаследуйте от SyntaxError</a></h3><a href="task/format-error.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Создайте ошибку <code>FormatError</code>, которая будет наследовать от встроенного класса <code>SyntaxError</code>.</p>
+<p>Синтаксис для её создания – такой же, как обычно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var err = new FormatError(&quot;ошибка форматирования&quot;);
+
+alert( err.message ); // ошибка форматирования
+alert( err.name ); // FormatError
+alert( err.stack ); // стек на момент генерации ошибки
+
+alert( err instanceof SyntaxError ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function FormatError(message) {
+  this.name = &quot;FormatError&quot;;
+
+  this.message = message;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, this.constructor);
+  } else {
+    this.stack = (new Error()).stack;
+  }
+
+}
+
+FormatError.prototype = Object.create(SyntaxError.prototype);
+FormatError.prototype.constructor = FormatError;
+
+// Использование
+
+var err = new FormatError(&quot;ошибка форматирования&quot;);
+
+alert( err.message ); // ошибка форматирования
+alert( err.name ); // FormatError
+alert( err.stack ); // стек на момент генерации ошибки
+
+alert( err instanceof SyntaxError ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

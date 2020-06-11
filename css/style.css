@@ -1,0 +1,159 @@
+.app{
+    display: none;
+}
+.main-content-wrapper {
+    padding: 72px 1rem 0 1rem;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 3rem;
+}
+
+.page__nav.page__nav_prev,
+.page__nav.page__nav_next {
+    display: block;
+    margin: auto;
+    text-align: center;
+    padding: 10px 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    word-break: break-word;
+    ;
+}
+
+.code-result {
+    display: none;
+}
+
+.image__ratio {
+    display: none;
+}
+
+.breadcrumbs__item {
+    list-style: disc;
+}
+
+.task__solution {
+    display: none;
+}
+
+.task__answer-close {
+    display: none;
+}
+
+.hamburger-menu {
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+
+#mobile_menu {
+    display: none
+}
+
+
+#mobile_menu {
+    display: block;
+    position: fixed;
+    left: -320px;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+
+}
+
+.navbar-wrapper {
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+}
+
+.navbar {}
+
+.mobile-menu {
+    width: 320px;
+    background-color: #6c757d;
+    overflow: scroll;
+    margin-top: 52px;
+}
+
+
+
+.mobile-menu__button:hover {
+    opacity: 1
+}
+
+ul.mobile-menu__ul {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 120px;
+}
+
+ul.mobile-menu__ul li {
+    border-bottom: 1px rgba(255, 255, 255, 0.33) solid;
+    list-style: none;
+}
+
+.sub-title{
+    display: block;
+    font-size: 20px;
+    color: #fff;
+    padding: 10px 1rem;
+    text-align: center;
+}
+
+ul.mobile-menu__ul a {
+    display: block;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 1rem
+}
+
+.submenu-mobile__link {
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    color: #192730;
+    padding: 10px 30px
+}
+
+input.search__field_mobile {
+    top: 7px;
+    padding: 17px 10px;
+    width: 198px;
+    font-size: 16px;
+    left: 66px;
+    border-bottom: 0
+}
+
+
+.submenu-mobile {
+    display: none;
+}
+
+#get_left_menu {
+    position: fixed;
+    z-index: 10001;
+    background-color: none;
+    top: 0;
+    height: 100%;
+    width: 20px
+}
+
+iframe, .code-tabs__scroll-button, .code-tabs__switches-items {
+    display: none;
+}
+
+.copyright{
+    text-align: center;
+    background-color: #ccc;
+    padding: 20px 0px;
+}

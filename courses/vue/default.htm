@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main "><div class="course-header main__header main__header_courses"><div class="course-header__inner"><a href="../../courses" class="course-header__back">Все курсы</a><h1 class="course-header__title">Курс по Vue.JS</h1><p class="course-header__text main__header-text_wide_medium">Курс по профессиональной разработке веб-приложений с помощью Vue.JS.</p><div class="course-header__image-container"><div style="background-image: url(&quot;../list/vue.svg&quot;)" class="course-header__image main__header-image"></div></div></div></div><div class="course-page"><div data-sticky='{"minWidth":840}' class="courses-signup"><h3 class="courses-signup__title">Запись на курс</h3><div class="courses-signup__subscribe-empty"><div class="courses-signup__empty-message"><p>Следующий набор на обновленный курс планируется через 2 недели.</p></div><div class="price price_signup"><div class="price__main"><div class="price__main-amount">12000</div>&nbsp;RUB</div><div class="price__secondary">≈&nbsp;$<div class="price__secondary-amount">182</div></div></div><p>Вы можете запросить уведомление:</p><form data-newsletter-subscribe-form="vue" onsubmit="return false" action="/newsletter/subscribe" method="POST" class="text-input-button"><input type="hidden" value="vue" name="slug"/><div class="text-input-button__input"><div class="text-input"><input type="email" placeholder="me@mail.com" name="email" required class="text-input__control"></div></div><div class="text-input-button__button"><button type="submit" class="button button_action"><span class="button__text">Подписаться</span></button></div></form></div></div><div class="courses-mix"><h2 class="courses-mix__title">Программа</h2><p>Vue отлично подходит для итерационной разработки или постепенного рефакторинга существующих приложений. С чем вы самостоятельно убедитесь, создавая небольшое приложение на курсе — начнём с самой простой HTML-страницы и закончим небольшим SPA-приложением с серверным рендерингом и тестами.</p><ol><li><div class="courses-mix__text">Знакомимся с Vue, узнаём как он работает. Разбираем как легко и быстро можно начать его использовать. Изучаем все основы и подступимся к компонентам и компонентному подходу в реализации приложения.</div></li><li><div class="courses-mix__text">Изучаем официальную библиотеку роутинга, обсуждаем каким образом можно реализовать проверку авторизации пользователя. Добавляем сборку Vue приложения с помощью Webpack.</div></li><li><div class="courses-mix__text">Научимся использовать сторонние плагины в приложении. Обсудим возможные способы валидации данных.</div></li><li><div class="courses-mix__text">Познакомимся с официальной библиотекой для реализации единого хранилища состояний Vuex. Разберём возможности по реализации Server-side rendering + Vue. Изучим какие есть инструменты и каким образом тестировать компоненты. Задеплоим наше приложение на онлайн-сервис.</div></li></ol><p>Детали программы смотрите далее.</p></div><div class="courses-mix courses-parts"><h2 class="courses-parts__title">Основные темы программы</h2><div class="tabbed-pane tabbed-pane_01"><ul class="tabbed-pane__tabs"><li class="tabbed-pane__tab tabbed-pane__tab_01">Блок 1</li><li class="tabbed-pane__tab tabbed-pane__tab_02">Блок 2</li><li class="tabbed-pane__tab tabbed-pane__tab_03">Блок 3</li></ul><div class="tabbed-pane__body tabbed-pane__body_01"><h2 class="phone-only tabbed-pane__title">Блок 1</h2><p><b>Vue, основы и использование в существующих приложениях</b></p><p>Знакомимся с Vue, разбираемся как его подключать и начинать использовать в существующих приложениях.
+</p><p>Разбираемся каким образом работает реактивность данных, что за возможности есть у Vue для отслеживания изменений в них. Изучаем как работать с условиями, циклами, стилями, событиями и формами.
+</p><p>Изучаем работу с компонентами: как их создавать, как использовать, как передавать в них данные и отслеживать возникающие события. Рассматриваем динамическое переключение компонентов.
+</p><ul><li>Vue, принцип работы реактивности.</li><li>Варианты подключения и сборок, Vue-devtools.</li><li>Синтаксис шаблонов, работа с атрибутами.</li><li>Экземпляр Vue, свойства, методы и хуки жизненного цикла.</li><li>Вычисляемые свойства компонента, отслеживание данных.</li><li>Работа с условиями, циклами.</li><li>Работа с классами и стилями.</li><li>Обработка событий.</li><li>Работа с формами.</li><li>Компоненты: как создавать, как использовать, как передавать в них данные и отслеживать возникающие события.</li><li>Динамическое переключение компонентов.</li></ul></div><div class="tabbed-pane__body tabbed-pane__body_02"><h2 class="phone-only tabbed-pane__title">Блок 2</h2><p><b>Vue-router, однофайловые компоненты и реализация SPA с шагом сборки Webpack</b></p><p>Изучаем Vue-router — библиотеку для роутинга Vue: как работать с маршрутами, хуки и где они пригодятся.
+</p><p>Начинаем использовать Vue CLI и сборку с помощью Webpack и однофайловых компонентов: как использовать шаблонизаторы, препроцессоры, локальные стили.
+</p><p>Разбираемся как использовать сторонние плагины, как создавать собственные компоненты-обёртки для них.
+</p><ul><li>Vue CLI, какие возможности предоставляет модульная архитектура новой версии.</li><li>Vue-router, работа с маршрутами, как передавать параметры, хуки маршрутизации.</li><li>Однофайловые компоненты и их возможности.</li><li>Асинхронная загрузка компонентов.</li><li>Использование слотов в компонентах.</li><li>Использование сторонних плагинов и создание компонентов-обёрток для них.</li><li>Как получить доступ к DOM-элементу.</li></ul></div><div class="tabbed-pane__body tabbed-pane__body_03"><h2 class="phone-only tabbed-pane__title">Блок 3</h2><p><b>Пути дальнейшего развития приложения</b></p><p>Изучаем каким образом можно реализовать единое хранилище состояния с помощью Vuex.
+</p><p>Рассмотрим какие есть способы реализации серверного рендеринга для Vue и другие продвинутые темы.
+</p><ul><li>Vuex, когда необходим, как мутировать состояние и как его получать, работа с формами.</li><li>Способы реализации SSR в Vue.</li><li>Тестирование компонентов.</li><li>Деплой.</li><li>Практические рекомендации по написанию хорошего кода на Vue.</li></ul></div></div></div><script>var className = 'tabbed-pane', block = document.querySelector('.' + className);
+
+block.querySelector('.' + className + '__tabs').addEventListener('click', function(e) {
+   block.className = className + ' ' + className + '_' +  e.target.className.split('_').pop();
+});</script><div class="courses-how courses-mix"><h2 class="courses-how__title">Как проходит обучение?</h2><div class="courses-how__body"><p>На курсе у нас будет семь насыщенных занятий, на которых мы будем изучать Vue, постепенно создавая на нем приложение.
+</p><p>После каждого занятия будет небольшое домашнее задание. Если при его выполнении возникнут проблемы – доступен чат группы, где также присутствует преподаватель.
+</p><p>Сначала мы познакомимся с Vue, узнаем как он работает. Начнем его использовать, посмотрим как удобно подключить его к существующему проекту, какие при этом возникают нюансы. Разберём все основы и подступимся к компонентам и компонентному подходу в реализации приложения.
+</p><p>Затем мы изучим официальную библиотеку роутинга — какие возможности она предоставляет, обсудим каким образом можно реализовать проверку авторизации пользователя. Добавим сборку Vue приложения с помощью Webpack и увидим какие ещё приятные возможности привносит эта связка и использование однофайловых компонентов. Разберёмся как можно использовать другие шаблонизаторы, препроцессоры, и каким образом использовать локальные стили или CSS-модули.
+</p><p>Следующим шагом мы научимся использовать сторонние плагины в приложении, без головной боли и возможных сайд-эффектов. Вы увидите, что часто нет необходимости искать «vue-версии» плагинов, когда можете самостоятельно реализовать компонент-обёртку, а затем переиспользовать в других местах вашего приложения. Обсудим возможные способы валидации данных.
+</p><p>В конце мы познакомимся с официальной библиотекой для реализации единого хранилища состояний Vuex: когда он нужен, какие принципы заложены и как с ними отличается подход к работе приложения. Разберём возможности по реализации Server-side rendering + Vue. Изучим какие есть инструменты и каким образом тестировать компоненты. Задеплоим наше приложение на онлайн-сервис.</p></div></div><div class="courses-mix courses-result"><h2 class="courses-result__title">Результат обучения</h2><div class="courses-result__body"><ol><li>Вы будете знать как интегрировать Vue в уже существующие приложения и представлять чёткий путь как итерационно переписывать проект, постепенно избавляясь от старого кода.</li><li>Вы сможете создавать собственные компоненты для переиспользования в разных частях вашего приложения.</li><li>Вы будете понимать что не нужно всегда искать "vue-версии" плагинов и сможете самостоятельно реализовывать всё необходимое для использования сторонних плагинов в проекте.</li><li>Вы сможете с удобством работать с формами и событиями и знать как валидировать данные.</li><li>Вы будете знать каким образом реализовывать SPA-приложения на Vue.</li><li>Вы будете представлять как реализовать централизованное хранилище для Vue</li><li>Вы будете знать какие есть способы по реализации серверного рендеринга с Vue.</li><li>Вы будете представлять каким образом тестировать компоненты и на что следует обращать внимание.</li><li>Вы будете знать что Vue не привносит в код вашего проекта никакой "магии".</li></ol></div></div><div id="guarantee" class="courses-mix courses-result"><h2 class="courses-result__title">Гарантия</h2><ul>
+  <li>Если объяснения будут вам непонятны</li>
+  <li>Если курсы не дадут вам новых знаний и умений</li>
+  <li>Если вы не сможете подключиться к системе онлайн-обучения</li>
+</ul> <p>…то вы сможете получить деньги назад.</p>
+<p>Для этого достаточно не позже окончания первой недели курса <a href="../mailto:help@javascript.ru">написать</a>, указав причину из этого списка и что именно вас не устраивает, и тогда ваше участие будет прекращено, а вы получите деньги обратно, удобным для вас способом.</p>
+</div><div class="courses-mix"><h2>Преподаватель</h2><div class="course-master"><a href="../../profile/alex-sokolov" class="course-master__photo"><img src="" alt="Photo" class="course-master__img" title=""></a><a href="../../profile/alex-sokolov" class="course-master__name">Александр Соколов</a><div class="course-master__text"><p>Frontend-разработчик более пяти лет, за это время удалось переписать портал на Vue.js и параллельно обучить пару-тройку коллег, которым был интересен этот фреймворк.</p>
+<p>Community partner команды разработчиков Vue.js (по разработке экосистемы Vue), а также один из администраторов группы перевода, чьими силами переведена и поддерживается в актуальном состоянии вся русская документация по Vue.js и смежным проектам (vue-router, vuex, vue-loader, ssr guide).</p>
+</div></div></div><div class="courses-faq courses-mix"><h2 class="courses-faq__title">Дополнительная информация</h2><div class="courses-faq__body"><ul class="courses-faq__questions"><li class="courses-faq__question"><input type="checkbox" id="q0" class="courses-faq__input"><label for="q0" class="courses-faq__question-title">Предварительные требования</label><div class="courses-faq__answer"><p>Для этого курса нужно знание JavaScript и знакомство с CSS/HTML.</p><p>Желательно понимание английского языка.
+ По ходу курса будут предлагаться для дополнительного ознакомления материалы на английском,
+ всё самое важное мы пройдём на занятиях, но желательно, чтобы вы могли их понять.</p>
+ </div></li><li class="courses-faq__question"><input type="checkbox" id="q1" class="courses-faq__input"><label for="q1" class="courses-faq__question-title">Системные требования</label><div class="courses-faq__answer"><p>Windows или Mac поддерживаются полностью.</p><p>Под Linux доступно участие онлайн и просмотр видеолекций, но для просмотра записей занятий нужен Dual Boot в Win/MacOS.</p><p>Для онлайн-общения желателен интернет от 256kb/s.</p></div></li></ul></div></div><div id="comments" class="comments"><div class="comments__header"><h2 class="comments__header-title"><a href="#comments" name="comments">Комментарии</a></h2><div class="comments__read-before"><span class="comments__read-before-link">перед тем как писать…</span><div class="comments__read-before-popup"><div class="comments__read-before-popup-i"><ul><li>Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.</li><li>Для одной строки кода используйте тег <code>&lt;code&gt;</code>, для нескольких строк кода&nbsp;&mdash; тег <code>&lt;pre&gt;</code>, если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href=''>plnkr</a>, <a href=''>JSBin</a>, <a href=''>codepen</a>…)</li><li>Если что-то непонятно в статье&nbsp;&mdash; пишите, что именно и с какого места.</li></ul></div></div></div></div></div><div id="disqus_thread"></div><script>var disqus_config = function() { if (!this.page) this.page = {}; Object.assign(this.page, {"url":"../../../https@learn.javascript.ru/courses/vue","identifier":"\/courses\/vue","title":"../u041a/u0443/u0440/u0441 /u043f/u043e Vue.JS"}); };</script><script>var disqus_shortname = "learnjavascriptru";</script><script>var disqus_enabled = true;</script></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

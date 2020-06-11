@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Свойство &quot;box-sizing&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свойство &quot;box-sizing&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Свойство <code>box-sizing</code> может принимать одно из двух значений – <code>border-box</code> или <code>content-box</code>. В зависимости от выбранного значения браузер по-разному трактует значение свойств <code>width/height</code>.</p>
+<h2><a class="main__anchor" name="значения-box-sizing" href="#значения-box-sizing">Значения box-sizing</a></h2><dl>
+<dt><code>content-box</code></dt>
+<dd>Это значение по умолчанию. В этом случае свойства <code>width/height</code> обозначают то, что находится <em>внутри <code>padding</code></em>.</dd>
+<dt><code>border-box</code></dt>
+<dd>Значения <code>width/height</code> задают высоту/ширину <em>всего элемента</em>.</dd>
+</dl>
+<p>Для большей наглядности посмотрим на картинку этого <code>div</code> в зависимости от <code>box-sizing</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+div {
+  width: 200px;
+  height: 100px;
+  box-sizing: border-box (вверху) | content-box (внизу);
+
+  padding: 20px;
+  border:5px solid brown;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><figure><div class="image" style="width:550px">
+      <div class="image__ratio" style="padding-top:72.54545454545455%"></div>
+      <img src="article/box-sizing/border-box.png" alt="" width="550" height="399" class="image__image">
+      </div></figure><p>В верхнем случае браузер нарисовал весь элемент размером в <code>width x height</code>, в нижнем – интерпретировал <code>width/height</code> как размеры внутренней области.</p>
+<p>Исторически сложилось так, что по умолчанию принят <code>content-box</code>, а <code>border-box</code> некоторые браузеры используют если не указан <code>DOCTYPE</code>, в режиме совместимости.</p>
+<p>Но есть как минимум один случай, когда явное указание <code>border-box</code> может быть полезно: растягивание элемента до ширины родителя.</p>
+<h2><a class="main__anchor" name="пример-подстроить-ширину-к-родителю" href="#пример-подстроить-ширину-к-родителю">Пример: подстроить ширину к родителю</a></h2><p>Задача: подогнать элемент по ширине внешнего элемента, чтобы он заполнял всё его пространство. Без привязки к конкретному размеру элемента в пикселях.</p>
+<p>Например, мы хотим, чтобы элементы формы ниже были одинакового размера:</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-block="15-19">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  form {
+    width: 200px;
+    border: 2px solid green;
+  }
+
+  form input,
+  form select {
+    display: block;
+    padding-left: 5px;
+    /* padding для красоты */
+  }
+&lt;/style&gt;
+
+&lt;form&gt;
+  &lt;input&gt;
+  &lt;input&gt;
+  &lt;select&gt;
+    &lt;option&gt;опции&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-5xwwxm"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Как сделать, чтобы элементы растянулись чётко по ширине <code>FORM</code>? Попробуйте добиться этого самостоятельно, перед тем как читать дальше.</p>
+<h3><a class="main__anchor" name="попытка-width-100" href="#попытка-width-100">Попытка width:100%</a></h3><p>Первое, что приходит в голову – поставить всем <code>INPUT'ам</code> ширину <code>width: 100%</code>.</p>
+<p>Попробуем:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true" data-highlight-block="9-9">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  form {
+    width: 200px;
+    border: 2px solid green;
+  }
+
+  form input, form select {
+    display: block;
+    padding-left: 5px;
+    width: 100%;
+  }
+&lt;/style&gt;
+
+&lt;form&gt;
+  &lt;input&gt;
+  &lt;input&gt;
+  &lt;select&gt;&lt;option&gt;опции&lt;/option&gt;&lt;/select&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-81idrj"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Как видно, не получается. <strong>Элементы вылезают за пределы родителя.</strong></p>
+<p><strong>Причина – ширина элемента 100% по умолчанию относится к внутренней области, не включающей <code>padding</code> и <code>border</code>.</strong> То есть, внутренняя область растягивается до <code>100%</code> родителя, и к ней снаружи прибавляются <code>padding/border</code>, которые и вылезают.</p>
+<p>Есть два решения этой проблемы.</p>
+<h3><a class="main__anchor" name="решение-дополнительный-элемент" href="#решение-дополнительный-элемент">Решение: дополнительный элемент</a></h3><p>Можно убрать <code>padding/border</code> у элементов <code>INPUT/SELECT</code> и завернуть каждый из них в дополнительный <code>DIV</code>, который будет обеспечивать дизайн:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  form {
+    width: 200px;
+    border: 2px solid green;
+  }
+  /* убрать padding/border */
+
+  form input,
+  form select {
+    padding: 0;
+    border: 0;
+    width: 100%;
+  }
+  /* внешний div даст дизайн */
+
+  form div {
+    padding-left: 5px;
+    border: 1px solid black;
+  }
+&lt;/style&gt;
+
+&lt;form&gt;
+  &lt;div&gt;
+    &lt;input&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;input&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;select&gt;
+      &lt;option&gt;опции&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-for4a1"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>В принципе, это работает. Но нужны дополнительные элементы. А если мы делаем дерево или большую редактируемую таблицу, да и вообще – любой интерфейс, где элементов и так много, то лишние нам точно не нужны.</p>
+<p>Кроме того, такое решение заставляет пожертвовать встроенным в браузер дизайном элементов <code>INPUT/SELECT</code>.</p>
+<h3><a class="main__anchor" name="решение-box-sizing" href="#решение-box-sizing">Решение: box-sizing</a></h3><p>Существует другой способ, гораздо более естественный, чем предыдущий.</p>
+<p><strong>При помощи <code>box-sizing: border-box</code> мы можем сказать браузеру, что ширина, которую мы ставим, относится к элементу полностью, включая <code>border</code> и <code>padding</code></strong>:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true" data-highlight-block="9-11">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  form {
+    width: 200px;
+    border: 2px solid green;
+  }
+
+  form input, form select {
+    display: block;
+    padding-left: 5px;
+    -moz-box-sizing: border-box; /* в Firefox нужен префикс */
+    box-sizing: border-box;
+    width: 100%;
+  }
+&lt;/style&gt;
+
+&lt;form&gt;
+  &lt;input&gt;
+  &lt;input&gt;
+  &lt;select&gt;&lt;option&gt;опции&lt;/option&gt;&lt;/select&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-afkgs3"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Мы сохранили «родную» рамку вокруг <code>INPUT/SELECT</code> и не добавили лишних элементов. Всё замечательно.</p>
+<p>Свойство <code>box-sizing</code> поддерживается в IE начиная с версии 8.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

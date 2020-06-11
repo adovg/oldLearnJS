@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="js-misc.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Некоторые другие возможности</span></a></li></ol><h1 class="main__header-title">Типы данных: [[Class]], instanceof и утки</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Типы данных: [[Class]], instanceof и утки"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Время от времени бывает удобно создавать так называемые «полиморфные» функции, то есть такие, которые по-разному обрабатывают аргументы, в зависимости от их типа. Например, функция вывода может по-разному форматировать числа и даты.</p>
+<p>Для реализации такой возможности нужен способ определить тип переменной.</p>
+<h2><a class="main__anchor" name="оператор-typeof" href="#оператор-typeof">Оператор typeof</a></h2><p>Мы уже знакомы с простейшим способом – оператором <a href="types-intro.htm#type-typeof">typeof</a>.</p>
+<p>Оператор <code>typeof</code> надежно работает с примитивными типами, кроме <code>null</code>, а также с функциями. Он возвращает для них тип в виде строки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( typeof 1 );         // 'number'
+alert( typeof true );      // 'boolean'
+alert( typeof &quot;Текст&quot; );   // 'string'
+alert( typeof undefined ); // 'undefined'
+alert( typeof null );      // 'object' (ошибка в языке)
+alert( typeof alert );     // 'function'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Но все объекты, включая массивы и даты для <code>typeof</code> – на одно лицо, они имеют один тип <code>'object'</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( typeof {} ); // 'object'
+alert( typeof [] ); // 'object'
+alert( typeof new Date ); // 'object'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Поэтому различить их при помощи <code>typeof</code> нельзя, и в этом его основной недостаток.</p>
+<h2><a class="main__anchor" name="секретное-свойство-class" href="#секретное-свойство-class">Секретное свойство [[Class]]</a></h2><p>Для встроенных объектов есть одна «секретная» возможность узнать их тип, которая связана с методом <code>toString</code>.</p>
+<p>Во всех встроенных объектах есть специальное свойство <code>[[Class]]</code>, в котором хранится информация о его типе или конструкторе.</p>
+<p>Оно взято в квадратные скобки, так как это свойство – внутреннее. Явно получить его нельзя, но можно прочитать его «в обход», воспользовавшись методом <code>toString</code> стандартного объекта <code>Object</code>.</p>
+<p>Его внутренняя реализация выводит <code>[[Class]]</code> в небольшом обрамлении, как <code>&quot;[object значение]&quot;</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var toString = {}.toString;
+
+var arr = [1, 2];
+alert( toString.call(arr) ); // [object Array]
+
+var date = new Date;
+alert( toString.call(date) ); // [object Date]
+
+var user = { name: &quot;Вася&quot; };
+alert( toString.call(user) ); // [object Object]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В первой строке мы взяли метод <code>toString</code>, принадлежащий именно стандартному объекту <code>{}</code>. Нам пришлось это сделать, так как у <code>Date</code> и <code>Array</code>  – свои собственные методы <code>toString</code>, которые работают иначе.</p>
+<p>Затем мы вызываем этот <code>toString</code> в контексте нужного объекта <code>obj</code>, и он возвращает его внутреннее, невидимое другими способами, свойство <code>[[Class]]</code>.</p>
+<p><strong>Для получения <code>[[Class]]</code> нужна именно внутренняя реализация <code>toString</code> стандартного объекта <code>Object</code>, другая не подойдёт.</strong></p>
+<p>К счастью, методы в JavaScript – это всего лишь функции-свойства объекта, которые можно скопировать в переменную и применить на другом объекте через <code>call/apply</code>. Что мы и делаем для <code>{}.toString</code>.</p>
+<p>Метод также можно использовать с примитивами:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( {}.toString.call(123) ); // [object Number]
+alert( {}.toString.call(&quot;строка&quot;) ); // [object String]</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Вызов <code>{}.toString</code> в консоли может выдать ошибку</span></div>
+            <div class="important__content"><p>При тестировании кода в консоли вы можете обнаружить, что если ввести в командную строку <code>{}.toString.call(...)</code> – будет ошибка. С другой стороны, вызов <code>alert( {}.toString... )</code> – работает.</p>
+<p>Эта ошибка возникает потому, что фигурные скобки <code>{ }</code> в основном потоке кода интерпретируются как блок. Интерпретатор читает <code>{}.toString.call(...)</code> так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">{ } // пустой блок кода
+.toString.call(...) // а что это за точка в начале? не понимаю, ошибка!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Фигурные скобки считаются объектом, только если они находятся в контексте выражения. В частности, оборачивание в скобки <code>( {}.toString... )</code> тоже сработает нормально.</p>
+</div></div>
+<p>Для большего удобства можно сделать функцию <code>getClass</code>, которая будет возвращать только сам <code>[[Class]]</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getClass(obj) {
+  return {}.toString.call(obj).slice(8, -1);
+}
+
+alert( getClass(new Date) ); // Date
+alert( getClass([1, 2, 3]) ); // Array</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Заметим, что свойство <code>[[Class]]</code> есть и доступно для чтения указанным способом – у всех <em>встроенных</em> объектов. Но его нет у объектов, которые создают <em>наши функции</em>. Точнее, оно есть, но равно всегда <code>&quot;Object&quot;</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User() {}
+
+var user = new User();
+
+alert( {}.toString.call(user) ); // [object Object], не [object User]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Поэтому узнать тип таким образом можно только для встроенных объектов.</p>
+<h2><a class="main__anchor" name="метод-array-isarray" href="#метод-array-isarray">Метод Array.isArray()</a></h2><p>Для проверки типа на массив есть специальный метод: <code>Array.isArray(arr)</code>. Он возвращает <code>true</code> только если <code>arr</code> – массив:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( Array.isArray([1,2,3]) ); // true
+alert( Array.isArray(&quot;not array&quot;)); // false</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Но этот метод – единственный в своём роде.</p>
+<p>Других аналогичных, типа <code>Object.isObject</code>, <code>Date.isDate</code> – нет.</p>
+<h2><a class="main__anchor" name="оператор-instanceof" href="#оператор-instanceof">Оператор instanceof</a></h2><p>Оператор <code>instanceof</code> позволяет проверить, создан ли объект данной функцией, причём работает для любых функций – как встроенных, так и наших.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function User() {}
+
+var user = new User();
+
+alert( user instanceof User ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Таким образом, <code>instanceof</code>, в отличие от <code>[[Class]]</code> и <code>typeof</code> может помочь выяснить тип для новых объектов, созданных нашими конструкторами.</p>
+<p>Заметим, что оператор <code>instanceof</code> – сложнее, чем кажется. Он учитывает наследование, которое мы пока не проходили, но скоро изучим и затем вернёмся к <code>instanceof</code> в главе <a href="instanceof.htm">Проверка класса: &quot;instanceof&quot;</a>.</p>
+<h2><a class="main__anchor" name="утиная-типизация" href="#утиная-типизация">Утиная типизация</a></h2><p>Альтернативный подход к типу – «утиная типизация», которая основана на одной известной пословице: <em>«If it looks like a duck, swims like a duck and quacks like a duck, then it probably is a duck (who cares what it really is)»</em>.</p>
+<p>В переводе: <em>«Если это выглядит как утка, плавает как утка и крякает как утка, то, вероятно, это утка (какая разница, что это на самом деле)»</em>.</p>
+<p>Смысл утиной типизации – в проверке необходимых методов и свойств.</p>
+<p>Например, мы можем проверить, что объект – массив, не вызывая <code>Array.isArray</code>, а просто уточнив наличие важного для нас метода, например <code>splice</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var something = [1, 2, 3];
+
+if (something.splice) {
+  alert( 'Это утка! То есть, массив!' );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратите внимание – в <code>if</code> мы не вызываем метод <code>something.splice()</code>, а пробуем получить само свойство <code>something.splice</code>. Для массивов оно всегда есть и является функцией, т.е. даст в логическом контексте <code>true</code>.</p>
+<p>Проверить на дату можно, определив наличие метода <code>getTime</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var x = new Date();
+
+if (x.getTime) {
+  alert( 'Дата!' );
+  alert( x.getTime() ); // работаем с датой
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>С виду такая проверка хрупка, ее можно «сломать», передав похожий объект с тем же методом.</p>
+<p>Но как раз в этом и есть смысл утиной типизации: если объект похож на дату, у него есть методы даты, то будем работать с ним как с датой (какая разница, что это на самом деле).</p>
+<p>То есть мы намеренно позволяем передать в код нечто менее конкретное, чем определённый тип, чтобы сделать его более универсальным.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Проверка интерфейса</span></div>
+            <div class="important__content"><p>Если говорить словами «классического программирования», то «duck typing» – это проверка реализации объектом требуемого интерфейса. Если реализует – ок, используем его. Если нет – значит это что-то другое.</p>
+</div></div>
+<h2><a class="main__anchor" name="пример-полиморфной-функции" href="#пример-полиморфной-функции">Пример полиморфной функции</a></h2><p>Пример полиморфной функции – <code>sayHi(who)</code>, которая будет говорить «Привет» своему аргументу, причём если передан массив – то «Привет» каждому:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sayHi(who) {
+
+  if (Array.isArray(who)) {
+    who.forEach(sayHi);
+  } else {
+    alert( 'Привет, ' + who );
+  }
+}
+
+// Вызов с примитивным аргументом
+sayHi(&quot;Вася&quot;); // Привет, Вася
+
+// Вызов с массивом
+sayHi([&quot;Саша&quot;, &quot;Петя&quot;]); // Привет, Саша... Петя
+
+// Вызов с вложенными массивами - тоже работает!
+sayHi([&quot;Саша&quot;, &quot;Петя&quot;, [&quot;Маша&quot;, &quot;Юля&quot;]]); // Привет Саша..Петя..Маша..Юля</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Проверку на массив в этом примере можно заменить на «утиную» – нам ведь нужен только метод <code>forEach</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function sayHi(who) {
+
+  if (who.forEach) {  // если есть forEach
+    who.forEach(sayHi); // предполагаем, что он ведёт себя &quot;как надо&quot;
+  } else {
+    alert( 'Привет, ' + who );
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Для написания полиморфных (это удобно!) функций нам нужна проверка типов.</p>
+<ul>
+<li>
+<p>Для примитивов с ней отлично справляется оператор <code>typeof</code>.</p>
+<p>У него две особенности:</p>
+<ul>
+<li>Он считает <code>null</code> объектом, это внутренняя ошибка в языке.</li>
+<li>Для функций он возвращает <code>function</code>, по стандарту функция не считается базовым типом, но на практике это удобно и полезно.</li>
+</ul>
+</li>
+<li>
+<p>Для встроенных объектов мы можем получить тип из скрытого свойства <code>[[Class]]</code>, при помощи вызова <code>{}.toString.call(obj).slice(8, -1)</code>. Для конструкторов, которые объявлены нами, <code>[[Class]]</code> всегда равно <code>&quot;Object&quot;</code>.</p>
+</li>
+<li>
+<p>Оператор <code>obj instanceof Func</code> проверяет, создан ли объект <code>obj</code> функцией <code>Func</code>, работает для любых конструкторов. Более подробно мы разберём его в главе <a href="instanceof.htm">Проверка класса: &quot;instanceof&quot;</a>.</p>
+</li>
+<li>
+<p>И, наконец, зачастую достаточно проверить не сам тип, а просто наличие нужных свойств или методов. Это называется «утиная типизация».</p>
+</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#полиморфная-функция-formatdate" name="полиморфная-функция-formatdate" class="main__anchor">Полиморфная функция formatDate</a></h3><a href="task/format-date-polymorphic.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите функцию <code>formatDate(date)</code>, которая возвращает дату в формате <code>dd.mm.yy</code>.</p>
+<p>Ее первый аргумент должен содержать дату в одном из видов:</p>
+<ol>
+<li>Как объект <code>Date</code>.</li>
+<li>Как строку, например <code>yyyy-mm-dd</code> или другую в стандартном формате даты.</li>
+<li>Как число <em>секунд</em> с <code>01.01.1970</code>.</li>
+<li>Как массив <code>[гггг, мм, дд]</code>, месяц начинается с нуля</li>
+</ol>
+<p>Для этого вам понадобится определить тип данных аргумента и, при необходимости, преобразовать входные данные в нужный формат.</p>
+<p>Пример работы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function formatDate(date) { /* ваш код */ }
+
+alert( formatDate('2011-10-02') ); // 02.10.11
+alert( formatDate(1234567890) ); // 14.02.09
+alert( formatDate([2014, 0, 1]) ); // 01.01.14
+alert( formatDate(new Date(2014, 0, 1)) ); // 01.01.14</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/MFkifc1Wsqovpler5Fyj?p=preview" target="_blank" data-plunk-id="MFkifc1Wsqovpler5Fyj">Открыть песочницу с тестами для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Для определения примитивного типа строка/число подойдет оператор <a href="types-intro.htm#type-typeof">typeof</a>.</p>
+<p>Примеры его работы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( typeof 123 ); // &quot;number&quot;
+alert( typeof &quot;строка&quot; ); // &quot;string&quot;
+alert( typeof new Date() ); // &quot;object&quot;
+alert( typeof [] ); // &quot;object&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Оператор <code>typeof</code> не умеет различать разные типы объектов, они для него все на одно лицо: <code>&quot;object&quot;</code>. Поэтому он не сможет отличить <code>Date</code> от <code>Array</code>.</p>
+<p>Для отличия <code>Array</code> используем вызов <code>Array.isArray</code>. Если он неверен, значит у нас дата.</p>
+<p><a href="http://plnkr.co/edit/ApWzkId6JcGSUlMbmJxZ?p=preview" target="_blank" data-plunk-id="ApWzkId6JcGSUlMbmJxZ">Открыть решение с тестами в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

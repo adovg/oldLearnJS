@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Свойство &quot;position&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свойство &quot;position&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Свойство <code>position</code> позволяет сдвигать элемент со своего обычного места. Цель этой главы – не только напомнить, как оно работает, но и разобрать ряд частых заблуждений и граблей.</p>
+<h2><a class="main__anchor" name="position-static" href="#position-static">position: static</a></h2><p><em>Статическое позиционирование</em> производится по умолчанию, в том случае, если свойство <code>position</code> не указано.</p>
+<p>Его можно также явно указать через CSS-свойство:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">position: static;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такая запись встречается редко и используется для переопределения других значений <code>position</code>.</p>
+<p>Здесь и далее, для примеров мы будем использовать следующий документ:</p>
+<div data-trusted="1" class="code-example" data-demo-height="200" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;background: #fee; width: 500px&quot;&gt;
+    Без позиционирования (&quot;position: static&quot;).
+
+    &lt;h2 style=&quot;background: #aef; margin: 0&quot;&gt;Заголовок&lt;/h2&gt;
+
+    &lt;div&gt;А тут - всякий разный текст... &lt;br/&gt;
+         ... В две строки!&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-783a3a"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>В этом документе сейчас все элементы отпозиционированы статически, то есть никак.</p>
+<div class="summary"><div class="summary__content"><p>Элемент с <code>position: static</code> еще называют <em>не позиционированым</em>.</p>
+</div></div>
+<h2><a class="main__anchor" name="position-relative" href="#position-relative">position: relative</a></h2><p><em>Относительное позиционирование</em> сдвигает элемент относительно его обычного положения.</p>
+<p>Для того, чтобы применить относительное позиционирование, необходимо указать элементу CSS-свойство <code>position: relative</code> и координаты <code>left/right/top/bottom</code>.</p>
+<p>Этот стиль сдвинет элемент на 10 пикселей относительно обычной позиции по вертикали:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">position: relative;
+top: 10px;</code></pre>
+        </div>
+      </div>
+      
+      </div><div data-trusted="1" class="code-example" data-demo-height="200" data-autorun="true" data-highlight-block="0-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  h2 {
+    position: relative;
+    top: 10px;
+  }
+&lt;/style&gt;
+
+&lt;div style=&quot;background: #fee; width: 500px&quot;&gt;
+    Заголовок сдвинут на 10px вниз.
+
+    &lt;h2 style=&quot;background: #aef; margin: 0;&quot;&gt;Заголовок&lt;/h2&gt;
+
+    &lt;div&gt;А тут - всякий разный текст... &lt;br/&gt;
+         ... В две строки!&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-df7k6c"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h3><a class="main__anchor" name="координаты" href="#координаты">Координаты</a></h3><p>Для сдвига можно использовать координаты:</p>
+<ul>
+<li><code>top</code> – сдвиг от «обычной» верхней границы</li>
+<li><code>bottom</code> – сдвиг от нижней границы</li>
+<li><code>left</code> – сдвиг слева</li>
+<li><code>right</code> – сдвиг справа</li>
+</ul>
+<p>Не будут работать одновременно указанные <code>top</code> и <code>bottom</code>, <code>left</code> и <code>right</code>. Нужно использовать только одну границу из каждой пары.</p>
+<p><strong>Возможны отрицательные координаты</strong> и координаты, использующие другие единицы измерения. Например, <code>left: 10%</code> сдвинет элемент на 10% его ширины вправо, а <code>left: -10%</code> – влево. При этом часть элемента может оказаться за границей окна:</p>
+<div data-trusted="1" class="code-example" data-demo-height="200" data-autorun="true" data-highlight-block="0-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  h2 {
+    position: relative;
+    left: -10%;
+  }
+&lt;/style&gt;
+
+&lt;div style=&quot;background: #fee; width: 500px&quot;&gt;
+    Заголовок сдвинут на 10% влево.
+
+    &lt;h2 style=&quot;background: #aef; margin: 0;&quot;&gt;Заголовок&lt;/h2&gt;
+
+    &lt;div&gt;А тут - всякий разный текст... &lt;br/&gt;
+         ... В две строки!&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-gasmzd"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p><strong>Свойства <code>left/top</code> не будут работать для <code>position:static</code></strong>. Если их все же поставить, браузер их проигнорирует. Эти свойства предназначены для работы только с позиционированными элементами.</p>
+<h2><a class="main__anchor" name="position-absolute" href="#position-absolute">position: absolute</a></h2><p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">position: absolute;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Абсолютное позиционирование делает две вещи:</p>
+<ol>
+<li><strong>Элемент исчезает с того места, где он должен быть и позиционируется заново.</strong> Остальные элементы, располагаются так, как будто этого элемента никогда не было.</li>
+<li><strong>Координаты <code>top/bottom/left/right</code> для нового местоположения отсчитываются от ближайшего позиционированного родителя</strong>, т.е. родителя с позиционированием, отличным от <code>static</code>. Если такого родителя нет – то относительно документа.</li>
+</ol>
+<p>Кроме того:</p>
+<ul>
+<li><strong>Ширина элемента с <code>position: absolute</code> устанавливается по содержимому.</strong> Детали алгоритма вычисления ширины <a href="http://www.w3.org/TR/CSS2/visudet.html#abs-non-replaced-width">описаны в стандарте</a>.</li>
+<li><strong>Элемент получает <code>display:block</code></strong>, который перекрывает почти все возможные <code>display</code> (см. <a href="http://www.w3.org/TR/CSS2/visuren.html#dis-pos-flo">Relationships between „display“, „position“, and „float“</a>).</li>
+</ul>
+<p>Например, отпозиционируем заголовок в правом-верхнем углу документа:</p>
+<div data-trusted="1" class="code-example" data-demo-height="200" data-autorun="true" data-highlight-block="0-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  h2 {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+&lt;/style&gt;
+
+&lt;div style=&quot;background: #fee; width: 500px&quot;&gt;
+    Заголовок в правом-верхнем углу документа.
+
+    &lt;h2 style=&quot;background: #aef; margin: 0;&quot;&gt;Заголовок&lt;/h2&gt;
+
+    &lt;div&gt;А тут - всякий разный текст... &lt;br/&gt;
+         ... В две строки!&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-8sqkk2"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Важное отличие от <code>relative</code>: <strong>так как элемент удаляется со своего обычного места, то элементы под ним сдвигаются, занимая освободившееся пространство</strong>. Это видно в примере выше: строки идут одна за другой.</p>
+<p>Так как при <code>position:absolute</code> размер блока устанавливается по содержимому, то
+широкий <code>Заголовок</code> «съёжился» до прямоугольника в углу.</p>
+<p>Иногда бывает нужно поменять элементу <code>position</code> на <code>absolute</code>, но так, чтобы элементы вокруг не сдвигались. Как правило это делают, меняя соседей – добавляют <code>margin/padding</code> или вставляют в документ пустой элемент с такими же размерами.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Одновременное указание <code>left/right</code>, <code>top/bottom</code></span></div>
+            <div class="important__content"><p><strong>В абсолютно позиционированном элементе можно одновременно задавать противоположные границы.</strong></p>
+<p>Браузер растянет такой элемент до границ.</p>
+<div data-trusted="1" class="code-example" data-demo-height="50" data-autorun="true" data-highlight-block="1-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+div {
+  position: absolute;
+  left: 10px; right: 10px; top: 10px; bottom: 10px;
+}
+&lt;/style&gt;
+&lt;div style=&quot;background:#aef;text-align:center&quot;&gt;10px от границ&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-r362r"
+          style="height:50px"
+          src="about:blank"></iframe>
+      </div>
+      </div></div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Внешним блоком является окно</span></div>
+            <div class="important__content"><p>Как растянуть абсолютно позиционированный блок на всю ширину документа?</p>
+<p>Первое, что может прийти в голову:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+div {
+  position: absolute;
+  left: 0; top: 0; /* в левый-верхний угол */
+  width: 100%; height: 100%; /* .. и растянуть */
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Но это будет работать лишь до тех пор, пока у страницы не появится скроллинг!</p>
+<p>Прокрутите вниз ифрейм:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/position/position-100-wrong/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:200px" src="https://js.cx/article/position/position-100-wrong/"></iframe>
+  </div><p><strong>Вы увидите, что голубой фон оканчивается задолго до конца документа.</strong></p>
+<p>Дело в том, что в CSS <code>100%</code> относится к ширине внешнего блока («containing block»). А какой внешний блок имеется в виду здесь, ведь элемент изъят со своего обычного места?</p>
+<p>В данном случае им является так называемый (<a href="http://www.w3.org/TR/CSS21/visudet.html#containing-block-details">&quot;«initial containing block»&quot;</a>), которым является окно, <em>а не документ</em>.</p>
+<p><strong>То есть, координаты и ширины вычисляются относительно окна, а не документа.</strong></p>
+<p>Может быть, получится так?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">/*+ no-beautify */
+div {
+  position: absolute;
+  left: 0; top: 0; /* в левый-верхний угол, и растянуть..  */
+  right: 0; bottom: 0; /* ..указанием противоположных границ */
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>С виду логично, но нет, не получится!</p>
+<p>Координаты <code>top/right/left/bottom</code> вычисляются относительно <em>окна</em>. Значение <code>bottom: 0</code> – нижняя граница окна, а не документа, блок растянется до неё. То есть, будет то же самое, что и в предыдущем примере.</p>
+</div></div>
+<h2><a class="main__anchor" name="position-absolute-в-позиционированном-родителе" href="#position-absolute-в-позиционированном-родителе">position: absolute в позиционированном родителе</a></h2><p>Если у элемента есть позиционированный предок, то <code>position: absolute</code> работает относительно него, а не относительно документа.</p>
+<p>То есть, достаточно поставить родительскому <code>div</code> позицию <code>relative</code>, даже без координат – и заголовок будет в его правом-верхнем углу, вот так:</p>
+<div data-trusted="1" class="code-example" data-demo-height="200" data-autorun="true" data-highlight-block="0-6" data-highlight-inline="8:44-62">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  h2 {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+&lt;/style&gt;
+
+&lt;div style=&quot;background: #fee; width: 500px; position: relative&quot;&gt;
+    Заголовок в правом-верхнем углу DIV'а.
+
+    &lt;h2 style=&quot;background: #aef; margin: 0;&quot;&gt;Заголовок&lt;/h2&gt;
+
+    &lt;div&gt;А тут - всякий разный текст... &lt;br/&gt;
+         ... В две строки!&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-2h814y"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Нужно пользоваться таким позиционированием с осторожностью, т.к оно может перекрыть текст. Этим оно отличается от <code>float</code>.</p>
+<p>Сравните:</p>
+<ul>
+<li>
+<p>Используем <code>position</code> для размещения элемента управления:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;button style=&quot;position: absolute; right: 10px; opacity: 0.8&quot;&gt;
+  Кнопка
+&lt;/button&gt;
+1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9
+1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-2t871z"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p><strong>Часть текста перекрывается.</strong> Кнопка более не участвует в потоке.</p>
+</li>
+<li>
+<p>Используем <code>float</code> для размещения элемента управления:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;button style=&quot;float: right; margin-right: 10px; opacity: 0.8;&quot;&gt;
+  Кнопка
+&lt;/button&gt;
+1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9
+1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-fh2hta"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p><strong>Браузер освобождает место справа, текст перенесён.</strong> Кнопка продолжает находиться в потоке, просто сдвинута.</p>
+</li>
+</ul>
+<h2><a class="main__anchor" name="position-fixed" href="#position-fixed">position: fixed</a></h2><p>Это подвид абсолютного позиционирования.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">position: fixed;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Позиционирует объект точно так же, как <code>absolute</code>, но относительно <code>window</code>.</p>
+<p>Разница в нескольких словах:</p>
+<p><strong>Когда страницу прокручивают, фиксированный элемент остается на своем месте и не прокручивается вместе со страницей.</strong></p>
+<p>В следующем примере, при прокрутке документа, ссылка <code>#top</code> всегда остается на своем месте.</p>
+<div data-trusted="0" class="code-example" data-demo-height="200" data-autorun="true" data-highlight-block="1-6" data-highlight-inline="9:0-56">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  #top {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    background: #fee;
+  }
+&lt;/style&gt;
+
+&lt;a href=&quot;#&quot; id=&quot;top&quot;&gt;Наверх (остается при прокрутке)&lt;/a&gt;
+
+Фиксированное позиционирование.
+
+&lt;p&gt;Текст страницы.. Прокрути меня...&lt;/p&gt;
+&lt;p&gt;Много строк..&lt;/p&gt;&lt;p&gt;Много строк..&lt;/p&gt;
+&lt;p&gt;Много строк..&lt;/p&gt;&lt;p&gt;Много строк..&lt;/p&gt;
+&lt;p&gt;Много строк..&lt;/p&gt;&lt;p&gt;Много строк..&lt;/p&gt;
+&lt;p&gt;Много строк..&lt;/p&gt;&lt;p&gt;Много строк..&lt;/p&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-5567j6"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Виды позиционирования и их особенности.</p>
+<dl>
+<dt><code>static</code></dt>
+<dd>Иначе называется «без позиционирования». В явном виде задаётся только если надо переопределить другое правило CSS.</dd>
+<dt><code>relative</code></dt>
+<dd>Сдвигает элемент относительно текущего места.</dd>
+</dl>
+<ul>
+<li>Противоположные границы <code>left/right</code> (<code>top/bottom</code>) одновременно указать нельзя.</li>
+<li>Окружающие элементы ведут себя так, как будто элемент не сдвигался.</li>
+</ul>
+<dl>
+<dt><code>absolute</code></dt>
+<dd>
+<p>Визуально переносит элемент на новое место.</p>
+<p>Новое место вычисляется по координатам <code>left/top/right/bottom</code> относительно ближайшего позиционированного родителя. Если такого родителя нет, то им считается окно.</p>
+</dd>
+</dl>
+<ul>
+<li>
+<p>Ширина элемента по умолчанию устанавливается по содержимому.</p>
+</li>
+<li>
+<p>Можно указать противоположные границы <code>left/right</code> (<code>top/bottom</code>). Элемент растянется.</p>
+</li>
+<li>
+<p>Окружающие элементы заполняют освободившееся место.</p>
+  </li>
+</li>
+</ul>
+<dl>
+<dt><code>fixed</code></dt>
+<dd>
+<p>Подвид абсолютного позиционирования, при котором элемент привязывается к координатам окна, а не документа.</p>
+<p>При прокрутке он остаётся на том же месте.</p>
+</dd>
+</dl>
+<h2><a class="main__anchor" name="почитать" href="#почитать">Почитать</a></h2><p>CSS-позиционирование по-настоящему глубоко в спецификации <a href="http://www.w3.org/TR/CSS2/visuren.html#positioning-scheme">Visual Formatting Model, 9.3 и ниже</a>.</p>
+<p>Еще есть хорошее руководство <a href="http://www.barelyfitz.com/screencast/html-training/css/positioning/">CSS Positioning in 10 steps</a>, которое охватывает основные типы позиционирования.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#модальное-окно" name="модальное-окно" class="main__anchor">Модальное окно</a></h3><a href="task/modal-window.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Создайте при помощи HTML/CSS «модальное окно», то есть <code>DIV</code>, который полностью перекрывает документ и находится над ним.</p>
+<p>При этом все элементы управления на документе перестают работать, т.к. клики попадают в <code>DIV</code>.</p>
+<p>В примере ниже <code>DIV'у</code> дополнительно поставлен цвет фона и прозрачность, чтобы было видно перекрытие:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/task/modal-window/solution/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:150px" src="https://js.cx/task/modal-window/solution/"></iframe>
+  </div><p>Браузеры: все основные, IE8+. Должно работать при прокрутке окна (проверьте).</p>
+<p><a href="http://plnkr.co/edit/Yi6N0Zjq1bhFQXFPor0Y?p=preview" target="_blank" data-plunk-id="Yi6N0Zjq1bhFQXFPor0Y">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Если использовать <code>position: absolute</code>, то <code>DIV</code> не растянется на всю высоту документа, т.к. координаты вычисляются <em>относительно окна</em>.</p>
+<p>Можно, конечно, узнать эту высоту при помощи JavaScript, но CSS даёт более удобный способ. Будем использовать <code>position:fixed</code>:</p>
+<p>Стиль:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">#box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Свойство <code>z-index</code> должно превосходить все другие элементы управления, чтобы они перекрывались.</p>
+<p><a href="http://plnkr.co/edit/FssZlyc0NoFi93mSSzyQ?p=preview" target="_blank" data-plunk-id="FssZlyc0NoFi93mSSzyQ">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

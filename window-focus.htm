@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="frames-and-windows.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Окна и Фреймы</span></a></li></ol><h1 class="main__header-title">Привлечение внимания к окну</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Привлечение внимания к окну"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Проверить, находится ли окно в фокусе, а также перевести внимание посетителя на него – сложно.</p>
+<p>В первую очередь, это потому, что JavaScript не интегрирован с оконным менеджером ОС. Кроме того, браузер охраняет права посетителя: если он хочет скрыть окно, то JavaScript не может его остановить.</p>
+<p>Но кое-что сделать, конечно, можно. Об этом и поговорим.</p>
+<h2><a class="main__anchor" name="метод-window-focus" href="#метод-window-focus">Метод window.focus</a></h2><p>Метод <code>window.focus</code> позволяет сфокусироваться на окне. Он работает по-разному в разных ОС и браузерах.</p>
+<p>Проверьте, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">setInterval(function() { window.focus() }, 1000);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Что будет, если запустить этот код, и затем переключиться в другое окно или вкладку?</p>
+<p>Можно подумать, что окно будет оказываться в фокусе раз в секунду. Но это не так.</p>
+<p>Произойдет одно из трех:</p>
+<ol>
+<li>Вообще никакого эффекта. Самый распространённый случай, если в окне много вкладок.</li>
+<li>Окно развернется (при необходимости) и выйдет на передний план. Обычно это происходит, когда метод <code>window.focus()</code> вызывается для попапа, а активно  сейчас – главное окно. То есть, в этом случае вызов сработает.</li>
+<li>Заголовок окна начнет мигать. Чтобы увидеть это в действии – откройте данную страницу в IE, запустите код и переключитесь на другое окно. Браузер попытается привлечь Ваше внимание миганием/мерцанием заголовка окна.</li>
+</ol>
+<h2><a class="main__anchor" name="мерцание-заголовка" href="#мерцание-заголовка">Мерцание заголовка</a></h2><p>В дополнение к <code>window.focus()</code> используют мерцание заголовка окна, как показано в примере ниже:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  var win = open('/', 'test', 'width=300,height=300')
+
+  function getAttention(win) {
+    if (win.closed) {
+      alert( &quot;Окно закрыто, привлечь внимание к нему нельзя&quot; );
+      return;
+    }
+
+    win.focus();
+    var i = 0;
+    var show = ['************', win.document.title];
+
+    var focusTimer = setInterval(function() {
+      if (win.closed) {
+        clearInterval(focusTimer);
+        return;
+      }
+      win.document.title = show[i++ % 2];
+    }, 1000);
+
+    win.document.onmousemove = function() {
+      clearInterval(focusTimer);
+      win.document.title = show[1];
+      win.document.onmousemove = null;
+    }
+  }
+&lt;/script&gt;
+
+&lt;input type=&quot;button&quot; onclick=&quot;getAttention(win)&quot; value=&quot;getAttention(win)&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Запустите код и сверните всплывающее окно. А затем – нажмите кнопку с надписью «getAttention(win)». Браузер будет привлекать ваше внимание, как умеет ;)</p>
+<p>Обратите внимание: в коде есть проверка на <code>win.closed</code>. Попытка манипулирования закрытым окном вызовет исключение.</p>
+<p>Как только посетитель сфокусировался на окне индикация прекращается. Для определения момента фокусировки в примере выше используется событие <code>document.onmousemove</code>.</p>
+<p>Можно было использовать событие <code>window.onfocus</code>, но, оказывается, оно ненадежно.</p>
+<h2><a class="main__anchor" name="событие-window-onfocus" href="#событие-window-onfocus">Событие window.onfocus</a></h2><p>Вот переписанный вариант функции <code>getAttention(win)</code>, с использованием события <code>onfocus</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  var win = open('/', 'test', 'width=300,height=300')
+
+  function getAttention(win) {
+    if (win.closed) {
+      alert( &quot;Окно закрыто, привлечь внимание к нему нельзя&quot; );
+      return;
+    }
+
+    var i = 0;
+    var show = ['************', win.document.title];
+
+    function stop() {
+      clearInterval(focusTimer);
+      win.document.title = show[1];
+    }
+
+    win.onfocus = function() {
+      stop();
+      win.onfocus = null;
+    }
+
+    var focusTimer = setInterval(function() {
+      if (win.closed) {
+        clearInterval(focusTimer);
+        return;
+      }
+
+      win.document.title = show[i++ % 2];
+    }, 1000);
+
+    win.focus();
+  }
+&lt;/script&gt;
+
+&lt;input type=&quot;button&quot; onclick=&quot;getAttention(win)&quot; value=&quot;getAttention(win)&quot;&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Далее мы посмотрим случаи, когда он не срабатывает, и почему нам всё же нужно <code>document.onmousemove</code>.</p>
+<h3><a class="main__anchor" name="когда-событие-onfocus-не-работает" href="#когда-событие-onfocus-не-работает">Когда событие onfocus не работает?</a></h3><p>Возможно такое, что посетитель переключается на окно, а <code>window.onfocus</code> не происходит.</p>
+<p>Это потому, что переключение между окнами и фокусировка – это разные вещи. Например, если курсор находится в поле для ввода URL браузера, то считается, что окно не в фокусе, хотя посетитель переключился на это окно.</p>
+<p>Попробуйте проделать следующее:</p>
+<ol>
+<li>Запустите пример с <code>getAttention</code> в Chrome или IE (кстати, в них нельзя отключить адресную панель).</li>
+<li>Поместите курсор в панель адреса всплывающего окна.</li>
+<li>Перейдите обратно к главному окну и нажмите кнопку <code>getAttention(win)</code></li>
+</ol>
+<p><strong>Вы увидите, что несмотря на то, что вы переключились на окно, и оно сейчас на переднем плане, событие <code>onfocus</code> не срабатывает.</strong></p>
+<p>Есть и другие случаи, когда переключение между окнами не вызывает <code>window.onfocus</code>. Скажем, если окно сфокусировать щелчком в поле ввода формы, то в IE события <code>window.onfocus</code> (а также <code>window.onfocusin</code>) – не сработают!</p>
+<p>Можно попробовать поймать момент фокусировки и по-другому, повесив дополнительные обработчики событий на <code>document</code>. В главе <a href="focus-blur.htm">Фокусировка: focus/blur</a> описана техника делегирования для <code>focus/blur</code>.</p>
+<p>Но этот способ получает фокус только если посетитель сфокусируется где-то в документе: щелкнет или сделает еще какое-то действие в документе, а не просто посмотрит на него и проведет над ним мышкой.</p>
+<p>Впрочем, никто не мешает использовать сочетание всех описанных методов.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Фокусировка и привлечение внимания к окну:</p>
+<ul>
+<li>
+<p>Метод <code>focus</code> для <code>window</code> не надёжен. Окнами и вкладками браузера можно уверенно управлять только на уровне ОС.</p>
+<p>Поэтому для привлечения внимания посетителя к окну стоит также использовать  мерцающий заголовок окна.</p>
+</li>
+</ul>
+<p>Обнаружение переключения на окно:</p>
+<ul>
+<li>
+<p>У <code>window</code> есть событие <code>onfocus</code>, но оно также ненадёжно.</p>
+<p>Поэтому для определения переключения на окно – используйте его вместе с делегируемым <code>focus</code> на документе, а также <code>document.onmousemove</code>.</p>
+</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="tools.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Сундучок с инструментами</span></a></li></ol><h1 class="main__header-title">Скриптуемый отладочный прокси Fiddler</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Скриптуемый отладочный прокси Fiddler"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Fiddler – прокси, который работает с трафиком между Вашим компьютером и удаленным сервером, и позволяет инспектировать и менять его.</p>
+<p>Fiddler можно расширять с помощью скриптов на языке JScript.NET (писать их очень просто), менять меню программы, и вообще – замечательный инструмент.</p>
+<p>Использовать его можно с любым браузером.</p>
+<p>Эта статья описывает Fiddler 2.4. В вашей версии Fiddler какие-то возможности могут измениться, какие-то образоваться.</p>
+<h2><a class="main__anchor" name="режимы-подключения" href="#режимы-подключения">Режимы подключения</a></h2><p>У Fiddler есть 2 способа подключения.</p>
+<ol>
+<li>
+<p>Первый – это просто запустить его. При этом он автоматически будет работать для программ, использующих WinINET.</p>
+<p>Это, например, Internet Explorer, Chrome, приложения MS Office.</p>
+<p>Firefox тоже автоматически подхватит Fiddler, за счёт того что при установке Fiddler в него ставится соответствующее расширение:</p>
+<figure><div class="image" style="width:216px">
+      <div class="image__ratio" style="padding-top:62.96296296296296%"></div>
+      <img src="article/fiddler/fiddler-hook.png" alt="" width="216" height="136" class="image__image">
+      </div></figure></li>
+<li>
+<p>Второй – это явно поставить Fiddler как прокси для браузера, по адресу <code>127.0.0.1:8888</code>. Например, так можно сделать для Opera, если уж не хочется перезапускать.</p>
+</li>
+</ol>
+<h2><a class="main__anchor" name="fiddler-не-под-windows" href="#fiddler-не-под-windows">Fiddler не под Windows</a></h2><p>Если вы работаете не под Windows, то Fiddler можно поставить в виртуальную машину.</p>
+<p>Чтобы сделать возможной подключение внешних браузеров, нужно включить настройках Fiddler: Tools → Fiddler Options → Connections(вкладка) галочку «Allow remote clients to connect».  После этого Fiddler станет доступен как прокси на интерфейсе <code>0.0.0.0</code>, так что можно будет браузеру из внешней ОС указать в качестве прокси виртуальную машину. И пользоваться Fiddler.</p>
+<p>Если вы так захотите поступить, то вдобавок возьмите удобный переключатель прокси, например Elite Proxy Switcher под Firefox или <a href="http://www.bayden.com/ietoys/">Proxy Pick</a> для IE, чтобы переключение на прокси осуществлялось в один клик.</p>
+<h2><a class="main__anchor" name="операции-над-запросами" href="#операции-над-запросами">Операции над запросами</a></h2><p>При заходе в Fiddler, открывается окно запросов слева и рабочие вкладки справа.</p>
+<figure><div class="image" style="width:615px">
+      <div class="image__ratio" style="padding-top:97.39837398373984%"></div>
+      <img src="article/fiddler/fiddler.png" alt="" width="615" height="599" class="image__image">
+      </div></figure><p>Как видно, опций много, на изображении они еле-еле помещаются. И, поверьте, возможностей – ещё больше.</p>
+<h2><a class="main__anchor" name="возможности" href="#возможности">Возможности</a></h2><ul>
+<li>
+<p><strong>В окне запросов</strong> слева можно просматривать и выбирать запросы, смотреть их заголовки, сохранять их на диск все вместе или по отдельности.</p>
+</li>
+<li>
+<p><strong>AutoResponder</strong> – позволяет подставить свой файл вместо сервера.</p>
+<p>Например, приятель попросил поправить скрипт <code>vasya.js</code> на сайте, но доступа к серверу не дал.</p>
+<p>С Fiddler задача решается просто – сохраняете скрипт на диске, в AutoResponder указываете, что <code>vasya.js</code> нужно брать с диска, а не с сайта – и исправляете, что нужно, перезагружаете страницу, проверяете – всё с комфортом.</p>
+</li>
+<li>
+<p><strong>Composer</strong> – позволяет составить запрос на сервер вручную.</p>
+<p>Например, вы хотите сделать такой же AJAX-запрос, как только что делали. Для этого можно просто выбрать его слева и нажать кнопку Replay (слева-сверху).</p>
+<p>А если хочется поменять? Нет ничего проще – выбираем справа Composer и перетаскиваем запрос слева в него. После этого исправляем, что хотим и Execute.</p>
+</li>
+<li>
+<p><strong>Filters</strong> – позволяет назначить действия в зависимости от вида запроса. Опции станут понятны после перехода на вкладку.</p>
+</li>
+<li>
+<p><strong>FiddlerScript</strong> – основа мощи Fiddler: скрипт, задающий функционал. Его редактированием можно добавить или удалить пункты меню, колонки в списке запросов, и, вообще, поменять почти всё.</p>
+<p>Язык программирования JScript.NET, который здесь используется, может взаимодействовать с Windows в полном объеме, включая коммуникацию с базой данных, Word, Excel.</p>
+</li>
+</ul>
+<h2><a class="main__anchor" name="правила" href="#правила">Правила</a></h2><p>Слева-сверху в меню находится пункт Rules (правила). В нём изначально находятся некоторые возможности FiddlerScript, которые поставляются «из коробки».</p>
+<p>Хотите посмотреть, как ваш сайт будет грузиться «на GPRS»? Выбирайте Rules → Performance → Simulate Modem speeds.</p>
+<p>Для добавления новых правил можно их задать через пункт «Customize Rules» (на JScript.NET, разумеется). В открывающемся скрипте есть пункты меню и их реализация.</p>
+<p>При наступлении любого события из обширного списка, Fiddler вызывает соответствующий обработчик из правил. Например, onBeforeRequest, onShutdown. Стандартные правила отлично прокомментированы, и писать новые весьма просто.</p>
+<p>FiddlerScript позволяет манипулировать заголовками, запросом, менять ширину канала, управлять выводом запроса в Fiddler и так далее и т.п.</p>
+<h2><a class="main__anchor" name="брейкпойнт-на-запросе" href="#брейкпойнт-на-запросе">Брейкпойнт на запросе</a></h2><p>В меню Rules → Automatic Breakpoints можно включить автоматическое прерывание Fiddler при обработке запроса.</p>
+<p>После этого, если сделать запрос в браузере, подключенном к Fiddler, то  его выполнение зависнет, а в левом окошке Fiddler этот запрос будет отмечен специальным значком.</p>
+<p>Если выбрать такой подвисший запрос мышкой, то во вкладке SessionInspector им можно управлять: менять сам запрос и ответ сервера (после Break on Response, когда сервер уже ответил).</p>
+<p>Задавать прерывание на запросах определенного вида также можно через Filters.</p>
+<h2><a class="main__anchor" name="отладка-https" href="#отладка-https">Отладка HTTPS</a></h2><p>Fiddler является прокси, а HTTPS шифруется от браузера до сервера-получателя, поэтому по умолчанию Fiddler не имеет доступа к содержимому HTTPS-запросов.</p>
+<p>Чтобы его получить, Fiddler должен сыграть роль хакера-перехватчика: расшифровывать запросы, и потом отправлять дальше. Это возможно, если инсталлировать специальный сертификат: Tools → Fiddler Options → HTTPS(вкладка) → выбрать все галочки.</p>
+<p>После окончания отладки этот сертификат можно убрать.</p>
+<h2><a class="main__anchor" name="скачать" href="#скачать">Скачать</a></h2><p>Fiddler можно бесплатно скачать с <a href="http://www.fiddler2.com/fiddler2/">сайта разработчика</a>. Там же доступна <a href="http://www.fiddler2.com/Fiddler/help/">документация и видео</a>.</p>
+<p>К фиддлеру прилагается галерея расширений <a href="http://www.fiddlertool.com/fiddler2/extensions.asp">http://www.fiddlertool.com/fiddler2/extensions.asp</a>.</p>
+<p>Примеры скриптов для Fiddler, которые дают общее представление о том, на что он может быть способен: <a href="http://www.fiddlertool.com/fiddler/dev/scriptsamples.asp">http://www.fiddlertool.com/fiddler/dev/scriptsamples.asp</a>.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

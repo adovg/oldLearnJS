@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="extra.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">О всякой всячине</span></a></li></ol><h1 class="main__header-title">Асинхронное выполнение: setImmediate</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Асинхронное выполнение: setImmediate"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Функция, отложенная через <code>setTimeout(..0)</code> выполнится не ранее следующего «тика» таймера, минимальная частота которого может составлять от 4 до 1000 мс. И, конечно же, это произойдёт после того, как все текущие изменения будут перерисованы.</p>
+<p>Но нужна ли нам эта дополнительная задержка? Как правило, используя <code>setTimeout(func, 0)</code>, мы хотим перенести выполнение <code>func</code> на «ближайшее время после текущего кода», и какая-то дополнительная задержка нам не нужна. Если бы была нужна – мы бы её указали вторым аргументом вместо <code>0</code>.</p>
+<h2><a class="main__anchor" name="метод-setimmediate-func" href="#метод-setimmediate-func">Метод setImmediate(func)</a></h2><p>Для того, чтобы поставить функцию в очередь на выполнение без задержки, в Microsoft предложили метод <a href="http://msdn.microsoft.com/en-us/library/ie/hh773176.aspx">setImmediate(func)</a>. Он реализован в IE10+ и на платформе Node.JS.</p>
+<p>У <code>setImmediate</code> единственный аргумент – это функция, выполнение которой нужно запланировать.</p>
+<p>В других браузерах <code>setImmediate</code> нет, но его можно эмулировать, используя, к примеру, метод <a href="https://developer.mozilla.org/en-US/docs/DOM/window.postMessage">postMessage</a>, предназначенный для пересылки сообщений от одного окна другому. Детали работы с <code>postMessage</code> вы найдёте в статье <a href="cross-window-messaging-with-postmessage.htm">Общение окон с разных доменов: postMessage</a>. Желательно читать её после освоения темы «События».</p>
+<p>Полифилл для <code>setImmediate</code> через <code>postMessage</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (!window.setImmediate) window.setImmediate = (function() {
+  var head = { }, tail = head; // очередь вызовов, 1-связный список
+
+  var ID = Math.random(); // уникальный идентификатор
+
+  function onmessage(e) {
+    if(e.data != ID) return; // не наше сообщение
+    head = head.next;
+    var func = head.func;
+    delete head.func;
+    func();
+  }
+
+  if(window.addEventListener) { // IE9+, другие браузеры
+    window.addEventListener('message', onmessage);
+  } else { // IE8
+    window.attachEvent( 'onmessage', onmessage );
+  }
+
+  return function(func) {
+    tail = tail.next = { func: func };
+    window.postMessage(ID, &quot;*&quot;);
+  };
+}());</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Есть и более сложные эмуляции, включая <a href="http://www.w3.org/TR/webmessaging/#channel-messaging">MessageChannel</a> для работы с <a href="http://www.w3.org/TR/workers/">Web Workers</a> и хитрый метод для поддержки IE8-: <a href="https://github.com/NobleJS/setImmediate">https://github.com/NobleJS/setImmediate</a>. Все они по существу являются «хаками», направленными на то, чтобы обеспечить поддержку <code>setImmediate</code> в тех браузерах, где его нет.</p>
+<h2><a class="main__anchor" name="тест-производительности" href="#тест-производительности">Тест производительности</a></h2><p>Чтобы сравнить реальную частоту срабатывания – измерим время на 100 последовательных вызовов при <code>setTimeout(..0)</code> по сравнению с <code>setImmediate</code>:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">setImmediate.js</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/setimmediate/setimmediate/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/esRloHI71ylNKXVAwv6V?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/setimmediate/setimmediate/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>if (!window.setImmediate) window.setImmediate = (function() {
+  var head = {},
+    tail = head; // очередь вызовов, 1-связный список
+
+  var ID = Math.random(); // уникальный идентификатор
+
+  function onmessage(e) {
+    if (e.data != ID) return; // не наше сообщение
+    head = head.next;
+    var func = head.func;
+    delete head.func;
+    func();
+  }
+
+  if (window.addEventListener) { // IE9+, другие браузеры
+    window.addEventListener('message', onmessage);
+  } else { // IE8
+    window.attachEvent('onmessage', onmessage);
+  }
+
+  return function(func) {
+    tail = tail.next = {
+      func: func
+    };
+    window.postMessage(ID, &quot;*&quot;);
+  };
+}());</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+  &lt;script src=&quot;setImmediate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;button onclick=&quot;testTimeout()&quot;&gt;testTimeout&lt;/button&gt;
+  &lt;button onclick=&quot;testImmediate()&quot;&gt;testImmediate&lt;/button&gt;
+
+  &lt;script&gt;
+    function testTimeout() {
+      var start = new Date();
+      var i = 0;
+      setTimeout(function go() {
+        i++;
+        if (i == 100) {
+          alert(new Date - start);
+        } else {
+          setTimeout(go, 0);
+        }
+      }, 0);
+    }
+
+    function testImmediate() {
+      var start = new Date();
+      var i = 0;
+      setImmediate(function go() {
+        i++;
+        if (i == 100) {
+          alert(new Date - start);
+        } else {
+          setImmediate(go);
+        }
+      });
+    }
+  &lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>Запустите пример выше – и вы увидите реальную разницу во времени между <code>setTimeout(.., 0)</code> и <code>setImmediate</code>. Да, она может быть более в 50, 100 и более раз.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

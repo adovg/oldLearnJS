@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="optimize.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Оптимизация</span></a></li></ol><h1 class="main__header-title">Утечки памяти при использовании jQuery</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Утечки памяти при использовании jQuery"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В jQuery для хранения обработчиков событий и других вспомогательных данных, связанных с DOM-элементами, используется внутренний объект, который в jQuery 1 доступен через <a href="http://api.jquery.com/jQuery.data/">$.data</a>.</p>
+<p>В jQuery 2 доступ к нему закрыт через замыкание, он стал локальной переменной внутри jQuery с именем <code>data_priv</code>, но в остальном всё работает точно так, как описано, и с теми же последствиями.</p>
+<h2><a class="main__anchor" name="data" href="#data">$.data</a></h2><p>Встроенная функция <code>$.data</code> позволяет хранить и привязывать произвольные значения к DOM-узлам.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// присвоить
+$(document).data('prop', { anything: &quot;любой объект&quot; })
+
+// прочитать
+alert( $(document).data('prop').anything ) // любой объект</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Реализована она хитрым образом. Данные не хранятся в самом элементе, а во внутреннем объекте jQuery.</p>
+<p>jQuery-вызов <code>elem.data(prop, val)</code> делает следующее:</p>
+<ol>
+<li>
+<p>Элемент получает уникальный идентификатор, если у него такого еще нет:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">elem[jQuery.expando] = id = ++jQuery.uuid; // средствами jQuery</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<p><code>jQuery.expando</code> – это случайная строка, сгенерированная jQuery один раз при входе на страницу. Уникальное свойство, чтобы ничего важного не перезаписать.</p>
+<ol start="2">
+<li>
+<p>…А сами данные сохраняются в специальном объекте <code>jQuery.cache</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">jQuery.cache[id]['prop'] = { anything: &quot;любой объект&quot; };</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<p>Когда данные считываются из элемента:</p>
+<ol>
+<li>Уникальный идентификатор элемента извлекается из <code>id = elem[ jQuery.expando]</code>.</li>
+<li>Данные считываются из <code>jQuery.cache[id]</code>.</li>
+</ol>
+<p>Смысл этого API в том, что DOM-элемент никогда не ссылается на JavaScript объект напрямую. Задействуется идентификатор, а сами данные хранятся в <code>jQuery.cache</code>. Утечек в IE не будет.</p>
+<p>К тому же все данные известны библиотеке, так что можно клонировать с ними и т.п.</p>
+<p>Как побочный эффект – возникает утечка памяти, если элемент удален из DOM без дополнительной очистки.</p>
+<h2><a class="main__anchor" name="примеры-утечек-в-jquery" href="#примеры-утечек-в-jquery">Примеры утечек в jQuery</a></h2><p>Следующая функция <code>leak</code> создает jQuery-утечку во всех браузерах:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="7-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;data&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  function leak() {
+
+    $('&lt;div/&gt;')
+      .html(new Array(1000).join('text'))
+      .click(function() {})
+      .appendTo('#data');
+
+    document.getElementById('data').innerHTML = ''; // (*)
+
+  }
+
+  var interval = setInterval(leak, 10)
+&lt;/script&gt;
+
+Утечка идёт...
+
+&lt;input type=&quot;button&quot; onclick=&quot;clearInterval(interval)&quot; value=&quot;stop&quot; /&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Утечка происходит потому, что обработчик события в jQuery хранится в данных элемента. В строке <code>(*)</code> элемент удален очисткой родительского <code>innerHTML</code>, но в <code>jQuery.cache</code> данные остались.</p>
+<p>Более того, система обработки событий в jQuery устроена так, что вместе с обработчиком в данных хранится и ссылка на элемент, так что в итоге оба – и обработчик и элемент – остаются в памяти вместе со всем замыканием!</p>
+<p>Ещё более простой пример утечки:</p>
+<p>Этот код также создает утечку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function leak() {
+  $('&lt;div/&gt;')
+    .click(function() {})
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…То есть, мы создаём элемент, вешаем на него обработчик… И всё.</p>
+<p>Такой код ведёт к утечке памяти как раз потому, что элемент <code>&lt;div&gt;</code> создан, но нигде не размещен :). После выполнения функции ссылка на него теряется. Но обработчик события <code>click</code> уже сохранил данные в <code>jQuery.cache</code>, которые застревают там навсегда.</p>
+<h2><a class="main__anchor" name="используем-jquery-без-утечек" href="#используем-jquery-без-утечек">Используем jQuery без утечек</a></h2><p>Чтобы избежать утечек, описанных выше, для удаления элементов используйте функции jQuery API, а не чистый JavaScript.</p>
+<p>Методы <a href="http://api.jquery.com/remove/">remove()</a>, <a href="http://api.jquery.com/empty">empty()</a> и <a href="http://api.jquery.com/html">html()</a> проверяют дочерние элементы на наличие данных и очищают их. Это несколько замедляет процедуру удаления, но зато освобождается память.</p>
+<p>К счастью обнаружить такие утечки легко. Проверьте размер <code>$.cache</code>. Если  он большой и растет, то изучите кэш, посмотрите, какие записи остаются и почему.</p>
+<h2><a class="main__anchor" name="улучшение-производительности-jquery" href="#улучшение-производительности-jquery">Улучшение производительности jQuery</a></h2><p>У способа организации внутренних данных, применённого в jQuery, есть важный побочный эффект.</p>
+<p>Функции, удаляющие элементы, также должны удалить и связанные с ними внутренние данные. Для этого нужно для каждого удаляемого элемента проверить – а нет ли чего во внутреннем хранилище? И, если есть – удалить.</p>
+<p>Представим, что у нас есть большая таблица <code>&lt;table&gt;</code>, и мы хотим обновить её содержимое на новое. Вызов <code>$('table').html(новые данные)</code> перед вставкой новых данных аккуратно удалит старые: пробежит по всем ячейкам и проверит внутреннее хранилище.</p>
+<p>Если это большая таблица, то обработчики, скорее всего, стоят не на ячейках, а на самом элементе <code>&lt;table&gt;</code>, то есть используется делегирование. А, значит, тратить время на проверку всех подэлементов ни к чему.</p>
+<p>Но jQuery-то об этом не знает!</p>
+<p>Чтобы «грязно» удалить элемент, без чистки, мы можем сделать это через «обычные» DOM-вызовы или воспользоваться методом <a href="http://api.jquery.com/detach">detach()</a>. Его официальное назначение – в том, чтобы убрать элемент из DOM, но сохранить возможность для вставки (и, соответственно, оставить на нём все данные). А неофициальное – быстро убрать элемент из DOM, без чистки.</p>
+<p>Возможен и промежуточный вариант: никто не мешает сделать  <code>elem.detach()</code> и поместить вызов <code>elem.remove()</code> в <code>setTimeout</code>. В результате очистка будет происходить асинхронно и незаметно.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Утечки памяти при использовании jQuery возможны, если через DOM-методы удалять элементы, к которым привязаны данные или обработчики.</li>
+<li>Чтобы утечки не было, достаточно убедиться, что элемент удаляется при помощи методов jQuery.</li>
+<li>Побочный эффект – при удалении элементов jQuery должна проверить наличие данных для них. Это сильно замедляет процесс удаления большого поддерева DOM.</li>
+<li>Если мы знаем, что обработчиков и данных нет – гораздо быстрее удалять элементы при помощи вызова <code>detach</code> или обычного DOM.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

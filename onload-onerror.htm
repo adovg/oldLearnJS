@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="event-details.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">События в деталях</span></a></li></ol><h1 class="main__header-title">Загрузка скриптов, картинок, фреймов: onload и onerror</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Загрузка скриптов, картинок, фреймов: onload и onerror"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Браузер позволяет отслеживать загрузку внешних ресурсов – скриптов, ифреймов, картинок и других.</p>
+<p>Для этого есть два события:</p>
+<ul>
+<li><code>onload</code> – если загрузка успешна.</li>
+<li><code>onerror</code> – если при загрузке произошла ошибка.</li>
+</ul>
+<h2><a class="main__anchor" name="загрузка-script" href="#загрузка-script">Загрузка SCRIPT</a></h2><p>Рассмотрим следующую задачу.</p>
+<p>В браузере работает сложный интерфейс и, чтобы создать очередной компонент, нужно загрузить скрипт с сервера.</p>
+<p>Подгрузить внешний скрипт – достаточно просто:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;my.js&quot;;
+
+document.body.appendChild(script);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Но как после подгрузки выполнить функцию, которая объявлена в этом скрипте? Для этого нужно отловить момент окончания загрузки и выполнения тега <code>&lt;script&gt;</code>.</p>
+<h3><a class="main__anchor" name="script-onload" href="#script-onload">script.onload</a></h3><p>Главным помощником станет событие <code>onload</code>. Оно сработает, когда скрипт загрузился и выполнился.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js&quot;
+document.body.appendChild(script);
+
+script.onload = function() {
+    // после выполнения скрипта становится доступна функция _
+    alert( _ ); // её код
+  }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это даёт возможность, как в примере выше, получить переменные из скрипта и выполнять объявленные в нём функции.</p>
+<p>…А что, если загрузка скрипта не удалась? Например, такого скрипта на сервере нет (ошибка 404) или сервер «упал» (ошибка 500).</p>
+<p>Такую ситуацию тоже нужно как-то обрабатывать, хотя бы сообщить посетителю о возникшей проблеме.</p>
+<h3><a class="main__anchor" name="script-onerror" href="#script-onerror">script.onerror</a></h3><p>Любые ошибки загрузки (но не выполнения) скрипта отслеживаются обработчиком <code>onerror</code>.</p>
+<p>Например, сделаем запрос заведомо отсутствующего скрипта:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;https://example.com/404.js&quot;
+document.body.appendChild(script);
+
+script.onerror = function() {
+  alert( &quot;Ошибка: &quot; + this.src );
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><h3><a class="main__anchor" name="onreadystatechange" href="#onreadystatechange">IE8-: script.onreadystatechange</a></h3><p>Примеры выше работают во всех браузерах, кроме IE8-.</p>
+<p>В IE для отслеживания загрузки есть другое событие: <code>onreadystatechange</code>. Оно срабатывает многократно, при каждом обновлении состояния загрузки.</p>
+<p>Текущая стадия процесса находится в <code>script.readyState</code>:</p>
+<dl>
+<dt><code>loading</code></dt>
+<dd>В процессе загрузки.</dd>
+<dt><code>loaded</code></dt>
+<dd>Получен ответ с сервера – скрипт или ошибка. Скрипт на фазе <code>loaded</code> может быть ещё не выполнен.</dd>
+<dt><code>complete</code></dt>
+<dd>Скрипт выполнен.</dd>
+</dl>
+<p>Например, рабочий скрипт:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;https://code.jquery.com/jquery.js&quot;;
+document.documentElement.appendChild(script);
+
+script.onreadystatechange = function() {
+  alert(this.readyState); // loading -&gt; loaded -&gt; complete
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Скрипт с ошибкой:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;http://ajax.googleapis.com/404.js&quot;;
+document.documentElement.appendChild(script);
+
+script.onreadystatechange = function() {
+  alert(this.readyState);  // loading -&gt; loaded
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание на две особенности:</p>
+<ul>
+<li>
+<p><strong>Стадии могут пропускаться.</strong></p>
+<p>Если скрипт в кэше браузера – он сразу даст <code>complete</code>. Вы можете увидеть это, если несколько раз запустите первый пример.</p>
+</li>
+<li>
+<p><strong>Нет особой стадии для ошибки.</strong></p>
+<p>В примере выше это видно, обработка останавливается на <code>loaded</code>.</p>
+</li>
+</ul>
+<p>Итак, самое надёжное средство для IE8- поймать загрузку (или ошибку загрузки) – это повесить обработчик на событие <code>onreadystatechange</code>, который будет срабатывать и на стадии <code>complete</code> и на стадии <code>loaded</code>. Так как скрипт может быть ещё не выполнен к этому моменту, то вызов функции лучше сделать через <code>setTimeout(.., 0)</code>.</p>
+<p>Пример ниже вызывает <code>afterLoad</code> после загрузки скрипта и работает только в IE:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="8-19">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;https://code.jquery.com/jquery.js&quot;;
+document.documentElement.appendChild(script);
+
+function afterLoad() {
+  alert(&quot;Загрузка завершена: &quot; + typeof(jQuery));
+}
+
+script.onreadystatechange = function() {
+  if (this.readyState == &quot;complete&quot;) { // на случай пропуска loaded
+    afterLoad(); // (2)
+  }
+
+  if (this.readyState == &quot;loaded&quot;) {
+    setTimeout(afterLoad, 0);  // (1)
+
+    // убираем обработчик, чтобы не сработал на complete
+    this.onreadystatechange = null;
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вызов <code>(1)</code> выполнится при первой загрузке скрипта, а <code>(2)</code> – при второй, когда он уже будет в кеше, и стадия станет сразу <code>complete</code>.</p>
+<p>Функция <code>afterLoad</code> может и не обнаружить <code>jQuery</code>, если при загрузке была ошибка, причём не важно какая – файл не найден или синтаксис скрипта ошибочен.</p>
+<h3><a class="main__anchor" name="кросс-браузерное-решение" href="#кросс-браузерное-решение">Кросс-браузерное решение</a></h3><p>Для кросс-браузерной обработки загрузки скрипта или её ошибки поставим обработчик на все три события: <code>onload</code>, <code>onerror</code>, <code>onreadystatechange</code>.</p>
+<p>Пример ниже выполняет функцию <code>afterLoad</code> после загрузки скрипта <em>или</em> при ошибке.</p>
+<p>Работает во всех браузерах:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = &quot;https://code.jquery.com/jquery.js&quot;;
+document.documentElement.appendChild(script);
+
+function afterLoad() {
+  alert( &quot;Загрузка завершена: &quot; + typeof(jQuery) );
+}
+
+script.onload = script.onerror = function() {
+  if (!this.executed) { // выполнится только один раз
+    this.executed = true;
+    afterLoad();
+  }
+};
+
+script.onreadystatechange = function() {
+  var self = this;
+  if (this.readyState == &quot;complete&quot; || this.readyState == &quot;loaded&quot;) {
+    setTimeout(function() {
+      self.onload()
+    }, 0); // сохранить &quot;this&quot; для onload
+  }
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="загрузка-других-ресурсов" href="#загрузка-других-ресурсов">Загрузка других ресурсов</a></h2><p>Поддержка этих событий для других типов ресурсов различна:</p>
+<dl>
+<dt><code>&lt;img&gt;</code>, <code>&lt;link&gt;</code> (стили)</dt>
+<dd>
+<p>Поддерживает <code>onload/onerror</code> во всех браузерах.</p>
+</dd>
+<dt><code>&lt;iframe&gt;</code></dt>
+<dd>
+<p>Поддерживает <code>onload</code> во всех браузерах. Это событие срабатывает как при успешной загрузке, так и при ошибке.</p>
+<p>Обратим внимание, что если <code>&lt;iframe&gt;</code> загружается с того же домена, то можно, используя <code>iframe.contentWindow.document</code> получить ссылку на документ и поставить обработчик <code>DOMContentLoaded</code>. А вот если <code>&lt;iframe&gt;</code> – с другого домена, то так не получится, однако сработает <code>onload</code>.</p>
+</dd>
+</dl>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>В этой статье мы рассмотрели события <code>onload/onerror</code> для ресурсов.</p>
+<p>Их можно обобщить, разделив на рецепты:</p>
+<dl>
+<dt>Отловить загрузку скрипта (включая ошибку)</dt>
+<dd>
+<p>Ставим обработчики на <code>onload</code> + <code>onerror</code> + (для IE8-) <code>onreadystatechange</code>, как указано в рецепте выше</p>
+</dd>
+<dt>Отловить загрузку картинки <code>&lt;img&gt;</code> или стиля <code>&lt;link&gt;</code></dt>
+<dd>
+<p>Ставим обработчики на <code>onload</code> + <code>onerror</code></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var img = document.createElement('img');
+img.onload = function() { alert(&quot;Успех &quot; + this.src) };
+img.onerror = function() { alert(&quot;Ошибка &quot; + this.src) };
+img.src = ...</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Изображения начинают загружаться сразу при создании, не нужно их для этого вставлять в HTML.</p>
+<p><strong>Чтобы работало в IE8-, <code>src</code> нужно ставить <em>после</em> <code>onload/onerror</code>.</strong></p>
+</dd>
+<dt>Отловить загрузку <code>&lt;iframe&gt;</code></dt>
+<dd>
+<p>Поддерживается только обработчик <code>onload</code>. Он сработает, когда <code>IFRAME</code> загрузится, со всеми подресурсами, а также в случае ошибки.</p>
+</dd>
+</dl>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#красивый-alt" name="красивый-alt" class="main__anchor">Красивый &quot;ALT&quot;</a></h3><a href="task/nice-alt.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Обычно, до того как изображение загрузится (или при отключенных картинках), посетитель видит пустое место с текстом из «ALT». Но этот атрибут не допускает HTML-форматирования.</p>
+<p>При мобильном доступе скорость небольшая, и хочется, чтобы посетитель сразу видел красивый текст.</p>
+<p><strong>Реализуйте «красивый» (HTML) аналог <code>alt</code> при помощи CSS/JavaScript, который затем будет заменён картинкой сразу же как только она загрузится.</strong> А если загрузка не состоится – то не заменён.</p>
+<p>Демо: (нажмите «перезагрузить», чтобы увидеть процесс загрузки и замены)</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:100px" src="https://js.cx/task/nice-alt/solution/"></iframe>
+  </div><p>Картинки для <code>bing</code> специально нет, так что текст остается «как есть».</p>
+<p>Исходный документ содержит разметку текста и ссылки на изображения.</p>
+<p><a href="http://plnkr.co/edit/muZnsUgX2Z2WVXeNFvud?p=preview" target="_blank" data-plunk-id="muZnsUgX2Z2WVXeNFvud">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Подсказка</button><div class="task__answer-content"><h4 class="task__step-title">Подсказка</h4><p>Текст на странице пусть будет изначально <code>DIV</code>, с классом <code>img-replace</code> и атрибутом <code>data-src</code> для картинки.</p>
+<p>Функция <code>replaceImg()</code> должна искать такие <code>DIV</code> и загружать изображение с указанным <code>src</code>. По <code>onload</code> осуществляется замена <code>DIV</code> на картинку.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p><a href="http://plnkr.co/edit/McGF4BXO9olk9RuGjgIC?p=preview" target="_blank" data-plunk-id="McGF4BXO9olk9RuGjgIC">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#загрузить-изображения-с-коллбэком" name="загрузить-изображения-с-коллбэком" class="main__anchor">Загрузить изображения с коллбэком</a></h3><a href="task/load-img-callback.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Создайте функцию <code>preloadImages(sources, callback)</code>, которая предзагружает изображения из массива <code>sources</code>, и после загрузки вызывает функцию <code>callback</code>.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">preloadImages([&quot;1.jpg&quot;, &quot;2.jpg&quot;, &quot;3.jpg&quot;], callback);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если вдруг возникает ошибка при загрузке – считаем такое изображение загруженным, чтобы не ломать поток выполнения.</p>
+<p>Такая функция может быть полезна, например, для фоновой загрузки картинок в онлайн-галерею.</p>
+<p>В исходном документе содержатся ссылки на картинки, а также код для проверки, действительно ли изображения загрузились. Он должен выводить «0», затем «300».</p>
+<p><a href="http://plnkr.co/edit/lx8jKNW7yBhI8jPf0hB3?p=preview" target="_blank" data-plunk-id="lx8jKNW7yBhI8jPf0hB3">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Создайте переменную-счетчик для подсчёта количества загруженных картинок, и увеличивайте при каждом <code>onload/onerror</code>.</p>
+<p>Когда счетчик станет равен количеству картинок – вызывайте <code>callback</code>.</p>
+<p><a href="http://plnkr.co/edit/DXeCzFVaV1xHm8YYpBrn?p=preview" target="_blank" data-plunk-id="DXeCzFVaV1xHm8YYpBrn">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#скрипт-с-коллбэком" name="скрипт-с-коллбэком" class="main__anchor">Скрипт с коллбэком</a></h3><a href="task/script-callback.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Создайте функцию <code>addScript(src, callback)</code>, которая загружает скрипт с данным <code>src</code>, и после его загрузки и выполнения вызывает функцию <code>callback</code>.</p>
+<p>Скрипт может быть любым, работа функции не должна зависеть от его содержимого.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// go.js содержит функцию go()
+addScript(&quot;go.js&quot;, function() {
+  go();
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ошибки загрузки обрабатывать не нужно.</p>
+<p><a href="http://plnkr.co/edit/PxBF5g5jwVieIGXtRI9M?p=preview" target="_blank" data-plunk-id="PxBF5g5jwVieIGXtRI9M">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Подсказка</button><div class="task__answer-content"><h4 class="task__step-title">Подсказка</h4><p>Добавляйте <code>SCRIPT</code> при помощи методов <code>DOM</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var script = document.createElement('script');
+script.src = src;
+
+// в документе может не быть HEAD или BODY,
+// но хотя бы один (текущий) SCRIPT в документе есть
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(script, s); // перед ним и вставим</code></pre>
+        </div>
+      </div>
+      
+      </div><p>На скрипт повесьте обработчики <code>onload/onreadystatechange</code>.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p><a href="http://plnkr.co/edit/7akrK6r4TP3npXJDOGrs?p=preview" target="_blank" data-plunk-id="7akrK6r4TP3npXJDOGrs">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#скрипты-с-коллбэком" name="скрипты-с-коллбэком" class="main__anchor">Скрипты с коллбэком</a></h3><a href="task/scripts-callback.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Создайте функцию <code>addScripts(scripts, callback)</code>, которая загружает скрипты из массива <code>scripts</code>, и <em>после загрузки и выполнения их всех</em> вызывает функцию <code>callback</code>.</p>
+<p>Скрипт может быть любым, работа функции не должна зависеть от его содержимого.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">addScripts([&quot;a.js&quot;, &quot;b.js&quot;, &quot;c.js&quot;], function() { a() });
+/* функция a() описана в a.js и использует b.js,c.js */</code></pre>
+        </div>
+      </div>
+      
+      </div><ul>
+<li>Ошибки загрузки обрабатывать не нужно.</li></li>
+<li>Один скрипт не ждёт другого. Они все загружаются, а по окончании вызывается обработчик <code>callback</code>.</li>
+</ul>
+<p>Исходный код содержит скрипты <code>a.js</code>, <code>b.js</code>, <code>c.js</code>:</p>
+<p><a href="http://plnkr.co/edit/NkMpLbcFHu6b6EpzVkG9?p=preview" target="_blank" data-plunk-id="NkMpLbcFHu6b6EpzVkG9">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Подсказки</button><div class="task__answer-content"><h4 class="task__step-title">Подсказки</h4><p>Создайте переменную-счетчик для подсчёта количества загруженных скриптов.</p>
+<p>Чтобы один скрипт не учитывался два раза (например, <code>onreadystatechange</code> запустился при <code>loaded</code> и <code>complete</code>), учитывайте его состояние в объекте <code>loaded</code>. Свойство <code>loaded[i] = true</code>  означает что <code>i</code>-й скрипт уже учтён.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p><a href="http://plnkr.co/edit/yARCZLOESmAwDVOe3Hwx?p=preview" target="_blank" data-plunk-id="yARCZLOESmAwDVOe3Hwx">Открыть решение в песочнице.</a></p></div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

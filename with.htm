@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="functions-closures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Замыкания, область видимости</span></a></li></ol><h1 class="main__header-title">Устаревшая конструкция &quot;with&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Устаревшая конструкция &quot;with&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Конструкция <code>with</code> позволяет использовать в качестве области видимости для переменных произвольный объект.</p>
+<p>В современном JavaScript от этой конструкции отказались. С <code>use strict</code> она не работает, но её ещё можно найти в старом коде, так что стоит познакомиться с ней, чтобы если что – понимать, о чём речь.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">with(obj) {
+  ...код...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Любое обращение к переменной внутри <code>with</code> сначала ищет её среди свойств <code>obj</code>, а только потом – вне <code>with</code>.</p>
+<h2><a class="main__anchor" name="пример" href="#пример">Пример</a></h2><p>В примере ниже переменная будет взята не из глобальной области, а из <code>obj</code>:</p>
+<div data-trusted="1" class="code-example" data-no-strict="1" data-highlight-block="6-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 5;
+
+var obj = {
+  a: 10
+};
+
+with(obj) {
+    alert( a ); // 10, из obj
+  }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Попробуем получить переменную, которой в <code>obj</code> нет:</p>
+<div data-trusted="1" class="code-example" data-no-strict="1" data-highlight-block="6-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var b = 1;
+
+var obj = {
+  a: 10
+};
+
+with(obj) {
+    alert( b ); // 1, из window
+  }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь интерпретатор сначала проверяет наличие <code>obj.b</code>, не находит и идет вне <code>with</code>.</p>
+<p>Особенно забавно выглядит применение вложенных <code>with</code>:</p>
+<div data-trusted="1" class="code-example" data-no-strict="1" data-highlight-block="10-10">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {
+  weight: 10,
+  size: {
+    width: 5,
+    height: 7
+  }
+};
+
+with(obj) {
+  with(size) { // size будет взят из obj
+    alert( width * height / weight ); // width,height из size, weight из obj
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Свойства из разных объектов используются как обычные переменные… Магия! Порядок поиска переменных в выделенном коде: <code>size =&gt; obj =&gt; window</code>.</p>
+<h2><a class="main__anchor" name="изменения-переменной" href="#изменения-переменной">Изменения переменной</a></h2><p>При использовании <code>with</code>, как и во вложенных функциях – переменная изменяется в той области, где была найдена.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-no-strict="1" data-highlight-block="4-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {
+  a: 10
+}
+
+with(obj) {
+    a = 20;
+  }
+alert( obj.a ); // 20, переменная была изменена в объекте</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="почему-отказались-от-with" href="#почему-отказались-от-with">Почему отказались от with?</a></h2><p>Есть несколько причин.</p>
+<ol>
+<li>
+<p>В современном стандарте <code>JavaScript</code> отказались от <code>with</code>, потому что конструкция <code>with</code> подвержена ошибкам и непрозрачна.</p>
+<p>Проблемы возникают в том случае, когда в <code>with(obj)</code> присваивается переменная, которая по замыслу должна быть в свойствах <code>obj</code>, но ее там нет.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-no-strict="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {
+  weight: 10
+};
+
+with(obj) {
+  weight = 20; // (1)
+  size = 35; // (2)
+}
+
+alert( obj.size );
+alert( window.size );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В строке <code>(2)</code> присваивается свойство, отсутствующее в <code>obj</code>. В результате интерпретатор, не найдя его, создает новую глобальную переменную <code>window.size</code>.</p>
+<p>Такие ошибки редки, но очень сложны в отладке, особенно если <code>size</code> изменилась не в <code>window</code>, а где-нибудь во внешнем <code>LexicalEnvironment</code>.</p>
+</li>
+<li>
+<p>Еще одна причина – алгоритмы сжатия JavaScript не любят <code>with</code>. Перед выкладкой на сервер JavaScript сжимают. Для этого есть много инструментов, например <a href="http://code.google.com/intl/ru-RU/closure/compiler/">Closure Compiler</a> и <a href="https://github.com/mishoo/UglifyJS">UglifyJS</a>. Обычно они переименовывают локальные переменные в более короткие имена, но не свойства объектов. С конструкцией <code>with</code> до запуска кода непонятно – откуда будет взята переменная. Поэтому выходит, что, на всякий случай (если это свойство), лучше её не переименовывать. Таким образом, качество сжатия кода страдает.</p>
+</li>
+<li>
+<p>Ну и, наконец, производительность – усложнение поиска переменной из-за <code>with</code> влечет дополнительные накладные расходы.</p>
+<p>Современные движки применяют много внутренних оптимизаций, ряд которых не может быть применен к коду, в котором есть <code>with</code>.</p>
+<p>Вот, к примеру, запустите этот код в современном браузере. Производительность функции <code>fast</code> существенно отличается от <code>slow</code> с пустым(!) <code>with</code>. И дело тут именно в <code>with</code>, т.к. наличие этой конструкции препятствует оптимизации.</p>
+<div data-trusted="1" class="code-example" data-no-strict="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+
+function fast() {
+  i++;
+}
+
+function slow() {
+  with(i) {}
+  i++;
+}
+
+var time = performance.now();
+while (i &lt; 1000000) fast();
+alert( &quot;Без with: &quot; + (performance.now() - time) );
+
+var time = performance.now();
+i = 0;
+while (i &lt; 1000000) slow();
+alert( &quot;С with: &quot; + (performance.now() - time) );</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<h3><a class="main__anchor" name="замена-with" href="#замена-with">Замена with</a></h3><p>Вместо <code>with</code> рекомендуется использовать временную переменную, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">/* вместо
+with(elem.style) {
+  top = '10px';
+  left = '20px';
+}
+*/
+
+var s = elem.style;
+
+s.top = '10px';
+s.left = '0';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это не так элегантно, но убирает лишний уровень вложенности и абсолютно точно понятно, что будет происходить и куда присвоятся свойства.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Конструкция <code>with(obj) { ... }</code> использует <code>obj</code> как дополнительную область видимости. Все переменные, к которым идет обращение внутри блока, сначала ищутся в <code>obj</code>.</li>
+<li>Конструкция <code>with</code> устарела и не рекомендуется по ряду причин. Избегайте её.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#with-функция" name="with-функция" class="main__anchor">With + функция</a></h3><a href="task/with-function.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Какая из функций будет вызвана?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function f() {
+  alert(1)
+}
+
+var obj = {
+  f: function() {
+    alert(2)
+  }
+};
+
+with(obj) {
+  f();
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Вторая (<code>2</code>), т.к. при обращении к любой переменной внутри <code>with</code> – она ищется прежде всего в объекте.</p>
+<p>Соответственно, будет выведено <code>2</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function f() {
+  alert(1)
+}
+
+var obj = {
+  f: function() {
+    alert(2)
+  }
+};
+
+with(obj) {
+  f();
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#with-переменные" name="with-переменные" class="main__anchor">With + переменные</a></h3><a href="task/with-variables.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Что выведет этот код?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 1;
+
+var obj = {
+  b: 2
+};
+
+with(obj) {
+  var b;
+  alert( a + b );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Выведет <code>3</code>.</p>
+<p><strong>Конструкция <code>with</code> не создаёт области видимости,</strong> её создают только функции. Поэтому объявление <code>var b</code> внутри конструкции работает также, как если бы оно было вне её.</p>
+<p>Код в задаче эквивалентен такому:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = 1;
+var b;
+
+var obj = {
+  b: 2
+}
+
+with(obj) {
+  alert( a + b );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

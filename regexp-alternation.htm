@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="regular-expressions-javascript.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Регулярные выражения</span></a></li></ol><h1 class="main__header-title">Альтернация (или) |</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Альтернация (или) |"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Альтернация – термин в регулярных выражениях, которому в русском языке соответствует слово «ИЛИ». Она обозначается символом вертикальной черты <code class="pattern">|</code> и позволяет выбирать между вариантами.</p>
+<p>Например, нам нужно найти языки программирования: HTML, PHP, Java и JavaScript.</p>
+<p>Соответствующее регулярное выражение: <code class="pattern">html|php|java(script)?</code>.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var reg = /html|php|css|java(script)?/gi
+
+var str = &quot;Сначала появился HTML, затем CSS, потом JavaScript&quot;
+
+alert( str.match(reg) ) // 'HTML', 'CSS', 'JavaScript'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Мы уже знаем похожую вещь – квадратные скобки. Они позволяют выбирать между символами, например <code class="pattern">gr[ae]y</code> найдёт <code class="match">gray</code>, либо <code class="match">grey</code>.</p>
+<p>Альтернация работает уже не посимвольно, а на уровне фраз и подвыражений. Регэксп <code class="pattern">A|B|C</code> обозначает поиск одного из выражений: <code>A</code>, <code>B</code> или <code>C</code>, причём в качестве выражений могут быть другие, сколь угодно сложные регэкспы.</p>
+<p>Для указания границ альтернации используют скобки <code>(...)</code>, например: <code class="pattern">before(XXX|YYY)after</code> будет искать <code class="match">beforeXXXafter</code> или <code class="match">beforeYYYafter</code>.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-языки-программирования" name="найдите-языки-программирования" class="main__anchor">Найдите языки программирования</a></h3><a href="task/find-programming-language.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Существует много языков программирования, например Java, JavaScript, PHP, C, C++.</p>
+<p>Напишите регулярное выражение, которое найдёт их все в строке «Java JavaScript PHP C++ C»</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Сначала неправильный способ.</p>
+<p>Если перечислить языки один за другим через <code>|</code>, то получится совсем не то:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var reg = /Java|JavaScript|PHP|C|C\+\+/g;
+
+var str = &quot;Java, JavaScript, PHP, C, C++&quot;;
+
+alert( str.match(reg) ); // Java,Java,PHP,C,C</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как видно, движок регулярных выражений ищет альтернации в порядке их перечисления. То есть, он сначала смотрит, есть ли <code class="match">Java</code>, а если нет – ищет <code class="match">JavaScript</code>.</p>
+<p>Естественно, при этом <code class="match">JavaScript</code> не будет найдено никогда.</p>
+<p>То же самое – с языками <code class="match">C</code> и <code class="match">C++</code>.</p>
+<p>Есть два решения проблемы:</p>
+<ol>
+<li>Поменять порядок, чтобы более длинное совпадение проверялось первым: <code class="pattern">JavaScript|Java|C\+\+|C|PHP</code>.</li>
+<li>Соединить длинный вариант с коротким: <code class="pattern">Java(Script)?|C(\+\+)?|PHP</code>.</li>
+</ol>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var reg = /Java(Script)?|C(\+\+)?|PHP/g;
+
+var str = &quot;Java, JavaScript, PHP, C, C++&quot;;
+
+alert( str.match(reg) ); // Java,JavaScript,PHP,C,C++</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-строки-в-кавычках" name="найдите-строки-в-кавычках" class="main__anchor">Найдите строки в кавычках</a></h3><a href="task/match-quoted-string.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Найдите в тексте при помощи регэкспа строки в двойных кавычках <code class="subject">&quot;...&quot;</code>.</p>
+<p>В строке поддерживается экранирование при помощи слеша – примерно в таком же виде, как в обычных строках JavaScript. То есть, строка может содержать любые символы, экранированные слэшем, в частности: <code class="subject">\&quot;</code>, <code class="subject">\n</code>, и даже сам слэш в экранированном виде: <code class="subject">\\</code>.</p>
+<p>Здесь особо важно, что двойная кавычка после слэша не оканчивает строку, а считается её частью. В этом и состоит основная сложность задачи, которая без этого условия была бы элементарной.</p>
+<p>Пример совпадающих строк:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:3-12,1:3-22,2:3-11">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">.. &quot;test me&quot; ..  (обычная строка)
+.. &quot;Скажи \&quot;Привет\&quot;!&quot; ... (строка с кавычками внутри)
+.. &quot;\r\n\\&quot; ..  (строка со спец. символами и слэшем внутри)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Заметим, что в JavaScript такие строки удобнее всего задавать в одинарных кавычках, и слеши придётся удвоить (в одинарных кавычках они являются экранирующими символами):</p>
+<p>Пример задания тестовой строки в JavaScript:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = ' .. &quot;test me&quot; .. &quot;Скажи \\&quot;Привет\\&quot;!&quot; .. &quot;\\r\\n\\\\&quot; .. ';
+
+// эта строка будет такой:
+alert(str); //  .. &quot;test me&quot; .. &quot;Скажи \&quot;Привет\&quot;!&quot; .. &quot;\r\n\\&quot; ..</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Решение задачи: <code class="pattern">/&quot;(\\.|[^&quot;\\])*&quot;/g</code>.</p>
+<p>То есть:</p>
+<ul>
+<li>Сначала ищем кавычку <code class="pattern">&quot;</code></li>
+<li>Затем, если далее слэш <code class="pattern">\\</code> (удвоение слэша – техническое, для вставки в регэксп, на самом деле там один слэш), то после него также подойдёт любой символ (точка).</li>
+<li>Если не слэш, то берём любой символ, кроме кавычек (которые будут означать конец строки) и слэша (чтобы предотвратить одинокие слэши, сам по себе единственный слэш не нужен, он должен экранировать какой-то символ) <code class="pattern">[^&quot;\\]</code></li>
+<li>…И так жадно, до закрывающей кавычки.</li>
+</ul>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /&quot;(\\.|[^&quot;\\])*&quot;/g;
+var str = '.. &quot;test me&quot; .. &quot;Скажи \\&quot;Привет\\&quot;!&quot; .. &quot;\\r\\n\\\\&quot; ..';
+
+alert( str.match(re) ); // &quot;test me&quot;,&quot;Скажи \&quot;Привет\&quot;!&quot;,&quot;\r\n\\&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-тег-style" name="найдите-тег-style" class="main__anchor">Найдите тег style</a></h3><a href="task/match-exact-tag.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Напишите регулярное выражение, которое будет искать в тексте тег <code>&lt;style&gt;</code>. Подходят как обычный тег <code>&lt;style&gt;</code>, так и вариант с атрибутами <code>&lt;style type=&quot;...&quot;&gt;</code>.</p>
+<p>Но регулярное выражение не должно находить <code>&lt;styler&gt;</code>!</p>
+<p>Использование:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = ваш регэксп
+
+alert( &quot;&lt;style&gt; &lt;styler&gt; &lt;style test&gt;&quot;.match(re) ); // &lt;style&gt;, &lt;style test&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Начало шаблона очевидно: <code class="pattern">&lt;style</code>.</p>
+<p>А вот дальше… Мы не можем написать просто <code class="pattern">&lt;style.*?&gt;</code>, так как <code class="match">&lt;styler&gt;</code> удовлетворяет этому регэкспу.</p>
+<p>Нужно уточнить его. После <code class="match">&lt;style</code> должен быть либо пробел, после которого может быть что-то ещё, либо закрытие тега.</p>
+<p>На языке регэкспов: <code class="pattern">&lt;style(&gt;|\s.*?&gt;)</code>.</p>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /&lt;style(&gt;|\s.*?&gt;)/g;
+
+alert( &quot;&lt;style&gt; &lt;styler&gt; &lt;style test&gt;&quot;.match(re) ); // &lt;style&gt;, &lt;style test&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

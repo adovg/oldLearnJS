@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="webcomponents.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Веб-компоненты: взгляд в будущее</span></a></li></ol><h1 class="main__header-title">Шаблоны &lt;template&gt;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Шаблоны &lt;template&gt;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Элемент <code>&lt;template&gt;</code> предназначен для хранения «образца» разметки, невидимого и предназначенного для вставки куда-либо.</p>
+<p>Конечно, есть много способов записать произвольный невидимый текст в HTML. В чём же особенность <code>&lt;template&gt;</code>?</p>
+<p>Его отличие от обычных тегов в том, что его содержимое обрабатывается особым образом. Оно не только скрыто, но и считается находящимся вообще «вне документа». А при вставке автоматически «оживает», выполняются из него скрипты, начинает проигрываться видео и т.п.</p>
+<p>Содержимое тега <code>&lt;template&gt;</code>, в отличие, к примеру, от шаблонов или <code>&lt;script type=&quot;неизвестный тип&quot;&gt;</code>, обрабатывается браузером.  А значит, должно быть корректным HTML.</p>
+<p>Оно доступно как <code>DocumentFragment</code> в свойстве тега <code>content</code>. Предполагается, что мы, при необходимости, возьмём <code>content</code> и вставим, куда надо.</p>
+<h2><a class="main__anchor" name="вставка-шаблона" href="#вставка-шаблона">Вставка шаблона</a></h2><p>Пример вставки шаблона <code>tmpl</code> в Shadow DOM элемента <code>elem</code>:</p>
+<div data-trusted="1" class="code-example" data-autorun="no-epub">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;p id=&quot;elem&quot;&gt;
+  Доброе утро, страна!&lt;/p&gt;
+
+&lt;template id=&quot;tmpl&quot;&gt;
+  &lt;h3&gt;&lt;content&gt;&lt;/content&gt;&lt;/h3&gt;
+  &lt;p&gt;Привет из подполья!&lt;/p&gt;
+  &lt;script&gt;
+    document.write('...document.write:Новость!');
+  &lt;/script&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  var root = elem.createShadowRoot();
+  root.appendChild(tmpl.content.cloneNode(true));
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-9gm80h"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>У нас получилось, что:</p>
+<ol>
+<li>В элементе <code>#elem</code> содержатся данные в некоторой оговорённой разметке.</li>
+<li>Шаблон <code>#tmpl</code> указывает, как их отобразить, куда и в какие HTML-теги завернуть содержимое <code>#elem</code>.</li>
+<li>Здесь шаблон показывается в Shadow DOM тега. Технически, это не обязательно, шаблон можно использовать и без Shadow DOM, но тогда не сработает тег <code>&lt;content&gt;</code>.</li>
+</ol>
+<p>Можно также заметить, что скрипт из шаблона выполнился. Это важнейшее отличие вставки шаблона от вставки HTML через <code>innerHTML</code> и от обычного <code>DocumentFragment</code>.</p>
+<p>Также мы вставили не сам <code>tmpl.content</code>, а его клон. Это обычная практика, чтобы можно было использовать один шаблон много раз.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Тег <code>&lt;template&gt;</code> не призван заменить системы шаблонизации. В нём нет хитрых операторов итерации, привязок к данным.</p>
+<p>Его основная особенность – это возможность вставки «живого» содержимого, вместе со скриптами.</p>
+<p>И, конечно, мелочь, но удобно, что он не требует никаких библиотек.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

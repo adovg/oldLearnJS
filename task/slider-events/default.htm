@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><div style="display:none" class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="../../default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="../../ui" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-3" itemprop="child" class="breadcrumbs__item"><a href="../../widgets" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Создание графических компонентов</span></a></li><li id="breadcrumb-3" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="../../custom-events" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Коллбэки и события на компонентах</span></a></li></div><div itemscope itemtype="http://schema.org/TechArticle" class="task-single"><meta itemprop="name" content="Слайдер с событиями"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><a href="../../custom-events" class="task-single__back"><span>Вернуться к уроку</span></a><div itemprop="articleBody" class="task task-single__task"><div class="task__header"><div class="task__title-wrap"><h2 class="task__title">Слайдер с событиями</h2></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div></div><div class="task__content"><p>На основе слайдера из задачи <a href="../slider-widget">Слайдер-компонент</a> создайте графический компонент, который умеет возвращать/получать значение.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var slider = new Slider({
+  elem: document.getElementById('slider'),
+  max: 100 // слайдер на самой правой позиции соответствует 100
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Метод <code>setValue</code> устанавливает значение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">slider.setValue(50);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>У слайдера должно быть два события: <code>slide</code> при каждом передвижении и <code>change</code> при отпускании мыши (установке значения).</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var sliderElem = document.getElementById('slider');
+
+sliderElem.addEventListener('slide', function(event) {
+  document.getElementById('slide').innerHTML = event.detail;
+});
+
+sliderElem.addEventListener('change', function(event) {
+  document.getElementById('change').innerHTML = event.detail;
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В действии:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:80px" src="https://js.cx/task/slider-events/solution/"></iframe>
+  </div><ul>
+<li>Ширина/высота слайдера может быть любой, JS-код это должен учитывать.</li>
+<li>Центр бегунка должен располагаться в точности над выбранным значением. Например, он должен быть в центре для 50 при <code>max=100</code>.</li>
+</ul>
+<p>Исходный документ – возьмите решение задачи <a href="../slider-widget">Слайдер-компонент</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Для решения этой задачи достаточно создать две функции: <code>valueToPosition</code> будет получать по значению положение бегунка, а <code>positionToValue</code> – наоборот, транслировать текущую координату бегунка в значение.</p>
+<p>Как сопоставить позицию слайдера и значение?</p>
+<p>Для этого посмотрим крайние значения слайдера. Допустим, размер бегунка <code>10px</code>.</p>
+<p>Раз центр соответствует значению, то крайнее левое значение будет соответствовать центру на <code>5px</code>, а крайнее правой – центру на <code>5px</code> от правой границы:</p>
+<figure><div class="image" style="width:567px">
+      <div class="image__ratio" style="padding-top:47.08994708994709%"></div>
+      <img src="slider.png" alt="" width="567" height="267" class="image__image">
+      </div></figure><p>Соответственно, ширина области изменения будет <code>sliderElem.clientWidth - thumbElem.clientWidth</code>. Далее её можно уже поделить на части, количество пикселей на значение будет:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">pixelsPerValue = (sliderElem.clientWidth - thumbElem.clientWidth) / max;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Может получиться так, что это значение будет дробным, меньше единицы. Например, если <code>max = 1000</code>, а ширина слайдера <code>110</code> (пробег 100), то будет <code>0.1</code> пикселя на значение.</p>
+<p>Используя <code>pixelsPerValue</code> мы сможем переводить позицию бегунка в значение и обратно.</p>
+<p>Крайнее левое значение <code>thumbElem.style.left</code> равно нулю, крайнее правой – как раз ширине доступной области <code>sliderElem.clientWidth - thumbElem.clientWidth</code>. Поэтому можно получить значение слайдера, поделив его на <code>pixelsPerValue</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function positionToValue(left) {
+  return Math.round(left / pixelsPerValue);
+}
+
+function valueToPosition(value) {
+  return pixelsPerValue * value;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/pAI60McgiArQJNQEJr8i?p=preview" target="_blank" data-plunk-id="pAI60McgiArQJNQEJr8i">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></main></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

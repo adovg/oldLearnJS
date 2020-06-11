@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="regular-expressions-javascript.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Регулярные выражения</span></a></li></ol><h1 class="main__header-title">Обратные ссылки: \n и $n</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Обратные ссылки: \n и $n"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Скобочные группы можно не только получать в результате.</p>
+<p>Движок регулярных выражений запоминает их содержимое, и затем его можно использовать как в самом паттерне, так и в строке замены.</p>
+<h2><a class="main__anchor" name="группа-в-строке-замены" href="#группа-в-строке-замены">Группа в строке замены</a></h2><p>Ссылки в строке замены имеют вид <code>$n</code>, где <code>n</code> – это номер скобочной группы.</p>
+<p>Вместо <code>$n</code> подставляется содержимое соответствующей скобки:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="2:44-52">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var name = &quot;Александр Пушкин&quot;;
+
+name = name.replace(/([а-яё]+) ([а-яё]+)/i, &quot;$2, $1&quot;);
+alert( name ); // Пушкин, Александр</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере выше вместо <code class="pattern">$2</code> подставляется второе найденное слово, а вместо <code class="pattern">$1</code> – первое.</p>
+<h2><a class="main__anchor" name="группа-в-шаблоне" href="#группа-в-шаблоне">Группа в шаблоне</a></h2><p>Выше был пример использования содержимого групп в строке замены. Это удобно, когда нужно реорганизовать содержимое или создать новое с использованием старого.</p>
+<p>Но к скобочной группе можно также обратиться в самом поисковом шаблоне, ссылкой вида <code>\номер</code>.</p>
+<p>Чтобы было яснее, рассмотрим это на реальной задаче – необходимо найти в тексте строку в кавычках. Причём кавычки могут быть одинарными <code class="subject">'...'</code> или двойными <code class="subject">&quot;...&quot;</code> – и то и другое должно искаться корректно.</p>
+<p>Как такие строки искать?</p>
+<p>Можно в регэкспе предусмотреть произвольные кавычки: <code class="pattern">['&quot;](.*?)['&quot;]</code>. Такой регэксп найдёт строки вида <code class="match">&quot;...&quot;</code>, <code class="match">'...'</code>, но он даст неверный ответ в случае, если одна кавычка ненароком оказалась внутри другой, как например в строке <code class="subject">&quot;She's the one!&quot;</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;He said: \&quot;She's the one!\&quot;.&quot;;
+
+var reg = /['&quot;](.*?)['&quot;]/g;
+
+// Результат не соответствует замыслу
+alert( str.match(reg) ); // &quot;She'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как видно, регэксп нашёл открывающую кавычку <code class="match">&quot;</code>, затем текст, вплоть до новой кавычки <code class="match">'</code>, которая закрывает соответствие.</p>
+<p>Для того, чтобы попросить регэксп искать закрывающую кавычку – такую же, как открывающую, мы обернём её в скобочную группу и используем обратную ссылку на неё:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;He said: \&quot;She's the one!\&quot;.&quot;;
+
+var reg = /(['&quot;])(.*?)\1/g;
+
+alert( str.match(reg) ); // &quot;She's the one!&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь работает верно! Движок регулярных выражений, найдя первое скобочное выражение – кавычку <code class="pattern">(['&quot;])</code>, запоминает его и далее <code class="pattern">\1</code> означает «найти то же самое, что в первой скобочной группе».</p>
+<p>Обратим внимание на два нюанса:</p>
+<ul>
+<li>Чтобы использовать скобочную группу в строке замены – нужно использовать ссылку вида <code>$1</code>, а в шаблоне – обратный слэш: <code>\1</code>.</li>
+<li>Чтобы в принципе иметь возможность обратиться к скобочной группе – не важно откуда, она не должна быть исключена из запоминаемых при помощи <code>?:</code>. Скобочные группы вида <code>(?:...)</code> не участвуют в нумерации.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-пары-тегов" name="найдите-пары-тегов" class="main__anchor">Найдите пары тегов</a></h3><a href="task/find-matching-bbtags.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>ББ-тег имеет вид <code>[имя]...[/имя]</code>, где имя – слово, одно из: <code>b</code>, <code>url</code>, <code>quote</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-none"><code class="language-none">[b]текст[/b]
+[url]http://ya.ru[/url]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>ББ-теги могут быть вложенными, но сам в себя тег быть вложен не может, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-none"><code class="language-none">Допустимо:
+[url] [b]http://ya.ru[/b] [/url]
+[quote] [b]текст[/b] [/quote]
+
+Нельзя:
+[b][b]текст[/b][/b]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Создайте регулярное выражение для поиска ББ-тегов и их содержимого.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /* регулярка */
+
+var str = &quot;..[url]http://ya.ru[/url]..&quot;;
+alert( str.match(re) ); // [url]http://ya.ru[/url]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если теги вложены, то нужно искать самый внешний тег (при желании можно будет продолжить поиск в его содержимом):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /* регулярка */
+
+var str = &quot;..[url][b]http://ya.ru[/b][/url]..&quot;;
+alert( str.match(re) ); // [url][b]http://ya.ru[/b][/url]</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Открывающий тег – это <code class="pattern">\[(b|url|quote)\]</code>.</p>
+<p>Для того, чтобы найти всё до закрывающего – используем ленивый поиск <code class="pattern">[\s\S]*?</code> и обратную ссылку на открывающий тег.</p>
+<p>Итого, получится: <code class="pattern">\[(b|url|quote)\][\s\S]*?\[/\1\]</code>.</p>
+<p>В действии:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /\[(b|url|quote)\][\s\S]*?\[\/\1\]/g;
+
+var str1 = &quot;..[url]http://ya.ru[/url]..&quot;;
+var str2 = &quot;..[url][b]http://ya.ru[/b][/url]..&quot;;
+
+alert( str1.match(re) ); // [url]http://ya.ru[/url]
+alert( str2.match(re) ); // [url][b]http://ya.ru[/b][/url]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для закрывающего тега <code>[/1]</code> понадобилось дополнительно экранировать слеш: <code>\[\/1\]</code>.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

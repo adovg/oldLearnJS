@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Стили, getComputedStyle</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Стили, getComputedStyle"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Эта глава – о свойствах стиля, получении о них информации и изменении при помощи JavaScript.</p>
+<p>Перед прочтением убедитесь, что хорошо знакомы с <a href="http://www.w3.org/TR/CSS2/box.html">блочной моделью CSS</a> и понимаете, что такое <code>padding</code>, <code>margin</code>, <code>border</code>.</p>
+<h2><a class="main__anchor" name="стили-элемента-свойство-style" href="#стили-элемента-свойство-style">Стили элемента: свойство style</a></h2><p>Свойство <code>element.style</code> возвращает объект, который дает доступ к стилю элемента на чтение и запись.</p>
+<p>С его помощью можно изменять большинство CSS-свойств, например <code>element.style.width=&quot;100px&quot;</code> работает так, как будто у элемента в атрибуте прописано <code>style=&quot;width:100px&quot;</code>.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Единицы измерения обязательны в <code>style</code></span></div>
+            <div class="important__content"><p>Об этом иногда забывают, но в <code>style</code> так же, как и в CSS, нужно указывать единицы измерения, например <code>px</code>.</p>
+<p>Ни в коем случае не просто <code>elem.style.width = 100</code> – работать не будет.</p>
+</div></div>
+<p><strong>Для свойств, названия которых состоят из нескольких слов, используется вотТакаяЗапись:</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">background-color  =&gt; elem.style.backgroundColor
+z-index           =&gt; elem.style.zIndex
+border-left-width =&gt; elem.style.borderLeftWidth</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример использования <code>style</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">document.body.style.backgroundColor = prompt('background color?', 'green');</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type"><code>style.cssFloat</code> вместо <code>style.float</code></span></div>
+            <div class="important__content"><p>Исключением является свойство <code>float</code>. В старом стандарте JavaScript слово <code>&quot;float&quot;</code> было зарезервировано и недоступно для использования в качестве свойства объекта. Поэтому используется не <code>elem.style.float</code>, а <code>elem.style.cssFloat</code>.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Свойства с префиксами</span></div>
+            <div class="important__content"><p>Специфические свойства браузеров, типа <code>-moz-border-radius</code>, <code>-webkit-border-radius</code>, записываются следующим способом:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">button.style.MozBorderRadius = '5px';
+button.style.WebkitBorderRadius = '5px';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>То есть, каждый дефис даёт большую букву.</p>
+</div></div>
+<p><strong>Чтобы сбросить поставленный стиль, присваивают в <code>style</code> пустую строку: <code>elem.style.width=&quot;&quot;</code>.</strong></p>
+<p>При сбросе свойства <code>style</code> стиль будет взят из CSS.</p>
+<p>Например, для того, чтобы спрятать элемент, можно присвоить: <code>elem.style.display = &quot;none&quot;</code>.</p>
+<p>А вот чтобы показать его обратно – не обязательно явно указывать другой <code>display</code>, наподобие <code>elem.style.display = &quot;block&quot;</code>. Можно просто снять поставленный стиль: <code>elem.style.display = &quot;&quot;</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// если запустить этот код, то &lt;body&gt; &quot;мигнёт&quot;
+document.body.style.display = &quot;none&quot;;
+
+setTimeout(function() {
+  document.body.style.display = &quot;&quot;;
+}, 1000);</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Стиль в <code>style</code> находится в формате браузера, а не в том, в котором его присвоили.</strong></p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-highlight-block="2-3,5-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body&gt;
+  &lt;script&gt;
+    document.body.style.margin = '20px';
+    alert( document.body.style.marginTop ); // 20px!
+
+    document.body.style.color = '#abc';
+    alert( document.body.style.color ); // rgb(170, 187, 204)
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратите внимание на то, как браузер «распаковал» свойство <code>style.margin</code>, предоставив для чтения <code>style.marginTop</code>. То же самое произойдет и для <code>border</code>, <code>background</code> и т.д.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Свойство <code>style</code> мы используем лишь там, где не работают классы</span></div>
+            <div class="important__content"><p>В большинстве случаев внешний вид элементов задаётся классами. А JavaScript добавляет или удаляет их. Такой код красив и гибок, дизайн можно легко изменять.</p>
+<p>Свойство <code>style</code> нужно использовать лишь там, где классы  не подходят, например если точное значение цвета/отступа/высоты вычисляется в JavaScript.</p>
+</div></div>
+<h3><a class="main__anchor" name="строка-стилей-style-csstext" href="#строка-стилей-style-csstext">Строка стилей style.cssText</a></h3><p>Свойство <code>style</code> является специальным объектом, ему нельзя присваивать строку.</p>
+<p>Запись <code>div.style=&quot;color:blue&quot;</code> работать не будет. Но как же, всё-таки, поставить свойство стиля, если хочется задать его строкой?</p>
+<p>Можно попробовать использовать атрибут: <code>elem.setAttribute(&quot;style&quot;, ...)</code>, но самым правильным и, главное, кросс-браузерным (с учётом старых IE) решением такой задачи будет использование свойства <code>style.cssText</code>.</p>
+<p><strong>Свойство <code>style.cssText</code> позволяет поставить стиль целиком в виде строки.</strong></p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="5:21-43,9:4-16">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div&gt;Button&lt;/div&gt;
+
+&lt;script&gt;
+  var div = document.body.children[0];
+
+  div.style.cssText=&quot;color: red !important; \
+    background-color: yellow; \
+    width: 100px; \
+    text-align: center; \
+    blabla: 5; \
+  &quot;;
+
+  alert(div.style.cssText);
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Браузер разбирает строку <code>style.cssText</code> и применяет известные ему свойства. Неизвестные, наподобие <code>blabla</code>, большинство браузеров просто проигнорируют.</p>
+<p><strong>При установке <code>style.cssText</code> все предыдущие свойства <code>style</code> удаляются.</strong></p>
+<p>Итак, <code>style.cssText</code> осуществляет полную перезапись <code>style</code>. Если же нужно заменить какое-то конкретно свойство стиля, то обращаются именно к нему: <code>style.color</code>, <code>style.width</code> и т.п, чтобы не затереть что-то важное по ошибке.</p>
+<p>Свойство <code>style.cssText</code> используют, например, для новосозданных элементов, когда старых стилей точно нет.</p>
+<h3><a class="main__anchor" name="чтение-стиля-из-style" href="#чтение-стиля-из-style">Чтение стиля из style</a></h3><p>Записать в стиль очень просто. А как прочитать?</p>
+<p>Например, мы хотим узнать размер, отступы элемента, его цвет… Как это сделать?</p>
+<p><strong>Свойство <code>style</code> содержит лишь тот стиль, который указан в атрибуте элемента, без учёта каскада CSS.</strong></p>
+<p>Вот так <code>style</code> уже ничего не увидит:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-highlight-block="7-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;head&gt;
+  &lt;style&gt; body { color: red; margin: 5px } &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  Красный текст
+  &lt;script&gt;
+    alert(document.body.style.color); //в большинстве браузеров
+    alert(document.body.style.marginTop); //  ничего не выведет
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="полный-стиль-из-getcomputedstyle" href="#полный-стиль-из-getcomputedstyle">Полный стиль из getComputedStyle</a></h2><p>Итак, свойство <code>style</code> дает доступ только к той информации, которая хранится в <code>elem.style</code>.</p>
+<p>Он не скажет ничего об отступе, если он появился в результате наложения CSS или встроенных стилей браузера:</p>
+<p>А если мы хотим, например, сделать анимацию и плавно увеличивать <code>marginTop</code> от текущего значения? Как нам сделать это? Ведь для начала нам надо это текущее значение получить.</p>
+<p><strong>Для того, чтобы получить текущее используемое значение свойства, используется метод <code>window.getComputedStyle</code>, описанный в стандарте <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html">DOM Level 2</a>.</strong></p>
+<p>Его синтаксис таков:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">getComputedStyle(element[, pseudo])</code></pre>
+        </div>
+      </div>
+      
+      </div><dl>
+<dt>element</dt>
+<dd>Элемент, значения для которого нужно получить</dd>
+<dt>pseudo</dt>
+<dd>Указывается, если нужен стиль псевдо-элемента, например <code>&quot;::before&quot;</code>. Пустая строка или отсутствие аргумента означают сам элемент.</dd>
+</dl>
+<p>Поддерживается всеми браузерами, кроме IE8-. Следующий код будет работать во всех не-IE браузерах и в IE9+:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  body {
+    margin: 10px
+  }
+&lt;/style&gt;
+
+&lt;body&gt;
+
+  &lt;script&gt;
+    var computedStyle = getComputedStyle(document.body);
+    alert( computedStyle.marginTop ); // выведет отступ в пикселях
+    alert( computedStyle.color ); // выведет цвет
+  &lt;/script&gt;
+
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Вычисленное (computed) и окончательное (resolved) значения</span></div>
+            <div class="important__content"><p>В CSS есть две концепции:</p>
+<ol>
+<li><em>Вычисленное</em> (computed) значение – это то, которое получено после применения всех правил CSS и CSS-наследования. Например, <code>width: auto</code> или <code>font-size: 125%</code>.</li>
+<li><em>Окончательное</em> (<a href="http://dev.w3.org/csswg/cssom/#resolved-values">resolved</a>) значение – непосредственно применяемое к элементу. При этом все размеры приводятся к пикселям, например <code>width: 212px</code> или <code>font-size: 16px</code>. В некоторых браузерах пиксели могут быть дробными.</li>
+</ol>
+<p>Когда-то <code>getComputedStyle</code> задумывалось для возврата вычисленного значения, но со временем оказалось, что окончательное гораздо удобнее.</p>
+<p>Поэтому сейчас в целом все значения возвращаются именно окончательные, кроме некоторых небольших глюков в браузерах, которые постепенно вычищаются.</p>
+</div></div>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type"><code>getComputedStyle</code> требует полное свойство!</span></div>
+            <div class="important__content"><p>Для правильного получения значения нужно указать точное свойство. Например: <code>paddingLeft</code>, <code>marginTop</code>, <code>borderLeftWidth</code>.</p>
+<p><strong>При обращении к сокращенному: <code>padding</code>, <code>margin</code>, <code>border</code> – правильный результат не гарантируется.</strong></p>
+<p>Действительно, допустим свойства <code>paddingLeft/paddingTop</code> взяты из разных классов CSS. Браузер не обязан объединять их в одно свойство <code>padding</code>. Иногда, в простейших случаях, когда свойство задано сразу целиком, <code>getComputedStyle</code>  сработает для сокращённого свойства, но не во всех браузерах.</p>
+<p>Например, некоторые браузеры (Chrome) выведут <code>10px</code> в документе ниже, а некоторые (Firefox) – нет:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  body {
+    margin: 10px;
+  }
+&lt;/style&gt;
+&lt;script&gt;
+  var style = getComputedStyle(document.body);
+  alert( style.margin ); // в Firefox пустая строка
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Стили посещенных ссылок – тайна!</span></div>
+            <div class="important__content"><p>У посещенных ссылок может быть другой цвет, фон, чем у обычных. Это можно поставить в CSS с помощью псевдокласса <code>:visited</code>.</p>
+<p>Но <code>getComputedStyle</code> не дает доступ к этой информации, чтобы произвольная страница не могла определить, посещал ли пользователь ту или иную ссылку.</p>
+<p>Кроме того, большинство браузеров запрещают применять к <code>:visited</code> CSS-стили, которые могут изменить геометрию элемента, чтобы даже окольным путем нельзя было это понять. В целях безопасности.</p>
+</div></div>
+<h2><a class="main__anchor" name="currentstyle-для-ie8" href="#currentstyle-для-ie8">currentStyle для IE8-</a></h2><p>В IE8- нет <code>getComputedStyle</code>, но у элементов есть свойство <a href="http://msdn.microsoft.com/en-us/library/ms536497.aspx">currentStyle</a>, которое возвращает вычисленное (computed) значение: уже с учётом CSS-каскада, но не всегда в окончательном формате.</p>
+<p>Чтобы код работал и в старых и новых браузерах, обычно пишут кросс-браузерный код, наподобие такого:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getStyle(elem) {
+  return window.getComputedStyle ? getComputedStyle(elem, &quot;&quot;) : elem.currentStyle;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если вы откроете такой документ в IE8-, то размеры будут в процентах, а в современных браузерах – в пикселях.</p>
+<div data-trusted="1" class="code-example" data-demo-height="100">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  body {
+    margin: 10%
+  }
+&lt;/style&gt;
+
+&lt;body&gt;
+  &lt;script&gt;
+    var elem = document.body;
+
+    function getStyle(elem) {
+      return window.getComputedStyle ? getComputedStyle(elem, &quot;&quot;) : elem.currentStyle;
+    }
+
+    var marginTop = getStyle(elem).marginTop;
+    alert( marginTop ); // IE8-: 10%, иначе пиксели
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">IE8-: перевод <code>pt,em,%</code> из <code>currentStyle</code> в пиксели</span></div>
+            <div class="important__content"><p>Эта информация – дополнительная, она не обязательна для освоения.</p>
+<p>В IE для того, чтобы получить из процентов реальное значение в пикселях существует метод «runtimeStyle+pixel», <a href="http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291">описанный Дином Эдвардсом</a>.</p>
+<p>Он основан на свойствах <code>runtimeStyle</code> и <code>pixelLeft</code>, работающих только в IE.</p>
+<p>В <a href="http://plnkr.co/edit/xPWiGxEojpSYnBi5rgNz?p=preview">песочнице</a> вы можете найти функцию <code>getIEComputedStyle(elem, prop)</code>, которая получает значение в пикселях для свойства <code>prop</code>, используя <code>elem.currentStyle</code> и метод Дина Эдвардса, и пример её применения.</p>
+<p>Если вам интересно, как он работает, ознакомьтесь со свойствами с <a href="http://msdn.microsoft.com/en-us/library/ms535889(v=vs.85).aspx">runtimeStyle</a> и <a href="http://msdn.microsoft.com/en-us/library/ms531129%28VS.85%29.aspx">pixelLeft</a> в MSDN и раскройте код.</p>
+<p>Конечно, это актуально только для IE8- и полифиллов.</p>
+</div></div>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Все DOM-элементы предоставляют следующие свойства.</p>
+<ul>
+<li>
+<p>Свойство <code>style</code> – это объект, в котором CSS-свойства пишутся <code>вотТакВот</code>. Чтение и изменение его свойств – это, по сути, работа с компонентами атрибута <code>style</code>.</p>
+</li>
+<li>
+<p><code>style.cssText</code> – строка стилей для чтения или записи. Аналог полного атрибута <code>style</code>.</p>
+</li>
+<li>
+<p>Свойство <code>currentStyle</code>(IE8-) и метод <code>getComputedStyle</code> (IE9+, стандарт) позволяют получить реальное, применённое сейчас к элементу свойство стиля с учётом CSS-каскада и браузерных стилей по умолчанию.</p>
+<p>При этом <code>currentStyle</code> возвращает значение из CSS, до окончательных вычислений, а <code>getComputedStyle</code> – окончательное, непосредственно применённое к элементу (как правило).</p>
+</li>
+</ul>
+<p>Более полная информация о свойстве <code>style</code>, включающая другие, реже используемые методы работы с ним, доступна <a href="https://developer.mozilla.org/en-US/docs/DOM/CSSStyleDeclaration">в документации</a>.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#скругленая-кнопка-со-стилями-из-javascript" name="скругленая-кнопка-со-стилями-из-javascript" class="main__anchor">Скругленая кнопка со стилями из JavaScript</a></h3><a href="task/round-button-javascript.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Создайте кнопку в виде элемента <code>&lt;a&gt;</code> с заданным стилем, используя JavaScript.</p>
+<p>В примере ниже такая кнопка создана при помощи HTML/CSS. В вашем решении кнопка должна создаваться, настраиваться и добавляться в документ при помощи <em>только JavaScript</em>, без тегов <code>&lt;style&gt;</code> и <code>&lt;a&gt;</code>.</p>
+<div data-trusted="1" class="code-example" data-demo-height="50" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  .button {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    border: 2px groove green;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    width: 100px;
+    text-decoration: none;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+  }
+&lt;/style&gt;
+
+&lt;a class=&quot;button&quot; href=&quot;/&quot;&gt;Нажми меня&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-39qedw"
+          style="height:50px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p><strong>Проверьте себя: вспомните, что означает каждое свойство. В чём состоит эффект его появления здесь?</strong></p>
+<p><a href="http://plnkr.co/edit/4iazqVmjNvmWVjqrdOhx?p=preview" target="_blank" data-plunk-id="4iazqVmjNvmWVjqrdOhx">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Есть два варианта.</p>
+<ol>
+<li>Можно использовать свойство <code>elem.style.cssText</code> и присвоить стиль в текстовом виде. При этом все присвоенные ранее свойства <code>elem.style</code> будут удалены.</li>
+<li>Можно назначить подсвойства <code>elem.style</code> одно за другим. Этот способ более безопасен, т.к. меняет только явно присваемые свойства.</li>
+</ol>
+<p>Мы выберем второй путь.</p>
+<p><strong>Описание CSS-свойств:</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">.button {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  border: 2px groove green;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  width: 100px;
+  text-decoration: none;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><dl>
+<dt><code>*-border-radius</code></dt>
+<dd>Добавляет скругленные углы. Свойство присваивается в вариантах для Firefox <code>-moz-...</code>, Chrome/Safari <code>-webkit-...</code> и стандартное CSS3-свойство для тех, кто его поддерживает (Opera).</dd>
+<dt><code>display</code></dt>
+<dd>По умолчанию, у <code>A</code> это свойство имеет значение <code>display: inline</code>.</dd>
+<dt><code>height</code>, <code>line-height</code></dt>
+<dd>Устанавливает высоту и делает текст вертикально центрированным путем установки <code>line-height</code> в значение, равное высоте. Такой способ центрирования текста работает, если он состоит из одной строки.</dd>
+<dt><code>text-align</code></dt>
+<dd>Центрирует текст горизонтально.</dd>
+<dt><code>color</code>, <code>font-weight</code></dt>
+<dd>Делает текст красным и жирным.</dd>
+</dl>
+<p><a href="http://plnkr.co/edit/bL4jmF8alzizEA7xNGes?p=preview" target="_blank" data-plunk-id="bL4jmF8alzizEA7xNGes">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#создать-уведомление" name="создать-уведомление" class="main__anchor">Создать уведомление</a></h3><a href="task/create-notification.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите функцию <code>showNotification(options)</code>, которая показывает уведомление, пропадающее через 1.5 сек.</p>
+<p>Описание функции:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">/**
+ * Показывает уведомление, пропадающее через 1.5 сек
+ *
+ * @param options.top {number} вертикальный отступ, в px
+ * @param options.right {number} правый отступ, в px
+ * @param options.cssText {string} строка стиля
+ * @param options.className {string} CSS-класс
+ * @param options.html {string} HTML-текст для показа
+ */
+function showNotification(options) {
+  // ваш код
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// покажет элемент с текстом &quot;Привет&quot; и классом welcome справа-сверху окна
+showNotification({
+  top: 10,
+  right: 10,
+  html: &quot;Привет&quot;,
+  className: &quot;welcome&quot;
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="https://js.cx/task/create-notification/solution/" target="blank">Демо в новом окне</a></p><p>Элемент уведомления должен иметь CSS-класс <code>notification</code>, к которому добавляется класс из <code>options.className</code>, если есть. Исходный документ содержит готовые стили.</p>
+<p><a href="http://plnkr.co/edit/WNmkdVVCk7VyCuPj4ei8?p=preview" target="_blank" data-plunk-id="WNmkdVVCk7VyCuPj4ei8">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/k3YER2mMnyKbkQAEPP1W?p=preview" target="_blank" data-plunk-id="k3YER2mMnyKbkQAEPP1W">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

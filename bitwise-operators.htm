@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="first-steps.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы JavaScript</span></a></li></ol><h1 class="main__header-title">Побитовые операторы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Побитовые операторы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Побитовые операторы интерпретируют операнды как последовательность из 32 битов (нулей и единиц).  Они производят операции, используя двоичное представление числа, и возвращают новую последовательность из 32 бит (число) в качестве результата.</p>
+<p>Эта глава требует дополнительных знаний в программировании и не очень важная, при первом чтении вы можете пропустить её и вернуться потом, когда захотите понять, как побитовые операторы работают.</p>
+<h2><a class="main__anchor" name="signed-format" href="#signed-format">Формат 32-битного целого числа со знаком</a></h2><p>Побитовые операторы в JavaScript работают с 32-битными целыми числами в их двоичном представлении.</p>
+<p>Это представление называется «32-битное целое со знаком, старшим битом слева и дополнением до двойки».</p>
+<p>Разберём, как устроены числа внутри подробнее, это необходимо знать для битовых операций с ними.</p>
+<ul>
+<li>
+<p>Что такое <a href="http://ru.wikipedia.org/wiki/%C4%E2%EE%E8%F7%ED%E0%FF_%F1%E8%F1%F2%E5%EC%E0_%F1%F7%E8%F1%EB%E5%ED%E8%FF">двоичная система счисления</a>, вам, надеюсь, уже известно. При разборе побитовых операций мы будем обсуждать именно двоичное представление чисел, из 32 бит.</p>
+</li>
+<li>
+<p><em>Старший бит слева</em> – это научное название для самого обычного порядка записи цифр (от большего разряда к меньшему). При этом, если больший разряд отсутствует, то соответствующий бит равен нулю.</p>
+<p>Примеры представления чисел в двоичной системе:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">a = 0;  // 00000000000000000000000000000000
+a = 1;  // 00000000000000000000000000000001
+a = 2;  // 00000000000000000000000000000010
+a = 3;  // 00000000000000000000000000000011
+a = 255;// 00000000000000000000000011111111</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратите внимание, каждое число состоит ровно из 32-битов.</p>
+</li>
+<li>
+<p><em>Дополнение до двойки</em> – это название способа поддержки отрицательных чисел.</p>
+<p><strong>Двоичный вид числа, обратного данному (например, <code>5</code> и <code>-5</code>) получается путём обращения всех битов с прибавлением 1.</strong></p>
+<p>То есть, нули заменяются на единицы, единицы – на нули и к числу прибавляется <code>1</code>. Получается внутреннее представление того же числа, но со знаком минус.</p>
+<p>Например, вот число <code>314</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">00000000000000000000000100111010</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Чтобы получить <code>-314</code>, первый шаг – обратить биты числа: заменить <code>0</code> на <code>1</code>, а <code>1</code> на <code>0</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">11111111111111111111111011000101</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Второй шаг – к полученному двоичному числу прибавить единицу, обычным двоичным сложением: <code>11111111111111111111111011000101 + 1 = 11111111111111111111111011000110</code>.</p>
+<p>Итак, мы получили:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">-314 = 11111111111111111111111011000110</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Принцип дополнения до двойки делит все двоичные представления на два множества: если крайний-левый бит равен <code>0</code> – число положительное, если <code>1</code> – число отрицательное. Поэтому этот бит называется <i>знаковым битом</i>.</p>
+</li>
+</ul>
+<h2><a class="main__anchor" name="список-операторов" href="#список-операторов">Список операторов</a></h2><p>В следующей таблице перечислены все побитовые операторы.
+Далее операторы разобраны более подробно.</p>
+<table class="fullwidth-table">
+<tr>
+<th>Оператор</th>
+<th>Использование</th>
+<th>Описание</th>
+</tr>
+<tr>
+<td>Побитовое И (AND)</td>
+<td style="white-space: nowrap"><code>a &amp; b</code></td>
+<td>Ставит 1 на бит результата, для которого соответствующие биты операндов равны 1.</td>
+</tr>
+<tr>
+<td>Побитовое ИЛИ (OR)</td>
+<td style="white-space: nowrap"><code>a | b</code></td>
+<td>Ставит 1 на бит результата, для которого хотя бы один из соответствующих битов операндов равен 1.</td>
+</tr>
+<tr>
+<td>Побитовое исключающее ИЛИ (XOR)</td>
+<td style="white-space: nowrap"><code>a ^ b</code></td>
+<td>Ставит 1 на бит результата, для которого только один из соответствующих битов операндов равен 1 (но не оба).</td>
+</tr>
+<tr>
+<td>Побитовое НЕ (NOT)</td>
+<td style="white-space: nowrap"><code>~a</code></td>
+<td>Заменяет каждый бит операнда на противоположный.</td>
+</tr>
+<tr>
+<td>Левый сдвиг</td>
+<td style="white-space: nowrap">`a << b`</td>
+<td>Сдвигает двоичное представление <code>a</code> на <code>b</code> битов влево, добавляя справа нули.</td>
+</tr>
+<tr>
+<td>Правый сдвиг, переносящий знак</td>
+<td style="white-space: nowrap">`a >> b`</td>
+<td>Сдвигает двоичное представление <code>a</code> на <code>b</code> битов вправо, отбрасывая сдвигаемые биты.</td>
+</tr>
+<tr>
+<td>Правый сдвиг с заполнением нулями</td>
+<td style="white-space: nowrap">`a >>> b`</td>
+<td>Сдвигает двоичное представление <code>a</code> на <code>b</code> битов вправо, отбрасывая сдвигаемые биты и добавляя нули слева.</td>
+</tr>
+</table>
+<p>Побитовые операторы работают следующим образом:</p>
+<ol>
+<li>Операнды преобразуются в 32-битные целые числа, представленные последовательностью битов. Дробная часть, если она есть, отбрасывается.</li>
+<li>Для бинарных операторов –  каждый бит в первом операнде рассматривается вместе с соответствующим битом второго операнда: первый бит с первым, второй со вторым и т.п. Оператор применяется к каждой паре бит, давая соответствующий бит результата.</li>
+<li>Получившаяся в результате последовательность бит интерпретируется как обычное число.</li>
+</ol>
+<p>Посмотрим, как работают операторы, на примерах.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Вспомогательные функции parseInt, toString</span></div>
+            <div class="important__content"><p>Для удобной работы с примерами в этой статье, если вы захотите протестировать что-то в консоли, пригодятся две функции.</p>
+<ul>
+<li><code>parseInt(&quot;11000&quot;, 2)</code> – переводит строку с двоичной записью числа в число.</li>
+<li><code>n.toString(2)</code> – получает для числа <code>n</code> запись в 2-ной системе в виде строки.</li>
+</ul>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var access = parseInt(&quot;11000&quot;, 2); // получаем число из строки
+
+alert( access ); // 24, число с таким 2-ным представлением
+
+var access2 = access.toString(2); // обратно двоичную строку из числа
+
+alert( access2 ); // 11000</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Без них перевод в двоичную систему и обратно был бы куда менее удобен.
+Более подробно они разбираются в главе <a href="number.htm">Числа</a>.</p>
+</div></div>
+<h2><a class="main__anchor" name="побитовое-и" href="#побитовое-и">&amp; (Побитовое И)</a></h2><p>Выполняет операцию И над каждой парой бит.</p>
+<p>Результат <code>a &amp; b</code> равен единице только когда оба бита <code>a</code> и <code>b</code> равны единице.</p>
+<p>Таблица истинности для <code>&amp;</code>:</p>
+<table class="standard-table">
+<tr><th><code>a</code></th><th><code>b</code></th><th><code>a & b</code></th></tr>
+<tr><td><code>0</code></td><td><code>0</code></td><td><code>0</code></td></tr>
+<tr><td><code>0</code></td><td><code>1</code></td><td><code>0</code></td></tr>
+<tr><td><code>1</code></td><td><code>0</code></td><td><code>0</code></td></tr>
+<tr><td><code>1</code></td><td><code>1</code></td><td><code>1</code></td></tr>
+</table>
+<p>Пример:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">9 (по осн. 10)
+  = 00000000000000000000000000001001 (по осн. 2)
+14 (по осн. 10)
+  = 00000000000000000000000000001110 (по осн. 2)
+                   --------------------------------
+14 &amp; 9 (по осн. 10)
+  = 00000000000000000000000000001000 (по осн. 2)
+  = 8 (по осн. 10)</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="побитовое-или" href="#побитовое-или">| (Побитовое ИЛИ)</a></h2><p>Выполняет операцию ИЛИ над каждой парой бит. Результат <code>a | b</code> равен 1, если хотя бы один бит из <code>a,b</code> равен 1.</p>
+<p>Таблица истинности для <code>|</code>:</p>
+<table class="standard-table">
+<tr><th><code>a</code></th><th><code>b</code></th><th><code>a | b</code></th></tr>
+<tr><td><code>0</code></td><td><code>0</code></td><td><code>0</code></td></tr>
+<tr><td><code>0</code></td><td><code>1</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>0</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>1</code></td><td><code>1</code></td></tr>
+</table>
+<p>Пример:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">9 (по осн. 10)
+  = 00000000000000000000000000001001 (по осн. 2)
+14 (по осн. 10)
+  = 00000000000000000000000000001110 (по осн. 2)
+                   --------------------------------
+14 | 9 (по осн. 10)
+  = 00000000000000000000000000001111 (по осн. 2)
+  = 15 (по осн. 10)</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="исключающее-или" href="#исключающее-или">^ (Исключающее ИЛИ)</a></h2><p>Выполняет операцию «Исключающее ИЛИ» над каждой парой бит.</p>
+<p><code>a</code> Исключающее ИЛИ <code>b</code> равно 1, если только <code>a=1</code> или только <code>b=1</code>, но не оба одновременно <code>a=b=1</code>.</p>
+<p>Таблица истинности для исключающего ИЛИ:</p>
+<table class="standard-table">
+<tr><th><code>a</code></th><th><code>b</code></th><th><code>a ^ b</code></th></tr>
+<tr><td><code>0</code></td><td><code>0</code></td><td><code>0</code></td></tr>
+<tr><td><code>0</code></td><td><code>1</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>0</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>1</code></td><td><code>0</code></td></tr>
+</table>
+<p>Как видно, оно даёт 1, если ЛИБО слева <code>1</code>, ЛИБО справа <code>1</code>, но не одновременно. Поэтому его и называют «исключающее ИЛИ».</p>
+<p>Пример:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">9 (по осн. 10)
+  = 00000000000000000000000000001001 (по осн. 2)
+14 (по осн. 10)
+  = 00000000000000000000000000001110 (по осн. 2)
+                   --------------------------------
+14 ^ 9 (по осн. 10)
+  = 00000000000000000000000000000111 (по осн. 2)
+  = 7 (по осн. 10)</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Исключающее ИЛИ в шифровании</span></div>
+            <div class="important__content"><p>Исключающее или можно использовать для шифрования, так как эта операция полностью обратима. Двойное применение исключающего ИЛИ с тем же аргументом даёт исходное число.</p>
+<p>Иначе говоря, верна формула: <code>a ^ b ^ b == a</code>.</p>
+<p>Пускай Вася хочет передать Пете секретную информацию <code>data</code>. Эта информация заранее превращена в число, например строка интерпретируется как последовательность кодов символов.</p>
+<p>Вася и Петя заранее договариваются о числовом ключе шифрования <code>key</code>.</p>
+<p>Алгоритм:</p>
+<ul>
+<li>Вася берёт двоичное представление <code>data</code> и делает операцию <code>data ^ key</code>. При необходимости <code>data</code> бьётся на части, равные по длине <code>key</code>, чтобы можно было провести побитовое ИЛИ <code>^</code> для каждой части. В JavaScript оператор <code>^</code> работает с 32-битными целыми числами, так что <code>data</code> нужно разбить на последовательность таких чисел.</li>
+<li>Результат <code>data ^ key</code> отправляется Пете, это шифровка.</li>
+</ul>
+<p>Например, пусть в <code>data</code> очередное число равно <code>9</code>, а ключ <code>key</code> равен <code>1220461917</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Данные: 9 в двоичном виде
+00000000000000000000000000001001
+
+Ключ: 1220461917 в двоичном виде
+01001000101111101100010101011101
+
+Результат операции 9 ^ key:
+01001000101111101100010101010100
+Результат в 10-ной системе (шифровка):
+1220461908</code></pre>
+        </div>
+      </div>
+      
+      </div><ul>
+<li>Петя, получив очередное число шифровки <code>1220461908</code>, применяет к нему такую же операцию <code>^ key</code>.</li>
+<li>Результатом будет исходное число <code>data</code>.</li>
+</ul>
+<p>В нашем случае:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Полученная шифровка в двоичной системе:
+9 ^ key = 1220461908
+01001000101111101100010101010100
+
+Ключ: 1220461917 в двоичном виде:
+01001000101111101100010101011101
+
+Результат операции 1220461917 ^ key:
+00000000000000000000000000001001
+Результат в 10-ной системе (исходное сообщение):
+9</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Конечно, такое шифрование поддаётся частотному анализу и другим методам дешифровки, поэтому современные алгоритмы используют операцию XOR <code>^</code> как одну из важных частей более сложной многоступенчатой схемы.</p>
+</div></div>
+<h2><a class="main__anchor" name="побитовое-не" href="#побитовое-не">~ (Побитовое НЕ)</a></h2><p>Производит операцию НЕ над каждым битом, заменяя его на обратный ему.</p>
+<p>Таблица истинности для НЕ:</p>
+<table class="standard-table">
+<tr><th><code>a</code></th><th><code>~a</code></th></tr>
+<tr><td><code>0</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>0</code></td></tr>
+</table>
+<p>Пример:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript"> 9 (по осн. 10)
+  = 00000000000000000000000000001001 (по осн. 2)
+               --------------------------------
+~9 (по осн. 10)
+  = 11111111111111111111111111110110 (по осн. 2)
+  = -10 (по осн. 10)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Из-за внутреннего представления отрицательных чисел получается так, что <code>~n == -(n+1)</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( ~3 ); // -4
+alert( ~-1 ); // 0</code></pre>
+        </div>
+      </div>
+      
+      </div><h3><a class="main__anchor" name="битовый-сдвиг-влево" href="#битовый-сдвиг-влево">&lt;&lt; (Битовый сдвиг влево)</a></h3><p>Операторы битового сдвига принимают два операнда. Первый – это число для сдвига, а второй – количество битов, которые нужно сдвинуть в первом операнде.</p>
+<p>Оператор <code>&lt;&lt;</code> сдвигает первый операнд на указанное число битов влево. Лишние биты отбрасываются, справа добавляются нулевые биты.</p>
+<p>Например, <code>9 &lt;&lt; 2</code> даст <code>36</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">9 (по осн.10)
+  = 00000000000000000000000000001001 (по осн.2)
+                  --------------------------------
+9 &lt;&lt; 2 (по осн.10)
+  = 00000000000000000000000000100100 (по осн.2)
+  = 36 (по осн.10)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Операция <code>&lt;&lt; 2</code> сдвинула и отбросила два левых нулевых бита и добавила справа два новых нулевых.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Левый сдвиг почти равен умножению на 2</span></div>
+            <div class="important__content"><p>Битовый сдвиг <code>&lt;&lt; N</code> обычно имеет тот же эффект, что и умножение на два <code>N</code> раз, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 3 &lt;&lt; 1 ); // 6, умножение на 2
+alert( 3 &lt;&lt; 2 ); // 12, умножение на 2 два раза
+alert( 3 &lt;&lt; 3 ); // 24, умножение на 2 три раза</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Конечно, следует иметь в виду, что побитовые операторы работают только с 32-битными числами, поэтому верхний порог такого «умножения» ограничен:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="0-0">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert(10000000000 &lt;&lt; 1); // -1474836480, отброшен крайний-левый бит
+alert(10000000000 * 2); // 20000000000, обычное умножение</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h3><a class="main__anchor" name="правый-битовый-сдвиг-переносящий-знак" href="#правый-битовый-сдвиг-переносящий-знак">&gt;&gt; (Правый битовый сдвиг, переносящий знак)</a></h3><p>Этот оператор сдвигает биты вправо, отбрасывая лишние. При этом слева добавляется <em>копия</em> крайнего-левого бита.</p>
+<p>Знак числа (представленный крайним-левым битом) при этом не меняется, так как новый крайний-левый бит имеет то же значение, что и исходном числе.</p>
+<p>Поэтому он назван «переносящим знак».</p>
+<p>Например, <code>9 &gt;&gt; 2</code> даст <code>2</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">9 (по осн.10)
+  = 00000000000000000000000000001001 (по осн.2)
+                  --------------------------------
+9 &gt;&gt; 2 (по осн.10)
+  = 00000000000000000000000000000010 (по осн.2)
+  = 2 (по осн.10)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Операция <code>&gt;&gt; 2</code> сдвинула вправо и отбросила два правых бита <code>01</code> и добавила слева две копии первого бита <code>00</code>.</p>
+<p>Аналогично, <code>-9 &gt;&gt; 2</code> даст <code>-3</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">-9 (по осн.10)
+  = 11111111111111111111111111110111 (по осн.2)
+                   --------------------------------
+-9 &gt;&gt; 2 (по осн.10)
+  = 11111111111111111111111111111101 (по осн.2) = -3 (по осн.10)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь операция <code>&gt;&gt; 2</code> сдвинула вправо и отбросила два правых бита <code>11</code> и добавила слева две копии первого бита <code>11</code>. , Знак числа сохранён, так как крайний-левый (знаковый) бит сохранил значение <code>1</code>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Правый сдвиг почти равен целочисленному делению на 2</span></div>
+            <div class="important__content"><p>Битовый сдвиг <code>&gt;&gt; N</code> обычно имеет тот же результат, что и целочисленное деление на два <code>N</code> раз:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 100 &gt;&gt; 1 ); // 50, деление на 2
+alert( 100 &gt;&gt; 2 ); // 25, деление на 2 два раза
+alert( 100 &gt;&gt; 3 ); // 12, деление на 2 три раза, целая часть от результата</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h3><a class="main__anchor" name="правый-сдвиг-с-заполнением-нулями" href="#правый-сдвиг-с-заполнением-нулями">&gt;&gt;&gt; (Правый сдвиг с заполнением нулями)</a></h3><p>Этот оператор сдвигает биты первого операнда вправо. Лишние биты справа отбрасываются. Слева добавляются нулевые биты.</p>
+<p>Знаковый бит становится равным 0, поэтому результат всегда положителен.</p>
+<p><strong>Для неотрицательных чисел правый сдвиг с заполнением нулями <code>&gt;&gt;&gt;</code> и правый сдвиг с переносом знака <code>&gt;&gt;</code> дадут одинаковый результат, т.к в обоих случаях слева добавятся нули.</strong></p>
+<p>Для отрицательных чисел – результат работы разный. Например, <code>-9 &gt;&gt;&gt; 2</code> даст  <code>1073741821</code>, в отличие от <code>-9 &gt;&gt; 2</code> (дает <code>-3</code>):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">-9 (по осн.10)
+  = 11111111111111111111111111110111 (по осн.2)
+                    --------------------------------
+-9 &gt;&gt;&gt; 2 (по осн.10)
+  = 00111111111111111111111111111101 (по осн.2)
+  = 1073741821 (по осн.10)</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="применение-побитовых-операторов" href="#применение-побитовых-операторов">Применение побитовых операторов</a></h2><p>Побитовые операторы используются редко, но всё же используются.</p>
+<p>Случаи применения побитовых операторов, которые мы здесь разберём, составляют большинство всех использований в JavaScript.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Осторожно, приоритеты!</span></div>
+            <div class="important__content"><p>В JavaScript побитовые операторы <code>^</code>, <code>&amp;</code>, <code>|</code> выполняются после сравнений <code>==</code>.</p>
+<p>Например, в сравнении <code>a == b^0</code> будет сначала выполнено сравнение <code>a == b</code>, а потом уже операция <code>^0</code>, как будто стоят скобки <code>(a == b)^0</code>.</p>
+<p>Обычно это не то, чего мы хотим. Чтобы гарантировать желаемый порядок, нужно ставить скобки: <code>a == (b^0)</code>.</p>
+</div></div>
+<h3><a class="main__anchor" name="маска" href="#маска">Маска</a></h3><p>Для этого примера представим, что наш скрипт работает с пользователями.</p>
+<p>У них могут быть различные роли в проекте:</p>
+<ul>
+<li><code>Гость</code></li>
+<li><code>Редактор</code></li>
+<li><code>Админ</code></li>
+</ul>
+<p>Каждой роли соответствует ряд доступов к статьям и функционалу сайта.</p>
+<p>Например, <code>Гость</code> может лишь просматривать статьи сайта, а <code>Редактор</code> – ещё и редактировать их, и тому подобное.</p>
+<p>Что-то в таком духе:</p>
+<table>
+<thead>
+<tr>
+<th>Пользователь</th>
+<th>Просмотр статей</th>
+<th>Изменение статей</th>
+<th>Просмотр товаров</th>
+<th>Изменение товаров</th>
+<th>Управление правами</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Гость</td>
+<td>Да</td>
+<td>Нет</td>
+<td>Да</td>
+<td>Нет</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>Редактор</td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>Админ</td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+</tr>
+</tbody>
+</table>
+<p>Если вместо «Да» поставить <code>1</code>, а вместо «Нет» – <code>0</code>, то каждый набор доступов описывается числом:</p>
+<table>
+<thead>
+<tr>
+<th>Пользователь</th>
+<th>Просмотр статей</th>
+<th>Изменение статей</th>
+<th>Просмотр товаров</th>
+<th>Изменение товаров</th>
+<th>Управление правами</th>
+<th>В 10-ной системе</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Гость</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> = 20</td>
+</tr>
+<tr>
+<td>Редактор</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td> = 30</td>
+</tr>
+<tr>
+<td>Админ</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td> = 31</td>
+</tr>
+</tbody>
+</table>
+<p>В последней колонке находится десятичное число, которое получится, если прочитать строку доступов в двоичном виде.</p>
+<p>Например, доступ гостя <code>10100 = 20</code>.</p>
+<p>Такая интерпретация доступов позволяет «упаковать» много информации в одно число. Это экономит память, а кроме этого – это удобно, поскольку в дополнение к экономии – по такому значению очень легко проверить, имеет ли посетитель заданную <em>комбинацию доступов</em>!</p>
+<p>Для этого посмотрим, как в 2-ной системе представляется каждый доступ в отдельности.</p>
+<ul>
+<li>Доступ, соответствующий только управлению правами: <code>00001 (=1)</code> (все нули кроме <code>1</code> на позиции, соответствующей этому доступу).</li>
+<li>Доступ, соответствующий только изменению товаров: <code>00010 (=2)</code>.</li>
+<li>Доступ, соответствующий только просмотру товаров: <code>00100 (=4)</code>.</li>
+<li>Доступ, соответствующий только изменению статей: <code>01000 (=8)</code>.</li>
+<li>Доступ, соответствующий только просмотру статей: <code>10000 (=16)</code>.</li>
+</ul>
+<p>Доступ одновременно на просмотр и изменение статей – это двоичное число с <code>1</code> на соответствующих позициях, то есть <code>access = 11000</code>.</p>
+<p>Как правило, доступы задаются в виде констант:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var ACCESS_ADMIN = 1;          // 00001
+var ACCESS_GOODS_EDIT = 2;   // 00010
+var ACCESS_GOODS_VIEW = 4;     // 00100
+var ACCESS_ARTICLE_EDIT = 8; // 01000
+var ACCESS_ARTICLE_VIEW = 16;  // 10000</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Из этих констант получить нужную комбинацию доступов можно при помощи операции <code>|</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var guest = ACCESS_ARTICLE_VIEW | ACCESS_GOODS_VIEW; // 10100
+var editor = guest | ACCESS_ARTICLE_EDIT | ACCESS_GOODS_EDIT; // 11110
+var admin = editor | ACCESS_ADMIN; // 11111</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь, чтобы понять, есть ли в доступе <code>editor</code> нужный доступ, например управление правами – достаточно применить к нему побитовый оператор И (<code>&amp;</code>) с соответствующей константой.</p>
+<p>Ненулевой результат будет означать, что доступ есть:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-none"><code class="language-none">alert(editor &amp; ACCESS_ADMIN); // 0, доступа нет
+alert(editor &amp; ACCESS_ARTICLE_EDIT); // 8, доступ есть</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такая проверка работает, потому что оператор И ставит <code>1</code> на те позиции результата, на которых в обоих операндах стоит <code>1</code>.</p>
+<p><strong>Можно проверить один из нескольких доступов.</strong></p>
+<p>Например, проверим, есть ли права на просмотр ИЛИ изменение товаров. Соответствующие права задаются битом <code>1</code> на втором и третьем месте с конца, что даёт число <code>00110</code> (=<code>6</code> в 10-ной системе).</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var check = ACCESS_GOODS_VIEW | ACCESS_GOODS_EDIT; // 6, 00110
+
+alert( admin &amp; check ); // не 0, значит есть доступ к просмотру ИЛИ изменению</code></pre>
+        </div>
+      </div>
+      
+      </div><p><em>Битовой маской</em> называют как раз комбинацию двоичных значений (<code>check</code> в примере выше), которая используется для проверки и выборки единиц на нужных позициях.</p>
+<p>Маски могут быть весьма удобны.</p>
+<p>В частности, их используют в функциях, чтобы одним параметром передать несколько «флагов», т.е. однобитных значений.</p>
+<p>Пример вызова функции с маской:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// найти пользователей с правами на изменение товаров или администраторов
+findUsers(ACCESS_GOODS_EDIT | ACCESS_ADMIN);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это довольно-таки коротко и элегантно, но, вместе с тем, применение масок налагает определённые ограничения. В частности, побитовые операторы в JavaScript работают только с 32-битными числами, а значит, к примеру, 33 доступа уже в число не упакуешь. Да и работа с двоичной системой счисления – как ни крути, менее удобна, чем с десятичной или с обычными логическими значениями <code>true/false</code>.</p>
+<p>Поэтому основная сфера применения масок – это быстрые вычисления, экономия памяти, низкоуровневые операции, связанные с рисованием из JavaScript (3d-графика), интеграция с некоторыми функциями ОС (для серверного JavaScript), и другие ситуации, когда уже существуют функции, требующие битовую маску.</p>
+<h3><a class="main__anchor" name="округление" href="#округление">Округление</a></h3><p>Так как битовые операции отбрасывают десятичную часть, то их можно использовать для округления. Достаточно взять любую операцию, которая не меняет значение числа.</p>
+<p>Например, двойное НЕ (<code>~</code>):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( ~~12.345 ); // 12</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Подойдёт и Исключающее ИЛИ (<code>^</code>) с нулём:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 12.345 ^ 0 ); // 12</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Последнее даже более удобно, поскольку отлично читается:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:57-68">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert(12.3 * 14.5 ^ 0); // (=178) &quot;12.3 умножить на 14.5 и округлить&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>У побитовых операторов достаточно низкий приоритет, он меньше чем у остальной арифметики:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 1.1 + 1.2 ^ 0 ); // 2, сложение выполнится раньше округления</code></pre>
+        </div>
+      </div>
+      
+      </div><h3><a class="main__anchor" name="проверка-на-1" href="#проверка-на-1">Проверка на −1</a></h3><p><a href="#signed-format">Внутренний формат</a> 32-битных чисел устроен так, что для смены знака нужно все биты заменить на противоположные («обратить») и прибавить <code>1</code>.</p>
+<p>Обращение битов – это побитовое НЕ (<code>~</code>). То есть, при таком формате представления числа <code>-n = ~n + 1</code>. Или, если перенести единицу: <code>~n = -(n+1)</code>.</p>
+<p>Как видно из последнего равенства, <code>~n == 0</code> только если <code>n == -1</code>. Поэтому можно легко проверить равенство <code>n == -1</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var n = 5;
+
+if (~n) { // сработает, т.к. ~n = -(5+1) = -6
+  alert( &quot;n не -1&quot; ); // выведет!
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var n = -1;
+
+if (~n) { // не сработает, т.к. ~n = -(-1+1) = 0
+  alert( &quot;...ничего не выведет...&quot; );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Проверка на <code>-1</code> пригождается, например, при поиске символа в строке. Вызов <code>str.indexOf(&quot;подстрока&quot;)</code> возвращает позицию подстроки в <code>str</code>, или <code>-1</code> если не нашёл.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Проверка&quot;;
+
+if (~str.indexOf(&quot;верка&quot;)) { // Сочетание &quot;if (~...indexOf)&quot; читается как &quot;если найдено&quot;
+  alert( 'найдено!' );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><h3><a class="main__anchor" name="умножение-и-деление-на-степени-2" href="#умножение-и-деление-на-степени-2">Умножение и деление на степени 2</a></h3><p>Оператор <code>a &lt;&lt; b</code>, сдвигая биты, по сути умножает <code>a</code> на <code>2</code> в степени <code>b</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 1 &lt;&lt; 2 ); // 1*(2*2) = 4
+alert( 1 &lt;&lt; 3 ); // 1*(2*2*2) = 8
+alert( 3 &lt;&lt; 3 ); // 3*(2*2*2) = 24</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом следует иметь в виду, что максимальный верхний порог такого умножения меньше, чем обычно, так как побитовый оператор манипулирует 32-битными целыми, в то время как обычные операторы работают с числами длиной 64 бита.</p>
+<p>Оператор сдвига в другую сторону <code>a &gt;&gt; b</code>, производит обратную операцию – целочисленное деление <code>a</code> на <code>2<sup>b</sup></code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 8 &gt;&gt; 2 ); // 2 = 8/4, убрали 2 нуля в двоичном представлении
+alert( 11 &gt;&gt; 2 ); // 2, целочисленное деление (менее значимые биты просто отброшены)</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Бинарные побитовые операторы: <code>&amp; | ^ &lt;&lt; &gt;&gt; &gt;&gt;&gt;</code>.</li>
+<li>Унарный побитовый оператор один: <code>~</code>.</li>
+</ul>
+<p>Как правило, битовое представление числа используется для:</p>
+<ul>
+<li>Округления числа: <code>(12.34^0) = 12</code>.</li>
+<li>Проверки на равенство <code>-1</code>: <code>if (~n) { n не -1 }</code>.</li>
+<li>Упаковки нескольких битововых значений («флагов») в одно значение. Это экономит память и позволяет проверять наличие комбинации флагов одним оператором <code>&amp;</code>.</li>
+<li>Других ситуаций, когда нужны битовые маски.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#побитовый-оператор-и-значение" name="побитовый-оператор-и-значение" class="main__anchor">Побитовый оператор и значение</a></h3><a href="task/bitwise-operator-value.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Почему побитовые операции в примерах ниже не меняют число? Что они делают внутри?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 123 ^ 0 ); // 123
+alert( 0 ^ 123 ); // 123
+alert( ~~123 ); // 123</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><ol>
+<li>
+<p>Операция <code>a^b</code> ставит бит результата в <code>1</code>, если на соответствующей битовой позиции в <code>a</code> или <code>b</code> (но не одновременно) стоит <code>1</code>.</p>
+<p>Так как в <code>0</code> везде стоят нули, то биты берутся в точности как во втором аргументе.</p>
+</li>
+<li>
+<p>Первое побитовое НЕ <code>~</code> превращает <code>0</code> в <code>1</code>, а <code>1</code> в <code>0</code>. А второе НЕ превращает ещё раз, в итоге получается как было.</p>
+</li>
+</ol>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#проверка-целое-ли-число" name="проверка-целое-ли-число" class="main__anchor">Проверка, целое ли число</a></h3><a href="task/check-integer.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Напишите функцию <code>isInteger(num)</code>, которая возвращает <code>true</code>, если <code>num</code> – целое число, иначе <code>false</code>.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( isInteger(1) ); // true
+alert( isInteger(1.5) ); // false
+alert( isInteger(-0.5) ); // false</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Один из вариантов такой функции:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function isInteger(num) {
+  return (num ^ 0) === num;
+}
+
+alert( isInteger(1) ); // true
+alert( isInteger(1.5) ); // false
+alert( isInteger(-0.5) ); // false</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратите внимание: <code>num^0</code> – в скобках! Это потому, что приоритет операции <code>^</code> очень низкий. Если не поставить скобку, то <code>===</code> сработает раньше. Получится <code>num ^ (0 === num)</code>, а это уже совсем другое дело.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#симметричны-ли-операции" name="симметричны-ли-операции" class="main__anchor">Симметричны ли операции ^, |, &amp;?</a></h3><a href="task/bitwise-symmetry.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Верно ли, что для любых <code>a</code> и <code>b</code> выполняются равенства ниже?</p>
+<ul>
+<li><code>(a ^ b) == (b ^ a)</code></li>
+<li><code>(a &amp; b) == (b &amp; a)</code></li>
+<li><code>(a | b) == (b | a)</code></li>
+</ul>
+<p>Иными словами, при перемене мест – всегда ли результат остаётся тем же?</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Операция над числами, в конечном итоге, сводится к битам.</p>
+<p>Посмотрим, можно ли поменять местами биты слева и справа.</p>
+<p>Например, таблица истинности для <code>^</code>:</p>
+<table>
+<thead>
+<tr>
+<th><code>a</code></th>
+<th><code>b</code></th>
+<th>результат</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><code>0</code></td><td><code>0</code></td><td><code>0</code></td></tr>
+<tr><td><code>0</code></td><td><code>1</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>0</code></td><td><code>1</code></td></tr>
+<tr><td><code>1</code></td><td><code>1</code></td><td><code>0</code></td></tr>
+</tbody>
+</table>
+<p>Случаи <code>0^0</code> и <code>1^1</code> заведомо не изменятся при перемене мест, поэтому нас не интересуют. А вот <code>0^1</code> и <code>1^0</code> эквивалентны и равны <code>1</code>.</p>
+<p>Аналогично можно увидеть, что и другие операторы симметричны.</p>
+<p>Ответ: <strong>да</strong>.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#почему-результат-разный" name="почему-результат-разный" class="main__anchor">Почему результат разный?</a></h3><a href="task/bit-rounding.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Почему результат второго <code>alert'а</code> такой странный?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 123456789 ^ 0 ); // 123456789
+alert( 12345678912345 ^ 0 ); // 1942903641</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Всё дело в том, что побитовые операции преобразуют число в 32-битное целое.</p>
+<p>Обычно число в JavaScript имеет 64-битный формат с плавающей точкой. При этом часть битов (<code>52</code>) отведены под цифры, часть (<code>11</code>) отведены под хранение номера позиции, на которой стоит десятичная точка, и один бит – знак числа.</p>
+<p>Это означает, что максимальное целое число, которое можно хранить, занимает <code>52</code> бита.</p>
+<p>Число <code>12345678912345</code> в двоичном виде: <code>10110011101001110011110011100101101101011001</code> (44 цифры).</p>
+<p>Побитовый оператор <code>^</code> преобразует его в 32-битное путём отбрасывания десятичной точки и «лишних» старших цифр.  При этом, так как число большое и старшие биты здесь ненулевые, то, естественно, оно изменится.</p>
+<p>Вот ещё пример:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// в двоичном виде 1000000000000000000000000000000 (31 цифры)
+alert( Math.pow(2, 30) ); // 1073741824
+alert( Math.pow(2, 30) ^ 0 ); // 1073741824, всё ок, длины хватает
+
+// в двоичном виде 100000000000000000000000000000000 (33 цифры)
+alert( Math.pow(2, 32) ); // 4294967296
+alert( Math.pow(2, 32) ^ 0 ); // 0, отброшены старшие цифры, остались нули
+
+// пограничный случай
+// в двоичном виде 10000000000000000000000000000000 (32 цифры)
+alert( Math.pow(2, 31) ); // 2147483648
+alert( Math.pow(2, 31) ^ 0 ); // -2147483648, ничего не отброшено,
+// но первый бит 1 теперь стоит в начале числа и является знаковым</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Координаты в документе</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Координаты в документе"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p><em>Система координат относительно страницы</em> или, иначе говоря, <em>относительно документа</em>, начинается в левом-верхнем углу, но не окна, а именно страницы.</p>
+<p>И координаты в ней означают позицию по отношению не к окну браузера, а к документу в целом.</p>
+<p>Если провести аналогию с CSS, то координаты относительно окна – это <code>position:fixed</code>, а относительно документа – <code>position:absolute</code> (при позиционировании вне других элементов, естественно).</p>
+<p>Мы будем называть координаты в ней <code>pageX/pageY</code>.</p>
+<p>Они нужны в первую очередь для того, чтобы показывать элемент в определённом месте страницы, а не окна.</p>
+<h2><a class="main__anchor" name="сравнение-систем-координат" href="#сравнение-систем-координат">Сравнение систем координат</a></h2><p>Когда страница не прокручена, точки начала координат относительно окна <code>(clientX,clientY)</code> и документа <code>(pageX,pageY)</code> совпадают:</p>
+<figure><div class="image" style="width:663px">
+      <div class="image__ratio" style="padding-top:79.93966817496229%"></div>
+      <img src="article/coordinates-document/pagewindow0.png" alt="" width="663" height="530" class="image__image">
+      </div></figure><p>Например, координаты элемента с надписью «STANDARDS» равны расстоянию от верхней/левой границы окна:</p>
+<figure><div class="image" style="width:663px">
+      <div class="image__ratio" style="padding-top:67.72247360482655%"></div>
+      <img src="article/coordinates-document/standards.png" alt="" width="663" height="449" class="image__image">
+      </div></figure><p><strong>Прокрутим страницу, чтобы элемент был на самом верху:</strong></p>
+<p>Посмотрите на рисунок ниже, на нём – та же страница, только прокрученная, и тот же элемент «STANDARDS».</p>
+<ul>
+<li>Координата <code>clientY</code> изменилась. Она была <code>175</code>, а стала <code>0</code>, так как элемент находится вверху окна.</li>
+<li>Координата <code>pageY</code> осталась такой же, так как отсчитывается от левого-верхнего угла <em>документа</em>.</li>
+</ul>
+<figure><div class="image" style="width:673px">
+      <div class="image__ratio" style="padding-top:66.71619613670133%"></div>
+      <img src="article/coordinates-document/standards-scroll.png" alt="" width="673" height="449" class="image__image">
+      </div></figure><p>Итак, координаты <code>pageX/pageY</code> не меняются при прокрутке, в отличие от  <code>clientX/clientY</code>.</p>
+<h2><a class="main__anchor" name="getCoords" href="#getCoords">Получение координат</a></h2><p>К сожалению, готовой функции для получения координат элемента относительно страницы нет. Но её можно легко написать самим.</p>
+<p>Эти две системы координат жёстко связаны: <code>pageY = clientY + текущая вертикальная прокрутка</code>.</p>
+<p>Наша функция <code>getCoords(elem)</code> будет брать результат <code>elem.getBoundingClientRect()</code> и прибавлять текущую прокрутку документа.</p>
+<p>Результат <code>getCoords</code>: объект с координатами <code>{left: .., top: ..}</code></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getCoords(elem) { // кроме IE8-
+  var box = elem.getBoundingClientRect();
+
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Если нужно поддерживать более старые IE, то вот альтернативный, самый кросс-браузерный вариант:</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getCoords(elem) {
+  // (1)
+  var box = elem.getBoundingClientRect();
+
+  var body = document.body;
+  var docEl = document.documentElement;
+
+  // (2)
+  var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+  var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+  // (3)
+  var clientTop = docEl.clientTop || body.clientTop || 0;
+  var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+  // (4)
+  var top = box.top + scrollTop - clientTop;
+  var left = box.left + scrollLeft - clientLeft;
+
+  return {
+    top: top,
+    left: left
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Разберем что и зачем, по шагам:</p>
+<ol>
+<li>Получаем прямоугольник.</li>
+<li>Считаем прокрутку страницы. Все браузеры, кроме IE8- поддерживают свойство <code>pageXOffset/pageYOffset</code>. В более старых IE, когда установлен DOCTYPE, прокрутку можно получить из <code>documentElement</code>, ну и наконец если DOCTYPE некорректен – использовать <code>body</code>.</li>
+<li>В IE документ может быть смещен относительно левого верхнего угла. Получим это смещение.</li>
+<li>Добавим прокрутку к координатам окна и вычтем смещение <code>html/body</code>, чтобы получить координаты нужного нам элемента.</li>
+</ol>
+<h3><a class="main__anchor" name="устаревший-метод-offset" href="#устаревший-метод-offset">Устаревший метод: offset*</a></h3><p>Есть альтернативный способ нахождения координат – это пройти всю цепочку <code>offsetParent</code> от элемента вверх и сложить отступы <code>offsetLeft/offsetTop</code>.</p>
+<p>Мы разбираем его здесь с учебной целью, так как он используется лишь в старых браузерах.</p>
+<p>Вот функция, реализующая такой подход.</p>
+<div data-trusted="1" class="code-example" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getOffsetSum(elem) {
+  var top = 0,
+    left = 0;
+
+  while (elem) {
+    top = top + parseInt(elem.offsetTop);
+    left = left + parseInt(elem.offsetLeft);
+    elem = elem.offsetParent;
+  }
+
+  return {
+    top: top,
+    left: left
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Казалось бы, код нормальный. И он как-то работает, но разные браузеры преподносят «сюрпризы», включая или выключая размер рамок и прокруток из <code>offsetTop/Left</code>, некорректно учитывая позиционирование. В итоге результат не всегда верен. Можно, конечно, разобрать эти проблемы и посчитать действительно аккуратно и правильно этим способом, но зачем? Ведь есть <code>getBoundingClientRect</code>.</p>
+<p>Вы можете увидеть разницу между вычислением координат через <code>offset*</code> и <code>getBoundingClientRect</code> на примере.</p>
+<p>В прямоугольнике ниже есть 3 вложенных <code>DIV</code>. Все они имеют <code>border</code>, кое-кто из них имеет <code>position/margin/padding</code>.</p>
+<p>Кликните по внутреннему (жёлтому) элементу, чтобы увидеть результаты обоих методов: <code>getOffsetSum</code> и <code>getCoords</code>, а также реальные координаты курсора – <code>event.pageX/pageY</code> (мы обсудим их позже в статье <a href="fixevent.htm">Мышь: IE8-, исправление события</a>).</p>
+<div style="position:relative;padding:10px;height:80px;width:380px;border:7px red solid">
+  <div style="border:10px blue solid;padding:2px;position:absolute;left:20%;top:20%">
+  <div id="getBoundingClientRectEx" style="background-color:yellow;font-size:14px;border:4px solid black;margin:2px;cursor:pointer">Кликните, чтобы получить координаты getOffsetSum и getCoords</div>
+  </div>
+</div>
+<div id="getBoundingClientRectExRes">
+<div><b>getOffsetSum</b>:<span>значение getOffsetSum()</span></div>
+<div><b>getCoords</b>:<span>значение getCoords()</span></div>
+<div><b>mouse</b>:<span>координаты мыши</span></div>
+</div>
+<script>
+document.getElementById('getBoundingClientRectEx').onclick = function(event) {
+  var o = getOffsetSum(this);
+  var orect = getCoords(this);
+
+  if ( event.pageX == null && event.clientX != null ) {
+    var html = document.documentElement, body = document.body;
+    event.pageX = event.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
+    event.pageY = event.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)
+  }
+
+  var list = document.getElementById('getBoundingClientRectExRes').getElementsByTagName('SPAN')
+  list[0].innerHTML = '{left:'+o.left+', top:'+o.top+'}'
+  list[1].innerHTML = '{left:'+orect.left+', top:'+orect.top+'}'
+  list[2].innerHTML = 'pageX='+event.pageX+' pageY='+event.pageY
+}
+</script>
+<p><strong>При клике на любом месте желтого блока вы легко увидите разницу между <code>getOffsetSum(elem)</code> и <code>getCoords(elem)</code>.</strong></p>
+<p>Для того, чтобы узнать, какой же результат верный, кликните в левом-верхнем углу жёлтого блока, причём обратите внимание – кликать нужно не на жёлтом, а на чёрном, это рамка, она тоже входит в элемент. Будут видны точные координаты мыши, так что вы можете сравнить их с <code>getOffsetSum/getCoords</code>.</p>
+<p>Пример клика в правильном месте (обратите внимание на разницу координат):</p>
+<figure><div class="image" style="width:425px">
+      <div class="image__ratio" style="padding-top:43.529411764705884%"></div>
+      <img src="article/coordinates-document/getcoords-compare.png" alt="" width="425" height="185" class="image__image">
+      </div></figure><p>Именно <code>getCoords</code> всегда возвращает верное значение.</p>
+<h2><a class="main__anchor" name="координаты-на-экране-screenx-screeny" href="#координаты-на-экране-screenx-screeny">Координаты на экране screenX/screenY</a></h2><p>Есть ещё одна система координат, которая используется очень редко, но для полноты картины необходимо её упомянуть.</p>
+<p><em>Координаты относительно экрана</em> <code>screenX/screenY</code> отсчитываются от его левого-верхнего угла. Имеется в виду именно <em>весь экран</em>, а не окно браузера.</p>
+<figure><div class="image" style="width:540px">
+      <div class="image__ratio" style="padding-top:102.22222222222221%"></div>
+      <img src="article/coordinates-document/screen.png" alt="" width="540" height="552" class="image__image">
+      </div></figure><p>Такие координаты могут быть полезны, например, при работе с мобильными устройствами или для открытия нового окна посередине экрана вызовом <a href="https://developer.mozilla.org/en-US/docs/DOM/window.open">window.open</a>.</p>
+<ul>
+<li>
+<p>Размеры экрана хранятся в глобальной переменной <a href="https://developer.mozilla.org/en/DOM/window.screen">screen</a>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// общая ширина/высота
+alert( screen.width + ' x ' + screen.height );
+
+// доступная ширина/высота (за вычетом таскбара и т.п.)
+alert( screen.availWidth + ' x ' + screen.availHeight );
+
+// есть и ряд других свойств screen (см. документацию)</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Координаты левого-верхнего угла браузера на экране хранятся в <code>window.screenX,</code> <code>window.screenY</code> (не поддерживаются IE8-):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Браузер находится на &quot; + window.screenX + &quot;,&quot; + window.screenY );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Они могут быть и меньше нуля, если окно частично вне экрана.</p>
+</li>
+</ul>
+<p>Заметим, что общую информацию об экране и браузере получить можно, а вот координаты конкретного элемента на экране – нельзя, нет аналога <code>getBoundingClientRect</code> или иного метода для этого.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>У любой точки в браузере есть координаты:</p>
+<ol>
+<li>Относительно окна <code>window</code> – <code>elem.getBoundingClientRect()</code>.</li>
+<li>Относительно документа <code>document</code> – добавляем прокрутку, во всех фреймворках есть готовая функция.</li>
+<li>Относительно экрана <code>screen</code> – можно узнать координаты браузера, но не элемента.</li>
+</ol>
+<p>Иногда в старом коде можно встретить использование <code>offsetTop/Left</code> для подсчёта координат. Это очень старый и неправильный способ, не стоит его использовать.</p>
+<p>Координаты будут нужны нам далее, при работе с событиями мыши (координаты клика) и элементами (перемещение).</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#область-видимости-для-документа" name="область-видимости-для-документа" class="main__anchor">Область видимости для документа</a></h3><a href="task/get-document-scrolls.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите функцию <code>getDocumentScroll()</code>, которая возвращает объект с информацией о текущей прокрутке и области видимости.</p>
+<p>Свойства объекта-результата:</p>
+<ul>
+<li><code>top</code> – координата верхней границы видимой части (относительно документа).</li>
+<li><code>bottom</code> – координата нижней границы видимой части (относительно документа).</li>
+<li><code>height</code> – полная высота документа, включая прокрутку.</li>
+</ul>
+<p>В этой задаче учитываем только вертикальную прокрутку: горизонтальная делается аналогично, а нужна сильно реже.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><ul>
+<li><code>top</code> – это <code>pageYOffset</code>.</li>
+<li><code>bottom</code> – это <code>pageYOffset</code> плюс высота видимой части <code>documentElement.clientHeight</code>.</li>
+<li><code>height</code> – полная высота документа, её вычисление дано в главе <a href="metrics-window.htm">Размеры и прокрутка страницы</a>.</li>
+</ul>
+<p>Итого:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function getDocumentScroll() {
+  var scrollHeight = Math.max(
+    document.body.scrollHeight, document.documentElement.scrollHeight,
+    document.body.offsetHeight, document.documentElement.offsetHeight,
+    document.body.clientHeight, document.documentElement.clientHeight
+  );
+
+  return {
+    top: pageYOffset,
+    bottom: pageYOffset + document.documentElement.clientHeight,
+    height: scrollHeight
+  };
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#разместить-заметку-рядом-с-элементом-absolute" name="разместить-заметку-рядом-с-элементом-absolute" class="main__anchor">Разместить заметку рядом с элементом (absolute)</a></h3><a href="task/position-at-absolute.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Модифицируйте решение задачи <a href="task/position-at.htm">Разместить заметку рядом с элементом</a>, чтобы при прокрутке страницы заметка не убегала от элемента.</p>
+<p>Используйте для этого координаты относительно документа и <code>position:absolute</code> вместо <code>position:fixed</code>.</p>
+<p>В качестве исходного документа используйте решение задачи <a href="task/position-at.htm">Разместить заметку рядом с элементом</a>, для тестирования прокрутки добавьте стиль <code>&lt;body style=&quot;height: 2000px&quot;&gt;</code>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/LcGbZ1EBByA95MYSEzid?p=preview" target="_blank" data-plunk-id="LcGbZ1EBByA95MYSEzid">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#разместить-заметку-внутри-элемента" name="разместить-заметку-внутри-элемента" class="main__anchor">Разместить заметку внутри элемента</a></h3><a href="task/position-at-2.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Расширьте предыдущую задачу <a href="task/position-at-absolute.htm">Разместить заметку рядом с элементом (absolute)</a>: научите функцию <code>positionAt(anchor, position, elem)</code> вставлять <code>elem</code> внутрь <code>anchor</code>.</p>
+<p>Новые значения <code>position</code>:</p>
+<ul>
+<li><code>top-out</code>, <code>right-out</code>, <code>bottom-out</code> – работают так же, как раньше, то есть вставляют <code>elem</code> над/справа/под <code>anchor</code>.</li>
+<li><code>top-in</code>, <code>right-in</code>, <code>bottom-in</code> – вставляют <code>elem</code> внутрь <code>anchor</code>: к верхней границе/правой/нижней.</li>
+</ul>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// покажет note сверху blockquote
+positionAt(blockquote, &quot;top-out&quot;, note);
+
+// покажет note сверху-внутри blockquote
+positionAt(blockquote, &quot;top-in&quot;, note);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример результата:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/task/position-at-2/solution/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:500px" src="https://js.cx/task/position-at-2/solution/"></iframe>
+  </div><p>В качестве исходного документа возьмите решение задачи <a href="task/position-at-absolute.htm">Разместить заметку рядом с элементом (absolute)</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><a href="http://plnkr.co/edit/aTDrLp1O9zbQIooH0oMf?p=preview" target="_blank" data-plunk-id="aTDrLp1O9zbQIooH0oMf">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

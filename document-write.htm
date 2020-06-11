@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Метод document.write</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Метод document.write"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Метод <code>document.write</code> – один из наиболее древних методов добавления текста к документу.</p>
+<p>У него есть существенные ограничения, поэтому он используется редко, но по своей сути он совершенно уникален и иногда, хоть и редко, может быть полезен.</p>
+<h2><a class="main__anchor" name="как-работает-document-write" href="#как-работает-document-write">Как работает document.write</a></h2><p>Метод <code>document.write(str)</code> работает только пока HTML-страница находится в процессе загрузки. Он дописывает текст в текущее место HTML ещё до того, как браузер построит из него DOM.</p>
+<p>HTML-документ ниже будет содержать <code>1 2 3</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;body&gt;
+  1
+  &lt;script&gt;
+    document.write(2);
+  &lt;/script&gt;
+  3
+&lt;/body&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Нет никаких ограничений на содержимое <code>document.write</code></strong>.</p>
+<p>Строка просто пишется в HTML-документ без проверки структуры тегов, как будто она всегда там была.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  document.write('&lt;style&gt; td { color: #F40 } &lt;/style&gt;');
+&lt;/script&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;script&gt;
+      document.write('&lt;td&gt;')
+    &lt;/script&gt;
+    Текст внутри TD.
+    &lt;script&gt;
+      document.write('&lt;/td&gt;')
+    &lt;/script&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Также существует метод <code>document.writeln(str)</code> – не менее древний, который добавляет после <code>str</code> символ перевода строки <code>&quot;\n&quot;</code>.</p>
+<h2><a class="main__anchor" name="только-до-конца-загрузки" href="#только-до-конца-загрузки">Только до конца загрузки</a></h2><p>Во время загрузки браузер читает документ и тут же строит из него DOM, по мере получения информации достраивая новые и новые узлы, и тут же отображая их. Этот процесс идет непрерывным потоком. Вы наверняка видели это, когда заходили на сайты в качестве посетителя – браузер зачастую отображает неполный документ, добавляя его новыми узлами по мере их получения.</p>
+<p><strong>Методы <code>document.write</code> и <code>document.writeln</code> пишут напрямую в текст документа, до того как браузер построит из него DOM, поэтому они могут записать в документ все, что угодно, любые стили и незакрытые теги.</strong></p>
+<p>Браузер учтёт их при построении DOM, точно так же, как учитывает очередную порцию HTML-текста.</p>
+<p>Технически, вызвать <code>document.write</code> можно в любое время, однако, когда HTML загрузился, и браузер полностью построил DOM, документ становится <em>«закрытым»</em>. Попытка дописать что-то в закрытый документ открывает его заново. При этом все текущее содержимое удаляется.</p>
+<p>Текущая страница, скорее всего, уже загрузилась, поэтому если вы нажмёте на эту кнопку – её содержимое удалится:</p>
+  <input type="button" onclick='document.write("Пустая страница!");' value="Запустить document.write('Пустая страница!')">
+<p>Из-за этой особенности <code>document.write</code> для загруженных документов не используют.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">XHTML и <code>document.write</code></span></div>
+            <div class="important__content"><p>В некоторых современных браузерах при получении страницы с заголовком <code>Content-Type: text/xml</code> или <code>Content-Type: text/xhtml+xml</code> включается «XML-режим» чтения документа. Метод <code>document.write</code> при этом не работает.</p>
+<p>Это лишь одна из причин, по которой XML-режим обычно не используют.</p>
+</div></div>
+<h2><a class="main__anchor" name="преимущества-перед-innerhtml" href="#преимущества-перед-innerhtml">Преимущества перед innerHTML</a></h2><p>Метод <code>document.write</code> – динозавр, он существовал десятки <strike>миллионов</strike> лет назад. С тех пор, как появился и стал стандартным метод <code>innerHTML</code>, нужда в нём возникает редко, но некоторые преимущества всё же есть.</p>
+<ul>
+<li>
+<p>Метод <code>document.write</code> работает быстрее, фактически это самый быстрый способ добавить на страницу текст, сгенерированный скриптом.</p>
+<p>Это естественно, ведь он не модифицирует существующий DOM, а пишет в текст страницы до его генерации.</p>
+</li>
+<li>
+<p>Метод <code>document.write</code> вставляет любой текст на страницу «как есть», в то время как <code>innerHTML</code> может вписать лишь валидный HTML (при попытке подсунуть невалидный – браузер скорректирует его).</p>
+</li>
+</ul>
+<p>Эти преимущества являются скорее средством оптимизации, которое нужно использовать именно там, где подобная оптимизация нужна или уместна.</p>
+<p>Однако, <code>document.write</code> по своей природе уникален: он добавляет текст «в текущее место документа», без всяких хитроумных DOM. Поэтому он бывает просто-напросто удобен, из-за чего его нередко используют не по назначению.</p>
+<h2><a class="main__anchor" name="антипример-реклама" href="#антипример-реклама">Антипример: реклама</a></h2><p>Например, <code>document.write</code> используют для вставки рекламных скриптов и различных счетчиков, когда URL скрипта необходимо генерировать динамически, добавляя в него параметры из JavaScript, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  // в url указано текущее разрешение экрана посетителя
+  var url = 'http://ads.com/buyme?screen=' + screen.width + &quot;x&quot; + screen.height;
+
+  // загрузить такой скрипт прямо сейчас
+  document.write('&lt;script src=&quot;' + url + '&quot;&gt;&lt;/scr' + 'ipt&gt;');
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">На заметку:</span></div>
+            <div class="important__content"><p>Закрывающий тег <code>&lt;/script&gt;</code> в строке разделён, чтобы браузер не увидел <code>&lt;/script&gt;</code> и не посчитал его концом скрипта.</p>
+<p>Также используют запись:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">document.write('&lt;script src=&quot;' + url + '&quot;&gt;&lt;\/script&gt;');</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь <code>&lt;\/script&gt;</code> вместо <code>&lt;/script&gt;</code>: обратный слеш <code>\</code> обычно используется для вставки спецсимволов типа <code>\n</code>, а если такого спецсимвола нет, в данном случае <code>\/</code> не является спецсимволом, то будет проигнорирован. Так что получается такой альтернативный способ безопасно вставить строку <code>&lt;/script&gt;</code>.</p>
+</div></div>
+<p>Сервер, получив запрос с такими параметрами, обрабатывает его и, учитывая переданную информацию, генерирует текст скрипта, в котором обычно есть какой-то другой <code>document.write</code>, рисующий на этом месте баннер.</p>
+<p><strong>Проблема здесь в том, что загрузка такого скрипта блокирует отрисовку всей страницы.</strong></p>
+<p>То есть, дело даже не в самом <code>document.write</code>, а в том, что в страницу вставляется сторонний скрипт, а браузер устроен так, что пока он его не загрузит и не выполнит – он не будет дальше строить DOM и показывать документ.</p>
+<p>Представим на минуту, что сервер <code>ads.com</code>, с которого грузится скрипт, работает медленно или вообще завис – зависнет и наша страница.</p>
+<p>Что делать?</p>
+<p>В современных браузерах у скриптов есть атрибуты <code>async</code> и <code>defer</code>, которые разрешают браузеру продолжать обработку страницы, но применить их здесь нельзя, так как рекламный скрипт захочет вызвать <code>document.write</code> именно на этом месте, и браузер не должен двигаться вперёд по документу.</p>
+<p>Альтернатива – использовать другие техники вставки рекламы и счётчиков. Примеры вы можете увидеть в коде Google Analytics, Яндекс.Метрики и других.</p>
+<p>Если это невозможно – применяют всякие хитрые оптимизации, например заменяют метод <code>document.write</code> своей функцией, и она уже разбирается со скриптами и баннерами.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Метод <code>document.write</code> (или <code>writeln</code>) пишет текст прямо в HTML, как будто он там всегда был.</p>
+<ul>
+<li>
+<p>Этот метод редко используется, так как работает только из скриптов, выполняемых в процессе загрузки страницы.</p>
+<p>Запуск после загрузки приведёт к очистке документа.</p>
+</li>
+<li>
+<p>Метод <code>document.write</code> очень быстр.</p>
+<p>В отличие от установки <code>innerHTML</code> и DOM-методов, он не изменяет существующий документ, а работает на стадии текста, до того как DOM-структура сформирована.</p>
+</li>
+<li>
+<p>Иногда <code>document.write</code> используют для добавления скриптов с динамическим URL.</p>
+<p>Рекомендуется избегать этого, так как браузер остановится на месте добавления скрипта и будет ждать его загрузки. Если скрипт будет тормозить, то и страница – тоже.</p>
+<p>Поэтому желательно подключать внешние скрипты, используя вставку скрипта через DOM или <code>async/defer</code>. Современные системы рекламы и статистики так и делают.</p>
+</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

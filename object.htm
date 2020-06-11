@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="data-structures.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Структуры данных</span></a></li></ol><h1 class="main__header-title">Объекты как ассоциативные массивы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Объекты как ассоциативные массивы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Объекты в JavaScript сочетают в себе два важных функционала.</p>
+<p>Первый – это  ассоциативный массив: структура, пригодная для хранения любых данных. В этой главе мы рассмотрим использование объектов именно как массивов.</p>
+<p>Второй – языковые возможности для объектно-ориентированного программирования. Эти возможности мы изучим в последующих разделах учебника.</p>
+<h2><a class="main__anchor" name="ассоциативные-массивы" href="#ассоциативные-массивы">Ассоциативные массивы</a></h2><p><a href="http://ru.wikipedia.org/wiki/%D0%90%D1%81%D1%81%D0%BE%D1%86%D0%B8%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9_%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2">Ассоциативный массив</a> – структура данных, в которой можно хранить любые данные в формате ключ-значение.</p>
+<p>Её можно легко представить как шкаф с подписанными ящиками. Все данные хранятся в ящичках. По имени можно легко найти ящик и взять то значение, которое в нём лежит.</p>
+<figure><div class="image" style="width:134px">
+      <div class="image__ratio" style="padding-top:125.37313432835822%"></div>
+      <img src="article/object/object.png" alt="" width="134" height="168" class="image__image">
+      </div></figure><p>В отличие от реальных шкафов, в ассоциативный массив можно в любой момент добавить новые именованные «ящики» или удалить существующие. Далее мы увидим примеры, как это делается.</p>
+<p>Кстати, в других языках программирования такую структуру данных также называют <em>«словарь»</em> и <em>«хэш»</em>.</p>
+<h2><a class="main__anchor" name="создание-объектов" href="#создание-объектов">Создание объектов</a></h2><p>Пустой объект («пустой шкаф») может быть создан одним из двух синтаксисов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">1. o = new Object();
+2. o = {}; // пустые фигурные скобки</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обычно все пользуются синтаксисом <code>(2)</code>, т.к. он короче.</p>
+<h2><a class="main__anchor" name="операции-с-объектом" href="#операции-с-объектом">Операции с объектом</a></h2><p>Объект может содержать в себе любые значения, которые называются <em>свойствами объекта</em>.  Доступ к свойствам осуществляется по <em>имени свойства</em> (иногда говорят <em>«по ключу»</em>).</p>
+<p>Например, создадим объект <code>person</code> для хранения информации о человеке:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var person = {}; // пока пустой</code></pre>
+        </div>
+      </div>
+      
+      </div><figure><div class="image" style="width:128px">
+      <div class="image__ratio" style="padding-top:161.71875%"></div>
+      <img src="article/object/object-person-empty.png" alt="" width="128" height="207" class="image__image">
+      </div></figure><p>Основные операции с объектами – это создание, получение и удаление свойств.</p>
+<p>Для обращения к свойствам используется запись «через точку», вида <code>объект.свойство</code>, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// при присвоении свойства в объекте автоматически создаётся &quot;ящик&quot;
+// с именем &quot;name&quot; и в него записывается содержимое 'Вася'
+person.name = 'Вася';
+
+person.age = 25; // запишем ещё одно свойство: с именем 'age' и значением 25</code></pre>
+        </div>
+      </div>
+      
+      </div><figure><div class="image" style="width:125px">
+      <div class="image__ratio" style="padding-top:132%"></div>
+      <img src="article/object/object-person-1.png" alt="" width="125" height="165" class="image__image">
+      </div></figure><p>Значения хранятся «внутри» ящиков. Обратим внимание – любые значения, любых типов: число, строка – не важно.</p>
+<p>Чтобы прочитать их – также обратимся через точку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( person.name + ': ' + person.age ); // &quot;Вася: 25&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Удаление осуществляется оператором <code>delete</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">delete person.age;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Осталось только свойство <code>name</code>:</p>
+<figure><div class="image" style="width:134px">
+      <div class="image__ratio" style="padding-top:123.13432835820895%"></div>
+      <img src="article/object/object-person-2.png" alt="" width="134" height="165" class="image__image">
+      </div></figure><p>Иногда бывает нужно проверить, есть ли в объекте свойство с определенным ключом.</p>
+<p>Для этого есть особый оператор: <code>&quot;in&quot;</code>.</p>
+<p>Его синтаксис: <code>&quot;prop&quot; in obj</code>, причем имя свойства – в виде строки, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (&quot;name&quot; in person) {
+  alert( &quot;Свойство name существует!&quot; );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Впрочем, чаще используется другой способ – сравнение значения с <code>undefined</code>.</p>
+<p><strong>Дело в том, что в JavaScript можно обратиться к любому свойству объекта, даже если его нет</strong>.</p>
+<p>Ошибки не будет.</p>
+<p>Но если свойство не существует, то вернется специальное значение <code>undefined</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var person = {};
+
+alert( person.lalala ); // undefined, нет свойства с ключом lalala</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Таким образом мы можем легко проверить существование свойства – получив его и сравнив с <code>undefined</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var person = {
+  name: &quot;Василий&quot;
+};
+
+alert( person.lalala === undefined ); // true, свойства нет
+alert( person.name === undefined ); // false, свойство есть.</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Разница между проверками <code>in</code> и <code>=== undefined</code></span></div>
+            <div class="important__content"><p>Есть два средства для проверки наличия свойства в объекте: первое – оператор <code>in</code>, второе – получить его и сравнить с <code>undefined</code>.</p>
+<p>Они почти идентичны, но есть одна небольшая разница.</p>
+<p>Дело в том, что технически возможно, что <em>свойство есть, а его значением является <code>undefined</code></em>:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="3-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {};
+obj.test = undefined; // добавили свойство со значением undefined
+
+// проверим наличие свойств test и заведомо отсутствующего blabla
+alert( obj.test === undefined ); // true
+alert( obj.blabla === undefined ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…При этом, как видно из кода, при простом сравнении наличие такого свойства будет неотличимо от его отсутствия.</p>
+<p>Но оператор <code>in</code> гарантирует правильный результат:</p>
+<div data-trusted="0" class="code-example" data-refresh="1" data-highlight-block="3-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var obj = {};
+obj.test = undefined;
+
+alert( &quot;test&quot; in obj ); // true
+alert( &quot;blabla&quot; in obj ); // false</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как правило, в коде мы не будем присваивать <code>undefined</code>, чтобы корректно работали обе проверки. А в качестве значения, обозначающего неизвестность и неопределенность, будем использовать <code>null</code>.</p>
+</div></div>
+<h3><a class="main__anchor" name="доступ-через-квадратные-скобки" href="#доступ-через-квадратные-скобки">Доступ через квадратные скобки</a></h3><p>Существует альтернативный синтаксис работы со свойствами, использующий квадратные скобки <code>объект['свойство']</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var person = {};
+
+person['name'] = 'Вася'; // то же что и person.name = 'Вася'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Записи <code>person['name']</code> и <code>person.name</code> идентичны, но квадратные скобки позволяют использовать в качестве имени свойства любую строку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var person = {};
+
+person['любимый стиль музыки'] = 'Джаз';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такое присвоение было бы невозможно «через точку», так интерпретатор после первого пробела подумает, что свойство закончилось, и далее выдаст ошибку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">person.любимый стиль музыки = 'Джаз'; // ??? ошибка</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В обоих случаях, <strong>имя свойства обязано быть строкой</strong>. Если использовано значение другого типа – JavaScript приведет его к строке автоматически.</p>
+<h3><a class="main__anchor" name="доступ-к-свойству-через-переменную" href="#доступ-к-свойству-через-переменную">Доступ к свойству через переменную</a></h3><p>Квадратные скобки также позволяют обратиться к свойству, имя которого хранится в переменной:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var person = {};
+person.age = 25;
+var key = 'age';
+
+alert( person[key] ); // выведет person['age']</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вообще, если имя свойства хранится в переменной (<code>var key = &quot;age&quot;</code>), то единственный способ к нему обратиться – это квадратные скобки <code>person[key]</code>.</p>
+<p>Доступ через точку используется, если мы на этапе написания программы уже знаем название свойства. А если оно будет определено по ходу выполнения, например, введено посетителем и записано в переменную, то единственный выбор – квадратные скобки.</p>
+<h3><a class="main__anchor" name="объявление-со-свойствами" href="#объявление-со-свойствами">Объявление со свойствами</a></h3><p>Объект можно заполнить значениями при создании, указав их в фигурных скобках: <code>{ ключ1: значение1, ключ2: значение2, ... }</code>.</p>
+<p>Такой синтаксис называется <em>литеральным</em> (англ. literal).</p>
+<p>Следующие два фрагмента кода создают одинаковый объект:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var menuSetup = {
+  width: 300,
+  height: 200,
+  title: &quot;Menu&quot;
+};
+
+// то же самое, что:
+
+var menuSetup = {};
+menuSetup.width = 300;
+menuSetup.height = 200;
+menuSetup.title = 'Menu';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Названия свойств можно перечислять как в кавычках, так и без, если они удовлетворяют ограничениям для имён переменных.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var menuSetup = {
+  width: 300,
+  'height': 200,
+  &quot;мама мыла раму&quot;: true
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В качестве значения можно тут же указать и другой объект:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Таня&quot;,
+  age: 25,
+  size: {
+    top: 90,
+    middle: 60,
+    bottom: 90
+  }
+}
+
+alert(user.name) // &quot;Таня&quot;
+
+alert(user.size.top) // 90</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь значением свойства <code>size</code> является объект <code>{top: 90, middle: 60, bottom: 90 }</code>.</p>
+<h2><a class="main__anchor" name="компактное-представление-объектов" href="#компактное-представление-объектов">Компактное представление объектов</a></h2><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Hardcore coders only</span></div>
+            <div class="important__content"><p>Эта секция относится ко внутреннему устройству структуры данных. Она не обязательна к прочтению.</p>
+</div></div>
+<p>Браузер использует специальное «компактное» представление объектов, чтобы сэкономить память в том случае, когда однотипных объектов много.</p>
+<p>Например, посмотрим на такой объект:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Vasya&quot;,
+  age: 25
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь содержится информация о свойстве <code>name</code> и его строковом значении, а также о свойстве <code>age</code> и его численном значении. Представим, что таких объектов много.</p>
+<p>Получится, что информация об именах свойств <code>name</code> и <code>age</code> дублируется в каждом объекте. Чтобы этого избежать, браузер применяет оптимизацию.</p>
+<p><strong>При создании множества объектов одного и того же вида (с одинаковыми полями) интерпретатор выносит описание полей в отдельную структуру. А сам объект остаётся в виде непрерывной области памяти с данными.</strong></p>
+<p>Например, есть много объектов с полями <code>name</code> и <code>age</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">{name: &quot;Вася&quot;, age: 25}
+{name: &quot;Петя&quot;, age: 22}
+{name: &quot;Маша&quot;, age: 19}
+...</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для их эффективного хранения будет создана структура, которая описывает данный вид объектов. Выглядеть она будет примерно так: <code>&lt;string name, number age&gt;</code>. А сами объекты будут представлены в памяти только данными:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">&lt;структура: string name, number age&gt;
+Вася 25
+Петя 22
+Маша 19</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При добавлении нового объекта такой структуры достаточно хранить значения полей, но не их имена. Экономия памяти – налицо.</p>
+<p>А что происходит, если к объекту добавляется новое свойство? Например, к одному из них добавили свойство <code>isAdmin</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">user.isAdmin = true;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом случае браузер смотрит, есть ли уже структура, под которую подходит такой объект. Если нет – она создаётся и объект привязывается к ней.</p>
+<p><strong>Эта оптимизация является примером того, что далеко не всё то, что мы пишем, один-в-один переносится в память.</strong></p>
+<p>Современные интерпретаторы очень стараются оптимизировать как код, так и структуры данных. Детали применения и реализации этого способа хранения варьируются от браузера к браузеру. О том, как это сделано в Chrome можно узнать, например, из презентации <a href="http://www.slideshare.net/newmovie/know-yourengines-velocity2011">Know Your Engines</a>. Она была некоторое время назад, но с тех пор мало что изменилось.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Объекты – это ассоциативные массивы с дополнительными возможностями:</p>
+<ul>
+<li>Доступ к элементам осуществляется:
+<ul>
+<li>Напрямую по ключу <code>obj.prop = 5</code></li>
+<li>Через переменную, в которой хранится ключ:<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var key = &quot;prop&quot;;
+obj[key] = 5</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ul>
+</li>
+<li>Удаление ключей: <code>delete obj.name</code>.</li>
+<li>Существование свойства может проверять оператор <code>in</code>: <code>if (&quot;prop&quot; in obj)</code>, как правило, работает и просто сравнение <code>if (obj.prop !== undefined)</code>.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#первый-объект" name="первый-объект" class="main__anchor">Первый объект</a></h3><a href="task/hello-object.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Мини-задача на синтаксис объектов. Напишите код, по строке на каждое действие.</p>
+<ol>
+<li>Создайте пустой объект <code>user</code>.</li>
+<li>Добавьте свойство <code>name</code> со значением <code>Вася</code>.</li>
+<li>Добавьте свойство <code>surname</code> со значением <code>Петров</code>.</li>
+<li>Поменяйте значение <code>name</code> на <code>Сергей</code>.</li>
+<li>Удалите свойство <code>name</code> из объекта.</li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {};
+user.name = &quot;Вася&quot;;
+user.surname = &quot;Петров&quot;;
+user.name = &quot;Сергей&quot;;
+delete user.name;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

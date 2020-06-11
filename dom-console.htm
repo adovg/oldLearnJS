@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Работа с DOM из консоли</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Работа с DOM из консоли"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Исследовать и изменять DOM можно с помощью инструментов разработки, встроенных в браузер. Посмотрим средства для этого на примере Google Chrome.</p>
+<h2><a class="main__anchor" name="доступ-к-элементу" href="#доступ-к-элементу">Доступ к элементу</a></h2><p>Откройте документ <a href="article/dom-console/losi.html">losi.html</a> и, в инструментах разработчика, перейдите во вкладку Elements.</p>
+<p>Чтобы проанализировать любой элемент:</p>
+<ul>
+<li>Выберите его во вкладке Elements.</li>
+<li>…Либо внизу вкладки Elements есть лупа, при нажатии на которую можно выбрать элемент кликом.</li>
+<li>…Либо, что обычно удобнее всего, просто кликните на нужном месте на странице правой кнопкой и выберите в меню «Проверить Элемент».</li>
+</ul>
+<figure><div class="image" style="width:584px">
+      <div class="image__ratio" style="padding-top:51.54109589041096%"></div>
+      <img src="article/dom-console/1.png" alt="" width="584" height="301" class="image__image">
+      </div></figure><p>Справа будет различная информация об элементе:</p>
+<dl>
+<dt>Computed Style</dt>
+<dd>Итоговые свойства CSS элемента, которые он приобрёл в результате применения всего каскада стилей, включая внешние CSS-файлы и атрибут <code>style</code>.</dd>
+<dt>Style</dt>
+<dd>Каскад стилей, применённый к элементу. Каждое стилевое правило отдельно, здесь же можно менять стили кликом.</dd>
+<dt>Metrics</dt>
+<dd>Размеры элемента.</dd>
+<dt>…</dt>
+<dd>И еще некоторые реже используемые вкладки, которые станут понятны по мере изучения DOM.</dd>
+</dl>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">DOM в Elements не совсем соответствует реальному</span></div>
+            <div class="important__content"><p>Отображение DOM во вкладке Elements не совсем соответствует реальному. В частности, там не отображаются пробельные узлы. Это сделано для удобства просмотра. Но мы-то знаем, что они есть.</p>
+<p>С другой стороны, в Elements можно увидеть CSS-псевдоэлементы, такие как <code>::before</code>, <code>::after</code>. Это также сделано для удобства, в DOM их не существует.</p>
+</div></div>
+<h2><a class="main__anchor" name="выбранные-элементы-0-1" href="#выбранные-элементы-0-1">Выбранные элементы $0 $1…</a></h2><p>Зачастую бывает нужно выбрать элемент DOM и сделать с ним что-то на JavaScript.</p>
+<p>Находясь во вкладке Elements, откройте консоль нажатием Esc (или перейдите на вкладку Console).</p>
+<p><strong>Последний элемент, выбранный во вкладке Elements, доступен в консоли как <code>$0</code>, предыдущий – <code>$1</code> и так далее.</strong></p>
+<p>Запустите на элементе команду, которая делает его красным:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">$0.style.backgroundColor = 'red';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В браузере это может выглядеть примерно так:</p>
+<figure><div class="image" style="width:560px">
+      <div class="image__ratio" style="padding-top:61.25000000000001%"></div>
+      <img src="article/dom-console/2.png" alt="" width="560" height="343" class="image__image">
+      </div></figure><p>Мы выделили элемент, применили к нему JavaScript в консоли, тут же увидели изменения в браузере.</p>
+<p>Есть и обратная дорожка. Любой элемент из JS-переменной можно посмотреть во вкладке Elements, для этого:</p>
+<ol>
+<li>Выведите эту переменную в консоли, например при помощи <code>console.log</code>.</li>
+<li>Кликните на выводе в консоли правой кнопкой мыши.</li>
+<li>Выберите соответствующий пункт меню.</li>
+</ol>
+<figure><div class="image" style="width:560px">
+      <div class="image__ratio" style="padding-top:58.92857142857143%"></div>
+      <img src="article/dom-console/3.png" alt="" width="560" height="330" class="image__image">
+      </div></figure><p>Таким образом, можно легко перемещаться из Elements в консоль и обратно.</p>
+<h2><a class="main__anchor" name="ещё-методы-консоли" href="#ещё-методы-консоли">Ещё методы консоли</a></h2><p>Для поиска элементов в консоли есть два специальных метода:</p>
+<ul>
+<li><code>$$(&quot;div.my&quot;)</code> – ищет все элементы в DOM по данному CSS-селектору.</li>
+<li><code>$(&quot;div.my&quot;)</code> – ищет первый элемент в DOM по данному CSS-селектору.</li>
+</ul>
+<p>Более полная документация по методам консоли доступна на страницах <a href="https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference">Console API Reference для Chrome</a> и <a href="https://getfirebug.com/wiki/index.php/Command_Line_API">Command Line API для Firebug</a>, а также на <a href="http://firebug.ru/">firebug.ru</a>.</p>
+<p>Другие браузеры реализуют похожий функционал, освоив Chrome/Firebug, вы легко с ними разберётесь.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

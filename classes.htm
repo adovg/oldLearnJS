@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="prototypes.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">ООП в прототипном стиле</span></a></li></ol><h1 class="main__header-title">Свои классы на прототипах</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Свои классы на прототипах"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Используем ту же структуру, что JavaScript использует внутри себя, для объявления своих классов.</p>
+<h2><a class="main__anchor" name="обычный-конструктор" href="#обычный-конструктор">Обычный конструктор</a></h2><p>Вспомним, как мы объявляли классы ранее.</p>
+<p>Например, этот код задаёт класс <code>Animal</code> в функциональном стиле, без всяких прототипов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Animal(name) {
+  this.speed = 0;
+  this.name = name;
+
+  this.run = function(speed) {
+    this.speed += speed;
+    alert( this.name + ' бежит, скорость ' + this.speed );
+  };
+
+  this.stop = function() {
+    this.speed = 0;
+    alert( this.name + ' стоит' );
+  };
+};
+
+var animal = new Animal('Зверь');
+
+alert( animal.speed ); // 0, начальная скорость
+animal.run(3); // Зверь бежит, скорость 3
+animal.run(10); // Зверь бежит, скорость 13
+animal.stop(); // Зверь стоит</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="класс-через-прототип" href="#класс-через-прототип">Класс через прототип</a></h2><p>А теперь создадим аналогичный класс, используя прототипы, наподобие того, как сделаны классы <code>Object</code>, <code>Date</code> и остальные.</p>
+<p>Чтобы объявить свой класс, нужно:</p>
+<ol>
+<li>Объявить функцию-конструктор.</li>
+<li>Записать методы и свойства, нужные всем объектам класса, в <code>prototype</code>.</li>
+</ol>
+<p>Опишем класс <code>Animal</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// конструктор
+function Animal(name) {
+  this.name = name;
+  this.speed = 0;
+}
+
+// методы в прототипе
+Animal.prototype.run = function(speed) {
+  this.speed += speed;
+  alert( this.name + ' бежит, скорость ' + this.speed );
+};
+
+Animal.prototype.stop = function() {
+  this.speed = 0;
+  alert( this.name + ' стоит' );
+};
+
+var animal = new Animal('Зверь');
+
+alert( animal.speed ); // 0, свойство взято из прототипа
+animal.run(5); // Зверь бежит, скорость 5
+animal.run(5); // Зверь бежит, скорость 10
+animal.stop(); // Зверь стоит</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В объекте <code>animal</code> будут храниться свойства конкретного экземпляра: <code>name</code> и <code>speed</code>, а общие методы – в прототипе.</p>
+<p>Совершенно такой же подход, как и для встроенных классов в JavaScript.</p>
+<h2><a class="main__anchor" name="сравнение" href="#сравнение">Сравнение</a></h2><p>Чем такое задание класса лучше и хуже функционального стиля?</p>
+<div class="balance"><div class="balance__pluses">
+      <div class="balance__content">
+      <div class="balance__title">Достоинства</div><ul class="balance__list"><li>Функциональный стиль записывает в каждый объект и свойства и методы, а прототипный – только свойства. Поэтому прототипный стиль – быстрее и экономнее по памяти.</li>
+</ul></div></div><div class="balance__minuses">
+      <div class="balance__content">
+      <div class="balance__title">Недостатки</div><ul class="balance__list"><li>При создании методов через прототип, мы теряем возможность использовать локальные переменные как приватные свойства, у них больше нет общей области видимости с конструктором.</li>
+</ul></div></div></div><p>Таким образом, прототипный стиль – быстрее и экономнее, но немного  менее удобен.</p>
+<p>К примеру, есть у нас приватное свойство <code>name</code> и метод <code>sayHi</code> в функциональном стиле ООП:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Animal(name) {
+  this.sayHi = function() {
+    alert( name );
+  };
+}
+
+var animal = new Animal(&quot;Зверь&quot;);
+animal.sayHi(); // Зверь</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При задании методов в прототипе мы не сможем её так оставить, ведь методы находятся <em>вне</em> конструктора, у них нет общей области видимости, поэтому приходится записывать <code>name</code> в сам объект, обозначив его как защищённое:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1,5-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Animal(name) {
+  this._name = name;
+}
+
+Animal.prototype.sayHi = function() {
+  alert( this._name );
+}
+
+var animal = new Animal(&quot;Зверь&quot;);
+animal.sayHi(); // Зверь</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Впрочем, недостаток этот – довольно условный. Ведь при наследовании в функциональном стиле также пришлось бы писать <code>this._name</code>, чтобы потомок получил доступ к этому значению.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#перепишите-в-виде-класса" name="перепишите-в-виде-класса" class="main__anchor">Перепишите в виде класса</a></h3><a href="task/rewrite-by-class.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Есть класс <code>CoffeeMachine</code>, заданный в функциональном стиле.</p>
+<p>Задача: переписать <code>CoffeeMachine</code> в виде класса с использованием прототипа.</p>
+<p>Исходный код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(power) {
+  var waterAmount = 0;
+
+  var WATER_HEAT_CAPACITY = 4200;
+
+  function getTimeToBoil() {
+    return waterAmount * WATER_HEAT_CAPACITY * 80 / power;
+  }
+
+  this.run = function() {
+    setTimeout(function() {
+      alert( 'Кофе готов!' );
+    }, getTimeToBoil());
+  };
+
+  this.setWaterAmount = function(amount) {
+    waterAmount = amount;
+  };
+
+}
+
+var coffeeMachine = new CoffeeMachine(10000);
+coffeeMachine.setWaterAmount(50);
+coffeeMachine.run();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>P.S. При описании через прототипы локальные переменные недоступны методам, поэтому нужно будет переделать их в защищённые свойства.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function CoffeeMachine(power) {
+  // свойства конкретной кофеварки
+  this._power = power;
+  this._waterAmount = 0;
+}
+
+// свойства и методы для всех объектов класса
+CoffeeMachine.prototype.WATER_HEAT_CAPACITY = 4200;
+
+CoffeeMachine.prototype._getTimeToBoil = function() {
+  return this._waterAmount * this.WATER_HEAT_CAPACITY * 80 / this._power;
+};
+
+CoffeeMachine.prototype.run = function() {
+  setTimeout(function() {
+    alert( 'Кофе готов!' );
+  }, this._getTimeToBoil());
+};
+
+CoffeeMachine.prototype.setWaterAmount = function(amount) {
+  this._waterAmount = amount;
+};
+
+var coffeeMachine = new CoffeeMachine(10000);
+coffeeMachine.setWaterAmount(50);
+coffeeMachine.run();</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#хомяки-с-proto" name="хомяки-с-proto" class="main__anchor">Хомяки с __proto__</a></h3><a href="task/hamsters-with-proto.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Вы – руководитель команды, которая разрабатывает игру, хомяковую ферму. Один из программистов получил задание создать класс «хомяк» (англ – <code>&quot;Hamster&quot;</code>).</p>
+<p>Объекты-хомяки должны иметь массив <code>food</code> для хранения еды и метод <code>found</code> для добавления.</p>
+<p>Ниже – его решение. При создании двух хомяков, если поел один – почему-то сытым становится и второй тоже.</p>
+<p>В чём дело? Как поправить?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Hamster() {}
+
+Hamster.prototype.food = []; // пустой &quot;живот&quot;
+
+Hamster.prototype.found = function(something) {
+  this.food.push(something);
+};
+
+// Создаём двух хомяков и кормим первого
+var speedy = new Hamster();
+var lazy = new Hamster();
+
+speedy.found(&quot;яблоко&quot;);
+speedy.found(&quot;орех&quot;);
+
+alert( speedy.food.length ); // 2
+alert( lazy.food.length ); // 2 (!??)</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Почему возникает проблема</button><div class="task__answer-content"><h4 class="task__step-title">Почему возникает проблема</h4><p>Давайте подробнее разберем происходящее при вызове <code>speedy.found(&quot;яблоко&quot;)</code>:</p>
+<ol>
+<li>Интерпретатор ищет свойство <code>found</code> в <code>speedy</code>. Но <code>speedy</code> – пустой объект, т.к. <code>new Hamster</code> ничего не делает с <code>this</code>.</li>
+<li>Интерпретатор идёт по ссылке <code>speedy.__proto__ (==Hamster.prototype)</code> и находят там метод <code>found</code>, запускает его.</li>
+<li>Значение <code>this</code> устанавливается в объект перед точкой, т.е. в <code>speedy</code>.</li>
+<li>Для выполнения <code>this.food.push()</code> нужно найти свойство <code>this.food</code>. Оно отсутствует в <code>speedy</code>, но есть в <code>speedy.__proto__</code>.</li>
+<li>Значение <code>&quot;яблоко&quot;</code> добавляется в <code>speedy.__proto__.food</code>.</li>
+</ol>
+<p><strong>У всех хомяков общий живот!</strong> Или, в терминах JavaScript, свойство <code>food</code> изменяется в прототипе, который является общим для всех объектов-хомяков.</p>
+<p>Заметим, что этой проблемы не было бы при простом присваивании:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">this.food = something;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В этом случае значение записалось бы в сам объект, без поиска <code>found</code> в прототипе.</p>
+<p><strong>Проблема возникает только со свойствами-объектами в прототипе.</strong></p>
+<p>Для исправления проблемы нужно дать каждому хомяку свой живот. Это можно сделать, присвоив его в конструкторе.</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function Hamster() {
+  this.food = [];
+}
+
+Hamster.prototype.found = function(something) {
+  this.food.push(something);
+};
+
+var speedy = new Hamster();
+var lazy = new Hamster();
+
+speedy.found(&quot;яблоко&quot;);
+speedy.found(&quot;орех&quot;);
+
+alert(speedy.food.length) // 2
+alert(lazy.food.length) // 0(!)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Теперь всё в порядке. У каждого хомяка – свой живот.</p>
+</div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

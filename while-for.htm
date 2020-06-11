@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="first-steps.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы JavaScript</span></a></li></ol><h1 class="main__header-title">Циклы while, for</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Циклы while, for"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>При написании скриптов зачастую встает задача сделать однотипное действие много раз.</p>
+<p>Например, вывести товары из списка один за другим. Или просто перебрать все числа от 1 до 10 и для каждого выполнить одинаковый код.</p>
+<p>Для многократного повторения одного участка кода – предусмотрены <em>циклы</em>.</p>
+<h2><a class="main__anchor" name="цикл-while" href="#цикл-while">Цикл while</a></h2><p>Цикл <code>while</code> имеет вид:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">while (условие) {
+  // код, тело цикла
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пока <code>условие</code> верно – выполняется код из тела цикла.</p>
+<p>Например, цикл ниже выводит <code>i</code> пока <code>i &lt; 3</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+while (i &lt; 3) {
+  alert( i );
+  i++;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Повторение цикла по-научному называется <em>«итерация»</em>. Цикл в примере выше совершает три итерации.</strong></p>
+<p>Если бы <code>i++</code> в коде выше не было, то цикл выполнялся бы (в теории) вечно. На практике, браузер выведет сообщение о «зависшем» скрипте и посетитель его остановит.</p>
+<p><strong>Бесконечный цикл</strong> можно сделать и проще:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">while (true) {
+  // ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Условие в скобках интерпретируется как логическое значение, поэтому вместо <code>while (i!=0)</code> обычно пишут <code>while (i)</code></strong>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="1-1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 3;
+while (i) { // при i, равном 0, значение в скобках будет false и цикл остановится
+  alert( i );
+  i--;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="цикл-do-while" href="#цикл-do-while">Цикл do…while</a></h2><p>Проверку условия можно поставить <em>под</em> телом цикла, используя специальный синтаксис <code>do..while</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">do {
+  // тело цикла
+} while (условие);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Цикл, описанный, таким образом, сначала выполняет тело, а затем проверяет условие.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+do {
+  alert( i );
+  i++;
+} while (i &lt; 3);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Синтаксис <code>do..while</code> редко используется, т.к. обычный <code>while</code> нагляднее – в нём не приходится искать глазами условие и ломать голову, почему оно проверяется именно в конце.</p>
+<h2><a class="main__anchor" name="цикл-for" href="#цикл-for">Цикл for</a></h2><p>Чаще всего применяется цикл <code>for</code>. Выглядит он так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (начало; условие; шаг) {
+  // ... тело цикла ...
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример цикла, который выполняет <code>alert(i)</code> для <code>i</code> от <code>0</code> до <code>2</code> включительно (до <code>3</code>):</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i;
+
+for (i = 0; i &lt; 3; i++) {
+  alert( i );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь:</p>
+<ul>
+<li><strong>Начало:</strong> <code>i=0</code>.</li>
+<li><strong>Условие:</strong> <code>i&lt;3</code>.</li>
+<li><strong>Шаг:</strong> <code>i++</code>.</li>
+<li><strong>Тело:</strong> <code>alert(i)</code>, т.е. код внутри фигурных скобок (они не обязательны, если только одна операция)</li>
+</ul>
+<p>Цикл выполняется так:</p>
+<ol>
+<li>Начало: <code>i=0</code> выполняется один-единственный раз, при заходе в цикл.</li>
+<li>Условие: <code>i&lt;3</code> проверяется перед каждой итерацией и при входе в цикл, если оно нарушено, то происходит выход.</li>
+<li>Тело: <code>alert(i)</code>.</li>
+<li>Шаг: <code>i++</code> выполняется после <em>тела</em> на каждой итерации, но перед проверкой условия.</li>
+<li>Идти на шаг 2.</li>
+</ol>
+<p>Иными словами, поток выполнения: <code>начало</code> → (если <code>условие</code> → <code>тело</code> → <code>шаг</code>) → (если <code>условие</code> → <code>тело</code> → <code>шаг</code>) → … и так далее, пока верно <code>условие</code>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">На заметку:</span></div>
+            <div class="important__content"><p>В цикле также можно определить переменную:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:5-8">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 3; i++) {
+  alert(i); // 0, 1, 2
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Эта переменная будет видна и за границами цикла, в частности, после окончания цикла <code>i</code> станет равно <code>3</code>.</p>
+</div></div>
+<h2><a class="main__anchor" name="пропуск-частей-for" href="#пропуск-частей-for">Пропуск частей for</a></h2><p>Любая часть <code>for</code> может быть пропущена.</p>
+<p>Например, можно убрать <code>начало</code>. Цикл в примере ниже полностью идентичен приведённому выше:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+
+for (; i &lt; 3; i++) {
+  alert( i ); // 0, 1, 2
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Можно убрать и <code>шаг</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+
+for (; i &lt; 3;) {
+  alert( i );
+  // цикл превратился в аналог while (i&lt;3)
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>А можно и вообще убрать всё, получив бесконечный цикл:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (;;) {
+  // будет выполняться вечно
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом сами точки с запятой <code>;</code> обязательно должны присутствовать, иначе будет ошибка синтаксиса.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>for..in</code></span></div>
+            <div class="important__content"><p>Существует также специальная конструкция <code>for..in</code> для перебора свойств объекта.</p>
+<p>Мы познакомимся с ней позже, когда будем <a href="object-for-in.htm#for..in">говорить об объектах</a>.</p>
+</div></div>
+<h2><a class="main__anchor" name="прерывание-цикла-break" href="#прерывание-цикла-break">Прерывание цикла: break</a></h2><p>Выйти из цикла можно не только при проверке условия но и, вообще, в любой момент. Эту возможность обеспечивает директива <code>break</code>.</p>
+<p>Например, следующий код подсчитывает сумму вводимых чисел до тех пор, пока посетитель их вводит, а затем – выдаёт:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var sum = 0;
+
+while (true) {
+
+  var value = +prompt(&quot;Введите число&quot;, '');
+
+  if (!value) break; // (*)
+
+  sum += value;
+
+}
+alert( 'Сумма: ' + sum );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Директива <code>break</code> в строке <code>(*)</code>, если посетитель ничего не ввёл, полностью прекращает выполнение цикла и передаёт управление на строку за его телом, то есть на <code>alert</code>.</p>
+<p>Вообще, сочетание «бесконечный цикл + break» – отличная штука для тех ситуаций, когда условие, по которому нужно прерваться, находится не в начале-конце цикла, а посередине.</p>
+<h2><a class="main__anchor" name="continue" href="#continue">Следующая итерация: continue</a></h2><p>Директива <code>continue</code> прекращает выполнение <em>текущей итерации</em> цикла.</p>
+<p>Она – в некотором роде «младшая сестра» директивы <code>break</code>: прерывает не весь цикл, а только текущее выполнение его тела, как будто оно закончилось.</p>
+<p>Её используют, если понятно, что на текущем повторе цикла делать больше нечего.</p>
+<p>Например, цикл ниже использует <code>continue</code>, чтобы не выводить чётные значения:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="2:2-27">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 10; i++) {
+
+  if (i % 2 == 0) continue;
+
+  alert(i);
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для чётных <code>i</code> срабатывает <code>continue</code>, выполнение тела прекращается и управление передаётся на следующий проход <code>for</code>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Директива <code>continue</code> позволяет обойтись без скобок</span></div>
+            <div class="important__content"><p>Цикл, который обрабатывает только нечётные значения, мог бы выглядеть так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 10; i++) {
+
+  if (i % 2) {
+    alert( i );
+  }
+
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>С технической точки зрения он полностью идентичен. Действительно, вместо <code>continue</code> можно просто завернуть действия в блок <code>if</code>. Однако, мы получили дополнительный уровень вложенности фигурных скобок. Если код внутри <code>if</code> более длинный, то это ухудшает читаемость, в отличие от варианта с <code>continue</code>.</p>
+</div></div>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Нельзя использовать break/continue справа от оператора „?“</span></div>
+            <div class="important__content"><p>Обычно мы можем заменить <code>if</code> на оператор вопросительный знак <code>'?'</code>.</p>
+<p>То есть, запись:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (условие) {
+  a();
+} else {
+  b();
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Аналогична записи:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">условие ? a() : b();</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В обоих случаях в зависимости от условия выполняется либо <code>a()</code> либо <code>b()</code>.</p>
+<p>Но разница состоит в том, что оператор вопросительный знак <code>'?'</code>, использованный во второй записи, возвращает значение.</p>
+<p><strong>Синтаксические конструкции, которые не возвращают значений, нельзя использовать в операторе <code>'?'</code>.</strong></p>
+<p>К таким относятся большинство конструкций и, в частности, <code>break/continue</code>.</p>
+<p>Поэтому такой код приведёт к ошибке:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:21-29">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">(i &gt; 5) ? alert(i) : continue;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Впрочем, как уже говорилось ранее, оператор вопросительный знак <code>'?'</code> не стоит использовать таким образом. Это – всего лишь ещё одна причина, почему для проверки условия предпочтителен <code>if</code>.</p>
+</div></div>
+<h2><a class="main__anchor" name="метки-для-break-continue" href="#метки-для-break-continue">Метки для break/continue</a></h2><p>Бывает нужно выйти одновременно из нескольких уровней цикла.</p>
+<p>Например, внутри цикла по <code>i</code> находится цикл по <code>j</code>, и при выполнении некоторого условия мы бы хотели выйти из обоих циклов сразу:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:0-6,8:16-27">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">outer: for (var i = 0; i &lt; 3; i++) {
+
+  for (var j = 0; j &lt; 3; j++) {
+
+    var input = prompt('Значение в координатах '+i+','+j, '');
+
+    // если отмена ввода или пустая строка -
+    // завершить оба цикла
+    if (!input) break outer; // (*)
+
+  }
+}
+alert('Готово!');</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В коде выше для этого использована <em>метка</em>.</p>
+<p>Метка имеет вид <code>&quot;имя:&quot;</code>, имя должно быть уникальным. Она ставится перед циклом, вот так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">outer: for (var i = 0; i &lt; 3; i++) { ... }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Можно также выносить её на отдельную строку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">outer:
+for (var i = 0; i &lt; 3; i++) { ... }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Вызов <code>break outer</code> ищет ближайший внешний цикл с такой меткой и переходит в его конец.</p>
+<p>В примере выше это означает, что будет разорван самый внешний цикл и управление перейдёт на <code>alert</code>.</p>
+<p>Директива <code>continue</code> также может быть использована с меткой, в этом случае управление перепрыгнет на следующую итерацию цикла с меткой.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>JavaScript поддерживает три вида циклов:</p>
+<ul>
+<li><code>while</code> – проверка условия перед каждым выполнением.</li>
+<li><code>do..while</code> – проверка условия после каждого выполнения.</li>
+<li><code>for</code> – проверка условия перед каждым выполнением, а также дополнительные настройки.</li>
+</ul>
+<p>Чтобы организовать бесконечный цикл, используют конструкцию <code>while(true)</code>. При этом он, как и любой другой цикл, может быть прерван директивой <code>break</code>.</p>
+<p>Если на данной итерации цикла делать больше ничего не надо, но полностью прекращать цикл не следует – используют директиву <code>continue</code>.</p>
+<p>Обе этих директивы поддерживают «метки», которые ставятся перед циклом. Метки – единственный способ для <code>break/continue</code> повлиять на выполнение внешнего цикла.</p>
+<p>Заметим, что метки не позволяют прыгнуть в произвольное место кода, в JavaScript нет такой возможности.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#последнее-значение-цикла" name="последнее-значение-цикла" class="main__anchor">Последнее значение цикла</a></h3><a href="task/loop-last-value.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Какое последнее значение выведет этот код? Почему?</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 3;
+
+while (i) {
+  alert( i-- );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответ: <code>1</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 3;
+
+while (i) {
+  alert( i-- );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Каждое выполнение цикла уменьшает <code>i</code>. Проверка <code>while(i)</code> даст сигнал «стоп» при <code>i = 0</code>.</p>
+<p>Соответственно, шаги цикла:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 3
+alert( i-- ); // выведет 3, затем уменьшит i до 2
+
+alert(i--) // выведет 2, затем уменьшит i до 1
+
+alert(i--) // выведет 1, затем уменьшит i до 0
+
+// все, проверка while(i) не даст выполняться циклу дальше</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#какие-значения-i-выведет-цикл-while" name="какие-значения-i-выведет-цикл-while" class="main__anchor">Какие значения i выведет цикл while?</a></h3><a href="task/which-value-while.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Для каждого цикла запишите, какие значения он выведет. Потом сравните с ответом.</p>
+<ol>
+<li>
+<p>Префиксный вариант</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+while (++i &lt; 5) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Постфиксный вариант</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+while (i++ &lt; 5) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><ol>
+<li>
+<p><strong>От 1 до 4</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+while (++i &lt; 5) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Первое значение: <code>i=1</code>, так как операция <code>++i</code> сначала увеличит <code>i</code>, а потом уже произойдёт сравнение и выполнение <code>alert</code>.</p>
+<p>Далее <code>2,3,4..</code> Значения выводятся одно за другим. Для каждого значения сначала происходит увеличение, а потом – сравнение, так как <code>++</code> стоит перед переменной.</p>
+<p>При <code>i=4</code> произойдет увеличение <code>i</code> до <code>5</code>, а потом сравнение <code>while(5 &lt; 5)</code> – это неверно. Поэтому на этом цикл остановится, и значение <code>5</code> выведено не будет.</p>
+</li>
+<li>
+<p><strong>От 1 до 5</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+while (i++ &lt; 5) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Первое значение: <code>i=1</code>. Остановимся на нём подробнее. Оператор <code>i++</code> увеличивает <code>i</code>, возвращая старое значение, так что в сравнении <code>i++ &lt; 5</code> будет участвовать старое <code>i=0</code>.</p>
+<p>Но последующий вызов <code>alert</code> уже не относится к этому выражению, так что получит новый <code>i=1</code>.</p>
+<p>Далее <code>2,3,4..</code> Для каждого значения сначала происходит сравнение, а потом – увеличение, и затем срабатывание <code>alert</code>.</p>
+<p>Окончание цикла: при <code>i=4</code> произойдет сравнение <code>while(4 &lt; 5)</code> – верно, после этого сработает <code>i++</code>, увеличив  <code>i</code> до <code>5</code>, так что значение <code>5</code> будет выведено. Оно станет последним.</p>
+</li>
+</ol>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#какие-значения-i-выведет-цикл-for" name="какие-значения-i-выведет-цикл-for" class="main__anchor">Какие значения i выведет цикл for?</a></h3><a href="task/which-value-for.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 4</span></div><div class="task__content"><p>Для каждого цикла запишите, какие значения он выведет. Потом сравните с ответом.</p>
+<ol>
+<li>
+<p>Постфиксная форма:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 5; i++) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Префиксная форма:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 5; ++i) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p><strong>Ответ: от 0 до 4 в обоих случаях.</strong></p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 5; ++i) alert( i );
+
+for (var i = 0; i &lt; 5; i++) alert( i );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такой результат обусловлен алгоритмом работы <code>for</code>:</p>
+<ol>
+<li>Выполнить присвоение <code>i=0</code></li>
+<li>Проверить <code>i&lt;5</code></li>
+<li>Если верно – выполнить тело цикла <code>alert(i)</code>, затем выполнить <code>i++</code></li>
+</ol>
+<p>Увеличение <code>i++</code> выполняется отдельно от проверки условия (2), значение <code>i</code> при этом не используется, поэтому нет никакой разницы между <code>i++</code> и <code>++i</code>.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#выведите-чётные-числа" name="выведите-чётные-числа" class="main__anchor">Выведите чётные числа</a></h3><a href="task/for-even.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>При помощи цикла <code>for</code> выведите чётные числа от <code>2</code> до <code>10</code>.</p>
+<p><a href="#" onclick="event.preventDefault(); runDemo(this)">Запустить демо</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-demo="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 2; i &lt;= 10; i++) {
+  if (i % 2 == 0) {
+    alert( i );
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Чётность проверяется по остатку при делении на <code>2</code>, используя оператор «деление с остатком» <code>%</code>: <code>i % 2</code>.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#замените-for-на-while" name="замените-for-на-while" class="main__anchor">Замените for на while</a></h3><a href="task/replace-for-while.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Перепишите код, заменив цикл <code>for</code> на <code>while</code>, без изменения поведения цикла.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">for (var i = 0; i &lt; 3; i++) {
+  alert( &quot;номер &quot; + i + &quot;!&quot; );
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var i = 0;
+while (i &lt; 3) {
+  alert( &quot;номер &quot; + i + &quot;!&quot; );
+  i++;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#повторять-цикл-пока-ввод-неверен" name="повторять-цикл-пока-ввод-неверен" class="main__anchor">Повторять цикл, пока ввод неверен</a></h3><a href="task/repeat-until-correct.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Напишите цикл, который предлагает <code>prompt</code> ввести число, большее <code>100</code>. Если посетитель ввёл другое число – попросить ввести ещё раз, и так далее.</p>
+<p>Цикл должен спрашивать число пока либо посетитель не введёт число, большее <code>100</code>, либо не нажмёт кнопку Cancel (ESC).</p>
+<p>Предполагается, что посетитель вводит только числа. Предусматривать обработку нечисловых строк в этой задаче необязательно.</p>
+<p><a href="#" onclick="event.preventDefault(); runDemo(this)">Запустить демо</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example" data-demo="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var num;
+
+do {
+  num = prompt(&quot;Введите число больше 100?&quot;, 0);
+} while (num &lt;= 100 &amp;&amp; num != null);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Цикл <code>do..while</code> повторяется, пока верны две проверки:</p>
+<ol>
+<li>Проверка <code>num &lt;= 100</code> – то есть, введённое число всё еще меньше <code>100</code>.</li>
+<li>Проверка <code>num != null</code> – значение <code>null</code> означает, что посетитель нажал «Отмена», в этом случае цикл тоже нужно прекратить.</li>
+</ol>
+<p>Кстати, сравнение <code>num &lt;= 100</code> при вводе <code>null</code> даст <code>true</code>, так что вторая проверка необходима.</p>
+</div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#вывести-простые-числа" name="вывести-простые-числа" class="main__anchor">Вывести простые числа</a></h3><a href="task/list-primes.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Натуральное число, большее 1, называется <em>простым</em>, если оно ни на что не делится, кроме себя и <code>1</code>.</p>
+<p>Другими словами, <code>n&gt;1</code> – простое, если при делении на любое число от <code>2</code> до <code>n-1</code> есть остаток.</p>
+<p><strong>Создайте код, который выводит все простые числа из интервала от <code>2</code> до <code>10</code>.</strong> Результат должен быть: <code>2,3,5,7</code>.</p>
+<p>P.S. Код также должен легко модифицироваться для любых других интервалов.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Схема решения</button><div class="task__answer-content"><h4 class="task__step-title">Схема решения</h4><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">Для всех i от 1 до 10 {
+  проверить, делится ли число i на какое - либо из чисел до него
+  если делится, то это i не подходит, берем следующее
+  если не делится, то i - простое число
+}</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div><div class="task__step"><button type="button" class="task__step-show">Решение</button><div class="task__answer-content"><h4 class="task__step-title">Решение</h4><p>Решение с использованием метки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">nextPrime:
+  for (var i = 2; i &lt;= 10; i++) {
+
+    for (var j = 2; j &lt; i; j++) {
+      if (i % j == 0) continue nextPrime;
+    }
+
+    alert( i ); // простое
+  }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Конечно же, его можно оптимизировать с точки зрения производительности. Например, проверять все <code>j</code> не от <code>2</code> до <code>i</code>, а от <code>2</code> до квадратного корня из <code>i</code>. А для очень больших чисел – существуют более эффективные специализированные алгоритмы проверки простоты числа, например <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%BA%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE%D0%B3%D0%BE_%D1%80%D0%B5%D1%88%D0%B5%D1%82%D0%B0">квадратичное решето</a> и <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%89%D0%B8%D0%B9_%D0%BC%D0%B5%D1%82%D0%BE%D0%B4_%D1%80%D0%B5%D1%88%D0%B5%D1%82%D0%B0_%D1%87%D0%B8%D1%81%D0%BB%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE_%D0%BF%D0%BE%D0%BB%D1%8F">решето числового поля</a>.</p>
+</div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

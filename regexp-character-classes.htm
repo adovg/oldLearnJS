@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="regular-expressions-javascript.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Регулярные выражения</span></a></li></ol><h1 class="main__header-title">Классы и спецсимволы</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Классы и спецсимволы"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Рассмотрим практическую задачу – есть телефонный номер <code>&quot;+7(903)-123-45-67&quot;</code>, и нам нужно найти в этой строке цифры. А остальные символы нас не интересуют.</p>
+<p>Для поиска символов определённого вида в регулярных выражениях предусмотрены «классы символов».</p>
+<p>Класс символов – это специальное обозначение, под которое подходит любой символ из определённого набора.</p>
+<p>Например, есть класс «любая цифра». Он обозначается <code>\d</code>. Это обозначение вставляется в шаблон, и при поиске под него подходит любая цифра.</p>
+<p>То есть, регулярное выражение <code class="pattern">/\d/</code> ищет ровно одну цифру:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;+7(903)-123-45-67&quot;;
+
+var reg = /\d/;
+
+// не глобальный регэксп, поэтому ищет только первую цифру
+alert( str.match(reg) ); // 7</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Ну а для поиска всех цифр достаточно добавить к регэкспу флаг <code>g</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;+7(903)-123-45-67&quot;;
+
+var reg = /\d/g;
+
+alert( str.match(reg) ); // массив всех совпадений: 7,9,0,3,1,2,3,4,5,6,7</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="важнейшие-классы-d-s-w" href="#важнейшие-классы-d-s-w">Важнейшие классы: \d \s \w</a></h2><p>Это был класс для цифр.</p>
+<p>Конечно же, есть и другие.</p>
+<p>Наиболее часто используются:</p>
+<dl>
+<dt><code>\d</code> (от английского «digit» – «цифра»)</dt>
+<dd>Цифра, символ от <code>0</code> до <code>9</code>.</dd>
+<dt><code>\s</code> (от английского «space» – «пробел»)</dt>
+<dd>Пробельный символ, включая табы, переводы строки и т.п.</dd>
+<dt><code>\w</code> (от английского «word» – «слово»)</dt>
+<dd>Символ «слова», а точнее – буква латинского алфавита или цифра или подчёркивание <code>'_'</code>. Не-английские буквы не являются <code>\w</code>, то есть русская буква не подходит.</dd>
+</dl>
+<p>Например, <code class="pattern">\d\s\w</code> обозначает цифру, за которой идёт пробельный символ, а затем символ слова.</p>
+<p>Регулярное выражение может содержать одновременно и обычные символы и классы.</p>
+<p>Например, <code class="pattern">CSS\d</code> найдёт строку <code class="match">CSS</code>, с любой цифрой после неё:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;Стандарт CSS4 - это здорово&quot;;
+var reg = /CSS\d/
+
+alert( str.match(reg) ); // CSS4</code></pre>
+        </div>
+      </div>
+      
+      </div><p>И много классов подряд:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Я люблю HTML5!&quot;.match(/\s\w\w\w\w\d/) ); // 'HTML5'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Совпадение (каждому классу в регэкспе соответствует один символ результата):</p>
+<figure><div class="image" style="width:187px">
+      <div class="image__ratio" style="padding-top:27.807486631016044%"></div>
+      <img src="article/regexp-character-classes/love-html5-classes.png" alt="" width="187" height="52" class="image__image">
+      </div></figure><h2><a class="main__anchor" name="граница-слова-b" href="#граница-слова-b">Граница слова \b</a></h2><p>Граница слова <code class="pattern">\b</code> – это особый класс.</p>
+<p>Он интересен тем, что обозначает не символ, а границу между символами.</p>
+<p>Например, <code class="pattern">\bJava\b</code> найдёт слово <code class="match">Java</code> в строке <code class="subject">Hello, Java!</code>, но не в строке <code class="subject">Hello, Javascript!</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Hello, Java!&quot;.match(/\bJava\b/) ); // Java
+alert( &quot;Hello, Javascript!&quot;.match(/\bJava\b/) ); // null</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Граница имеет «нулевую ширину» в том смысле, что обычно символам регулярного выражения соответствуют символы строки, но не в этом случае.</p>
+<p>Граница – это проверка.</p>
+<p>При поиске движок регулярных выражений идёт по шаблону и одновременно по строке, пытаясь построить соответствие. Когда он видит <code class="pattern">\b</code>, то проверяет, что текущая позиция в строке подходит под одно из условий:</p>
+<ul>
+<li>Начало текста, если первый символ <code>\w</code>.</li>
+<li>Конец текста, если последний символ <code>\w</code>.</li>
+<li>Внутри текста, если с одной стороны <code>\w</code>, а с другой – не <code>\w</code>.</li>
+</ul>
+<p>Например, в строке <code class="subject">Hello, Java!</code> под <code>\b</code> подходят следующие позиции:</p>
+<figure><div class="image" style="width:201px">
+      <div class="image__ratio" style="padding-top:28.35820895522388%"></div>
+      <img src="article/regexp-character-classes/hello-java-boundaries.png" alt="" width="201" height="57" class="image__image">
+      </div></figure><p>Как правило, <code>\b</code> используется, чтобы искать отдельно стоящее слово. Не на русском конечно, хотя подобную проверку, как мы увидим далее, можно легко сделать для любого языка. А вот на английском, как в примере выше или для чисел, которые являются частным случаем <code>\w</code> – легко.</p>
+<p>Например, регэксп <code class="pattern">\b\d\d\b</code> ищет отдельно двузначные числа. Иными словами, он требует, чтобы до и после <code class="pattern">\d\d</code> был символ, отличный от <code>\w</code> (или начало/конец текста).</p>
+<h2><a class="main__anchor" name="обратные-классы" href="#обратные-классы">Обратные классы</a></h2><p>Для каждого класса существует «обратный ему», представленный такой же, но заглавной буквой.</p>
+<p>«Обратный» – означает, что ему соответствуют все остальные символы, например:</p>
+<dl>
+<dt><code>\D</code></dt>
+<dd>Не-цифра, то есть любой символ кроме <code>\d</code>, например буква.</dd>
+<dt><code>\S</code></dt>
+<dd>Не-пробел, то есть любой символ кроме <code>\s</code>, например буква.</dd>
+<dt><code>\W</code></dt>
+<dd>Любой символ, кроме <code>\w</code>, то есть не латинница, не подчёркивание, не цифра. В частности, русские буквы принадлежат этому классу.</dd>
+<dt><code>\B</code></dt>
+<dd>Проверка, обратная <code>\b</code>.</dd>
+</dl>
+<p>В начале этой главы мы видели, как получить из телефона <code class="subject">+7(903)-123-45-67</code> все цифры.</p>
+<p>Первый способ – найти все цифры через <code>match(/\d/g)</code>.</p>
+<p>Обратные классы помогут реализовать альтернативный – найти все НЕцифры и удалить их из строки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = &quot;+7(903)-123-45-67&quot;;
+
+alert( str.replace(/\D/g, &quot;&quot;) ); // 79031234567</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="пробелы-обычные-символы" href="#пробелы-обычные-символы">Пробелы – обычные символы</a></h2><p>Заметим, что в регулярных выражениях пробел – такой же символ, как и другие.</p>
+<p>Обычно мы не обращаем внимание на пробелы. Для нашего взгляда строки <code class="subject">1-5</code> и <code class="subject">1 - 5</code> почти идентичны.</p>
+<p>Однако, если регэксп не учитывает пробелов, то он не сработает.</p>
+<p>Попытаемся найти цифры, разделённые дефисом:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;1 - 5&quot;.match(/\d-\d/) ); // null, нет совпадений!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Поправим это, добавив в регэксп пробелы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;1 - 5&quot;.match(/\d - \d/) ); // работает, пробелы вокруг дефиса</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Конечно же, пробелы в регэкспе нужны лишь тогда, когда мы их ищем. Лишние пробелы (как и любые лишние символы) могут навредить:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;1-5&quot;.match(/\d - \d/) ); // null, так как в строке 1-5 нет пробелов</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Короче говоря, в регулярном выражении все символы имеют значение. Даже (и тем более) – пробелы.</p>
+<h2><a class="main__anchor" name="точка-любой-символ" href="#точка-любой-символ">Точка – любой символ</a></h2><p>Особым классом символов является точка <code>&quot;.&quot;</code>.</p>
+<p>В регулярном выражении, точка <code class="pattern">&quot;.&quot;</code> обозначает <em>любой символ</em>, кроме перевода строки:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Z&quot;.match(/./) ); // найдено Z</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Посередине регулярного выражения:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var re = /CS.4/;
+
+alert( &quot;CSS4&quot;.match(re) ); // найдено &quot;CSS4&quot;
+alert( &quot;CS-4&quot;.match(re) ); // найдено &quot;CS-4&quot;
+alert( &quot;CS 4&quot;.match(re) ); // найдено &quot;CS 4&quot; (пробел тоже символ)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание – точка означает именно «произвольный символ».</p>
+<p>То есть какой-то символ на этом месте в строке должен быть:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;CS4&quot;.match(/CS.4/) ); // нет совпадений, так как для точки нет символа</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="экранирование-специальных-символов" href="#экранирование-специальных-символов">Экранирование специальных символов</a></h2><p>В регулярных выражениях есть и другие символы, имеющие особый смысл.</p>
+<p>Они используются, чтобы расширить возможности поиска.</p>
+<p>Вот их полный список: <code class="pattern">[ \ ^ $ . | ? * + ( )</code>.</p>
+<p>Не пытайтесь запомнить его – когда мы разберёмся с каждым из них по отдельности, он запомнится сам собой.</p>
+<p><strong>Чтобы использовать специальный символ в качестве обычного, он должен быть <em>экранирован</em>.</strong></p>
+<p>Или, другими словами, перед символом должен быть обратный слэш <code>'\'</code>.</p>
+<p>Например, нам нужно найти точку <code class="pattern">'.'</code>. В регулярном выражении она означает «любой символ, кроме новой строки», поэтому чтобы найти именно сам символ «точка» – её нужно экранировать: <code class="pattern">\.</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Глава 5.1&quot;.match(/\d\.\d/) ); // 5.1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Круглые скобки также являются специальными символами, так что для поиска именно скобки нужно использовать <code>\(</code>. Пример ниже ищет строку <code>&quot;g()&quot;</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;function g()&quot;.match(/g\(\)/) ); // &quot;g()&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Сам символ слэш <code>'/'</code>, хотя и не является специальными символом в регулярных выражениях, но открывает-закрывает регэксп в синтаксисе <code class="pattern">/...pattern.../</code>, поэтому его тоже нужно экранировать.</p>
+<p>Так выглядит поиск слэша <code>'/'</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;/&quot;.match(/\//) ); // '/'</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Ну и, наконец, если нам нужно найти сам обратный слэш <code>\</code>, то его нужно просто задублировать.</p>
+<p>Так выглядит поиск обратного слэша <code>&quot;\&quot;</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;1\2&quot;.match(/\\/) ); // '\'</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Мы рассмотрели классы для поиска типов символов:</p>
+<ul>
+<li><code>\d</code> – цифры.</li>
+<li><code>\D</code> – не-цифры.</li>
+<li><code>\s</code> – пробельные символы, переводы строки.</li>
+<li><code>\S</code> – всё, кроме <code>\s</code>.</li>
+<li><code>\w</code> – латинница, цифры, подчёркивание <code>'_'</code>.</li>
+<li><code>\W</code> – всё, кроме <code>\w</code>.</li>
+<li><code>'.'</code> – точка обозначает любой символ, кроме перевода строки.</li>
+</ul>
+<p>Если хочется поискать именно сочетание <code>&quot;\d&quot;</code> или символ «точка», то его экранируют обратным слэшем, вот так: <code class="pattern">\.</code></p>
+<p>Заметим, что регулярное выражение может также содержать перевод строки <code>\n</code>, табуляцию <code>\t</code> и прочие спецсимволы для строк. Конфликта с классами не происходит, так как для них зарезервированы другие буквы.</p>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#найдите-время" name="найдите-время" class="main__anchor">Найдите время</a></h3><a href="task/find-time-hh-mm.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"></div><div class="task__content"><p>Время имеет формат <code>часы:минуты</code>. И часы и минуты состоят из двух цифр, например: <code>09:00</code>.</p>
+<p>Напишите регулярное выражение для поиска времени в строке: <code class="subject">Завтрак в 09:00.</code></p>
+<p>P.S. В этой задаче выражению позволительно найти и некорректное время, например <code>25:99</code>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Ответ: <code class="pattern">\d\d:\d\d</code>.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;Завтрак в 09:00.&quot;.match( /\d\d:\d\d/ ) ); // 09:00</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

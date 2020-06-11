@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="first-steps.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы JavaScript</span></a></li></ol><h1 class="main__header-title">Переменные</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Переменные"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В зависимости от того, для чего вы делаете скрипт, понадобится работать с информацией.</p>
+<p>Если это электронный магазин – то это товары, корзина. Если чат – посетители, сообщения и так далее.</p>
+<p>Чтобы хранить информацию, используются <em>переменные</em>.</p>
+<h2><a class="main__anchor" name="переменная" href="#переменная">Переменная</a></h2><p><em>Переменная</em> состоит из имени и выделенной области памяти, которая ему соответствует.</p>
+<p>Для <em>объявления</em> или, другими словами, <em>создания переменной</em> используется ключевое слово <code>var</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var message;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>После объявления, можно записать в переменную данные:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var message;
+message = 'Hello'; // сохраним в переменной строку</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Эти данные будут сохранены в соответствующей области памяти и в дальнейшем доступны при обращении по имени:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var message;
+message = 'Hello!';
+
+alert( message ); // выведет содержимое переменной</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для краткости можно совместить объявление переменной и запись данных:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var message = 'Hello!';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Можно даже объявить несколько переменных сразу:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = 'John', age = 25, message = 'Hello';</code></pre>
+        </div>
+      </div>
+      
+      </div><h3><a class="main__anchor" name="аналогия-из-жизни" href="#аналогия-из-жизни">Аналогия из жизни</a></h3><p>Проще всего понять переменную, если представить её как «коробку» для данных, с уникальным именем.</p>
+<p>Например, переменная <code>message</code> – это коробка, в которой хранится значение <code>&quot;Hello!&quot;</code>:</p>
+<figure><div class="image" style="width:166px">
+      <div class="image__ratio" style="padding-top:87.34939759036145%"></div>
+      <img src="article/variables/variable.png" alt="" width="166" height="145" class="image__image">
+      </div></figure><p>В коробку можно положить любое значение, а позже – поменять его. Значение в переменной можно изменять сколько угодно раз:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var message;
+
+message = 'Hello!';
+
+message = 'World!'; // заменили значение
+
+alert( message );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При изменении значения старое содержимое переменной удаляется.</p>
+<figure><div class="image" style="width:392px">
+      <div class="image__ratio" style="padding-top:48.97959183673469%"></div>
+      <img src="article/variables/variable-change.png" alt="" width="392" height="192" class="image__image">
+      </div></figure><p>Можно объявить две переменные и копировать данные из одной в другую:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var hello = 'Hello world!';
+
+var message;
+
+// скопировали значение
+message = hello;
+
+alert( hello ); // Hello world!
+alert( message ); // Hello world!</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">На заметку:</span></div>
+            <div class="important__content"><p>Существуют <a href="http://ru.wikipedia.org/wiki/%D0%AF%D0%B7%D1%8B%D0%BA_%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F">функциональные</a> языки программирования, в которых значение переменной менять нельзя. Например, <a href="http://www.scala-lang.org/">Scala</a> или <a href="http://www.erlang.org/">Erlang</a>.</p>
+<p>В таких языках положил один раз значение в коробку – и оно хранится там вечно, ни удалить ни изменить. А нужно что-то другое сохранить – изволь создать новую коробку (объявить новую переменную), повторное использование невозможно.</p>
+<p>С виду – не очень удобно, но, как ни странно, и на таких языках вполне можно  успешно программировать. Более того, оказывается, что в ряде областей, например в распараллеливании вычислений, они имеют преимущества. Изучение какого-нибудь функционального языка рекомендуется для расширения кругозора.</p>
+</div></div>
+<h2><a class="main__anchor" name="variable-naming" href="#variable-naming">Имена переменных</a></h2><p>На имя переменной в JavaScript наложены всего два ограничения.</p>
+<ol>
+<li>Имя может состоять из: букв, цифр, символов <code>$</code> и <code>_</code></li>
+<li>Первый символ не должен быть цифрой.</li>
+</ol>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var myName;
+var test123;</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>Что особенно интересно – доллар <code>'$'</code> и знак подчеркивания <code>'_'</code> являются такими же обычными символами, как буквы:</strong></p>
+<div data-trusted="0" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var $ = 1; // объявили переменную с именем '$'
+var _ = 2; // переменная с именем '_'
+
+alert( $ + _ ); // 3</code></pre>
+        </div>
+      </div>
+      
+      </div><p>А такие переменные были бы неправильными:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var 1a; // начало не может быть цифрой
+
+var my-name; // дефис '-' не является разрешенным символом</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_smart">
+            <div class="important__header"><span class="important__type">Регистр букв имеет значение</span></div>
+            <div class="important__content"><p>Переменные <code>apple</code> и <code>AppLE</code> – две разные переменные.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Русские буквы допустимы, но не рекомендуются</span></div>
+            <div class="important__content"><p>В названии переменных можно использовать и русские буквы, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var имя = &quot;Вася&quot;;
+alert( имя ); // &quot;Вася&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Технически, ошибки здесь нет, но на практике сложилась традиция использовать в именах только английские буквы.</p>
+</div></div>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Зарезервированные имена</span></div>
+            <div class="important__content"><p>Существует список зарезервированных слов, которые нельзя использовать для переменных, так как они используются самим языком, например: <code>var, class, return, export</code> и др.</p>
+<p>Например, такой пример выдаст синтаксическую ошибку:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var return = 5; // ошибка
+alert(return);</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h2><a class="main__anchor" name="важность-директивы-var" href="#важность-директивы-var">Важность директивы var</a></h2><p>В старом стандарте JavaScript разрешалось создавать переменную и без <code>var</code>, просто присвоив ей значение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">num = 5; // переменная num будет создана, если ее не было</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В режиме <code>&quot;use strict&quot;</code> так делать уже нельзя.</p>
+<p>Следующий код выдаст ошибку:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">&quot;use strict&quot;;
+
+num = 5; // error: num is not defined</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание, директиву <code>use strict</code> нужно ставить до кода, иначе она не сработает:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var something;
+
+&quot;use strict&quot;; // слишком поздно
+
+num = 5; // ошибки не будет, так как строгий режим не активирован</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Ошибка в IE8- без <code>var</code></span></div>
+            <div class="important__content"><p>Если же вы собираетесь поддерживать IE8-, то у меня для вас ещё одна причина всегда использовать <code>var</code>.</p>
+<p>Следущий документ в IE8- ничего не выведет, будет ошибка:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div id=&quot;test&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+  test = 5; // здесь будет ошибка!
+  alert( test ); // не сработает
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это потому, что переменная <code>test</code> не объявлена через <code>var</code> и совпадает с <code>id</code> элемента <code>&lt;div&gt;</code>. Даже не спрашивайте почему – это ошибка в браузере IE до версии 9.</p>
+<p>Самое «забавное» то, что такая ошибка присвоения значений будет только в IE8- и только если на странице присутствует элемент с <code>id</code>, совпадающим с именем переменной.</p>
+<p>Такие ошибки особенно «весело» исправлять и отлаживать.</p>
+<p>Вывод простой – всегда объявляем переменные через <code>var</code>, и сюрпризов не будет. Даже в старых IE.</p>
+</div></div>
+<h2><a class="main__anchor" name="константы" href="#константы">Константы</a></h2><p><em>Константа</em> – это переменная, которая никогда не меняется. Как правило, их называют большими буквами, через подчёркивание. Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var COLOR_RED = &quot;#F00&quot;;
+var COLOR_GREEN = &quot;#0F0&quot;;
+var COLOR_BLUE = &quot;#00F&quot;;
+var COLOR_ORANGE = &quot;#FF7F00&quot;;
+
+var color = COLOR_ORANGE;
+alert( color ); // #FF7F00</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Технически, константа является обычной переменной, то есть её <em>можно</em> изменить. Но мы <em>договариваемся</em> этого не делать.</p>
+<p>Зачем нужны константы? Почему бы просто не писать <code>var color = &quot;#FF7F00&quot;</code>?</p>
+<ol>
+<li>Во-первых, константа <code>COLOR_ORANGE</code> – это понятное имя. По присвоению <code>var color=&quot;#FF7F00&quot;</code> непонятно, что цвет – оранжевый. Иными словами, константа <code>COLOR_ORANGE</code> является «понятным псевдонимом» для значения <code>#FF7F00</code>.</li>
+<li>Во-вторых, опечатка в строке, особенно такой сложной как <code>#FF7F00</code>, может быть не замечена, а в имени константы её допустить куда сложнее.</li>
+</ol>
+<p><strong>Константы используют вместо строк и цифр, чтобы сделать программу понятнее и избежать ошибок.</strong></p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>В JavaScript можно объявлять переменные для хранения данных. Это делается при помощи <code>var</code>.</li>
+<li>Технически, можно просто записать значение и без объявления переменной, однако по ряду причин это не рекомендуется.</li>
+<li>Вместе с объявлением можно сразу присвоить значение: <code>var x = 10</code>.</li>
+<li>Переменные, которые названы <code>БОЛЬШИМИ_БУКВАМИ</code>, являются константами, то есть никогда не меняются. Как правило, они используются для удобства, чтобы было меньше ошибок.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#работа-с-переменными" name="работа-с-переменными" class="main__anchor">Работа с переменными</a></h3><a href="task/hello-variables.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 2</span></div><div class="task__content"><ol>
+<li>Объявите две переменные: <code>admin</code> и <code>name</code>.</li>
+<li>Запишите в <code>name</code> строку <code>&quot;Василий&quot;</code>.</li>
+<li>Скопируйте значение из <code>name</code> в <code>admin</code>.</li>
+<li>Выведите <code>admin</code> (должно вывести «Василий»).</li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>Каждая строчка решения соответствует одному шагу задачи:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var admin, name; // две переменных через запятую
+
+name = &quot;Василий&quot;;
+
+admin = name;
+
+alert( admin ); // &quot;Василий&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

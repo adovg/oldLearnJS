@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="first-steps.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Основы JavaScript</span></a></li></ol><h1 class="main__header-title">Операторы сравнения и логические значения</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Операторы сравнения и логические значения"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В этом разделе мы познакомимся с операторами сравнения и с логическими значениями, которые такие операторы возвращают.</p>
+<p>Многие операторы сравнения знакомы нам из математики:</p>
+<ul>
+<li>Больше/меньше: <code>a &gt; b</code>, <code>a &lt; b</code>.</li>
+<li>Больше/меньше или равно: <code>a &gt;= b</code>, <code>a &lt;= b</code>.</li>
+<li>Равно <code>a == b</code>.
+Для сравнения используется два символа равенства <code>'='</code>. Один символ <code>a = b</code> означал бы присваивание.</li>
+<li>«Не равно». В математике он пишется как <code>≠</code>, в JavaScript – знак равенства с восклицательным знаком перед ним <code>!=</code>.</li>
+</ul>
+<h2><a class="main__anchor" name="логические-значения" href="#логические-значения">Логические значения</a></h2><p>Как и другие операторы, сравнение возвращает значение. Это значение имеет <em>логический</em> тип.</p>
+<p>Существует всего два логических значения:</p>
+<ul>
+<li><code>true</code> – имеет смысл «да», «верно», «истина».</li>
+<li><code>false</code> – означает «нет», «неверно», «ложь».</li>
+</ul>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 2 &gt; 1 ); // true, верно
+alert( 2 == 1 ); // false, неверно
+alert( 2 != 1 ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Логические значения можно использовать и напрямую, присваивать переменным, работать с ними как с любыми другими:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var a = true; // присваивать явно
+
+var b = 3 &gt; 4; // или как результат сравнения
+alert( b ); // false
+
+alert( a == b ); // (true == false) неверно, выведет false</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="сравнение-строк" href="#сравнение-строк">Сравнение строк</a></h2><p>Строки сравниваются побуквенно:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 'Б' &gt; 'А' ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><div class="important important_warn">
+            <div class="important__header"><span class="important__type">Осторожно, Unicode!</span></div>
+            <div class="important__content"><p>Аналогом «алфавита» во внутреннем представлении строк служит кодировка, у каждого символа – свой номер (код). JavaScript использует кодировку <a href="http://ru.wikipedia.org/wiki/%D0%AE%D0%BD%D0%B8%D0%BA%D0%BE%D0%B4">Unicode</a>.</p>
+<p>При этом сравниваются <em>численные коды символов</em>. В частности, код у символа <code>Б</code> больше, чем у <code>А</code>, поэтому и результат сравнения такой.</p>
+<p><strong>В кодировке Unicode обычно код у строчной буквы больше, чем у прописной.</strong></p>
+<p>Поэтому регистр имеет значение:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 'а' &gt; 'Я' ); // true, строчные буквы больше прописных</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для корректного сравнения символы должны быть в одинаковом регистре.</p>
+</div></div>
+<p>Если строка состоит из нескольких букв, то сравнение осуществляется как в телефонной книжке или в словаре. Сначала сравниваются первые буквы, потом вторые, и так далее, пока одна не будет больше другой.</p>
+<p>Иными словами, больше – та строка, которая в телефонной книге была бы на большей странице.</p>
+<p>Например:</p>
+<ul>
+<li>
+<p>Если первая буква первой строки больше – значит первая строка больше, независимо от остальных символов:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 'Банан' &gt; 'Анна' );</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>Если одинаковы – сравнение идёт дальше. Здесь оно дойдёт до третьей буквы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 'Вася' &gt; 'Ваня' ); // true, т.к. 'с' &gt; 'н'</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+<li>
+<p>При этом любая буква больше отсутствия буквы:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 'Привет' &gt; 'Прив' ); // true, так как 'е' больше чем &quot;ничего&quot;.</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ul>
+<p>Такое сравнение называется <em>лексикографическим</em>.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Важно:</span></div>
+            <div class="important__content"><p>Обычно мы получаем значения от посетителя в виде строк. Например, <code>prompt</code> возвращает <em>строку</em>, которую ввел посетитель.</p>
+<p>Числа, полученные таким образом, в виде строк сравнивать нельзя, результат будет неверен. Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( &quot;2&quot; &gt; &quot;14&quot; ); // true, неверно, ведь 2 не больше 14</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере выше <code>2</code> оказалось больше <code>14</code>, потому что строки сравниваются посимвольно, а первый символ <code>'2'</code> больше <code>'1'</code>.</p>
+<p>Правильно было бы преобразовать их к числу явным образом. Например, поставив перед ними <code>+</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( +&quot;2&quot; &gt; +&quot;14&quot; ); // false, теперь правильно</code></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<h2><a class="main__anchor" name="сравнение-разных-типов" href="#сравнение-разных-типов">Сравнение разных типов</a></h2><p>При сравнении значений разных типов, используется числовое преобразование. Оно применяется к обоим значениям.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( '2' &gt; 1 ); // true, сравнивается как 2 &gt; 1
+alert( '01' == 1 ); // true, сравнивается как 1 == 1
+alert( false == 0 ); // true, false становится числом 0
+alert( true == 1 ); // true, так как true становится числом 1.</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Тема преобразований типов будет продолжена далее, в главе <a href="types-conversion.htm">Преобразование типов для примитивов</a>.</p>
+<h2><a class="main__anchor" name="строгое-равенство" href="#строгое-равенство">Строгое равенство</a></h2><p>В обычном операторе <code>==</code> есть «проблема» – он не может отличить <code>0</code> от <code>false</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 0 == false ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Та же ситуация с пустой строкой:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( '' == false ); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Это естественное следствие того, что операнды разных типов преобразовались к числу. Пустая строка, как и <code>false</code>, при преобразовании к числу дают <code>0</code>.</p>
+<p>Что же делать, если всё же нужно отличить <code>0</code> от <code>false</code>?</p>
+<p><strong>Для проверки равенства без преобразования типов используются операторы строгого равенства <code>===</code> (тройное равно) и <code>!==</code>.</strong></p>
+<p>Если тип разный, то они всегда возвращают <code>false</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 0 === false ); // false, т.к. типы различны</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Строгое сравнение предпочтительно, если мы хотим быть уверены, что «сюрпризов» не будет.</p>
+<h2><a class="main__anchor" name="сравнение-с-null-и-undefined" href="#сравнение-с-null-и-undefined">Сравнение с null и undefined</a></h2><p>Проблемы со специальными значениями возможны, когда к переменной применяется операция сравнения <code>&gt; &lt; &lt;= &gt;=</code>, а у неё может быть как численное значение, так и <code>null/undefined</code>.</p>
+<p><strong>Интуитивно кажется, что <code>null/undefined</code> эквивалентны нулю, но это не так.</strong></p>
+<p>Они ведут себя по-другому.</p>
+<ol>
+<li>Значения <code>null</code> и <code>undefined</code> равны <code>==</code> друг другу и не равны чему бы то ни было ещё.
+Это жёсткое правило буквально прописано в спецификации языка.</li>
+<li>При преобразовании в число <code>null</code> становится <code>0</code>, а <code>undefined</code> становится <code>NaN</code>.</li>
+</ol>
+<p>Посмотрим забавные следствия.</p>
+<h3><a class="main__anchor" name="некорректный-результат-сравнения-null-с-0" href="#некорректный-результат-сравнения-null-с-0">Некорректный результат сравнения null с 0</a></h3><p>Сравним <code>null</code> с нулём:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( null &gt; 0 ); // false
+alert( null == 0 ); // false</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Итак, мы получили, что <code>null</code> не больше и не равен нулю. А теперь…</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="0:21-25">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert(null &gt;= 0); // true</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Как такое возможно? Если нечто <em>«больше или равно нулю»</em>, то резонно полагать, что оно либо <em>больше</em>, либо <em>равно</em>. Но здесь это не так.</p>
+<p>Дело в том, что алгоритмы проверки равенства <code>==</code> и сравнения <code>&gt;= &gt; &lt; &lt;=</code> работают по-разному.</p>
+<p>Сравнение честно приводит к числу, получается ноль. А при проверке равенства значения <code>null</code> и <code>undefined</code> обрабатываются особым образом: они равны друг другу, но не равны чему-то ещё.</p>
+<p>В результате получается странная с точки зрения здравого смысла ситуация, которую мы видели в примере выше.</p>
+<h3><a class="main__anchor" name="несравнимый-undefined" href="#несравнимый-undefined">Несравнимый undefined</a></h3><p>Значение <code>undefined</code> вообще нельзя сравнивать:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( undefined &gt; 0 ); // false (1)
+alert( undefined &lt; 0 ); // false (2)
+alert( undefined == 0 ); // false (3)</code></pre>
+        </div>
+      </div>
+      
+      </div><ul>
+<li>Сравнения <code>(1)</code> и <code>(2)</code> дают <code>false</code> потому, что <code>undefined</code> при преобразовании к числу даёт <code>NaN</code>. А значение <code>NaN</code> по стандарту устроено так, что сравнения <code>==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> и даже <code>===</code> с ним возвращают <code>false</code>.</li>
+<li>Проверка равенства <code>(3)</code> даёт <code>false</code>, потому что в стандарте явно прописано, что <code>undefined</code> равно лишь <code>null</code> или себе и ничему другому.</li>
+</ul>
+<p><strong>Вывод: любые сравнения с <code>undefined/null</code>, кроме точного <code>===</code>, следует делать с осторожностью.</strong></p>
+<p>Желательно не использовать сравнения <code>&gt;= &gt; &lt; &lt;=</code> с ними, во избежание ошибок в коде.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>В JavaScript есть логические значения <code>true</code> (истина) и <code>false</code> (ложь). Операторы сравнения возвращают их.</li>
+<li>Строки сравниваются побуквенно.</li>
+<li>Значения разных типов приводятся к числу при сравнении, за исключением строгого равенства <code>===</code> (<code>!==</code>).</li>
+<li>Значения <code>null</code> и <code>undefined</code> равны <code>==</code> друг другу и не равны ничему другому. В других сравнениях (с участием <code>&gt;</code>,<code>&lt;</code>) их лучше не использовать, так как они ведут себя не как <code>0</code>.</li>
+</ul>
+<p>Мы ещё вернёмся к теме сравнения позже, когда лучше изучим различные типы данных в JavaScript.</p>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

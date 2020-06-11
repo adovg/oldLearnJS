@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="ui.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ, события, интерфейсы</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="document.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Документ и объекты страницы</span></a></li></ol><h1 class="main__header-title">Методы contains и compareDocumentPosition</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Методы contains и compareDocumentPosition"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Если есть два элемента, то иногда бывает нужно понять, лежит ли один из них выше другого, то есть является ли его предком.</p>
+<p>Обычные поисковые методы здесь не дают ответа, но есть два специальных. Они используются редко, но когда подобная задача встаёт, то знание метода может сэкономить много строк кода.</p>
+<h2><a class="main__anchor" name="метод-contains-для-проверки-на-вложенность" href="#метод-contains-для-проверки-на-вложенность">Метод contains для проверки на вложенность</a></h2><p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var result = parent.contains(child);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Возвращает <code>true</code>, если <code>parent</code> содержит <code>child</code> или <code>parent == child</code>.</p>
+<h2><a class="main__anchor" name="метод-comparedocumentposition-для-порядка-узлов" href="#метод-comparedocumentposition-для-порядка-узлов">Метод compareDocumentPosition для порядка узлов</a></h2><p>Бывает, что у нас есть два элемента, к примеру, <code>&lt;li&gt;</code> в списке, и нужно понять, какой из них выше другого.</p>
+<p>Метод <code>compareDocumentPosition</code> – более мощный, чем <code>contains</code>, он предоставляет одновременно информацию и о содержании и об относительном порядке элементов.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var result = nodeA.compareDocumentPosition(nodeB);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Возвращаемое значение – битовая маска (см. <a href="bitwise-operators.htm">Побитовые операторы</a>), биты в которой означают следующее:</p>
+<table>
+<thead>
+<tr>
+<th>Биты</th>
+<th>Число</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>000000</td><td>0</td><td><code>nodeA</code> и <code>nodeB</code> -- один и тот же узел</td></tr>
+<tr><td>000001</td><td>1</td><td>Узлы в разных документах (или один из них не в документе)</td></tr>
+<tr><td>000010</td><td>2</td><td><code>nodeB</code> предшествует <code>nodeA</code> (в порядке обхода документа)</td></tr>
+<tr><td>000100</td><td>4</td><td><code>nodeA</code> предшествует <code>nodeB</code></td></tr>
+<tr><td>001000</td><td>8</td><td><code>nodeB</code> содержит <code>nodeA</code></td></tr>
+<tr><td>010000</td><td>16</td><td><code>nodeA</code> содержит <code>nodeB</code></td></tr>
+<tr><td>100000</td><td>32</td><td>Зарезервировано для браузера</td></tr>
+</tbody>
+</table>
+<p>Понятие «предшествует» – означает не только «предыдущий сосед при общем родителе», но и имеет более общий смысл:  &quot;раньше встречается в порядке <a href="http://algolist.manual.ru/ds/walk.php">прямого обхода</a> дерева документа.</p>
+<p>Могут быть и сочетания битов. Примеры реальных значений:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;p&gt;...&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;1.1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  var p = document.body.children[0];
+  var ul = document.body.children[1];
+  var li = ul.children[0];
+
+  // 1. &lt;ul&gt; находится после &lt;p&gt;
+  alert( ul.compareDocumentPosition(p) ); // 2 = 10
+
+  // 2. &lt;p&gt; находится до &lt;ul&gt;
+  alert( p.compareDocumentPosition(ul) ); // 4 = 100
+
+  // 3. &lt;ul&gt; родитель &lt;li&gt;
+  alert( ul.compareDocumentPosition(li) ); // 20 = 10100
+
+  // 4. &lt;ul&gt; потомок &lt;body&gt;
+  alert( ul.compareDocumentPosition(document.body) ); // 10 = 1010
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Более подробно:</p>
+<ol>
+<li>Узлы не вложены один в другой, поэтому стоит только бит «предшествования», отсюда <code>10</code>.</li>
+<li>То же самое, но обратный порядок узлов, поэтому <code>100</code>.</li>
+<li>Здесь стоят сразу два бита: <code>10100</code> означает, что <code>ul</code> одновременно содержит <code>li</code> и является его предшественником, то есть при прямом обходе дерева документа сначала встречается <code>ul</code>, а потом <code>li</code>.</li>
+<li>Аналогично предыдущему, <code>1010</code> означает, что <code>document.body</code> содержит <code>ul</code> и предшествует ему.</li>
+</ol>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Перевод в двоичную систему</span></div>
+            <div class="important__content"><p>Самый простой способ самостоятельно посмотреть, как число выглядит в 2-ной системе – вызвать для него <code>toString(2)</code>, например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var x = 20;
+alert( x.toString(2) ); // &quot;10100&quot;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Или так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">alert( 20..toString(2) );</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Здесь после <code>20</code> две точки, так как если одна, то JS подумает, что после неё десятичная часть – будет ошибка.</p>
+</div></div>
+<p>Проверить конкретное условие, например, &quot;<code>nodeA</code> содержит <code>nodeB</code>&quot;, можно при помощи битовых операций, в данном случае: <code>nodeA.compareDocumentPosition(nodeB) &amp; 16</code>, например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="8-10">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  var body = document.body;
+  var li = document.body.children[0].children[0];
+
+  if (body.compareDocumentPosition(li) &amp; 16) {
+    alert( body + ' содержит ' + li );
+  }
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Более подробно о битовых масках:  <a href="bitwise-operators.htm">Побитовые операторы</a>.</p>
+<h2><a class="main__anchor" name="поддержка-в-ie8" href="#поддержка-в-ie8">Поддержка в IE8-</a></h2><p>В IE8- поддерживаются свои, нестандартные, метод и свойство:</p>
+<dl>
+<dt><a href="http://msdn.microsoft.com/en-us/library/ms536377.aspx">nodeA.contains(nodeB)</a></dt>
+<dd>Результат: <code>true</code>, если <code>nodeA</code> содержит <code>nodeB</code>, а также в том случае, если <code>nodeA == nodeB</code>.</dd>
+<dt><a href="http://msdn.microsoft.com/en-us/library/ms534635.aspx">node.sourceIndex</a></dt>
+<dd>Номер элемента <code>node</code> в порядке прямого обхода дерева. Только для узлов-элементов.</dd>
+</dl>
+<p>На их основе можно написать полифилл для <code>compareDocumentPosition</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// код с http://compatibility.shwups-cms.ch/en/polyfills/?&amp;id=82
+(function() {
+  var el = document.documentElement;
+  if (!el.compareDocumentPosition &amp;&amp; el.sourceIndex !== undefined) {
+
+    Element.prototype.compareDocumentPosition = function(other) {
+      return (this != other &amp;&amp; this.contains(other) &amp;&amp; 16) +
+        (this != other &amp;&amp; other.contains(this) &amp;&amp; 8) +
+        (this.sourceIndex &gt;= 0 &amp;&amp; other.sourceIndex &gt;= 0 ?
+          (this.sourceIndex &lt; other.sourceIndex &amp;&amp; 4) +
+          (this.sourceIndex &gt; other.sourceIndex &amp;&amp; 2) : 1
+        ) + 0;
+    }
+  }
+}());</code></pre>
+        </div>
+      </div>
+      
+      </div><p>С этим полифиллом метод доступен для элементов во всех браузерах.</p>
+<h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>Для проверки, является ли один узел предком другого, достаточно метода <code>nodeA.contains(nodeB)</code>.</li>
+<li>Для расширенной проверки на предшествование есть метод <code>compareDocumentPosition</code>.</li>
+<li>Для IE8 нужен полифилл для <code>compareDocumentPosition</code>.</li>
+</ul>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

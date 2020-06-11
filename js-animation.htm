@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="animation.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Анимация</span></a></li></ol><h1 class="main__header-title">JS-Анимация</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="JS-Анимация"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>JavaScript-анимация применяется там, где не подходит CSS.</p>
+<p>Например, по сложной траектории, с временной функцией, выходящей за рамки кривых Безье, на canvas. Иногда её используют для анимации в старых IE.</p>
+<h2><a class="main__anchor" name="setinterval" href="#setinterval">setInterval</a></h2><p>С точки зрения HTML/CSS, анимация – это постепенное изменение стиля  DOM-элемента. Например, увеличение координаты <code>style.left</code> от <code>0px</code> до <code>100px</code> сдвигает элемент.</p>
+<p>Если увеличивать <code>left</code> от <code>0</code> до <code>100</code> при помощи <code>setInterval</code>, делая по 50 изменений в секунду, то это будет выглядеть как плавное перемещение. Тот же принцип, что и в кино: для непрерывной анимации достаточно 24 или больше вызовов <code>setInterval</code> в секунду.</p>
+<p>Псевдо-код для анимации выглядит так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var fps = 50; // 50 кадров в секунду
+var timer = setInterval(function() {
+  if (время вышло) clearInterval(timer);
+  else немного увеличить left
+}, 1000 / fps)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Более полный пример кода анимации:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var start = Date.now(); // сохранить время начала
+
+var timer = setInterval(function() {
+  // вычислить сколько времени прошло с начала анимации
+  var timePassed = Date.now() - start;
+
+  if (timePassed &gt;= 2000) {
+    clearInterval(timer); // конец через 2 секунды
+    return;
+  }
+
+  // рисует состояние анимации, соответствующее времени timePassed
+  draw(timePassed);
+
+}, 20);
+
+// в то время как timePassed идёт от 0 до 2000
+// left принимает значения от 0 до 400px
+function draw(timePassed) {
+  train.style.left = timePassed / 5 + 'px';
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кликните для демонстрации:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/js-animation/move/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/fUtvpWY4HrFHu6Axfhdb?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/js-animation/move/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;style&gt;
+    #train {
+      position: relative;
+      cursor: pointer;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;img id=&quot;train&quot; src=&quot;https://js.cx/clipart/train.gif&quot;&gt;
+
+
+  &lt;script&gt;
+    train.onclick = function() {
+      var start = Date.now(); // сохранить время начала
+
+      var timer = setInterval(function() {
+        // вычислить сколько времени прошло из opts.duration
+        var timePassed = Date.now() - start;
+
+        train.style.left = timePassed / 5 + 'px';
+
+        if (timePassed &gt; 2000) clearInterval(timer);
+
+      }, 20);
+    }
+  &lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><h2><a class="main__anchor" name="requestanimationframe" href="#requestanimationframe">requestAnimationFrame</a></h2><p>Если у нас не один такой <code>setInterval</code>, а несколько в разных местах кода, то браузеру нужно в те же 20 мс работать со страницей уже несколько раз. А ведь кроме <code>setInterval</code> есть ещё другие действия, к примеру, прокрутка страницы, которую тоже надо нарисовать.</p>
+<p>Если все действия по перерисовке производить независимо, то будет выполняться много двойной работы.</p>
+<p>Гораздо выгоднее с точки зрения производительности – сгруппировать все перерисовки в одну и запускать их централизованно, все вместе.</p>
+<p>Для этого в JavaScript-фреймворках, которые поддерживают анимацию, есть единый таймер:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">setInterval(function() {
+  /* отрисовать все анимации */
+}, 20);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Все анимации, которые запускает такой фреймворк, добавляются в общий список, и раз в 20 мс единый таймер проверяет его, запускает текущие, удаляет завершившиеся.</p>
+<p>Современные браузеры, кроме IE9-, поддерживают стандарт <a href="http://www.w3.org/TR/animation-timing/">Animation timing</a>, который представляет собой дальнейший шаг в этом направлении. Он позволяет синхронизировать наши анимации со встроенными механизмами обновления страницы. То есть, сгруппированы будут не только наши, но и CSS-анимации и другие браузерные перерисовки.</p>
+<p>При этом графический ускоритель будет использован максимально эффективно, и исключена повторная обработка одних и тех же участков страницы. А значит – меньше будет загрузка CPU, да и сама анимация станет более плавной.</p>
+<p>Для этого используется функция <a href="http://www.w3.org/TR/animation-timing/#dom-windowanimationtiming-requestanimationframe">requestAnimationFrame</a>.</p>
+<p>Синтаксис:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var requestId = requestAnimationFrame(callback)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Такой вызов планирует запуск <code>callback</code> в ближайшее время, когда браузер сочтёт возможным осуществить анимацию.</p>
+<p>Если запланировать в <code>callback</code> какое-то рисование, то оно будет сгруппировано с другими <code>requestAnimationFrame</code> и с внутренними перерисовками браузера.</p>
+<p>Возвращаемое значение <code>requestId</code> служит для отмены запуска:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// отменить запланированное выше выполнение callback
+cancelAnimationFrame(requestId);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Функция <code>callback</code> получает один аргумент – время, прошедшее с начала загрузки страницы, результат вызова <a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now">performance.now()</a>.</p>
+<p>Как правило, запуск <code>callback</code> происходит очень скоро. Если у процессора большая загрузка или батарея у ноутбука почти разряжена – то пореже.</p>
+<p>Если вы запустите этот код, то увидите промежутки между первыми 20 запусками <code>requestAnimationFrame</code>. Как правило, это 10-20 мс, но бывает и больше и меньше. Это оптимальная частота анимации с точки зрения браузера.</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-refresh="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;script&gt;
+  var prev = performance.now();
+  var times = 0;
+
+  requestAnimationFrame(function measure(time) {
+    document.body.insertAdjacentHTML(&quot;beforeEnd&quot;, Math.floor(time - prev) + &quot; &quot;);
+    prev = time;
+
+    if (times++ &lt; 10) requestAnimationFrame(measure);
+  })
+&lt;/script&gt;</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Функция анимации на основе <code>requestAnimationFrame</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// Рисует функция draw
+// Продолжительность анимации duration
+function animate(draw, duration) {
+  var start = performance.now();
+
+  requestAnimationFrame(function animate(time) {
+    // определить, сколько прошло времени с начала анимации
+    var timePassed = time - start;
+
+    // возможно небольшое превышение времени, в этом случае зафиксировать конец
+    if (timePassed &gt; duration) timePassed = duration;
+
+    // нарисовать состояние анимации в момент timePassed
+    draw(timePassed);
+
+    // если время анимации не закончилось - запланировать ещё кадр
+    if (timePassed &lt; duration) {
+      requestAnimationFrame(animate);
+    }
+
+  });
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Использование для поезда:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">animate(function(timePassed) {
+  train.style.left = timePassed / 5 + 'px';
+}, 2000);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В действии:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/js-animation/move-raf/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/QKkOvATRaCMQBXSbbCdN?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/js-animation/move-raf/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;style&gt;
+    #train {
+      position: relative;
+      cursor: pointer;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;img id=&quot;train&quot; src=&quot;https://js.cx/clipart/train.gif&quot;&gt;
+
+
+  &lt;script&gt;
+    train.onclick = function() {
+      animate(function(timePassed) {
+        train.style.left = timePassed / 5 + 'px';
+      }, 2000);
+    };
+
+    // Рисует функция draw
+    // Продолжительность анимации duration
+    function animate(draw, duration) {
+      var start = performance.now();
+
+      requestAnimationFrame(function animate(time) {
+        // определить, сколько прошло времени с начала анимации
+        var timePassed = time - start;
+
+        console.log(time, start)
+          // возможно небольшое превышение времени, в этом случае зафиксировать конец
+        if (timePassed &gt; duration) timePassed = duration;
+
+        // нарисовать состояние анимации в момент timePassed
+        draw(timePassed);
+
+        // если время анимации не закончилось - запланировать ещё кадр
+        if (timePassed &lt; duration) {
+          requestAnimationFrame(animate);
+        }
+
+      });
+    }
+  &lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><h2><a class="main__anchor" name="структура-анимации" href="#структура-анимации">Структура анимации</a></h2><p>На основе <code>requestAnimationFrame</code> можно соорудить и гораздо более мощную, но в то же время простую функцию анимации.</p>
+<p>У анимации есть три основных параметра:</p>
+<dl>
+<dt><code>duration</code></dt>
+<dd>
+<p>Общее время, которое должна длиться анимация, в мс. Например, <code>1000</code>.</p>
+</dd>
+<dt><code>timing(timeFraction)</code></dt>
+<dd>
+<p>Временная функция, которая, по аналогии с CSS-свойством <code>transition-timing-function</code>, будет по текущему времени вычислять состояние анимации.</p>
+<p>Она получает на вход непрерывно возрастающее число <code>timeFraction</code> – от <code>0</code> до <code>1</code>, где <code>0</code> означает самое начало анимации, а <code>1</code> – её конец.</p>
+<p>Её результатом должно быть значение завершённости анимации, которому в CSS transitions на кривых Безье соответствует координата <code>y</code>.</p>
+<p>Также по аналогии с <code>transition-timing-function</code> должны соблюдаться условия:</p>
+</dd>
+</dl>
+<ul>
+<li>
+<p>timing(0) = 0</p>
+</li>
+<li>
+<p>timing(1) = 1</p>
+<p>…То есть, анимация начинается в точке <code>(0,0)</code> – нулевое время и нулевой прогресс и заканчивается в <code>(1, 1)</code> – прошло полное время, и процесс завершён.</p>
+<p>Например, функция-прямая означает равномерное развитие процесса:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function linear(timeFraction) {
+  return timeFraction;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Её график:
+<img src="article/js-animation/linear.png" alt="" width="234" height="240"></p>
+<p>Как видно, её график полностью совпадает с <code>transition-timing-function: linear</code>, и эффект абсолютно такой же.</p>
+<p>Есть и другие, более интересные варианты, мы рассмотрим их чуть позже.</p>
+</li>
+</ul>
+<dl>
+<dt><code>draw(progress)</code></dt>
+<dd>
+<p>Функция, которая получает состояние завершённости анимации и рисует его. Значению <code>progress=0</code> соответствует начальная точка анимации, <code>progress=1</code> – конечная.</p>
+<p>Именно эта функция и осуществляет, собственно, анимацию.</p>
+<p>Например, может двигать элемент:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function draw(progress) {
+  train.style.left = progress + 'px';
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Возможны любые варианты, анимировать можно что угодно и как угодно.</p>
+</dd>
+</dl>
+<p>Анимируем ширину элемента <code>width</code> от <code>0</code> до <code>100%</code>, используя нашу функцию.</p>
+<p>Кликните для демонстрации:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">animate.js</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/js-animation/width/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/nkhxw3xEXhdlWna3liR5?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:60px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/js-animation/width/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-javascript line-numbers"><code>function animate(options) {
+
+  var start = performance.now();
+
+  requestAnimationFrame(function animate(time) {
+    // timeFraction от 0 до 1
+    var timeFraction = (time - start) / options.duration;
+    if (timeFraction &gt; 1) timeFraction = 1;
+
+    // текущее состояние анимации
+    var progress = options.timing(timeFraction)
+
+    options.draw(progress);
+
+    if (timeFraction &lt; 1) {
+      requestAnimationFrame(animate);
+    }
+
+  });
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;style&gt;
+    progress {
+      width: 5%;
+    }
+  &lt;/style&gt;
+  &lt;script src=&quot;animate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+
+  &lt;progress id=&quot;elem&quot;&gt;&lt;/progress&gt;
+
+  &lt;script&gt;
+    elem.onclick = function() {
+      animate({
+        duration: 1000,
+        timing: function(timeFraction) {
+          return timeFraction;
+        },
+        draw: function(progress) {
+          elem.style.width = progress * 100 + '%';
+        }
+      });
+    };
+  &lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>Код для запуска анимации:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">animate({
+  duration: 1000,
+  timing: function(timeFraction) {
+    return timeFraction;
+  },
+  draw: function(progress) {
+    elem.style.width = progress * 100 + '%';
+  }
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="временные-функции" href="#временные-функции">Временные функции</a></h2><p>Выше мы видели самую простую, линейную временную функцию.</p>
+<p>Рассмотрим примеры анимации движения с использованием различных <code>timing</code>.</p>
+<h3><a class="main__anchor" name="в-степени-n" href="#в-степени-n">В степени n</a></h3><p>Вот еще один простой случай – <code>progress</code> в степени <code>n</code>. Частные случаи – квадратичная, кубическая функции и т.д.</p>
+<p>Для квадратичной функции:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function quad(progress) {
+  return Math.pow(progress, 2)
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>График квадратичной функции:</strong></p>
+<figure><div class="image" style="width:234px">
+      <div class="image__ratio" style="padding-top:102.56410256410255%"></div>
+      <img src="article/js-animation/quad.png" alt="" width="234" height="240" class="image__image">
+      </div></figure><p>Пример для квадратичной функции (клик для просмотра):</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/js-animation/quad/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:40px" src="https://js.cx/article/js-animation/quad/"></iframe>
+  </div><p>Увеличение степени влияет на ускорение. Например, график для 5-й степени:</p>
+<figure><div class="image" style="width:234px">
+      <div class="image__ratio" style="padding-top:102.56410256410255%"></div>
+      <img src="article/js-animation/quint.png" alt="" width="234" height="240" class="image__image">
+      </div></figure><p>В действии:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/js-animation/quint/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:40px" src="https://js.cx/article/js-animation/quint/"></iframe>
+  </div><h3><a class="main__anchor" name="дуга" href="#дуга">Дуга</a></h3><p>Функция:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function circ(timeFraction) {
+  return 1 - Math.sin(Math.acos(timeFraction))
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>График:</strong></p>
+<figure><div class="image" style="width:234px">
+      <div class="image__ratio" style="padding-top:102.56410256410255%"></div>
+      <img src="article/js-animation/circ.png" alt="" width="234" height="240" class="image__image">
+      </div></figure><div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/js-animation/circ/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:40px" src="https://js.cx/article/js-animation/circ/"></iframe>
+  </div><h3><a class="main__anchor" name="back-стреляем-из-лука" href="#back-стреляем-из-лука">Back: стреляем из лука</a></h3><p>Эта функция работает по принципу лука: сначала мы «натягиваем тетиву», а затем «стреляем».</p>
+<p>В отличие от предыдущих функций, эта зависит от дополнительного параметра <code>x</code>, который является «коэффициентом упругости». Он определяет расстояние, на которое «оттягивается тетива».</p>
+<p>Её код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function back(x, timeFraction) {
+  return Math.pow(timeFraction, 2) * ((x + 1) * timeFraction - x)
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>График для <code>x = 1.5</code>:</strong></p>
+<figure><div class="image" style="width:234px">
+      <div class="image__ratio" style="padding-top:102.56410256410255%"></div>
+      <img src="article/js-animation/back.png" alt="" width="234" height="240" class="image__image">
+      </div></figure><p>Пример для <code>x = 1.5</code>:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/js-animation/back/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:40px" src="https://js.cx/article/js-animation/back/"></iframe>
+  </div><h3><a class="main__anchor" name="отскок-bounce" href="#отскок-bounce">Отскок bounce</a></h3><p>Представьте, что мы отпускаем мяч, он падает на пол, несколько раз отскакивает и останавливается.</p>
+<p>Функция <code>bounce</code> делает то же самое, только наоборот: «подпрыгивание» начинается сразу.</p>
+<p>Эта функция немного сложнее предыдущих и использует специальные коэффициенты:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function bounce(timeFraction) {
+  for (var a = 0, b = 1, result; 1; a += b, b /= 2) {
+    if (timeFraction &gt;= (7 - 4 * a) / 11) {
+      return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+    }
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Код взят из MooTools.FX.Transitions. Конечно же, есть и другие реализации <code>bounce</code>.</p>
+<p>Пример:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/js-animation/bounce/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:40px" src="https://js.cx/article/js-animation/bounce/"></iframe>
+  </div><h3><a class="main__anchor" name="упругая-анимация" href="#упругая-анимация">Упругая анимация</a></h3><p>Эта функция зависит от дополнительного параметра <code>x</code>, который определяет начальный диапазон.</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function elastic(x, timeFraction) {
+  return Math.pow(2, 10 * (timeFraction - 1)) * Math.cos(20 * Math.PI * x / 3 * timeFraction)
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>График для <code>x=1.5</code>:</strong>
+<img src="article/js-animation/elastic.png" alt="" width="233" height="388"></p>
+<p>Пример для <code>x=1.5</code>:</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"><div class="toolbar__tool">
+        <a href="https://js.cx/article/js-animation/elastic/" target="_blank" title="открыть в новом окне" class="toolbar__button toolbar__button_external"></a>
+      </div>
+      </div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:40px" src="https://js.cx/article/js-animation/elastic/"></iframe>
+  </div><h2><a class="main__anchor" name="реверсивные-функции-ease" href="#реверсивные-функции-ease">Реверсивные функции ease*</a></h2><p>Итак, у нас есть коллекция временных функций.</p>
+<p>Их прямое использование называется «easeIn».</p>
+<p><strong>Иногда нужно показать анимацию в обратном режиме. Преобразование функции, которое даёт такой эффект, называется «easeOut»</strong>.</p>
+<h3><a class="main__anchor" name="easeout" href="#easeout">easeOut</a></h3><p>В режиме «easeOut», значение timing вычисляется по формуле: <code>timingEaseOut(timeFraction) = 1 - timing(1 - timeFraction)</code></p>
+<p>Например, функция <code>bounce</code> в режиме «easeOut»:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="16-16">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// обычный вариант
+function bounce(timeFraction) {
+  for (var a = 0, b = 1, result; 1; a += b, b /= 2) {
+    if (timeFraction &gt;= (7 - 4 * a) / 11) {
+      return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2);
+    }
+  }
+}
+
+// преобразователь в easeOut
+function makeEaseOut(timing) {
+  return function(timeFraction) {
+    return 1 - timing(1 - timeFraction);
+  }
+}
+
+var bounceEaseOut = makeEaseOut(bounce);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Полный пример – отскок в <code>bounceEaseOut</code> теперь не в начале, а в конце (и это куда красивее):</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">style.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/js-animation/bounce-easeout/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/BFvceKSnBckwxIEkLzbK?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/js-animation/bounce-easeout/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>#brick {
+  width: 40px;
+  height: 20px;
+  background: #EE6B47;
+  position: relative;
+  cursor: pointer;
+}
+
+#path {
+  outline: 1px solid #E8C48E;
+  width: 540px;
+  height: 20px;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+  &lt;script src=&quot;https://js.cx/libs/animate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+
+  &lt;div id=&quot;path&quot;&gt;
+    &lt;div id=&quot;brick&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    function makeEaseOut(timing) {
+      return function(timeFraction) {
+        return 1 - timing(1 - timeFraction);
+      }
+    }
+
+    function bounce(timeFraction) {
+      for (var a = 0, b = 1, result; 1; a += b, b /= 2) {
+        if (timeFraction &gt;= (7 - 4 * a) / 11) {
+          return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+        }
+      }
+    }
+
+    var bounceEaseOut = makeEaseOut(bounce);
+
+    brick.onclick = function() {
+      animate({
+        duration: 3000,
+        timing: bounceEaseOut,
+        draw: function(progress) {
+          brick.style.left = progress * 500 + 'px';
+        }
+      });
+    };
+  &lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>На этом графике видно, как преобразование <code>easeOut</code> изменяет поведение функции:</p>
+<figure><div class="image" style="width:234px">
+      <div class="image__ratio" style="padding-top:102.56410256410255%"></div>
+      <img src="article/js-animation/bounce-inout.png" alt="" width="234" height="240" class="image__image">
+      </div></figure><p>Если есть анимационный эффект, такой как подпрыгивание – он будет показан в конце, а не в начале (или наоборот, в начале, а не в конце).</p>
+<p>Красным цветом обозначен <span style="color:#EE6B47">обычный вариант</span>, а <span style="color:#62C0DC">синим</span> – <code>easeOut</code>.</p>
+<ul>
+<li>Обычно анимируемый объект сначала медленно скачет внизу, а затем, в конце, резко достигает верха…</li>
+<li>А после <code>easeOut</code> – он сначала прыгает наверх, а затем медленно скачет внизу.</li>
+</ul>
+<h3><a class="main__anchor" name="easeinout" href="#easeinout">easeInOut</a></h3><p>А еще можно сделать так, чтобы показать эффект <em>и в начале и в конце</em> анимации. Соответствующее преобразование называется «easeInOut».</p>
+<p>Его код выглядит так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">if (timeFraction &lt;= 0.5) { // первая половина анимации)
+  return timing(2 * timeFraction) / 2;
+} else { // вторая половина
+  return (2 - timing(2 * (1 - timeFraction))) / 2;
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Код, который трансформирует <code>timing</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function makeEaseInOut(timing) {
+  return function(timeFraction) {
+    if (timeFraction &lt; .5)
+      return timing(2 * timeFraction) / 2;
+    else
+      return (2 - timing(2 * (1 - timeFraction))) / 2;
+  }
+}
+
+bounceEaseInOut = makeEaseInOut(bounce);</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Пример с <code>bounceEaseInOut</code>:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">style.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/js-animation/bounce-easeinout/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/h3B8ae9HAiveb95ap2ns?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/js-animation/bounce-easeinout/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>#brick {
+  width: 40px;
+  height: 20px;
+  background: #EE6B47;
+  position: relative;
+  cursor: pointer;
+}
+
+#path {
+  outline: 1px solid #E8C48E;
+  width: 540px;
+  height: 20px;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+  &lt;script src=&quot;https://js.cx/libs/animate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+
+  &lt;div id=&quot;path&quot;&gt;
+    &lt;div id=&quot;brick&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    function makeEaseInOut(timing) {
+      return function(timeFraction) {
+        if (timeFraction &lt; .5)
+          return timing(2 * timeFraction) / 2;
+        else
+          return (2 - timing(2 * (1 - timeFraction))) / 2;
+      }
+    }
+
+
+    function bounce(timeFraction) {
+      for (var a = 0, b = 1, result; 1; a += b, b /= 2) {
+        if (timeFraction &gt;= (7 - 4 * a) / 11) {
+          return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+        }
+      }
+    }
+
+    var bounceEaseInOut = makeEaseInOut(bounce);
+
+    brick.onclick = function() {
+      animate({
+        duration: 3000,
+        timing: bounceEaseInOut,
+        draw: function(progress) {
+          brick.style.left = progress * 500 + 'px';
+        }
+      });
+    };
+  &lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><p>Трансформация «easeInOut» объединяет в себе два графика в один: <code>easeIn</code> для первой половины анимации и <code>easeOut</code> – для второй.</p>
+<p>Это отлично видно, если посмотреть графики <code>easeIn</code>, <code>easeOut</code> и <code>easeInOut</code> на примере функции <code>circ</code>:</p>
+<figure><div class="image" style="width:234px">
+      <div class="image__ratio" style="padding-top:102.56410256410255%"></div>
+      <img src="article/js-animation/circ-ease.png" alt="" width="234" height="240" class="image__image">
+      </div></figure><ul>
+<li><span style="color:#EE6B47">Красным</span> цветом обозначен обычный вариант функции <code>circ</code>.</li>
+<li><span style="color:#8DB173">Зелёным</span> – <code>easeOut</code>.</li>
+<li><span style="color:#62C0DC">Синим</span> – <code>easeInOut</code>.</li>
+</ul>
+<p>Как видно, график первой половины анимации представляет собой уменьшенный «easeIn», а второй – уменьшенный «easeOut». В результате, анимация начинается и заканчивается одинаковым эффектом.</p>
+<div class="summary"><div class="summary__content"><p>Процесс анимации полностью в ваших руках благодаря <code>timing</code>. Её можно сделать настолько реалистичной, насколько захочется.</p>
+<p>Впрочем, исходя из практики, можно сказать, что варианты <code>timing</code>, описанные выше, покрывают 95% потребностей в анимации.</p>
+</div></div>
+<h2><a class="main__anchor" name="сложные-варианты-step" href="#сложные-варианты-step">Сложные варианты step</a></h2><p>Анимировать можно все, что угодно. Вместо движения, как во всех предыдущих примерах, можно изменять любые CSS свойства… И не только!</p>
+<p>Достаточно лишь написать соответствующий <code>draw</code>.</p>
+<h3><a class="main__anchor" name="набор-текста" href="#набор-текста">Набор текста</a></h3><p>Можно, к примеру, анимировать набор текста в «скачущем» режиме:</p>
+<div class="code-tabs code-tabs_result_on"><div class="code-tabs__tools"><div class="code-tabs__scroll-wrap"><button title="&amp;larr;" data-code-tabs-left class="code-tabs__scroll-button code-tabs__scroll-button_left"></button></div><div class="code-tabs__switches-wrap"><div data-code-tabs-switches class="code-tabs__switches"><div class="code-tabs__switches-items"><div class="code-tabs__switch code-tabs__switch_current">Результат</div><div class="code-tabs__switch">style.css</div><div class="code-tabs__switch">index.html</div></div></div></div><div class="code-tabs__scroll-wrap"><button title="&amp;rarr;" data-code-tabs-right class="code-tabs__scroll-button code-tabs__scroll-button_right"></button></div><div class="code-tabs__buttons"><a target="_blank" title="открыть в отдельном окне" href="article/js-animation/text/default.htm" class="code-tabs__button code-tabs__button_external"></a><a target="_blank" title="редактировать в песочнице" href="http://plnkr.co/edit/yN9QT8xhc22HkjHoC8Hg?p=preview" class="code-tabs__button code-tabs__button_edit"></a></div></div><div data-code-tabs-content style="height:200px" class="code-tabs__content"><div class="code-tabs__section code-tabs__section_current"><iframe src="article/js-animation/text/default.htm" class="code-tabs__result"></iframe></div><div class="code-tabs__section"><pre class="language-css line-numbers"><code>textarea {
+  display: block;
+  border: 1px solid #BBB;
+  color: #444;
+  font-size: 110%;
+}
+
+button {
+  margin-top: 10px;
+}</code></pre></div><div class="code-tabs__section"><pre class="language-markup line-numbers"><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+  &lt;script src=&quot;https://js.cx/libs/animate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+
+  &lt;textarea id=&quot;textExample&quot; rows=&quot;4&quot; cols=&quot;60&quot;&gt;Он стал под дерево и ждет. И вдруг граахнул гром — Летит ужасный Бармаглот И пылкает огнем!
+  &lt;/textarea&gt;
+
+  &lt;button onclick=&quot;animateText(textExample)&quot;&gt;Запустить анимированную печать!&lt;/button&gt;
+
+  &lt;script&gt;
+    function animateText(textArea) {
+      var text = textArea.value;
+      var to = text.length,
+        from = 0;
+
+      animate({
+        duration: 5000,
+        timing: bounce,
+        draw: function(progress) {
+          var result = (to - from) * progress + from;
+          textArea.value = text.substr(0, Math.ceil(result))
+        }
+      });
+    }
+
+
+    function bounce(timeFraction) {
+      for (var a = 0, b = 1, result; 1; a += b, b /= 2) {
+        if (timeFraction &gt;= (7 - 4 * a) / 11) {
+          return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+        }
+      }
+    }
+  &lt;/script&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div></div></div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><p>Анимация выполняется путём вызовов <code>requestAnimationFrame</code>. Для поддержки IE9- желательно подключить полифилл, который будет внутри использовать <code>setTimeout</code>. Это будет всё равно лучше, чем независимые <code>setInterval</code>.</p>
+<p>Реализация анимации – очень простая и вместе с тем гибкая:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">function animate(options) {
+
+  var start = performance.now();
+
+  requestAnimationFrame(function animate(time) {
+    // timeFraction от 0 до 1
+    var timeFraction = (time - start) / options.duration;
+    if (timeFraction &gt; 1) timeFraction = 1;
+
+    // текущее состояние анимации
+    var progress = options.timing(timeFraction)
+
+    options.draw(progress);
+
+    if (timeFraction &lt; 1) {
+      requestAnimationFrame(animate);
+    }
+
+  });
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Основные параметры:</p>
+<ul>
+<li><code>duration</code> – длительность анимации в мс.</li>
+<li><code>timing</code> – функция, которая определяет состояние анимации каждый кадр. Получает часть времени от 0 до 1, возвращает завершенность анимации от 0 до 1.</li>
+<li><code>draw</code> – функция, которая отрисовывает состояние анимации от 0 до 1.</li>
+</ul>
+<p>Эту функцию можно улучшить, например добавить коллбэк <code>complete</code> для вызова в конце анимации.</p>
+<p>Мы рассмотрели ряд примеров для <code>timing</code> и  трансформации <code>easeOut</code>, <code>easeInOut</code>, которые позволяют их разнообразить. В отличие от CSS мы не ограничены кривыми Безье, можно реализовать всё, что угодно.</p>
+<p>Это же относится и к функции <code>draw</code>.</p>
+<p>Такая реализация анимации имеет три основных области применения:</p>
+<ul>
+<li>Нестандартные задачи и требования, не укладывающиеся в рамки CSS.</li>
+<li>Поддержка IE9-.</li>
+<li>Графика, рисование на canvas.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#анимируйте-мяч" name="анимируйте-мяч" class="main__anchor">Анимируйте мяч</a></h3><a href="task/animate-ball.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Сделайте так, чтобы мяч подпрыгивал. Кликните по мячу, чтобы увидеть, как это должно выглядеть.</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:250px" src="https://js.cx/task/animate-ball/solution/"></iframe>
+  </div><p><a href="http://plnkr.co/edit/xIWgQaqfb5f8iBaoCPlh?p=preview" target="_blank" data-plunk-id="xIWgQaqfb5f8iBaoCPlh">Открыть песочницу для задачи.</a></p><button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>В HTML/CSS, падение мяча можно отобразить изменением свойства <code>ball.style.top</code> от 0 и до значения, соответствующего нижнему положению.</p>
+<p>Нижняя граница элемента <code>field</code>, в котором находится мяч, имеет значение  <code>field.clientHeight</code>. Но свойство <code>top</code> относится к верху мяча, поэтому оно меняется до <code>field.clientHeight - ball.clientHeight</code>.</p>
+<p>Для создания анимационного эффекта лучше всего подойдет функция <code>bounce</code> в режиме <code>easeOut</code>.</p>
+<p>Следующий код даст нам нужный результат:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var to = field.clientHeight - ball.clientHeight;
+
+animate({
+  duration: 2000,
+  timing: makeEaseOut(bounce),
+  draw: function(progress) {
+    ball.style.top = to * progress + 'px'
+  }
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/SPkxcF6VUG0EFLX4Rt4x?p=preview" target="_blank" data-plunk-id="SPkxcF6VUG0EFLX4Rt4x">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#анимируйте-падение-мяча-с-отскоками-вправо" name="анимируйте-падение-мяча-с-отскоками-вправо" class="main__anchor">Анимируйте падение мяча с отскоками вправо</a></h3><a href="task/animate-ball-hops.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 5</span></div><div class="task__content"><p>Заставьте мяч падать вправо. Кликните, чтобы увидеть в действии.</p>
+<div class="code-result">
+    <div class="code-result__toolbar toolbar"></div>
+    <iframe class="code-result__iframe" data-trusted="1" style="height:250px" src="https://js.cx/task/animate-ball-hops/solution/"></iframe>
+  </div><p>Напишите код, который будет анимировать мяч. Дистанция вправо составляет <code>100px</code>.</p>
+<p>В качестве исходного кода возьмите решение предыдущей задачи <a href="task/animate-ball.htm">Анимируйте мяч</a>.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><p>В задаче <a href="task/animate-ball.htm">Анимируйте мяч</a> создаётся подпрыгивающий мяч. Нам нужно всего лишь добавить еще одну анимацию для <code>elem.style.left</code>.</p>
+<p>Горизонтальная координата меняется по другому закону, нежели вертикальная. Она не «подпрыгивает», а постоянно увеличивается, постепенно сдвигая мяч вправо.</p>
+<p>Поэтому мы не можем добавить её в тот же <code>animate</code>, нужно делать отдельный.</p>
+<p>В качестве временной функции для перемещения вправо мы могли бы применить для неё <code>linear</code>, но тогда горизонтальное движение будет отставать от скачков мяча. Более красиво будет что-то типа <code>makeEaseOut(quad)</code>.</p>
+<p>Код:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var height = field.clientHeight - ball.clientHeight;
+var width = 100;
+
+animate({
+  duration: 2000,
+  timing: makeEaseOut(bounce),
+  draw: function(progress) {
+    ball.style.top = height * progress + 'px'
+  }
+});
+
+animate({
+  duration: 2000,
+  timing: makeEaseOut(quad),
+  draw: function(progress) {
+    ball.style.left = width * progress + &quot;px&quot;
+  }
+});</code></pre>
+        </div>
+      </div>
+      
+      </div><p><a href="http://plnkr.co/edit/GN3mhJL4bjPFMcWUcqpo?p=preview" target="_blank" data-plunk-id="GN3mhJL4bjPFMcWUcqpo">Открыть решение в песочнице.</a></p></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

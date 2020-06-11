@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="css-for-js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">CSS для JavaScript-разработчика</span></a></li></ol><h1 class="main__header-title">Все значения свойства &quot;display&quot;</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Все значения свойства &quot;display&quot;"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>Свойство <code>display</code> имеет много разных значений. Обычно, используются только три из них: <code>none</code>, <code>inline</code> и <code>block</code>, потому что когда-то браузеры другие не поддерживали.</p>
+<p>Но после ухода IE7-, стало возможным использовать и другие значения тоже. Рассмотрим здесь весь список.</p>
+<h2><a class="main__anchor" name="значение-none" href="#значение-none">Значение none</a></h2><p>Самое простое значение. Элемент не показывается, вообще. Как будто его и нет.</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-autorun="true" data-highlight-inline="2:14-27">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;border:1px solid black&quot;&gt;
+Невидимый div (
+  &lt;div style=&quot;display: none&quot;&gt;Я - невидим!&lt;/div&gt;
+) Стоит внутри скобок
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-gcw31g"
+          style="height:40px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h2><a class="main__anchor" name="значение-block" href="#значение-block">Значение block</a></h2><ul>
+<li>Блочные элементы располагаются один над другим, вертикально (если нет особых свойств позиционирования, например <code>float</code>).</li>
+<li>Блок стремится расшириться на всю доступную ширину. Можно указать ширину и высоту явно.</li>
+</ul>
+<p>Это значение <code>display</code> многие элементы имеют по умолчанию: <code>&lt;div&gt;</code>, заголовок <code>&lt;h1&gt;</code>, параграф <code>&lt;p&gt;</code>.</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;border:1px solid black&quot;&gt;
+  &lt;div style=&quot;border:1px solid blue; width: 50%&quot;&gt;Первый&lt;/div&gt;
+  &lt;div style=&quot;border:1px solid red&quot;&gt;Второй&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-as7hy6"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Блоки прилегают друг к другу вплотную, если у них нет <code>margin</code>.</p>
+<h2><a class="main__anchor" name="значение-inline" href="#значение-inline">Значение inline</a></h2><ul>
+<li>Элементы располагаются на той же строке, последовательно.</li>
+<li>Ширина и высота элемента определяются по содержимому. Поменять их нельзя.</li>
+</ul>
+<p>Например, инлайновые элементы по умолчанию: <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>.</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;span style=&quot;border:1px solid black&quot;&gt;
+  &lt;span style=&quot;border:1px solid blue; width:50%&quot;&gt;Ширина&lt;/span&gt;
+  &lt;a style=&quot;border:1px solid red&quot;&gt;Игнорируется&lt;/a&gt;
+&lt;/span&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-f3j49m"
+          style="height:40px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Если вы присмотритесь внимательно к примеру выше, то увидите, что между внутренними <code>&lt;span&gt;</code> и <code>&lt;a&gt;</code> есть пробел. Это потому, что он есть в HTML.</p>
+<p>Если расположить элементы вплотную – его не будет:</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;span style=&quot;border:1px solid black&quot;&gt;
+  &lt;span style=&quot;border:1px solid blue; width:50%&quot;&gt;Без&lt;/span&gt;&lt;a style=&quot;border:1px solid red&quot;&gt;Пробела&lt;/a&gt;
+&lt;/span&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-dtxh2"
+          style="height:40px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Содержимое инлайн-элемента может переноситься на другую строку.</p>
+<p>При этом каждая строка в смысле отображения является отдельным прямоугольником («line box»). Так что инлайн-элемент состоит из объединения прямоугольников, но в целом, в отличие от блока, прямоугольником не является.</p>
+<p>Это проявляется, например, при назначении фона.</p>
+<p>Например, три прямоугольника подряд:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;width:400px&quot;&gt;
+...&lt;span style=&quot;background: lightgreen&quot;&gt;
+  Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля
+  Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля Ля
+&lt;/span&gt;...
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-3joc9w"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Если инлайн-элемент граничит с блоком, то между ними обязательно будет перенос строки:</p>
+<div data-trusted="1" class="code-example" data-demo-height="80" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;border:1px solid black&quot;&gt;
+  &lt;span style=&quot;border:1px solid red&quot;&gt;Инлайн&lt;/span&gt;
+  &lt;div style=&quot;border:1px solid blue; width:50%&quot;&gt;Блок&lt;/div&gt;
+  &lt;span style=&quot;border:1px solid red&quot;&gt;Инлайн&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-col1k7"
+          style="height:80px"
+          src="about:blank"></iframe>
+      </div>
+      </div><h2><a class="main__anchor" name="значение-inline-block" href="#значение-inline-block">Значение inline-block</a></h2><p>Это значение – означает элемент, который продолжает находиться в строке (<code>inline</code>), но при этом может иметь важные свойства блока.</p>
+<p>Как и инлайн-элемент:</p>
+<ul>
+<li>Располагается в строке.</li>
+<li>Размер устанавливается по содержимому.</li>
+</ul>
+<p>Во всём остальном – это блок, то есть:</p>
+<ul>
+<li>Элемент всегда прямоугольный.</li>
+<li>Работают свойства <code>width/height</code>.</li>
+</ul>
+<p>Это значение <code>display</code> используют, чтобы отобразить в одну строку блочные элементы, в том числе разных размеров.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-demo-height="160" data-autorun="true" data-highlight-block="2-2">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+li {
+  display: inline-block;
+  list-style: none;
+  border: 1px solid red;
+}
+&lt;/style&gt;
+
+&lt;ul style=&quot;border:1px solid black; padding:0&quot;&gt;
+  &lt;li&gt;Инлайн Блок&lt;br&gt;3 строки&lt;br&gt;высота/ширина явно не заданы&lt;/li&gt;
+  &lt;li style=&quot;width:100px;height:100px&quot;&gt;Инлайн&lt;br&gt;Блок 100x100&lt;/li&gt;
+  &lt;li style=&quot;width:60px;height:60px&quot;&gt;Инлайн&lt;br&gt;Блок 60x60&lt;/li&gt;
+  &lt;li style=&quot;width:100px;height:60px&quot;&gt;Инлайн&lt;br&gt;Блок 100x60&lt;/li&gt;
+  &lt;li style=&quot;width:60px;height:100px&quot;&gt;Инлайн&lt;br&gt;Блок 60x100&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-bgp7wi"
+          style="height:160px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Свойство <code>vertical-align</code> позволяет выровнять такие элементы внутри внешнего блока:</p>
+<div data-trusted="1" class="code-example" data-demo-height="160" data-autorun="true" data-highlight-block="5-5">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+li {
+  display: inline-block;
+  list-style: none;
+  border:1px solid red;
+  vertical-align: middle;
+}
+&lt;/style&gt;
+
+&lt;ul style=&quot;border:1px solid black; padding:0&quot;&gt;
+  &lt;li&gt;Инлайн Блок&lt;br&gt;3 строки&lt;br&gt;высота/ширина явно не заданы&lt;/li&gt;
+  &lt;li style=&quot;width:100px;height:100px&quot;&gt;Инлайн&lt;br&gt;Блок 100x100&lt;/li&gt;
+  &lt;li style=&quot;width:60px;height:60px&quot;&gt;Инлайн&lt;br&gt;Блок 60x60&lt;/li&gt;
+  &lt;li style=&quot;width:100px;height:60px&quot;&gt;Инлайн&lt;br&gt;Блок 100x60&lt;/li&gt;
+  &lt;li style=&quot;width:60px;height:100px&quot;&gt;Инлайн&lt;br&gt;Блок 60x100&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-dq48un"
+          style="height:160px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Как и в случае с инлайн-элементами, пробелы между блоками появляются из-за пробелов в HTML. Если элементы списка идут вплотную, например, генерируются в JavaScript – их не будет.</p>
+<h2><a class="main__anchor" name="значения-table" href="#значения-table">Значения table-*</a></h2><p>Современные браузеры (IE8+) позволяют описывать таблицу любыми элементами, если поставить им соответствующие значения <code>display</code>.</p>
+<p>Для таблицы целиком <code>table</code>, для строки – <code>table-row</code>, для ячейки – <code>table-cell</code> и т.д.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example" data-autorun="true" data-highlight-inline="0:22-27,1:23-32,2:27-37,3:27-37,5:23-32,6:27-37,7:27-37">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;form style=&quot;display: table&quot;&gt;
+  &lt;div style=&quot;display: table-row&quot;&gt;
+    &lt;label style=&quot;display: table-cell&quot;&gt;Имя:&lt;/label&gt;
+    &lt;input style=&quot;display: table-cell&quot;&gt;
+  &lt;/div&gt;
+  &lt;div style=&quot;display: table-row&quot;&gt;
+    &lt;label style=&quot;display: table-cell&quot;&gt;Фамилия:&lt;/label&gt;
+    &lt;input style=&quot;display: table-cell&quot;&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-e01x30"
+          style="height:200px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Важно то, что это действительно полноценная таблица. Используются табличные алгоритмы вычисления ширины и высоты элемента,  <a href="http://www.w3.org/TR/CSS2/tables.html#width-layout">описанные в стандарте</a>.</p>
+<p><strong>Это хорошо для семантической вёрстки и позволяет избавиться от лишних тегов.</strong></p>
+<p>С точки зрения современного CSS, обычные <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;td&gt;</code> и т.д. – это просто элементы с предопределёнными значениями <code>display</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-css"><code class="language-css">table    { display: table }
+tr       { display: table-row }
+thead    { display: table-header-group }
+tbody    { display: table-row-group }
+tfoot    { display: table-footer-group }
+col      { display: table-column }
+colgroup { display: table-column-group }
+td, th   { display: table-cell }
+caption  { display: table-caption }</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Очень подробно об алгоритмах вычисления размеров и отображении таблиц рассказывает стандарт <a href="http://www.w3.org/TR/CSS2/tables.html">CSS 2.1 – Tables</a>.</p>
+<h3><a class="main__anchor" name="вертикальное-центрирование-с-table-cell" href="#вертикальное-центрирование-с-table-cell">Вертикальное центрирование с table-cell</a></h3><p>Внутри ячеек свойство <a href="http://www.w3.org/TR/CSS2/visudet.html#propdef-vertical-align">vertical-align</a> выравнивает содержимое по вертикали.</p>
+<p>Это можно использовать для центрирования:</p>
+<div data-trusted="1" class="code-example" data-demo-height="120" data-autorun="true" data-highlight-inline="4:26-69">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="показать" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;style&gt;
+  div { border:1px solid black }
+&lt;/style&gt;
+
+&lt;div style=&quot;height:100px; display: table-cell; vertical-align: middle&quot;&gt;
+  &lt;div&gt;Элемент&lt;br&gt;С неизвестной&lt;br&gt;Высотой&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-37mews"
+          style="height:120px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>CSS не требует, чтобы вокруг <code>table-cell</code> была структура таблицы: <code>table-row</code> и т.п. Может быть просто такой одинокий <code>DIV</code>, это допустимо.</p>
+<p>При этом он ведёт себя как ячейка <code>TD</code>, то есть подстраивается под размер содержимого и умеет вертикально центрировать его при помощи <code>vertical-align</code>.</p>
+<h2><a class="main__anchor" name="значения-list-item-run-in-и-flex" href="#значения-list-item-run-in-и-flex">Значения list-item, run-in и flex</a></h2><p>У свойства <code>display</code> есть и другие значения. Они используются реже, поэтому посмотрим на них кратко:</p>
+<dl>
+<dt><code>list-item</code></dt>
+<dd>
+<p>Этот display по умолчанию используется для элементов списка. Он добавляет к блоку содержимым ещё и блок с номером(значком) списка, который стилизуется стандартными списочными свойствами:</p>
+<div data-trusted="1" class="code-example" data-demo-height="40" data-autorun="true" data-highlight-inline="0:12-30">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;display: list-item; list-style:inside square&quot;&gt;Пункт 1&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-clm27t"
+          style="height:40px"
+          src="about:blank"></iframe>
+      </div>
+      </div></dd>
+<dt><code>run-in</code></dt>
+<dd>
+<p>Если после <code>run-in</code> идёт <code>block</code>, то <code>run-in</code> становится его первым инлайн-элементом, то есть отображается в начале <code>block</code>.</p>
+<p>Если ваш браузер поддерживает это значение, то в примере ниже <code>h3</code>, благодаря <code>display:run-in</code>, окажется визуально внутри <code>div</code>:</p>
+<div data-trusted="1" class="code-example" data-demo-height="100" data-autorun="true" data-highlight-inline="0:11-26">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;h3 style=&quot;display: run-in; border:2px solid red&quot;&gt;Про пчёл.&lt;/h3&gt;
+&lt;div style=&quot;border:2px solid black&quot;&gt;Пчёлы - отличные создания, они делают мёд.&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-2jix8g"
+          style="height:100px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Если же вы видите две строки, то ваш браузер НЕ поддерживает <code>run-in</code>.</p>
+<p>Вот, для примера, правильный вариант отображения <code>run-in</code>, оформленный другим кодом:</p>
+<div data-trusted="1" class="code-example" data-demo-height="60" data-autorun="true">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-markup"><code class="language-markup">&lt;div style=&quot;border:2px solid black&quot;&gt;
+  &lt;h3 style=&quot;display: inline; border:2px solid red&quot;&gt;Про пчёл.&lt;/h3&gt;Пчёлы - отличные создания, они делают мёд.
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+      <div class="code-result code-example__result">
+        <iframe
+          class="code-result__iframe"
+          name="code-result-4d7pfg"
+          style="height:60px"
+          src="about:blank"></iframe>
+      </div>
+      </div><p>Если этот вариант отличается от того, что вы видите выше – ваш браузер не поддерживает <code>run-in</code>. На момент написания этой статьи только IE поддерживал <code>display:run-in</code>.</p>
+</dd>
+<dt><code>flex-box</code></dt>
+<dd>
+<p>Flexbox позволяет удобно управлять дочерними и родительскими элементами на странице, располагая их в необходимом порядке. Официальная спецификация находится здесь: <a href="http://www.w3.org/TR/css3-flexbox/">CSS Flexible Box Layout Module</a></p>
+</dd>
+</dl>
+</div></article></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>

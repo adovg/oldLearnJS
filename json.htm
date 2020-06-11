@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+<div id="get_left_menu"></div>
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <span class="hamburger-menu" id="get_mobile_menu"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+<div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><ol class="breadcrumbs"><li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1" class="breadcrumbs__item breadcrumbs__item_home"><a href="default.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title" class="breadcrumbs__hidden-text">Учебник</span></a></li><li id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-2" itemprop="child" class="breadcrumbs__item"><a href="js.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Язык JavaScript</span></a></li><li id="breadcrumb-2" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child" class="breadcrumbs__item"><a href="js-misc.htm" itemprop="url" class="breadcrumbs__link"><span itemprop="title">Некоторые другие возможности</span></a></li></ol><h1 class="main__header-title">Формат JSON, метод toJSON</h1></div></header><div class="content"><article itemscope itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Формат JSON, метод toJSON"><div itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>В этой главе мы рассмотрим работу с форматом <a href="http://ru.wikipedia.org/wiki/JSON">JSON</a>, который используется для представления объектов в виде строки.</p>
+<p>Это один из наиболее удобных форматов данных при взаимодействии с JavaScript. Если нужно с сервера взять объект с данными и передать его клиенту, то в качестве промежуточного формата – для передачи по сети, почти всегда используют именно его.</p>
+<p>В современных браузерах есть замечательные методы, знание тонкостей которых делает операции с JSON простыми и комфортными.</p>
+<h2><a class="main__anchor" name="формат-json" href="#формат-json">Формат JSON</a></h2><p>Данные в формате JSON (<a href="http://tools.ietf.org/html/rfc4627">RFC 4627</a>) представляют собой:</p>
+<ul>
+<li>JavaScript-объекты <code>{ ... }</code> или</li>
+<li>Массивы <code>[ ... ]</code> или</li>
+<li>Значения одного из типов:
+<ul>
+<li>строки в двойных кавычках,</li>
+<li>число,</li>
+<li>логическое значение <code>true</code>/<code>false</code>,</li>
+<li><code>null</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Почти все языки программирования имеют библиотеки для преобразования объектов в формат JSON.</p>
+<p>Основные методы для работы с JSON в JavaScript – это:</p>
+<ul>
+<li><code>JSON.parse</code> – читает объекты из строки в формате JSON.</li>
+<li><code>JSON.stringify</code> – превращает объекты в строку в формате JSON, используется, когда нужно из JavaScript передать данные по сети.</li>
+</ul>
+<h2><a class="main__anchor" name="метод-json-parse" href="#метод-json-parse">Метод JSON.parse</a></h2><p>Вызов <code>JSON.parse(str)</code> превратит строку с данными в формате JSON в JavaScript-объект/массив/значение.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var numbers = &quot;[0, 1, 2, 3]&quot;;
+
+numbers = JSON.parse(numbers);
+
+alert( numbers[1] ); // 1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Или так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = '{ &quot;name&quot;: &quot;Вася&quot;, &quot;age&quot;: 35, &quot;isAdmin&quot;: false, &quot;friends&quot;: [0,1,2,3] }';
+
+user = JSON.parse(user);
+
+alert( user.friends[1] ); // 1</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Данные могут быть сколь угодно сложными, объекты и массивы могут включать в себя другие объекты и массивы. Главное, чтобы они соответствовали формату.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">JSON-объекты ≠ JavaScript-объекты</span></div>
+            <div class="important__content"><p>Объекты в формате JSON похожи на обычные JavaScript-объекты, но отличаются от них более строгими требованиями к строкам – они должны быть именно в двойных кавычках.</p>
+<p>В частности, первые два свойства объекта ниже – некорректны:</p>
+<div data-trusted="1" class="code-example" data-highlight-inline="1:2-6,2:13-21">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">{
+  name: &quot;Вася&quot;,       // ошибка: ключ name без кавычек!
+  &quot;surname&quot;: 'Петров',// ошибка: одинарные кавычки у значения 'Петров'!
+  &quot;age&quot;: 35,           // .. а тут всё в порядке.
+  &quot;isAdmin&quot;: false    // и тут тоже всё ок
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кроме того, в формате JSON не поддерживаются комментарии. Он предназначен только для передачи данных.</p>
+<p>Есть нестандартное расширение формата JSON, которое называется <a href="http://json5.org/">JSON5</a> и как раз разрешает ключи без кавычек, комментарии и т.п, как в обычном JavaScript. На данном этапе это отдельная библиотека.</p>
+</div></div>
+<h2><a class="main__anchor" name="умный-разбор-json-parse-str-reviver" href="#умный-разбор-json-parse-str-reviver">Умный разбор: JSON.parse(str, reviver)</a></h2><p>Метод <code>JSON.parse</code> поддерживает и более сложные алгоритмы разбора.</p>
+<p>Например, мы получили с сервера объект с данными события <code>event</code>.</p>
+<p>Он выглядит так:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// title: название события, date: дата события
+var str = '{&quot;title&quot;:&quot;Конференция&quot;,&quot;date&quot;:&quot;2014-11-30T12:00:00.000Z&quot;}';</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…И теперь нужно <em>восстановить</em> его, то есть превратить в JavaScript-объект.</p>
+<p>Попробуем вызвать для этого <code>JSON.parse</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="4-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var str = '{&quot;title&quot;:&quot;Конференция&quot;,&quot;date&quot;:&quot;2014-11-30T12:00:00.000Z&quot;}';
+
+var event = JSON.parse(str);
+
+alert( event.date.getDate() ); // ошибка!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Увы, ошибка!</p>
+<p>Дело в том, что значением <code>event.date</code> является строка, а отнюдь не объект <code>Date</code>. Откуда методу <code>JSON.parse</code> знать, что нужно превратить строку именно в дату?</p>
+<p><strong>Для интеллектуального восстановления из строки у <code>JSON.parse(str, reviver)</code> есть второй параметр <code>reviver</code>, который является функцией <code>function(key, value)</code>.</strong></p>
+<p>Если она указана, то в процессе чтения объекта из строки <code>JSON.parse</code> передаёт ей по очереди все создаваемые пары ключ-значение и может возвратить либо преобразованное значение, либо <code>undefined</code>, если его нужно пропустить.</p>
+<p>В данном случае мы можем создать правило, что ключ <code>date</code> всегда означает дату:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="3-6">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">// дата в строке - в формате UTC
+var str = '{&quot;title&quot;:&quot;Конференция&quot;,&quot;date&quot;:&quot;2014-11-30T12:00:00.000Z&quot;}';
+
+var event = JSON.parse(str, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+
+alert( event.date.getDate() ); // теперь сработает!</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Кстати, эта возможность работает и для вложенных объектов тоже:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="12-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var schedule = '{ \
+  &quot;events&quot;: [ \
+    {&quot;title&quot;:&quot;Конференция&quot;,&quot;date&quot;:&quot;2014-11-30T12:00:00.000Z&quot;}, \
+    {&quot;title&quot;:&quot;День рождения&quot;,&quot;date&quot;:&quot;2015-04-18T12:00:00.000Z&quot;} \
+  ]\
+}';
+
+schedule = JSON.parse(schedule, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+
+alert( schedule.events[1].date.getDate() ); // сработает!</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="сериализация-метод-json-stringify" href="#сериализация-метод-json-stringify">Сериализация, метод JSON.stringify</a></h2><p>Метод <code>JSON.stringify(value, replacer, space)</code> преобразует («сериализует») значение в JSON-строку.</p>
+<p>Пример использования:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var event = {
+  title: &quot;Конференция&quot;,
+  date: &quot;сегодня&quot;
+};
+
+var str = JSON.stringify(event);
+alert( str ); // {&quot;title&quot;:&quot;Конференция&quot;,&quot;date&quot;:&quot;сегодня&quot;}
+
+// Обратное преобразование.
+event = JSON.parse(str);</code></pre>
+        </div>
+      </div>
+      
+      </div><p><strong>При сериализации объекта вызывается его метод <code>toJSON</code>.</strong></p>
+<p>Если такого метода нет – перечисляются его свойства, кроме функций.</p>
+<p>Посмотрим это в примере посложнее:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var room = {
+  number: 23,
+  occupy: function() {
+    alert( this.number );
+  }
+};
+
+var event = {
+  title: &quot;Конференция&quot;,
+  date: new Date(Date.UTC(2014, 0, 1)),
+  room: room
+};
+
+alert( JSON.stringify(event) );
+/*
+  {
+    &quot;title&quot;:&quot;Конференция&quot;,
+    &quot;date&quot;:&quot;2014-01-01T00:00:00.000Z&quot;,  // (1)
+    &quot;room&quot;: {&quot;number&quot;:23}               // (2)
+  }
+*/</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Обратим внимание на два момента:</p>
+<ol>
+<li>
+<p>Дата превратилась в строку. Это не случайно: у всех дат есть встроенный метод <code>toJSON</code>. Его результат в данном случае – строка в таймзоне UTC.</p>
+</li>
+<li>
+<p>У объекта <code>room</code> нет метода <code>toJSON</code>. Поэтому он сериализуется перечислением свойств.</p>
+<p>Мы, конечно, могли бы добавить такой метод, тогда в итог попал бы его результат:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="2-4">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var room = {
+  number: 23,
+  toJSON: function() {
+      return this.number;
+    }
+};
+
+alert( JSON.stringify(room) ); // 23</code></pre>
+        </div>
+      </div>
+      
+      </div></li>
+</ol>
+<h3><a class="main__anchor" name="исключение-свойств" href="#исключение-свойств">Исключение свойств</a></h3><p>Попытаемся преобразовать в JSON объект, содержащий ссылку на DOM.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Вася&quot;,
+  age: 25,
+  window: window
+};
+
+alert( JSON.stringify(user) ); // ошибка!
+// TypeError: Converting circular structure to JSON (текст из Chrome)</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Произошла ошибка! В чём же дело? Неужели некоторые объекты запрещены? Как видно из текста ошибки – дело совсем в другом. Глобальный объект <code>window</code> – сложная структура с кучей встроенных свойств и круговыми ссылками, поэтому его преобразовать невозможно. Да и нужно ли?</p>
+<p><strong>Во втором параметре <code>JSON.stringify(value, replacer)</code> можно указать массив свойств, которые подлежат сериализации.</strong></p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-7">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Вася&quot;,
+  age: 25,
+  window: window
+};
+
+alert( JSON.stringify(user, [&quot;name&quot;, &quot;age&quot;]) );
+// {&quot;name&quot;:&quot;Вася&quot;,&quot;age&quot;:25}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Для более сложных ситуаций вторым параметром можно передать функцию <code>function(key, value)</code>, которая возвращает сериализованное <code>value</code> либо <code>undefined</code>, если его не нужно включать в результат:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="6-9">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Вася&quot;,
+  age: 25,
+  window: window
+};
+
+var str = JSON.stringify(user, function(key, value) {
+  if (key == 'window') return undefined;
+  return value;
+});
+
+alert( str ); // {&quot;name&quot;:&quot;Вася&quot;,&quot;age&quot;:25}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>В примере выше функция пропустит свойство с названием <code>window</code>. Для остальных она просто возвращает значение, передавая его стандартному алгоритму. А могла бы и как-то обработать.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Функция <code>replacer</code> работает рекурсивно</span></div>
+            <div class="important__content"><p>То есть, если объект содержит вложенные объекты, массивы и т.п., то все они пройдут через <code>replacer</code>.</p>
+</div></div>
+<h3><a class="main__anchor" name="красивое-форматирование" href="#красивое-форматирование">Красивое форматирование</a></h3><p>В методе <code>JSON.stringify(value, replacer, space)</code> есть ещё третий параметр <code>space</code>.</p>
+<p>Если он является числом – то уровни вложенности в JSON оформляются указанным количеством пробелов, если строкой – вставляется эта строка.</p>
+<p>Например:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="9-9">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="выполнить" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="открыть в песочнице" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var user = {
+  name: &quot;Вася&quot;,
+  age: 25,
+  roles: {
+    isAdmin: false,
+    isEditor: true
+  }
+};
+
+var str = JSON.stringify(user, &quot;&quot;, 4);
+
+alert( str );
+/* Результат -- красиво сериализованный объект:
+{
+    &quot;name&quot;: &quot;Вася&quot;,
+    &quot;age&quot;: 25,
+    &quot;roles&quot;: {
+        &quot;isAdmin&quot;: false,
+        &quot;isEditor&quot;: true
+    }
+}
+*/</code></pre>
+        </div>
+      </div>
+      
+      </div><h2><a class="main__anchor" name="итого" href="#итого">Итого</a></h2><ul>
+<li>JSON – формат для представления объектов (и не только) в виде строки.</li>
+<li>Методы <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse">JSON.parse</a> и <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a> позволяют интеллектуально преобразовать объект в строку и обратно.</li>
+</ul>
+</div></article><div class="tasks"><h2 id="tasks" class="tasks__title"><a href="#tasks" class="main__anchor main__anchor_noicon tasks__title-anchor">Задачи</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#превратите-объект-в-json" name="превратите-объект-в-json" class="main__anchor">Превратите объект в JSON</a></h3><a href="task/serialize-object.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Превратите объект <code>leader</code> из примера ниже в JSON:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var leader = {
+  name: &quot;Василий Иванович&quot;,
+  age: 35
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>После этого прочитайте получившуюся строку обратно в объект.</p>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__answer-content"><div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var leader = {
+  name: &quot;Василий Иванович&quot;,
+  age: 35
+};
+
+var leaderStr = JSON.stringify(leader);
+leader = JSON.parse(leaderStr);</code></pre>
+        </div>
+      </div>
+      
+      </div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a href="#превратите-объекты-со-ссылками-в-json" name="превратите-объекты-со-ссылками-в-json" class="main__anchor">Превратите объекты со ссылками в JSON</a></h3><a href="task/serialize-object-circular.htm" target="_blank" class="task__open-link"></a></div><div class="task__header-note"><span title="Насколько эта задача важна для освоения материала, от 1 до 5" class="task__importance">важность: 3</span></div><div class="task__content"><p>Превратите объект <code>team</code> из примера ниже в JSON:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var leader = {
+  name: &quot;Василий Иванович&quot;
+};
+
+var soldier = {
+  name: &quot;Петька&quot;
+};
+
+// эти объекты ссылаются друг на друга!
+leader.soldier = soldier;
+soldier.leader = leader;
+
+var team = [leader, soldier];</code></pre>
+        </div>
+      </div>
+      
+      </div><ol>
+<li>Может ли это сделать прямой вызов <code>JSON.stringify(team)</code>? Если нет, то почему?</li>
+<li>Какой подход вы бы предложили для чтения и восстановления таких объектов?</li>
+</ol>
+<button type="button" class="task__solution">решение</button><div class="task__answer"><div class="task__step"><button type="button" class="task__step-show">Ответ на первый вопрос</button><div class="task__answer-content"><h4 class="task__step-title">Ответ на первый вопрос</h4><p>Обычный вызов <code>JSON.stringify(team)</code> выдаст ошибку, так как объекты <code>leader</code> и <code>soldier</code> внутри структуры ссылаются друг на друга.</p>
+<p>Формат JSON не предусматривает средств для хранения ссылок.</p>
+</div></div><div class="task__step"><button type="button" class="task__step-show">Варианты решения</button><div class="task__answer-content"><h4 class="task__step-title">Варианты решения</h4><p>Чтобы превращать такие структуры в JSON, обычно используются два подхода:</p>
+<ol>
+<li>
+<p>Добавить в <code>team</code> свой код <code>toJSON</code>:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">team.toJSON = function() {
+  /* свой код, который может создавать копию объекта без круговых ссылок и передавать управление JSON.stringify */
+}</code></pre>
+        </div>
+      </div>
+      
+      </div><p>При этом, конечно, понадобится и своя функция чтения из JSON, которая будет восстанавливать объект, а затем дополнять его круговыми ссылками.</p>
+</li>
+<li>
+<p>Можно учесть возможную проблему в самой структуре, используя вместо ссылок <code>id</code>. Как правило, это несложно, ведь на сервере у данных тоже есть идентификаторы.</p>
+<p>Изменённая структура может выглядеть так:</p>
+<div data-trusted="1" class="code-example" data-highlight-block="10-12">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">var leader = {
+  id: 12,
+  name: &quot;Василий Иванович&quot;
+};
+
+var soldier = {
+  id: 51,
+  name: &quot;Петька&quot;
+};
+
+// поменяли прямую ссылку на ID
+leader.soldierId = 51;
+soldier.leaderId = 12;
+
+var team = {
+  12: leader,
+  51: soldier
+};</code></pre>
+        </div>
+      </div>
+      
+      </div><p>…Но действительно ли это решение будет оптимальным? Использовать структуру стало сложнее, и вряд ли это изменение стоит делать лишь из-за JSON. Вот если есть другие преимущества, тогда можно подумать.</p>
+</li>
+</ol>
+<p>Универсальный вариант подхода, описанного выше – это использование особой реализации JSON, которая не входит в стандарт и поддерживает расширенный формат для поддержки ссылок.</p>
+<p>Она, к примеру, есть во фреймворке Dojo.</p>
+<p>При вызове <code>dojox.json.ref.toJson(team)</code> будет создано следующее строковое представление:</p>
+<div data-trusted="1" class="code-example">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers language-javascript"><code class="language-javascript">[{&quot;name&quot;:&quot;Василий Иванович&quot;,&quot;soldier&quot;:{&quot;name&quot;:&quot;Петька&quot;,&quot;leader&quot;:{&quot;$ref&quot;:&quot;#0&quot;}}},{&quot;$ref&quot;:&quot;#0.soldier&quot;}]</code></pre>
+        </div>
+      </div>
+      
+      </div><p>Метод разбора такой строки – также свой: <code>dojox.json.ref.fromJson</code>.</p>
+</div></div><button type="button" title="закрыть" class="close-button task__answer-close"></button></div></div></div></div></div></div></div>
+</div>
+
+
+    <div id="mobile_menu" class="mobile-menu">
+        <ul class="mobile-menu__ul">
+
+            <li class="special-links-list__item"><a href="getting-started.htm" class="special-links-list__link">Введение</a></li>
+            <li class="special-links-list__item"><a href="first-steps.htm" class="special-links-list__link">Основы JavaScript</a></li>
+            <li class="special-links-list__item"><a href="writing-js.htm" class="special-links-list__link">Качество кода</a></li>
+            <li class="special-links-list__item"><a href="data-structures.htm" class="special-links-list__link">Структуры данных</a></li>
+            <li class="special-links-list__item"><a href="functions-closures.htm" class="special-links-list__link">Замыкания, область видимости</a></li>
+            <li class="special-links-list__item"><a href="objects-more.htm" class="special-links-list__link">Методы объектов и контекст вызова</a></li>
+            <li class="special-links-list__item"><a href="js-misc.htm" class="special-links-list__link">Некоторые другие возможности</a></li>
+            <li class="special-links-list__item"><a href="oop.htm" class="special-links-list__link">ООП в функциональном стиле</a></li>
+            <li class="special-links-list__item"><a href="prototypes.htm" class="special-links-list__link">ООП в прототипном стиле</a></li>
+            <li class="special-links-list__item"><a href="es-modern.htm" class="special-links-list__link">Современные возможности ES-2015</a></li>
+
+
+            <li class="special-links-list__item"><a href="document.htm" class="special-links-list__link">Документ и объекты страницы</a></li>
+            <li class="special-links-list__item"><a href="events-and-interfaces.htm" class="special-links-list__link">Основы работы с событиями</a></li>
+            <li class="special-links-list__item"><a href="event-details.htm" class="special-links-list__link">События в деталях</a></li>
+            <li class="special-links-list__item"><a href="forms-controls.htm" class="special-links-list__link">Формы, элементы управления</a></li>
+            <li class="special-links-list__item"><a href="widgets.htm" class="special-links-list__link">Создание графических компонентов</a></li>
+            <li class="special-links-list__item"><a href="webcomponents.htm" class="course-bricks__brick-title-link main__anchor">Веб-компоненты: взгляд в будущее</a></li>
+            <li><span class="sub-title">Дополнительно</span></li>
+            <li class="special-links-list__item"><a href="ajax.htm" class="course-bricks__brick-title-link main__anchor">AJAX и COMET</a></li>
+            <li class="special-links-list__item"><a href="animation.htm" class="course-bricks__brick-title-link main__anchor">Анимация</a></li>
+            <li class="special-links-list__item"><a href="frames-and-windows.htm" class="course-bricks__brick-title-link main__anchor">Окна и Фреймы</a></li>
+            <li class="special-links-list__item"><a href="css-for-js.htm" class="course-bricks__brick-title-link main__anchor">CSS для JavaScript-разработчика</a></li>
+            <li class="special-links-list__item"><a href="tools.htm" class="course-bricks__brick-title-link main__anchor">Сундучок с инструментами</a></li>
+            <li class="special-links-list__item"><a href="regular-expressions-javascript.htm" class="course-bricks__brick-title-link main__anchor">Регулярные выражения</a></li>
+            <li class="special-links-list__item"><a href="extra.htm" class="course-bricks__brick-title-link main__anchor">О всякой всячине</a></li>
+            <li class="special-links-list__item"><a href="about-this.htm" class="course-bricks__brick-title-link main__anchor">Об учебнике и авторе</a></li>
+
+        </ul>
+    </div>
+     <script src="js/hammer.min.js"></script>
+    <script src="js/hammer-time.min.js"></script>
+    <script src="js/jquery.hammer.js"></script>
+    <script src="js/scripts.js"></script>
+
+
+</body>
+
+</html>
